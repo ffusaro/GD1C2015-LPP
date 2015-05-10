@@ -183,7 +183,65 @@ PRIMARY KEY(id_factura));
 
 
 
-/*---------Definicioners de Relaciones-------*/
+/*---------Definiciones de Relaciones-------*/
+
+ALTER TABLE LPP.ROLESXUSUARIO ADD
+							FOREIGN KEY (username) references LPP.USUARIOS,
+							FOREIGN KEY (rol) references LPP.ROLES;
+								
+ALTER TABLE LPP.LOGSXUSUARIO ADD
+							FOREIGN KEY (username) references LPP.USUARIOS;
+								
+ALTER TABLE LPP.CLIENTES ADD
+							FOREIGN KEY (username) references LPP.USUARIOS,
+							FOREIGN KEY (tipo_doc) references LPP.TIPO_DOCS,
+							FOREIGN KEY (id_domicilio) references LPP.DOMICILIOS,
+							FOREIGN KEY (id_nacionalidad) references LPP.NACIONALIDADES;
+							
+ALTER TABLE LPP.DOMICILIOS ADD
+							FOREIGN KEY (id_pais) references LPP.PAISES;
+								
+ALTER TABLE LPP.CUENTAS ADD
+							FOREIGN KEY (id_cliente) references LPP.CLIENTES,
+							FOREIGN KEY (id_banco) references LPP.BANCOS,
+							FOREIGN KEY (id_moneda) references LPP.MONEDAS,
+							FOREIGN KEY (id_tipo) references LPP.TIPOS_CUENTA,
+							FOREIGN KEY (id_estado) references LPP.ESTADOS_CUENTA,
+							FOREIGN KEY (id_pais) references LPP.PAISES;
+							
+
+ALTER TABLE LPP.BANCOS ADD
+							FOREIGN KEY (id_domicilio) references LPP.DOMICILIOS;
+							
+ALTER TABLE LPP.TARJETAS ADD
+							FOREIGN KEY (num_cuenta, id_banco) references LPP.CUENTAS;
+							
+ALTER TABLE LPP.DEPOSITOS ADD
+							FOREIGN KEY (id_moneda) references LPP.MONEDAS,
+							FOREIGN KEY (num_tarjeta) references LPP.TARJETAS;
+-- TODO: Tiene un campo numero de cuenta pero no un id_banco, por lo cual se complica la referencia con la tabla
+-- de cuentas, revisar si hay que agregar un campo de id_banco para hacer una FK compuesta
+
+ALTER TABLE LPP.RETIROS ADD
+							FOREIGN KEY (id_cliente) references LPP.CLIENTES,
+							FOREIGN KEY (id_banco) references LPP.BANCOS;
+
+ALTER TABLE LPP.TRANSFERENCIAS ADD
+							FOREIGN KEY (id_origen, id_banco_origen) references LPP.CUENTAS,
+							FOREIGN KEY (id_destino, id_banco_destino) references LPP.CUENTAS;
+							
+ALTER TABLE LPP.ITEMS_PENDIENTES ADD
+							FOREIGN KEY (id_transaccion) references LPP.TRANSACCIONES;
+--TODO: El mismo problema con la tabla de cuentas
+
+ALTER TABLE LPP.ITEMS_FACTURA ADD
+							FOREIGN KEY (id_factura) references LPP.FACTURAS,
+							FOREIGN KEY (id_item_pendiente) references LPP.ITEMS_PENDIENTES;
+							
+ALTER TABLE LPP.FACTURAS ADD
+							FOREIGN KEY (id_cliente) references LPP.CLIENTES,
+							FOREIGN KEY (id_banco) references LPP.BANCOS;
+
 
 /*---------Carga de datos--------------------*/
 
@@ -194,6 +252,3 @@ PRIMARY KEY(id_factura));
 /*---------Definicioners de Triggers---------*/
 
 /*---------Definicioners de Procedures-------*/
-
-
-
