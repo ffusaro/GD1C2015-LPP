@@ -396,13 +396,18 @@ ALTER TABLE LPP.FACTURAS ADD
 
 INSERT INTO LPP.MONEDAS (id_moneda, descripcion) VALUES (1, 'Dólares');
 
+BEGIN TRANSACTION
 INSERT INTO LPP.ROLES (nombre) VALUES ('Administrador');
 INSERT INTO LPP.ROLES (nombre) VALUES('Cliente');
+COMMIT
 
+BEGIN TRANSACTION
 INSERT INTO LPP.TIPOS_CUENTA (descripcion) VALUES('Oro');
 INSERT INTO LPP.TIPOS_CUENTA (descripcion) VALUES('Plata');
 INSERT INTO LPP.TIPOS_CUENTA (descripcion) VALUES('Bronce');
 INSERT INTO LPP.TIPOS_CUENTA (descripcion) VALUES('Gratuita');
+COMMIT
+
 
 /*---------Migracion-------------------------*/
 
