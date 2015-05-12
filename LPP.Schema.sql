@@ -169,42 +169,42 @@ PRIMARY KEY(id_log),
 CREATE TABLE [LPP].CLIENTES(
 id_cliente INTEGER NOT NULL IDENTITY(1,1),
 username VARCHAR(20),
-nombre VARCHAR(50) NOT NULL,
-apellido VARCHAR(50) NOT NULL,
-id_tipo_doc INTEGER,
-num_doc DECIMAL(20, 0), --RR: me parece que esto se podría sacar
+nombre VARCHAR(255) NOT NULL,
+apellido VARCHAR(255) NOT NULL,
+id_tipo_doc NUMERIC(18, 0),
+num_doc DECIMAL(20, 0), --RR: me parece que esto se podría sacar FF: el enunciado pide num de doc, al no aparecer en la maestra deberiamos ver como manejarlo. Podriamos inventar un num_doc de migracion, y a los que vienen de la maestra le ponemos ese. O que sea nullable y lo dejamos en null.
 fecha_nac DATETIME,
-mail VARCHAR(50),
+mail VARCHAR(255),
 id_domicilio INTEGER,
-id_nacionalidad INTEGER,
+id_pais NUMERIC(18, 0),
 PRIMARY KEY(id_cliente),
 UNIQUE(id_tipo_doc, num_doc, apellido, nombre, fecha_nac));
 
 CREATE TABLE [LPP].TIPO_DOCS(
-tipo_cod INTEGER NOT NULL IDENTITY(1,1),
-tipo VARCHAR(10) NOT NULL,
+tipo_cod NUMERIC(18,0) NOT NULL IDENTITY(1,1),
+tipo_descr VARCHAR(255) NOT NULL,
 PRIMARY KEY(tipo_cod));
 
 
 CREATE TABLE [LPP].DOMICILIOS(
 id_domicilio INTEGER NOT NULL IDENTITY(1,1),
-calle VARCHAR(100),
-num INTEGER,
-depto VARCHAR(5),
-piso INTEGER, 
-localidad VARCHAR(100),
+calle VARCHAR(255),
+num NUMERIC(18, 0),
+depto VARCHAR(10),
+piso NUMERIC(18, 0), 
+localidad VARCHAR(255),
 id_pais INTEGER,
 PRIMARY KEY(id_domicilio));
 
 CREATE TABLE [LPP].PAISES(
-id_pais INTEGER NOT NULL IDENTITY(1,1),
-pais VARCHAR(50),
+id_pais NUMERIC(18, 0) NOT NULL IDENTITY(1,1),
+pais VARCHAR(250),
 PRIMARY KEY(id_pais),
 );
 
 CREATE TABLE [LPP].MONEDAS(
-id_moneda INTEGER NOT NULL IDENTITY(1,1),
-descripcion VARCHAR(50),
+id_moneda NUMERIC(18, 0) NOT NULL IDENTITY(1,1),
+descripcion VARCHAR(255),
 PRIMARY KEY(id_moneda));
 
 CREATE TABLE [LPP].TIPOS_CUENTA(
@@ -217,74 +217,12 @@ estado INTEGER,
 PRIMARY KEY(id_tipocuenta));
 
 CREATE TABLE [LPP].ESTADOS_CUENTA(
-id_estadocuenta INTEGER NOT NULL IDENTITY(1,1),
-descripcion VARCHAR(50),
+id_estadocuenta NUMERIC(18, 0) NOT NULL IDENTITY(1,1),
+descripcion VARCHAR(255),
 PRIMARY KEY(id_estadocuenta));
 
-CREATE TABLE [LPP].BANCOS(
-id_banco INTEGER NOT NULL IDENTITY(1,1),
-nombre VARCHAR(50),
-costo_apertura INTEGER, --RR: Saque los not null, porque costo apertura y cambio no estan en la tabla maestra
-costo_cambio INTEGER, 
-id_domicilio INTEGER,
-PRIMARY KEY(id_banco));
-
-CREATE TABLE [LPP].TARJETAS(
-num_tarjeta INTEGER NOT NULL,
-id_emisor varchar(30) NOT NULL,
-id_banco INTEGER NOT NULL,
-num_cuenta NUMERIC(17,0) NOT NULL,
-marca VARCHAR(20),
-cod_seguridad INTEGER NOT NULL,
-fecha_emision DATETIME,
-fecha_vencimiento DATETIME,
-PRIMARY KEY(num_tarjeta));
-
-CREATE TABLE [LPP].DEPOSITOS(
-num_deposito INTEGER NOT NULL IDENTITY(1,1),
-num_cuenta NUMERIC(17,0) NOT NULL,
-importe DECIMAL NOT NULL,
-id_moneda INTEGER,
-num_tarjeta INTEGER,
-fecha_deposito DATETIME,
-id_banco INTEGER,
-PRIMARY KEY(num_deposito));
-
-CREATE TABLE [LPP].TRANSACCIONES(
-id_transaccion INTEGER NOT NULL IDENTITY(1,1),
-/*id_retiro INTEGER,
-ID_deposito INTEGER,
-id_transferencia INTEGER,*/
-PRIMARY KEY(id_transaccion));
-
-CREATE TABLE [LPP].RETIROS(
-id_retiro INTEGER NOT NULL IDENTITY(1,1),
-id_cliente INTEGER NOT NULL, 
-id_banco INTEGER NOT NULL,
-importe DECIMAL,
-fecha DATETIME,
-PRIMARY KEY(id_retiro));
-
-CREATE TABLE [LPP].TRANSFERENCIAS(
-id_transferencia INTEGER NOT NULL IDENTITY(1,1),
-id_origen NUMERIC(17,0) NOT NULL,
-id_banco_origen INTEGER NOT NULL,
-id_destino NUMERIC(17,0) NOT NULL,
-id_banco_destino INTEGER NOT NULL,
-importe decimal,
-PRIMARY KEY(id_transferencia));
-
-CREATE TABLE [LPP].ITEMS_PENDIENTES(
-id_item INTEGER NOT NULL IDENTITY(1,1),
-num_cuenta NUMERIC(17,0) NOT NULL,
-monto DECIMAL,
-id_transaccion INTEGER,
-estado BIT, 
-id_banco INTEGER,
-PRIMARY KEY(id_item));
-
 CREATE TABLE [LPP].CUENTAS(
-num_cuenta NUMERIC(17,0) NOT NULL IDENTITY(1,1),
+num_cuenta NUMERIC(18,0) NOT NULL IDENTITY(1,1),
 id_cliente INTEGER NOT NULL,
 id_banco INTEGER NOT NULL,
 saldo DECIMAL,
@@ -292,28 +230,104 @@ id_moneda INTEGER NOT NULL,
 fecha_apertura DATETIME,
 fecha_cierre DATETIME,
 id_tipo INTEGER NOT NULL,
-id_estado INTEGER,
-id_pais INTEGER, 
+id_estado NUMERIC(18, 0),
+id_pais NUMERIC(18, 0), 
 PRIMARY KEY(num_cuenta, id_banco));
+
+CREATE TABLE [LPP].BANCOS(
+id_banco NUMERIC(18, 0) NOT NULL IDENTITY(1,1),
+nombre VARCHAR(255),
+costo_apertura NUMERIC(18, 0) NOT NULL DEFAULT 100, --RR: Saque los not null, porque costo apertura y cambio no estan en la tabla maestra FF: agrego valores default, porque todos los bancos deben tener costos si o si
+costo_cambio NUMERIC(18, 0) NOT NULL DEFAULT 100, 
+id_domicilio INTEGER, -- FF: en maestra la direccion del banco es un varchar de 255, rever si no conviene dejarlo como un varchar en vez de partir el char para insertar en tabla domicilio
+PRIMARY KEY(id_banco))
+
+CREATE TABLE [LPP.EMISORES](
+id_emisor INTEGER NOT NULL IDENTITY(1,1),
+emisor_descr VARCHAR(255),
+PRIMARY KEY(id_emisor));
+
+CREATE TABLE [LPP].TARJETAS(
+num_tarjeta VARCHAR(16) NOT NULL,
+id_emisor NUMERIC(18,0) NOT NULL,
+id_banco INTEGER NOT NULL,
+num_cuenta NUMERIC(18,0) NOT NULL,--FF: borre marca, ya que en maestra=emisor
+cod_seguridad VARCHAR(3) NOT NULL,
+fecha_emision DATETIME,
+fecha_vencimiento DATETIME,
+PRIMARY KEY(num_tarjeta, id_emisor));
+
+CREATE TABLE [LPP].DEPOSITOS(
+num_deposito NUMERIC(18,0) NOT NULL IDENTITY(1,1),
+num_cuenta NUMERIC(18,0) NOT NULL,--FF: en la maestra no hay datos de cuenta en los depositos, que hacemos?
+importe NUMERIC(18,2) NOT NULL,
+id_moneda NUMERIC(18,0) DEFAULT 1,
+num_tarjeta VARCHAR(16),
+fecha_deposito DATETIME,
+id_banco INTEGER, --ni de bancos
+PRIMARY KEY(num_deposito));
+
+CREATE TABLE [LPP].TRANSACCIONES(
+id_transaccion INTEGER NOT NULL IDENTITY(1,1),
+id_retiro INTEGER,
+ID_deposito INTEGER,
+id_transferencia INTEGER,
+PRIMARY KEY(id_transaccion));
+
+CREATE TABLE [LPP].RETIROS(
+id_retiro NUMERIC(18,0) NOT NULL IDENTITY(1,1), -- hago cambios para que coincida con la maestra
+num_cuenta NUMERIC(18, 0) NOT NULL,
+id_banco NUMERIC(18,0) NOT NULL,
+importe NUMERIC(18,2),
+fecha DATETIME,
+PRIMARY KEY(id_retiro));
+
+CREATE TABLE [LPP].CHEQUES(
+cheque_num NUMERIC(18,0) NOT NULL,
+id_retiro NUMERIC(18, 0) NOT NULL,
+importe NUMERIC(18, 2),
+fecha DATETIME,
+id_banco NUMERIC(18,0) NOT NULL,
+PRIMARY KEY(cheque_num, id_banco));
+
+CREATE TABLE [LPP].TRANSFERENCIAS(
+id_transferencia INTEGER NOT NULL IDENTITY(1,1),
+num_cuenta_origen NUMERIC(18,0) NOT NULL,
+id_banco_origen NUMERIC(18,0) NOT NULL,
+num_cuenta_destino NUMERIC(18,0) NOT NULL,
+id_banco_destino NUMERIC(18,0) NOT NULL,
+importe NUMERIC(18,2),
+fecha DATETIME,
+costo_trans NUMERIC(18,2),
+PRIMARY KEY(id_transferencia));
+
+CREATE TABLE [LPP].ITEMS_PENDIENTES(
+id_item INTEGER NOT NULL IDENTITY(1,1),
+num_cuenta NUMERIC(18,0) NOT NULL,
+monto NUMERIC(18,2),
+id_transaccion INTEGER,
+estado BIT DEFAULT 0, --bit 0: no ha sido cobrado todavia
+id_banco NUMERIC(18,0)
+PRIMARY KEY(id_item));
+
 
 CREATE TABLE [LPP].ITEMS_FACTURA(
 id_items_factura INTEGER NOT NULL IDENTITY(1,1),
 id_factura INTEGER NOT NULL,
 id_item_pendiente INTEGER NOT NULL,
+descr VARCHAR(255),
+importe NUMERIC(18, 2),
 PRIMARY KEY(id_items_factura));
 
 CREATE TABLE [LPP].FACTURAS(
-id_factura INTEGER NOT NULL IDENTITY (1,1),
-id_cliente INTEGER NOT NULL,
-id_banco INTEGER NOT NULL,
+id_factura NUMERIC(18,0) NOT NULL IDENTITY (1,1),
+num_cuenta NUMERIC(18,0) NOT NULL,
+id_banco NUMERIC(18,0) NOT NULL,
 fecha DATETIME, 
 total DECIMAL,
 PRIMARY KEY(id_factura));
 
-CREATE TABLE [LPP].EMISORES(
-id_emisor varchar(30) NOT NULL,
-PRIMARY KEY(id_emisor),
-);
+
 
 /*---------Definiciones de Relaciones-------*/
 
@@ -352,15 +366,18 @@ ALTER TABLE LPP.TARJETAS ADD
 ALTER TABLE LPP.DEPOSITOS ADD
 							FOREIGN KEY (id_moneda) references LPP.MONEDAS,
 							FOREIGN KEY (num_cuenta, id_banco) references LPP.CUENTAS,
-							FOREIGN KEY (num_tarjeta) references LPP.TARJETAS;
+							FOREIGN KEY (num_tarjeta) references LPP.TARJETAS;							
 
 ALTER TABLE LPP.RETIROS ADD
-							FOREIGN KEY (id_cliente) references LPP.CLIENTES,
+							FOREIGN KEY (num_cuenta, id_banco) references LPP.CUENTAS;
+
+ALTER TABLE LPP.CHEQUES ADD
 							FOREIGN KEY (id_banco) references LPP.BANCOS;
+																					
 
 ALTER TABLE LPP.TRANSFERENCIAS ADD
-							FOREIGN KEY (id_origen, id_banco_origen) references LPP.CUENTAS,
-							FOREIGN KEY (id_destino, id_banco_destino) references LPP.CUENTAS;
+							FOREIGN KEY (num_cuenta_origen, id_banco_origen) references LPP.CUENTAS,
+							FOREIGN KEY (num_cuenta_destino, id_banco_destino) references LPP.CUENTAS;
 							
 ALTER TABLE LPP.ITEMS_PENDIENTES ADD
 							FOREIGN KEY (id_transaccion) references LPP.TRANSACCIONES,
@@ -377,7 +394,7 @@ ALTER TABLE LPP.FACTURAS ADD
 
 /*---------Carga de datos--------------------*/
 
-INSERT INTO LPP.MONEDAS (descripcion) VALUES ('Dólares');
+INSERT INTO LPP.MONEDAS (id_moneda, descripcion) VALUES (1, 'Dólares');
 
 INSERT INTO LPP.ROLES (nombre) VALUES ('Administrador');
 INSERT INTO LPP.ROLES (nombre) VALUES('Cliente');
@@ -423,7 +440,7 @@ SET IDENTITY_INSERT [LPP].BANCOS OFF;
 
 INSERT INTO LPP.CLIENTES (nombre, apellido, fecha_nac, id_nacionalidad, id_tipo_doc, id_domicilio, mail )
 			SELECT DISTINCT Cli_Nombre, Cli_Apellido, Cli_Fecha_Nac, Cli_Pais_Codigo, Cli_Tipo_Doc_Cod, Cli_Dom_Nro, Cli_Mail
-				FROM gd_esquema.Maestra;
+				FROM gd_esquema.Maestra; -- Hay que ver si se hace con distinct porque no se pueden perder filas en la migracion, y asi se estarian perdiendo las repetidas. Habria que manejarlo de otro manera. Se me ocurre insertar todas las filas pero dejar habilitada sola una de las repetidas.
 
 SET IDENTITY_INSERT [LPP].CUENTAS ON;
 INSERT INTO LPP.CUENTAS (id_cliente, num_cuenta, fecha_apertura, id_pais, id_banco, id_moneda, id_tipo) 
@@ -433,7 +450,7 @@ INSERT INTO LPP.CUENTAS (id_cliente, num_cuenta, fecha_apertura, id_pais, id_ban
 			(SELECT id_tipocuenta FROM LPP.TIPOS_CUENTA WHERE descripcion = 'Gratuita') FROM gd_esquema.Maestra where Banco_Cogido is not null;
 SET IDENTITY_INSERT [LPP].CUENTAS OFF;
 --RR: Asumí que las cuentas son gratuitas, ya que el tipo de cuenta no está definida en la tabla maestra
--- FALTAN HACER LAS MIGRACIONES EN LAS TABLAS TARJETAS, DEPOSITOS, TRANSACCIONES, RETIROS, TRANSFERENCIAS,
+-- FALTAN HACER LAS MIGRACIONES EN LAS TABLAS TARJETAS, DEPOSITOS, TRANSACCIONES, RETIROS, TRANSFERENCIAS,MONEDAS
 -- ITEMS_PENDIENTES, FACTURAS (SETEAR TAMBIEN LA TABLA INTERMEDIA ITEMS_FACTURA)
 
 
