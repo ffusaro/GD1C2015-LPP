@@ -193,7 +193,7 @@ num NUMERIC(18, 0),
 depto VARCHAR(10),
 piso NUMERIC(18, 0), 
 localidad VARCHAR(255),
-id_pais INTEGER,
+id_pais NUMERIC(18,0),
 PRIMARY KEY(id_domicilio));
 
 CREATE TABLE [LPP].PAISES(
@@ -340,9 +340,9 @@ ALTER TABLE LPP.LOGSXUSUARIO ADD
 								
 ALTER TABLE LPP.CLIENTES ADD
 							FOREIGN KEY (username) references LPP.USUARIOS,
-							FOREIGN KEY (id_tipo_doc) references LPP.TIPO_DOCS,
+							FOREIGN KEY (tipo_cod) references LPP.TIPO_DOCS,
 							FOREIGN KEY (id_domicilio) references LPP.DOMICILIOS,
-							FOREIGN KEY (id_nacionalidad) references LPP.PAISES;
+							FOREIGN KEY (id_pais) references LPP.PAISES;
 							
 ALTER TABLE LPP.DOMICILIOS ADD
 							FOREIGN KEY (id_pais) references LPP.PAISES;
@@ -351,8 +351,8 @@ ALTER TABLE LPP.CUENTAS ADD
 							FOREIGN KEY (id_cliente) references LPP.CLIENTES,
 							FOREIGN KEY (id_banco) references LPP.BANCOS,
 							FOREIGN KEY (id_moneda) references LPP.MONEDAS,
-							FOREIGN KEY (id_tipo) references LPP.TIPOS_CUENTA,
-							FOREIGN KEY (id_estado) references LPP.ESTADOS_CUENTA,
+							FOREIGN KEY (id_tipocuenta) references LPP.TIPOS_CUENTA,
+							FOREIGN KEY (id_estadocuenta) references LPP.ESTADOS_CUENTA,
 							FOREIGN KEY (id_pais) references LPP.PAISES;
 							
 
@@ -385,10 +385,10 @@ ALTER TABLE LPP.ITEMS_PENDIENTES ADD
 
 ALTER TABLE LPP.ITEMS_FACTURA ADD
 							FOREIGN KEY (id_factura) references LPP.FACTURAS,
-							FOREIGN KEY (id_item_pendiente) references LPP.ITEMS_PENDIENTES;
+							FOREIGN KEY (id_item) references LPP.ITEMS_PENDIENTES;
 							
 ALTER TABLE LPP.FACTURAS ADD
-							FOREIGN KEY (id_cliente) references LPP.CLIENTES,
+							FOREIGN KEY (num_cuenta) references LPP.CUENTAS,
 							FOREIGN KEY (id_banco) references LPP.BANCOS;
 
 
