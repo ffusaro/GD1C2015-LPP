@@ -264,7 +264,7 @@ importe NUMERIC(18,2) NOT NULL,
 id_moneda NUMERIC(18,0) DEFAULT 1,
 num_tarjeta VARCHAR(16),
 fecha_deposito DATETIME,
-id_banco INTEGER, --ni de bancos
+id_banco NUMERIC(18,0), --ni de bancos
 PRIMARY KEY(num_deposito));
 
 CREATE TABLE [LPP].TRANSACCIONES(
@@ -455,8 +455,53 @@ INSERT INTO LPP.CUENTAS (id_cliente, num_cuenta, fecha_apertura, id_pais, id_ban
 			(SELECT id_tipocuenta FROM LPP.TIPOS_CUENTA WHERE descripcion = 'Gratuita') FROM gd_esquema.Maestra where Banco_Cogido is not null;
 SET IDENTITY_INSERT [LPP].CUENTAS OFF;
 --RR: Asumí que las cuentas son gratuitas, ya que el tipo de cuenta no está definida en la tabla maestra
--- FALTAN HACER LAS MIGRACIONES EN LAS TABLAS TARJETAS, DEPOSITOS, TRANSACCIONES, RETIROS, TRANSFERENCIAS,MONEDAS
--- ITEMS_PENDIENTES, FACTURAS (SETEAR TAMBIEN LA TABLA INTERMEDIA ITEMS_FACTURA)
+
+
+BEGIN TRANSACTION
+SET IDENTITY_INSERT [LPP].EMISORES ON;
+	INSERT INTO [LPP].EMISORES (id_emisor, emisor_descr)
+		SELECT [Tarjeta_Emisor_Descripcion] FROM [GD1C2015].[gd_esquema].[Maestra] WHERE [Tarjeta_Numero] IS NOT NULL;
+SET IDENTITY_INSERT [LPP].EMISORES OFF;        
+COMMIT;    
+
+BEGIN TRANSACTION
+SET IDENTITY_INSERT [LPP].TARJETAS ON;
+	INSERT INTO [LPP].TARJETAS (num_tarjeta, id_emisor, id_banco, num_cuenta, cod_seguridad, fecha_emision, fecha_vencimiento)
+		SELECT [Tarjeta_Numero],(SELECT DISTINCT [id_emisor] FROM [LPP.EMISORES] WHERE [emisor_descr] = [Tarjeta_Emisor_Descripcion])[Cuenta_Numero]),
+		[Banco_Cogido], [Cuenta_Numero],[Tarjeta_Codigo_Seg],[Tarjeta_Fecha_Emision],[Tarjeta_Fecha_Vencimiento]
+        FROM [GD1C2015].[gd_esquema].[Maestra] WHERE [Tarjeta_Numero] IS NOT NULL;
+SET IDENTITY_INSERT [LPP].TARJETAS OFF;        
+COMMIT;        
+
+BEGIN TRANSACTION
+SET IDENTITY_INSERT [LPP].DEPOSITOS ON;
+	INSERT INTO [LPP.DEPOSITOS] (num_deposito, num_cuenta, importe, id_moneda,num_tarjeta, fecha_deposito, id_banco)
+		SELECT [Deposito_Codigo],[Cuenta_Numero],[Deposito_Importe], 1, [Tarjeta_Numero],[Deposito_Fecha],[Banco_Cogido]
+	    FROM [GD1C2015].[gd_esquema].[Maestra] WHERE Deposito_Codigo IS NOT NULL
+SET IDENTITY_INSERT [LPP].DEPOSITOS OFF;    		
+COMMIT;
+
+BEGIN TRANSACTION
+SET IDENTITY_INSERT [LPP].RETIROS ON;
+	INSERT INTO [LPP.RETIROS] (id_retiro, num_cuenta, id_banco, importe,fecha)
+		SELECT [Retiro_Codigo],[Cuenta_Numero],[Banco_Cogido], [Retiro_Importe], [Retiro_Fecha]
+		FROM [GD1C2015].[gd_esquema].[Maestra] WHERE Retiro_Codigo is not null
+	INSERT INTO [LPP.CHEQUES] (cheque_num, id_retiro,importe, fecha, id_banco)
+		SELECT [Cheque_Numero], [Retiro_Codigo],[Cheque_Importe],[Cheque_Fecha],[Banco_Cogido]
+		FROM [GD1C2015].[gd_esquema].[Maestra] WHERE Deposito_Codigo IS NOT NULL AND Cheque_Numero IS NOT NULL
+SET IDENTITY_INSERT [LPP].RETIROS OFF;
+COMMIT;
+
+BEGIN TRANSACTION
+SET IDENTITY_INSERT [LPP].TRANSFERENCIAS ON;
+	INSERT INTO [LPP].TRANSFERENCIAS (num_cuenta_origen, num_cuenta_destino, id_banco_destino, importe , fecha, costo_trans)
+		SELECT [Cuenta_Numero], [Cuenta_Dest_Numero], [Banco_Cogido], [Trans_Importe], [Transf_Fecha], [Trans_Costo_Trans]
+		FROM [GD1C2015].[gd_esquema].[Maestra] WHERE Transf_Fecha IS NOT NULL
+SET IDENTITY_INSERT [LPP].TRANSFERENCIAS OFF;
+COMMIT;
+
+
+-- FALTAN HACER LAS MIGRACIONES EN LAS TABLAS MONEDAS, ITEMS_ PENDIENTES, TRANSACCIONES, ITEM_ FACTURA, FACTURAS
 
 
 /*---------Definiciones de Vistas-----------*/
