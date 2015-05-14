@@ -94,6 +94,15 @@ BEGIN
 	DROP TABLE LPP.BANCOS ;
 END;
 
+IF OBJECT_ID('LPP.EMISORES ') IS NOT NULL
+BEGIN
+	DROP TABLE LPP.EMISORES ;
+END;
+
+IF OBJECT_ID('LPP.CHEQUES') IS NOT NULL
+BEGIN
+	DROP TABLE LPP.CHEQUES ;
+END;
 IF OBJECT_ID('LPP.DOMICILIOS') IS NOT NULL
 BEGIN
 	DROP TABLE LPP.DOMICILIOS;
@@ -242,7 +251,7 @@ costo_cambio NUMERIC(18, 0) NOT NULL DEFAULT 100,
 id_domicilio INTEGER, -- FF: en maestra la direccion del banco es un varchar de 255, rever si no conviene dejarlo como un varchar en vez de partir el char para insertar en tabla domicilio
 PRIMARY KEY(id_banco))
 
-CREATE TABLE [LPP.EMISORES](
+CREATE TABLE [LPP].EMISORES(
 id_emisor INTEGER NOT NULL IDENTITY(1,1),
 emisor_descr VARCHAR(255),
 PRIMARY KEY(id_emisor));
@@ -413,7 +422,7 @@ COMMIT
 
 BEGIN TRANSACTION
 SET IDENTITY_INSERT [LPP].TIPO_DOCS ON;
-INSERT INTO LPP.TIPO_DOCS(tipo_cod, tipo) 
+INSERT INTO LPP.TIPO_DOCS(tipo_cod, tipo_descr) 
 			SELECT DISTINCT Cli_Tipo_Doc_Cod, Cli_Tipo_Doc_Desc FROM gd_esquema.Maestra;
 SET IDENTITY_INSERT [LPP].TIPO_DOCS OFF;
 COMMIT;
@@ -451,7 +460,7 @@ SET IDENTITY_INSERT [LPP].BANCOS OFF;
 COMMIT;
 
 BEGIN TRANSACTION
-INSERT INTO LPP.CLIENTES (nombre, apellido, fecha_nac, id_nacionalidad, id_tipo_doc, id_domicilio, mail )
+INSERT INTO LPP.CLIENTES (nombre, apellido, fecha_nac, id_pais, id_tipo_doc, id_domicilio, mail )
 			SELECT DISTINCT Cli_Nombre, Cli_Apellido, Cli_Fecha_Nac, Cli_Pais_Codigo, Cli_Tipo_Doc_Cod, Cli_Dom_Nro, Cli_Mail
 				FROM gd_esquema.Maestra; -- Hay que ver si se hace con distinct porque no se pueden perder filas en la migracion, y asi se estarian perdiendo las repetidas. Habria que manejarlo de otro manera. Se me ocurre insertar todas las filas pero dejar habilitada sola una de las repetidas.
 COMMIT;
@@ -486,7 +495,7 @@ COMMIT;
 
 BEGIN TRANSACTION
 SET IDENTITY_INSERT [LPP].DEPOSITOS ON;
-	INSERT INTO [LPP.DEPOSITOS] (num_deposito, num_cuenta, importe, id_moneda,num_tarjeta, fecha_deposito, id_banco)
+	INSERT INTO [LPP].DEPOSITOS (num_deposito, num_cuenta, importe, id_moneda,num_tarjeta, fecha_deposito, id_banco)
 		SELECT [Deposito_Codigo],[Cuenta_Numero],[Deposito_Importe], 1, [Tarjeta_Numero],[Deposito_Fecha],[Banco_Cogido]
 	    FROM [GD1C2015].[gd_esquema].[Maestra] WHERE Deposito_Codigo IS NOT NULL
 SET IDENTITY_INSERT [LPP].DEPOSITOS OFF;    		
@@ -494,10 +503,10 @@ COMMIT;
 
 BEGIN TRANSACTION
 SET IDENTITY_INSERT [LPP].RETIROS ON;
-	INSERT INTO [LPP.RETIROS] (id_retiro, num_cuenta, id_banco, importe,fecha)
+	INSERT INTO [LPP].RETIROS (id_retiro, num_cuenta, id_banco, importe,fecha)
 		SELECT [Retiro_Codigo],[Cuenta_Numero],[Banco_Cogido], [Retiro_Importe], [Retiro_Fecha]
 		FROM [GD1C2015].[gd_esquema].[Maestra] WHERE Retiro_Codigo is not null
-	INSERT INTO [LPP.CHEQUES] (cheque_num, id_retiro,importe, fecha, id_banco)
+	INSERT INTO [LPP].CHEQUES (cheque_num, id_retiro,importe, fecha, id_banco)
 		SELECT [Cheque_Numero], [Retiro_Codigo],[Cheque_Importe],[Cheque_Fecha],[Banco_Cogido]
 		FROM [GD1C2015].[gd_esquema].[Maestra] WHERE Deposito_Codigo IS NOT NULL AND Cheque_Numero IS NOT NULL
 SET IDENTITY_INSERT [LPP].RETIROS OFF;
