@@ -411,12 +411,14 @@ COMMIT
 
 /*---------Migracion-------------------------*/
 
+BEGIN TRANSACTION
 SET IDENTITY_INSERT [LPP].TIPO_DOCS ON;
 INSERT INTO LPP.TIPO_DOCS(tipo_cod, tipo) 
 			SELECT DISTINCT Cli_Tipo_Doc_Cod, Cli_Tipo_Doc_Desc FROM gd_esquema.Maestra;
 SET IDENTITY_INSERT [LPP].TIPO_DOCS OFF;
+COMMIT;
 
-
+BEGIN TRANSACTION
 SET IDENTITY_INSERT [LPP].PAISES ON;			
 INSERT INTO LPP.PAISES(id_pais, pais)
 			SELECT DISTINCT Cli_Pais_Codigo, Cli_Pais_Desc FROM gd_esquema.Maestra;
@@ -427,26 +429,35 @@ INSERT INTO LPP.PAISES(id_pais, pais)
 			SELECT DISTINCT Cuenta_Dest_Pais_Codigo, Cuenta_Dest_Pais_Desc FROM gd_esquema.Maestra
 				WHERE (Cuenta_Dest_Pais_Codigo not in (select id_pais from LPP.PAISES));
 SET IDENTITY_INSERT [LPP].PAISES OFF;
+COMMIT;
 
-
+BEGIN TRANSACTION
 SET IDENTITY_INSERT [LPP].DOMICILIOS ON;
 INSERT INTO LPP.DOMICILIOS (id_pais, calle, id_domicilio, piso, depto)	
 			SELECT DISTINCT Cli_Pais_Codigo, Cli_Dom_Calle, Cli_Dom_Nro, Cli_Dom_Piso, Cli_Dom_Depto from gd_esquema.Maestra;
 SET IDENTITY_INSERT [LPP].DOMICILIOS OFF;
+COMMIT;
 
-
+BEGIN TRANSACTION
 INSERT INTO LPP.EMISORES (id_emisor)
 			SELECT DISTINCT Tarjeta_Emisor_Descripcion FROM gd_esquema.Maestra WHERE Tarjeta_Emisor_Descripcion is not null;
+COMMIT;
 
+BEGIN TRANSACTION
 SET IDENTITY_INSERT [LPP].BANCOS ON;
 INSERT INTO LPP.BANCOS (id_banco, nombre)
 			SELECT DISTINCT Banco_Cogido, Banco_Nombre FROM gd_esquema.Maestra WHERE Banco_Cogido is not null;
 SET IDENTITY_INSERT [LPP].BANCOS OFF;
+COMMIT;
 
+BEGIN TRANSACTION
 INSERT INTO LPP.CLIENTES (nombre, apellido, fecha_nac, id_nacionalidad, id_tipo_doc, id_domicilio, mail )
 			SELECT DISTINCT Cli_Nombre, Cli_Apellido, Cli_Fecha_Nac, Cli_Pais_Codigo, Cli_Tipo_Doc_Cod, Cli_Dom_Nro, Cli_Mail
 				FROM gd_esquema.Maestra; -- Hay que ver si se hace con distinct porque no se pueden perder filas en la migracion, y asi se estarian perdiendo las repetidas. Habria que manejarlo de otro manera. Se me ocurre insertar todas las filas pero dejar habilitada sola una de las repetidas.
+COMMIT;
 
+
+BEGIN TRANSACTION
 SET IDENTITY_INSERT [LPP].CUENTAS ON;
 INSERT INTO LPP.CUENTAS (id_cliente, num_cuenta, fecha_apertura, id_pais, id_banco, id_moneda, id_tipo) 
 			SELECT DISTINCT (SELECT id_cliente FROM LPP.CLIENTES WHERE nombre=Cli_Nombre and apellido=Cli_Apellido) as id_cliente, 
@@ -455,7 +466,7 @@ INSERT INTO LPP.CUENTAS (id_cliente, num_cuenta, fecha_apertura, id_pais, id_ban
 			(SELECT id_tipocuenta FROM LPP.TIPOS_CUENTA WHERE descripcion = 'Gratuita') FROM gd_esquema.Maestra where Banco_Cogido is not null;
 SET IDENTITY_INSERT [LPP].CUENTAS OFF;
 --RR: Asumí que las cuentas son gratuitas, ya que el tipo de cuenta no está definida en la tabla maestra
-
+COMMIT;
 
 BEGIN TRANSACTION
 SET IDENTITY_INSERT [LPP].EMISORES ON;
