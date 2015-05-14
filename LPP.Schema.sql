@@ -331,7 +331,7 @@ PRIMARY KEY(id_items_factura));
 CREATE TABLE [LPP].FACTURAS(
 id_factura NUMERIC(18,0) NOT NULL IDENTITY (1,1),
 num_cuenta NUMERIC(18,0) NOT NULL,
-id_banco NUMERIC(18,0) NOT NULL,
+id_banco NUMERIC(18,0),
 fecha DATETIME, 
 total DECIMAL,
 PRIMARY KEY(id_factura));
@@ -487,7 +487,7 @@ COMMIT;
 BEGIN TRANSACTION
 SET IDENTITY_INSERT [LPP].TARJETAS ON;
 	INSERT INTO [LPP].TARJETAS (num_tarjeta, id_emisor, id_banco, num_cuenta, cod_seguridad, fecha_emision, fecha_vencimiento)
-		SELECT [Tarjeta_Numero],(SELECT DISTINCT [id_emisor] FROM [LPP.EMISORES] WHERE [emisor_descr] = [Tarjeta_Emisor_Descripcion])[Cuenta_Numero]),
+		SELECT [Tarjeta_Numero],(SELECT DISTINCT [id_emisor] FROM [LPP.EMISORES] WHERE [emisor_descr] = [Tarjeta_Emisor_Descripcion]),[Cuenta_Numero],
 		[Banco_Cogido], [Cuenta_Numero],[Tarjeta_Codigo_Seg],[Tarjeta_Fecha_Emision],[Tarjeta_Fecha_Vencimiento]
         FROM [GD1C2015].[gd_esquema].[Maestra] WHERE [Tarjeta_Numero] IS NOT NULL;
 SET IDENTITY_INSERT [LPP].TARJETAS OFF;        
@@ -520,8 +520,25 @@ SET IDENTITY_INSERT [LPP].TRANSFERENCIAS ON;
 SET IDENTITY_INSERT [LPP].TRANSFERENCIAS OFF;
 COMMIT;
 
+BEGIN TRANSACTION
+SET IDENTITY INSERT [LPP].ITEMS_FACTURA ON;
+	INSERT INTO [LPP].ITEMS_FACTURA (id_factura, id_item_pendiente, descr,importe)
+		SELECT [Factura_Numero], 0, [Item_Factura_Descr], [Item_Factura_Importe], SUM([Trans_Importe])+SUM([Item_Factura_Importe])+ SUM([Trans_Costo_Trans]) 'importe' -- decision de diseno poner a todos los items migrados que ya han sido facturados en id_items_pendiente = 0
+		FROM [GD1C2015].gd_esquema.Maestra WHERE Item_Factura_Descr IS NOT NULL
+		GROUP BY [Factura_Numero],[Item_Factura_Descr], [Item_Factura_Importe]
+SET IDENTITY INSERT [LPP].ITEMS_FACTURA OFF;
+COMMIT;
 
--- FALTAN HACER LAS MIGRACIONES EN LAS TABLAS MONEDAS, ITEMS_ PENDIENTES, TRANSACCIONES, ITEM_ FACTURA, FACTURAS
+BEGIN TRANSACTION
+SET IDENTITY INSERT [LPP].FACTURAS ON;
+	INSERT INTO [LPP].FACTURAS (id_factura, num_cuenta, id_banco, fecha, total)
+		SELECT [Factura_Numero], [Cuenta_Numero], [Banco_Cogido], [Factura_Fecha], (SELECT SUM(importe) FROM [LPP].ITEMS_FACTURA WHERE id_items_factura = [Factura_Numero]) 'total'
+		FROM [GD1C2015].[gd_esquema].[Maestra] where [Factura_Numero] IS NOT NULL
+		GROUP BY  [Cuenta_Numero],[Banco_Cogido], [Factura_Numero],[Factura_Fecha]
+SET IDENTITY INSERT [LPP].FACTURAS OFF;
+COMMIT;
+
+-- FALTAN HACER LAS MIGRACIONES EN LAS TABLAS ITEMS_ PENDIENTES, TRANSACCIONES.
 
 
 /*---------Definiciones de Vistas-----------*/
