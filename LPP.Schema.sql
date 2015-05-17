@@ -13,35 +13,9 @@ EXEC sp_executesql N'CREATE SCHEMA LPP AUTHORIZATION gd'
 END
 
 /*---------Limpieza de Tablas-------------*/
-
-IF OBJECT_ID('LPP.ROLESXUSUARIO ') IS NOT NULL
+IF OBJECT_ID('LPP.FACTURAS') IS NOT NULL
 BEGIN
-	DROP TABLE LPP.ROLESXUSUARIO ;
-END;
-
-IF OBJECT_ID('LPP.LOGSXUSUARIO ') IS NOT NULL
-BEGIN
-	DROP TABLE LPP.LOGSXUSUARIO ;
-END;
-
-IF OBJECT_ID('LPP.DEPOSITOS ') IS NOT NULL
-BEGIN
-	DROP TABLE LPP.DEPOSITOS ;
-END;
-
-IF OBJECT_ID('LPP.TARJETAS ') IS NOT NULL
-BEGIN
-	DROP TABLE LPP.TARJETAS ;
-END;
-
-IF OBJECT_ID('LPP.EMISORES ') IS NOT NULL
-BEGIN
-	DROP TABLE LPP.EMISORES ;
-END;
-
-IF OBJECT_ID('LPP.TRANSFERENCIAS ') IS NOT NULL
-BEGIN
-	DROP TABLE LPP.TRANSFERENCIAS ;
+	DROP TABLE LPP.FACTURAS;
 END;
 
 IF OBJECT_ID('LPP.ITEMS_FACTURA') IS NOT NULL
@@ -49,9 +23,19 @@ BEGIN
 	DROP TABLE LPP.ITEMS_FACTURA;
 END;
 
-IF OBJECT_ID('LPP.FACTURAS') IS NOT NULL
+IF OBJECT_ID('LPP.ITEMS_PENDIENTES') IS NOT NULL
 BEGIN
-	DROP TABLE LPP.FACTURAS;
+	DROP TABLE LPP.ITEMS_PENDIENTES ;
+END;
+
+IF OBJECT_ID('LPP.TRANSACCIONES') IS NOT NULL
+BEGIN
+	DROP TABLE LPP.TRANSACCIONES ;
+END;
+
+IF OBJECT_ID('LPP.TRANSFERENCIAS') IS NOT NULL
+BEGIN
+	DROP TABLE LPP.TRANSFERENCIAS ;
 END;
 
 IF OBJECT_ID('LPP.RETIROS') IS NOT NULL
@@ -59,19 +43,29 @@ BEGIN
 	DROP TABLE LPP.RETIROS;
 END;
 
-IF OBJECT_ID('LPP.ROLES ') IS NOT NULL
+IF OBJECT_ID('LPP.DEPOSITOS') IS NOT NULL
 BEGIN
-	DROP TABLE LPP.ROLES ;
+	DROP TABLE LPP.DEPOSITOS ;
 END;
 
-IF OBJECT_ID('LPP.ITEMS_PENDIENTES ') IS NOT NULL
+IF OBJECT_ID('LPP.CHEQUES') IS NOT NULL
 BEGIN
-	DROP TABLE LPP.ITEMS_PENDIENTES ;
+	DROP TABLE LPP.CHEQUES ;
 END;
 
-IF OBJECT_ID('LPP.CUENTAS ') IS NOT NULL
+IF OBJECT_ID('LPP.TARJETAS') IS NOT NULL
+BEGIN
+	DROP TABLE LPP.TARJETAS ;
+END;
+
+IF OBJECT_ID('LPP.CUENTAS') IS NOT NULL
 BEGIN
 	DROP TABLE LPP.CUENTAS ;
+END;
+
+IF OBJECT_ID('LPP.BANCOS') IS NOT NULL
+BEGIN
+	DROP TABLE LPP.BANCOS ;
 END;
 
 IF OBJECT_ID('LPP.CLIENTES') IS NOT NULL
@@ -79,65 +73,59 @@ BEGIN
 	DROP TABLE LPP.CLIENTES;
 END;
 
-IF OBJECT_ID('LPP.TIPO_DOCS') IS NOT NULL
-BEGIN
-	DROP TABLE LPP.TIPO_DOCS;
-END;
-
-IF OBJECT_ID('LPP.NACIONALIDADES') IS NOT NULL
-BEGIN
-	DROP TABLE LPP.NACIONALIDADES;
-END;	
-
-IF OBJECT_ID('LPP.BANCOS ') IS NOT NULL
-BEGIN
-	DROP TABLE LPP.BANCOS ;
-END;
-
-IF OBJECT_ID('LPP.EMISORES ') IS NOT NULL
-BEGIN
-	DROP TABLE LPP.EMISORES ;
-END;
-
-IF OBJECT_ID('LPP.CHEQUES') IS NOT NULL
-BEGIN
-	DROP TABLE LPP.CHEQUES ;
-END;
 IF OBJECT_ID('LPP.DOMICILIOS') IS NOT NULL
 BEGIN
 	DROP TABLE LPP.DOMICILIOS;
-END;	
+END;
 
-IF OBJECT_ID('LPP.PAISES ') IS NOT NULL
+IF OBJECT_ID('LPP.ROLESXUSUARIO') IS NOT NULL
+BEGIN
+	DROP TABLE LPP.ROLESXUSUARIO ;
+END;
+
+IF OBJECT_ID('LPP.LOGSXUSUARIO') IS NOT NULL
+BEGIN
+	DROP TABLE LPP.LOGSXUSUARIO ;
+END;
+
+IF OBJECT_ID('LPP.USUARIOS') IS NOT NULL
+BEGIN
+	DROP TABLE LPP.USUARIOS ;
+END;
+
+IF OBJECT_ID('LPP.PAISES') IS NOT NULL
 BEGIN
 	DROP TABLE LPP.PAISES ;
 END;
 
-
-
-IF OBJECT_ID('LPP.TRANSACCIONES ') IS NOT NULL
+IF OBJECT_ID('LPP.EMISORES') IS NOT NULL
 BEGIN
-	DROP TABLE LPP.TRANSACCIONES ;
+	DROP TABLE LPP.EMISORES ;
 END;
 
-IF OBJECT_ID('LPP.MONEDAS ') IS NOT NULL
+IF OBJECT_ID('LPP.ROLES') IS NOT NULL
+BEGIN
+	DROP TABLE LPP.ROLES ;
+END;
+
+IF OBJECT_ID('LPP.TIPO_DOCS') IS NOT NULL
+BEGIN
+	DROP TABLE LPP.TIPO_DOCS;
+END;	
+
+IF OBJECT_ID('LPP.MONEDAS') IS NOT NULL
 BEGIN
 	DROP TABLE LPP.MONEDAS ;
 END;
 
-IF OBJECT_ID('LPP.TIPOS_CUENTA ') IS NOT NULL
+IF OBJECT_ID('LPP.TIPOS_CUENTA') IS NOT NULL
 BEGIN
 	DROP TABLE LPP.TIPOS_CUENTA ;
 END;
 
-IF OBJECT_ID('LPP.ESTADOS_CUENTA ') IS NOT NULL
+IF OBJECT_ID('LPP.ESTADOS_CUENTA') IS NOT NULL
 BEGIN
 	DROP TABLE LPP.ESTADOS_CUENTA ;
-END;
-
-IF OBJECT_ID('LPP.USUARIOS ') IS NOT NULL
-BEGIN
-	DROP TABLE LPP.USUARIOS ;
 END;
 
 /*---------Definiciones de Tabla-------------*/
@@ -233,9 +221,9 @@ PRIMARY KEY(id_estadocuenta));
 CREATE TABLE [LPP].CUENTAS(
 num_cuenta NUMERIC(18,0) NOT NULL IDENTITY(1,1),
 id_cliente INTEGER NOT NULL,
-id_banco INTEGER NOT NULL,
+id_banco NUMERIC(18, 0) NOT NULL,
 saldo DECIMAL,
-id_moneda INTEGER NOT NULL,
+id_moneda NUMERIC(18,0) NOT NULL,
 fecha_apertura DATETIME,
 fecha_cierre DATETIME,
 id_tipo INTEGER NOT NULL,
@@ -252,14 +240,14 @@ id_domicilio INTEGER, -- FF: en maestra la direccion del banco es un varchar de 
 PRIMARY KEY(id_banco))
 
 CREATE TABLE [LPP].EMISORES(
-id_emisor INTEGER NOT NULL IDENTITY(1,1),
+id_emisor NUMERIC(18,0) NOT NULL IDENTITY(1,1),
 emisor_descr VARCHAR(255),
 PRIMARY KEY(id_emisor));
 
 CREATE TABLE [LPP].TARJETAS(
 num_tarjeta VARCHAR(16) NOT NULL,
 id_emisor NUMERIC(18,0) NOT NULL,
-id_banco INTEGER NOT NULL,
+id_banco NUMERIC(18, 0),
 num_cuenta NUMERIC(18,0) NOT NULL,--FF: borre marca, ya que en maestra=emisor
 cod_seguridad VARCHAR(3) NOT NULL,
 fecha_emision DATETIME,
@@ -272,6 +260,7 @@ num_cuenta NUMERIC(18,0) NOT NULL,--FF: en la maestra no hay datos de cuenta en 
 importe NUMERIC(18,2) NOT NULL,
 id_moneda NUMERIC(18,0) DEFAULT 1,
 num_tarjeta VARCHAR(16),
+id_emisor NUMERIC(18,0),
 fecha_deposito DATETIME,
 id_banco NUMERIC(18,0), --ni de bancos
 PRIMARY KEY(num_deposito));
@@ -322,7 +311,7 @@ PRIMARY KEY(id_item));
 
 CREATE TABLE [LPP].ITEMS_FACTURA(
 id_items_factura INTEGER NOT NULL IDENTITY(1,1),
-id_factura INTEGER NOT NULL,
+id_factura NUMERIC(18, 0) NOT NULL,
 id_item_pendiente INTEGER NOT NULL,
 descr VARCHAR(255),
 importe NUMERIC(18, 2),
@@ -349,7 +338,7 @@ ALTER TABLE LPP.LOGSXUSUARIO ADD
 								
 ALTER TABLE LPP.CLIENTES ADD
 							FOREIGN KEY (username) references LPP.USUARIOS,
-							FOREIGN KEY (tipo_cod) references LPP.TIPO_DOCS,
+							FOREIGN KEY (id_tipo_doc) references LPP.TIPO_DOCS,
 							FOREIGN KEY (id_domicilio) references LPP.DOMICILIOS,
 							FOREIGN KEY (id_pais) references LPP.PAISES;
 							
@@ -360,8 +349,8 @@ ALTER TABLE LPP.CUENTAS ADD
 							FOREIGN KEY (id_cliente) references LPP.CLIENTES,
 							FOREIGN KEY (id_banco) references LPP.BANCOS,
 							FOREIGN KEY (id_moneda) references LPP.MONEDAS,
-							FOREIGN KEY (id_tipocuenta) references LPP.TIPOS_CUENTA,
-							FOREIGN KEY (id_estadocuenta) references LPP.ESTADOS_CUENTA,
+							FOREIGN KEY (id_tipo) references LPP.TIPOS_CUENTA,
+							FOREIGN KEY (id_estado) references LPP.ESTADOS_CUENTA,
 							FOREIGN KEY (id_pais) references LPP.PAISES;
 							
 
@@ -375,13 +364,14 @@ ALTER TABLE LPP.TARJETAS ADD
 ALTER TABLE LPP.DEPOSITOS ADD
 							FOREIGN KEY (id_moneda) references LPP.MONEDAS,
 							FOREIGN KEY (num_cuenta, id_banco) references LPP.CUENTAS,
-							FOREIGN KEY (num_tarjeta) references LPP.TARJETAS;							
+							FOREIGN KEY (num_tarjeta, id_emisor) references LPP.TARJETAS;							
 
 ALTER TABLE LPP.RETIROS ADD
 							FOREIGN KEY (num_cuenta, id_banco) references LPP.CUENTAS;
 
 ALTER TABLE LPP.CHEQUES ADD
-							FOREIGN KEY (id_banco) references LPP.BANCOS;
+							FOREIGN KEY (id_banco) references LPP.BANCOS,
+							FOREIGN KEY (id_retiro) references LPP.RETIROS;
 																					
 
 ALTER TABLE LPP.TRANSFERENCIAS ADD
@@ -394,16 +384,14 @@ ALTER TABLE LPP.ITEMS_PENDIENTES ADD
 
 ALTER TABLE LPP.ITEMS_FACTURA ADD
 							FOREIGN KEY (id_factura) references LPP.FACTURAS,
-							FOREIGN KEY (id_item) references LPP.ITEMS_PENDIENTES;
+							FOREIGN KEY (id_item_pendiente) references LPP.ITEMS_PENDIENTES;
 							
 ALTER TABLE LPP.FACTURAS ADD
-							FOREIGN KEY (num_cuenta) references LPP.CUENTAS,
-							FOREIGN KEY (id_banco) references LPP.BANCOS;
-
-
+							FOREIGN KEY (num_cuenta, id_banco) references LPP.CUENTAS;
+						
 /*---------Carga de datos--------------------*/
 
-INSERT INTO LPP.MONEDAS (id_moneda, descripcion) VALUES (1, 'Dólares');
+INSERT INTO LPP.MONEDAS (descripcion) VALUES ('Dólares');
 
 BEGIN TRANSACTION
 INSERT INTO LPP.ROLES (nombre) VALUES ('Administrador');
@@ -448,7 +436,7 @@ SET IDENTITY_INSERT [LPP].DOMICILIOS OFF;
 COMMIT;
 
 BEGIN TRANSACTION
-INSERT INTO LPP.EMISORES (id_emisor)
+INSERT INTO LPP.EMISORES (emisor_descr)
 			SELECT DISTINCT Tarjeta_Emisor_Descripcion FROM gd_esquema.Maestra WHERE Tarjeta_Emisor_Descripcion is not null;
 COMMIT;
 
@@ -477,21 +465,13 @@ SET IDENTITY_INSERT [LPP].CUENTAS OFF;
 --RR: Asumí que las cuentas son gratuitas, ya que el tipo de cuenta no está definida en la tabla maestra
 COMMIT;
 
-BEGIN TRANSACTION
-SET IDENTITY_INSERT [LPP].EMISORES ON;
-	INSERT INTO [LPP].EMISORES (id_emisor, emisor_descr)
-		SELECT [Tarjeta_Emisor_Descripcion] FROM [GD1C2015].[gd_esquema].[Maestra] WHERE [Tarjeta_Numero] IS NOT NULL;
-SET IDENTITY_INSERT [LPP].EMISORES OFF;        
-COMMIT;    
 
 BEGIN TRANSACTION
-SET IDENTITY_INSERT [LPP].TARJETAS ON;
 	INSERT INTO [LPP].TARJETAS (num_tarjeta, id_emisor, id_banco, num_cuenta, cod_seguridad, fecha_emision, fecha_vencimiento)
-		SELECT [Tarjeta_Numero],(SELECT DISTINCT [id_emisor] FROM [LPP.EMISORES] WHERE [emisor_descr] = [Tarjeta_Emisor_Descripcion]),[Cuenta_Numero],
-		[Banco_Cogido], [Cuenta_Numero],[Tarjeta_Codigo_Seg],[Tarjeta_Fecha_Emision],[Tarjeta_Fecha_Vencimiento]
-        FROM [GD1C2015].[gd_esquema].[Maestra] WHERE [Tarjeta_Numero] IS NOT NULL;
-SET IDENTITY_INSERT [LPP].TARJETAS OFF;        
-COMMIT;        
+		SELECT DISTINCT [Tarjeta_Numero],(SELECT DISTINCT [id_emisor] FROM [LPP].EMISORES WHERE [emisor_descr] = m.[Tarjeta_Emisor_Descripcion])'idemisor',[Banco_Cogido], [Cuenta_Numero],
+		[Tarjeta_Codigo_Seg],[Tarjeta_Fecha_Emision],[Tarjeta_Fecha_Vencimiento]
+        FROM [GD1C2015].[gd_esquema].[Maestra] m  WHERE [Tarjeta_Numero] IS NOT NULL;   
+COMMIT; --FF:        
 
 BEGIN TRANSACTION
 SET IDENTITY_INSERT [LPP].DEPOSITOS ON;
@@ -513,29 +493,25 @@ SET IDENTITY_INSERT [LPP].RETIROS OFF;
 COMMIT;
 
 BEGIN TRANSACTION
-SET IDENTITY_INSERT [LPP].TRANSFERENCIAS ON;
 	INSERT INTO [LPP].TRANSFERENCIAS (num_cuenta_origen, num_cuenta_destino, id_banco_destino, importe , fecha, costo_trans)
 		SELECT [Cuenta_Numero], [Cuenta_Dest_Numero], [Banco_Cogido], [Trans_Importe], [Transf_Fecha], [Trans_Costo_Trans]
 		FROM [GD1C2015].[gd_esquema].[Maestra] WHERE Transf_Fecha IS NOT NULL
-SET IDENTITY_INSERT [LPP].TRANSFERENCIAS OFF;
 COMMIT;
 
 BEGIN TRANSACTION
-SET IDENTITY INSERT [LPP].ITEMS_FACTURA ON;
 	INSERT INTO [LPP].ITEMS_FACTURA (id_factura, id_item_pendiente, descr,importe)
-		SELECT [Factura_Numero], 0, [Item_Factura_Descr], [Item_Factura_Importe], SUM([Trans_Importe])+SUM([Item_Factura_Importe])+ SUM([Trans_Costo_Trans]) 'importe' -- decision de diseno poner a todos los items migrados que ya han sido facturados en id_items_pendiente = 0
+		SELECT [Factura_Numero], 0, [Item_Factura_Descr], SUM([Trans_Importe])+SUM([Item_Factura_Importe])+ SUM([Trans_Costo_Trans]) 'importe' -- decision de diseno poner a todos los items migrados que ya han sido facturados en id_items_pendiente = 0
 		FROM [GD1C2015].gd_esquema.Maestra WHERE Item_Factura_Descr IS NOT NULL
 		GROUP BY [Factura_Numero],[Item_Factura_Descr], [Item_Factura_Importe]
-SET IDENTITY INSERT [LPP].ITEMS_FACTURA OFF;
 COMMIT;
 
 BEGIN TRANSACTION
-SET IDENTITY INSERT [LPP].FACTURAS ON;
+SET IDENTITY_INSERT [LPP].FACTURAS ON;
 	INSERT INTO [LPP].FACTURAS (id_factura, num_cuenta, id_banco, fecha, total)
 		SELECT [Factura_Numero], [Cuenta_Numero], [Banco_Cogido], [Factura_Fecha], (SELECT SUM(importe) FROM [LPP].ITEMS_FACTURA WHERE id_items_factura = [Factura_Numero]) 'total'
 		FROM [GD1C2015].[gd_esquema].[Maestra] where [Factura_Numero] IS NOT NULL
 		GROUP BY  [Cuenta_Numero],[Banco_Cogido], [Factura_Numero],[Factura_Fecha]
-SET IDENTITY INSERT [LPP].FACTURAS OFF;
+SET IDENTITY_INSERT [LPP].FACTURAS OFF;
 COMMIT;
 
 -- FALTAN HACER LAS MIGRACIONES EN LAS TABLAS ITEMS_ PENDIENTES, TRANSACCIONES.
