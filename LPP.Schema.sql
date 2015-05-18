@@ -268,9 +268,11 @@ fecha_vencimiento DATETIME,
 PRIMARY KEY(num_tarjeta));
 
 CREATE TABLE LPP.TARJETASXCUENTAS (
+id_tarjetasxcuentas NUMERIC(18,0) NOT NULL IDENTITY(1,1),
 id_banco NUMERIC (18,0) NOT NULL DEFAULT 10002, --RR: es el id de banco nacion
 num_cuenta NUMERIC (18,0) NOT NULL,
 num_tarjeta VARCHAR(16) NOT NULL,
+PRIMARY KEY(id_tarjetasxcuentas),
 );
 
 CREATE TABLE [LPP].DEPOSITOS(
@@ -338,7 +340,7 @@ PRIMARY KEY(id_item_pendiente));
 CREATE TABLE [LPP].ITEMS_FACTURA(
 id_item_pendientes_factura INTEGER NOT NULL IDENTITY(1,1),
 id_factura NUMERIC(18, 0) NOT NULL,
-id_item_pendiente_pendiente INTEGER NOT NULL,
+id_item_pendiente INTEGER NOT NULL,
 --descr VARCHAR(255),
 --importe NUMERIC(18, 2), RR: saco el campo importe por ser uno calculado, y la descr va a la tabla items
 PRIMARY KEY(id_item_pendientes_factura));
@@ -416,7 +418,7 @@ ALTER TABLE LPP.ITEMS_PENDIENTES ADD
 
 ALTER TABLE LPP.ITEMS_FACTURA ADD
 							FOREIGN KEY (id_factura) references LPP.FACTURAS,
-							FOREIGN KEY (id_item_pendiente_pendiente) references LPP.ITEMS_PENDIENTES;
+							FOREIGN KEY (id_item_pendiente) references LPP.ITEMS_PENDIENTES;
 							
 						
 /*---------Carga de datos--------------------*/
@@ -533,25 +535,31 @@ BEGIN TRANSACTION
 COMMIT;
 --RR: Por ahora los codigos de bancos son todos nulos en estos casos, por eso no los agrego (queda el default). Habria que revisarlo si se agregan codigos a la tabla maestra
 
---BEGIN TRANSACTION
---SET IDENTITY_INSERT [LPP].FACTURAS ON;
---	INSERT INTO [LPP].FACTURAS (id_factura, num_cuenta, id_banco, fecha, total)
---		SELECT [Factura_Numero], [Cuenta_Numero], [Banco_Cogido], [Factura_Fecha], (SELECT SUM(importe) FROM [LPP].ITEMS_FACTURA WHERE id_item_pendientes_factura = [Factura_Numero]) 'total'
---		FROM [GD1C2015].[gd_esquema].[Maestra] where [Factura_Numero] IS NOT NULL
---		GROUP BY  [Cuenta_Numero],[Banco_Cogido], [Factura_Numero],[Factura_Fecha]
---SET IDENTITY_INSERT [LPP].FACTURAS OFF;
---COMMIT;
+BEGIN TRANSACTION
+SET IDENTITY_INSERT [LPP].FACTURAS ON;
+	INSERT INTO [LPP].FACTURAS (id_factura, fecha)
+		SELECT distinct [Factura_Numero], [Factura_Fecha]
+		FROM [GD1C2015].[gd_esquema].[Maestra] where [Factura_Numero] IS NOT NULL
+SET IDENTITY_INSERT [LPP].FACTURAS OFF;
+COMMIT;
 
+BEGIN TRANSACTION
+INSERT INTO LPP.ITEMS (descr)
+		SELECT distinct Item_Factura_Descr FROM gd_esquema.Maestra where Item_Factura_Descr is not null
+COMMIT;
+
+BEGIN TRANSACTION
+INSERT INTO LPP.ITEMS_PENDIENTES (monto, num_cuenta, id_item)
+		SELECT Item_Factura_Importe, Cuenta_Numero, (SELECT id_item from LPP.ITEMS where descr=Item_Factura_Descr) FROM gd_esquema.Maestra where Item_Factura_Importe is not null; 
+COMMIT;
 
 --BEGIN TRANSACTION
---	INSERT INTO [LPP].ITEMS_FACTURA (id_factura, id_item_pendiente_pendiente, descr,importe)
-		--SELECT [Factura_Numero], 0, [Item_Factura_Descr], SUM([Trans_Importe])+SUM([Item_Factura_Importe])+ SUM([Trans_Costo_Trans]) 'importe' -- decision de diseno poner a todos los items migrados que ya han sido facturados en id_item_pendientes_pendiente = 0
-		--FROM [GD1C2015].gd_esquema.Maestra WHERE Item_Factura_Descr IS NOT NULL
-		--GROUP BY [Factura_Numero],[Item_Factura_Descr], [Item_Factura_Importe]
+--	INSERT INTO [LPP].ITEMS_FACTURA (id_factura, id_item_pendiente)
+--		SELECT [Factura_Numero], (SELECT distinct id_item_pendiente from LPP.ITEMS_PENDIENTES WHERE monto=Item_Factura_Importe and num_cuenta=Cuenta_Numero)
+--		FROM [GD1C2015].gd_esquema.Maestra WHERE Item_Factura_Descr IS NOT NULL
 --COMMIT;
 --RR: Esta comentado porque primero hay que migrar los items, si no tira error porque la fk no existe en la tabla de items pendientes.
-
-
+-- RR: No puedo hacer la tabla intermedia porque la consulta de id_item_pendiente devuelve multiples valores, hay que ver como hacer esa consulta
 -- FALTAN HACER LAS MIGRACIONES EN LAS TABLAS ITEMS_ PENDIENTES, TRANSACCIONES.
 
 
