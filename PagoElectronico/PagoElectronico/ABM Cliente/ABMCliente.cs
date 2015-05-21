@@ -95,6 +95,7 @@ namespace PagoElectronico
                 int id_domicilio = Convert.ToInt32(lector.GetDecimal(7));
                 txtMail.Text = evento;
                 txtUsuario.Text = lector.GetString(8);
+                txtUsuario.Enabled = false;
                 con1.cnn.Close();
 
                 //Consulto Domicilio
@@ -357,7 +358,7 @@ namespace PagoElectronico
 
 
                         int id_domicilio = abm.insertarDomicilio(txtDomicilio.Text, Convert.ToInt32(txtNumeroCalle.Text), Convert.ToInt32(txtPiso.Text), txtDepto.Text, txtLocalidad.Text);
-                        string salida = abm.insertarCliente(txtNombre.Text, txtApellido.Text, cbID.Text, Convert.ToInt32(txtNumeroID.Text), txtMail.Text,fechaNacimiento.Value, txtNacionalidad.Text, chkHabilitado.Checked,id_domicilio);
+                        string salida = abm.insertarCliente(txtNombre.Text, txtApellido.Text, cbID.Text, Convert.ToInt32(txtNumeroID.Text), txtMail.Text,fechaNacimiento.Value, txtNacionalidad.Text, chkHabilitado.Checked,id_domicilio,txtUsuario.Text);
                         MessageBox.Show("" + salida);
                         tipoDoc = cbID.Text;
                         nroDoc = Convert.ToInt32(txtNumeroID.Text);
@@ -398,16 +399,13 @@ namespace PagoElectronico
 
                         if (chkMail.Checked == true)
                         {
-
-
-                            //Compruebo que no se repitan los mails
+                           //Compruebo que no se repitan los mails
                             Conexion con2 = new Conexion();
 
                             string query2 = "SELECT 1 FROM LPP.CLIENTES WHERE mail = '" + txtMail.Text + "' ";
                             con2.cnn.Open();
                             SqlCommand command2 = new SqlCommand(query2, con2.cnn);
                             SqlDataReader lector2 = command2.ExecuteReader();
-
 
                             if (lector2.Read())
                             {

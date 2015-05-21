@@ -20,7 +20,7 @@ namespace PagoElectronico
 
 
         //ABM CLIENTE
-        public string insertarCliente(string Nombre, string Apellido, string Tipo_ID, int Numero_ID, string Mail, DateTime Nacimiento, string Nacionalidad, bool Habilitacion,int id_domicilio)
+        public string insertarCliente(string Nombre, string Apellido, string Tipo_ID, int Numero_ID, string Mail, DateTime Nacimiento, string Nacionalidad, bool Habilitacion,int id_domicilio, string usuario)
         {
             con1.cnn.Open();
            
@@ -28,7 +28,7 @@ namespace PagoElectronico
 
             try
             {
-                string query = "INSERT INTO LPP.CLIENTES (num_doc, apellido, nombre, fecha_nac, mail, id_tipo_Doc, Nacionalidad, Habilitado,id_domicilio) VALUES (" + Numero_ID + ", '" + Apellido + "', '" + Nombre + "', '" + Nacimiento + "', '" + Mail + "', '" + Tipo_ID + "','" + Nacionalidad + "', '" + Habilitacion + "', "+id_domicilio +")";
+                string query = "INSERT INTO LPP.CLIENTES (num_doc, apellido, nombre, fecha_nac, mail, id_tipo_Doc, Nacionalidad, Habilitado,id_domicilio,username) VALUES (" + Numero_ID + ", '" + Apellido + "', '" + Nombre + "', '" + Nacimiento + "', '" + Mail + "', '" + Tipo_ID + "','" + Nacionalidad + "', '" + Habilitacion + "', "+id_domicilio +",'"+ usuario +"')";
                 SqlCommand command = new SqlCommand(query, con1.cnn);
                 command.ExecuteNonQuery();
 
@@ -120,7 +120,7 @@ namespace PagoElectronico
         //ABM DOMICILIO
         public int insertarDomicilio(string calle, int numero, int Piso, string depto, string localidad)
         {
-            string salida = "Se registro la DOMICILIO correctamente";
+            string salida = "Se registro DOMICILIO correctamente";
             con1.cnn.Open();
             try
             {

@@ -56,7 +56,7 @@ namespace PagoElectronico
             {
                 ckbHabilitado.Visible = false;
             }
-            else 
+            else
             {
                 string query2 = "SELECT U.username, R.rol, U.habilitado, U.pregunta_secreta, U.respuesta_secreta " +
                                 "FROM LPP.USUARIOS U JOIN LPP.ROLESxUSUARIO R ON R.username = U.username WHERE U.username = '" + evento + "'";

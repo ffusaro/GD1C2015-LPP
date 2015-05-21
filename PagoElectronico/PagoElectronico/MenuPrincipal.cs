@@ -22,7 +22,7 @@ namespace PagoElectronico
             InitializeComponent();
         }
       
-        public void cargarUsuario(string usuario, string hot, Login.LogIn form)
+        public void cargarUsuario(string usuario, string hot, LogIn form)
         {
             user = usuario;
             log = form;
@@ -171,9 +171,10 @@ namespace PagoElectronico
         
         private void cambiarPasstoolStripMenuItem_Click(object sender, EventArgs e)
         {
-            //Login.CambiarContraseña cambiarPass = new Login.CambiarContraseña(user);
-            //cambiarPass.padre_PostL = this;
-            //cambiarPass.Show();
+            
+            CambiarContraseña cambiarPass = new CambiarContraseña(user);
+            cambiarPass.padre_PostL = this;
+            cambiarPass.Show();
             
         }
 

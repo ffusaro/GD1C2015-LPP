@@ -82,7 +82,7 @@ namespace PagoElectronico
 
             if (ev == 1)
             {
-                FormUsuario = new ABM_de_Usuario.ABMUsuario(Usuario, "N");
+                FormUsuario = new ABMUsuario(Usuario, "M_E");
                 FormUsuario.Show();
                 FormUsuario.padre_buscarUsuario = this;
                 this.Close();
@@ -90,7 +90,7 @@ namespace PagoElectronico
             else
             {
                 
-                FormCliente = new ABM_de_Cliente.ABMCliente("A",Usuario);
+                FormCliente = new ABMCliente("A",Usuario);
                 FormCliente.Show();
                 this.Close();
             

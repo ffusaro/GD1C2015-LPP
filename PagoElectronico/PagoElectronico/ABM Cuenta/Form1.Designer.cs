@@ -1,6 +1,6 @@
 ﻿namespace PagoElectronico.ABM_Rol
 {
-    partial class ABMRol
+    partial class Depositos
     {
         /// <summary>
         /// Required designer variable.
