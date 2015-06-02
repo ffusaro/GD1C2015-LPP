@@ -31,6 +31,11 @@ BEGIN
 	DROP TABLE LPP.TRANSFERENCIAS ;
 END;
 
+IF OBJECT_ID('LPP.ITEMS') IS NOT NULL
+BEGIN
+	DROP TABLE LPP.ITEMS;
+END;
+
 IF OBJECT_ID('LPP.ITEMS_FACTURA') IS NOT NULL
 BEGIN
 	DROP TABLE LPP.ITEMS_FACTURA;
@@ -75,6 +80,12 @@ IF OBJECT_ID('LPP.EMISORES ') IS NOT NULL
 BEGIN
 	DROP TABLE LPP.EMISORES ;
 END;
+
+IF OBJECT_ID('LPP.CAMBIOS_CUENTA') IS NOT NULL
+BEGIN
+	DROP TABLE LPP.CAMBIOS_CUENTAS ;
+END;
+
 IF OBJECT_ID('LPP.CUENTAS ') IS NOT NULL
 BEGIN
 	DROP TABLE LPP.CUENTAS ;
@@ -218,6 +229,13 @@ costo_transaccion NUMERIC(18, 2),
 estado BIT DEFAULT 1,
 PRIMARY KEY(id_tipocuenta));
 
+CREATE TABLE [LPP].CAMBIOS_CUENTA(
+id_cambio_cuenta NUMERIC(18,0) NOT NULL IDENTITY(1,1),
+id_cuenta NUMERIC(18,0) NOT NULL,
+tipocuenta_origen INTEGER NOT NULL,
+tipocuenta_final INTEGER NOT NULL, 
+PRIMARY KEY(id_cambio_cuenta));
+
 CREATE TABLE [LPP].ESTADOS_CUENTA(
 id_estadocuenta NUMERIC(18, 0) NOT NULL IDENTITY(1,1),
 descripcion VARCHAR(255),
@@ -292,13 +310,18 @@ costo_trans NUMERIC(18,2),
 PRIMARY KEY(id_transferencia));
 
 CREATE TABLE [LPP].ITEMS_FACTURA(
-id_item_factura INTEGER NOT NULL IDENTITY(1,1),
-descripcion VARCHAR(255) NOT NULL,
+id_item_factura NUMERIC(18,0) NOT NULL IDENTITY(1,1),
+id_item NUMERIC(18,0) NOT NULL,
 num_cuenta NUMERIC(18,0) NOT NULL,
 monto NUMERIC(18,2),
 facturado BIT, 
 id_factura NUMERIC(18,0),
 PRIMARY KEY(id_item_factura));
+
+CREATE TABLE [LPP].ITEMS(
+id_item NUMERIC(18,0) NOT NULL IDENTITY(1,1),
+descripcion VARCHAR(255),
+PRIMARY KEY(id_item));
 
 CREATE TABLE [LPP].FACTURAS(
 id_factura NUMERIC(18,0) NOT NULL IDENTITY (1,1),
@@ -327,6 +350,11 @@ ALTER TABLE LPP.CUENTAS ADD
 							FOREIGN KEY (id_tipo) references LPP.TIPOS_CUENTA,
 							FOREIGN KEY (id_estado) references LPP.ESTADOS_CUENTA,
 							FOREIGN KEY (id_pais) references LPP.PAISES;
+
+ALTER TABLE LPP.CAMBIOS_CUENTA ADD 
+							FOREIGN KEY(id_cuenta) references LPP.CUENTAS,
+							FOREIGN KEY(tipocuenta_origen) references LPP.TIPOS_CUENTA,
+							FOREIGN KEY(tipocuenta_final) references LPP.TIPOS_CUENTA;
 							
 ALTER TABLE LPP.TARJETAS ADD
 							FOREIGN KEY (id_emisor) references LPP.EMISORES,
@@ -352,8 +380,10 @@ ALTER TABLE LPP.TRANSFERENCIAS ADD
 							
 ALTER TABLE LPP.ITEMS_FACTURA ADD
 							FOREIGN KEY (id_factura) references LPP.FACTURAS,
+							FOREIGN KEY(id_item) references LPP.ITEMS,
 							FOREIGN KEY (num_cuenta) references LPP.CUENTAS;
-												
+
+										
 /*---------Carga de datos--------------------*/
 
 INSERT INTO LPP.MONEDAS (descripcion) VALUES ('Dólares');
@@ -427,6 +457,12 @@ INSERT INTO LPP.ESTADOS_CUENTA (descripcion)VALUES ('Habilitada');
 INSERT INTO LPP.ESTADOS_CUENTA (descripcion)VALUES ('Pendiente de activacion');
 INSERT INTO LPP.ESTADOS_CUENTA (descripcion)VALUES ('Cerrada');
 INSERT INTO LPP.ESTADOS_CUENTA (descripcion)VALUES ('Inhabilitada');
+COMMIT
+
+/*Creacion de descripcion de Items*/
+BEGIN TRANSACTION
+INSERT INTO LPP.ITEMS (descripcion) VALUES ('Comision por apertura de cuenta.');
+INSERT INTO LPP.ITEMS (descripcion) VALUES ('Comision por cambio de tipo de cuenta.');
 COMMIT
 
 /*---------Migracion-------------------------*/
@@ -524,18 +560,22 @@ COMMIT;
 BEGIN TRANSACTION
 SET IDENTITY_INSERT [LPP].FACTURAS ON;
 	INSERT INTO [LPP].FACTURAS (id_factura, fecha, id_cliente)
-		SELECT distinct [Factura_Numero], [Factura_Fecha], (SELECT id_cliente FROM LPP.CLIENTES WHERE nombre=Cli_Nombre and apellido=Cli_Apellido)
-		FROM [GD1C2015].[gd_esquema].[Maestra] where [Factura_Numero] IS NOT NULL
+		SELECT DISTINCT [Factura_Numero], [Factura_Fecha], (SELECT id_cliente FROM LPP.CLIENTES WHERE nombre=Cli_Nombre and apellido=Cli_Apellido)
+		FROM [GD1C2015].[gd_esquema].[Maestra] WHERE [Factura_Numero] IS NOT NULL
 SET IDENTITY_INSERT [LPP].FACTURAS OFF;
 COMMIT;
 
 BEGIN TRANSACTION
-	INSERT INTO [LPP].ITEMS_FACTURA (id_factura, descripcion, num_cuenta,monto,facturado)
-	SELECT [Factura_Numero], [Item_Factura_Descr],[Cuenta_Numero], [Item_Factura_Importe], 1
+	INSERT INTO [LPP].ITEMS(descripcion)
+		SELECT DISTINCT [Item_Factura_Descr]
+		FROM [GD1C2015].[gd_esquema].[Maestra] WHERE [Item_Factura_Descr] IS NOT NULL
+COMMIT;		
+
+BEGIN TRANSACTION
+	INSERT INTO [LPP].ITEMS_FACTURA (id_factura, id_item, num_cuenta, monto,facturado)
+	SELECT [Factura_Numero],(SELECT id_item FROM LPP.ITEMS WHERE descripcion = [Item_Factura_Descr]) 'id_item',[Cuenta_Numero], [Item_Factura_Importe], 1 'facturado'
 	FROM [GD1C2015].gd_esquema.Maestra WHERE Item_Factura_Descr IS NOT NULL
 COMMIT;
-
--- FALTAN HACER LAS MIGRACIONES EN LAS TABLAS ITEMS_ PENDIENTES, TRANSACCIONES.
 
 /*---------Definiciones de Funciones--------*/
 
