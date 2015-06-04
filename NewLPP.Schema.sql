@@ -34,6 +34,9 @@ IF OBJECT_ID('TRG_cuenta_pendientedeactivacion_a_activada') IS NOT NULL
 DROP TRIGGER TRG_cuenta_pendientedeactivacion_a_activada
 GO
 
+IF OBJECT_ID('TRG_inserta_tarjeta_encriptada') IS NOT NULL
+DROP TRIGGER TRG_inserta_tarjeta_encriptada
+GO
 /*---------Limpieza de Views--------------*/
 
 /*---------Limpieza de Tablas-------------*/
@@ -701,6 +704,20 @@ INSERT INTO LPP.CUENTAS (id_cliente, saldo, id_moneda,fecha_apertura, id_tipo, i
 SELECT * FROM LPP.ITEMS_FACTURA WHERE id_item = 1
 UPDATE LPP.ITEMS_FACTURA SET facturado = 1, id_factura = 1
 */
+
+CREATE TRIGGER TRG_inserta_tarjeta_encriptada 
+ON LPP.TARJETAS
+INSTEAD OF INSERT
+AS
+BEGIN
+	INSERT INTO LPP.TARJETAS (num_tarjeta, id_cliente, cod_seguridad, fecha_emision, fecha_vencimiento, id_emisor) VALUES 
+		((SELECT dbo.FUNC_encriptar_tarjeta(num_tarjeta) FROM inserted), (SELECT id_cliente FROM inserted), (SELECT cod_seguridad FROM inserted),
+		 (SELECT fecha_emision FROM inserted),  (SELECT fecha_vencimiento FROM inserted),  (SELECT  id_emisor FROM inserted) );
+END
+GO
+/*Test TRG_inserta_tarjeta_encriptada*/ 
+--INSERT INTO LPP.TARJETAS (num_tarjeta, id_cliente, cod_seguridad, fecha_emision, id_emisor) VALUES (1111111111000000, 1 ,222, GETDATE(), 1);
+--SELECT * FROM LPP.TARJETAS WHERE id_cliente = 1 AND cod_seguridad = 222
 
 /*---------Definiciones de Procedures-------*/
 
