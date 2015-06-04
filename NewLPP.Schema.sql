@@ -83,7 +83,7 @@ END;
 
 IF OBJECT_ID('LPP.CAMBIOS_CUENTA') IS NOT NULL
 BEGIN
-	DROP TABLE LPP.CAMBIOS_CUENTAS ;
+	DROP TABLE LPP.CAMBIOS_CUENTA ;
 END;
 
 IF OBJECT_ID('LPP.CUENTAS ') IS NOT NULL
@@ -231,9 +231,10 @@ PRIMARY KEY(id_tipocuenta));
 
 CREATE TABLE [LPP].CAMBIOS_CUENTA(
 id_cambio_cuenta NUMERIC(18,0) NOT NULL IDENTITY(1,1),
-id_cuenta NUMERIC(18,0) NOT NULL,
+num_cuenta NUMERIC(18,0) NOT NULL,
 tipocuenta_origen INTEGER NOT NULL,
 tipocuenta_final INTEGER NOT NULL, 
+fecha DATETIME,
 PRIMARY KEY(id_cambio_cuenta));
 
 CREATE TABLE [LPP].ESTADOS_CUENTA(
@@ -352,7 +353,7 @@ ALTER TABLE LPP.CUENTAS ADD
 							FOREIGN KEY (id_pais) references LPP.PAISES;
 
 ALTER TABLE LPP.CAMBIOS_CUENTA ADD 
-							FOREIGN KEY(id_cuenta) references LPP.CUENTAS,
+							FOREIGN KEY(num_cuenta) references LPP.CUENTAS,
 							FOREIGN KEY(tipocuenta_origen) references LPP.TIPOS_CUENTA,
 							FOREIGN KEY(tipocuenta_final) references LPP.TIPOS_CUENTA;
 							
@@ -382,7 +383,6 @@ ALTER TABLE LPP.ITEMS_FACTURA ADD
 							FOREIGN KEY (id_factura) references LPP.FACTURAS,
 							FOREIGN KEY(id_item) references LPP.ITEMS,
 							FOREIGN KEY (num_cuenta) references LPP.CUENTAS;
-
 										
 /*---------Carga de datos--------------------*/
 
@@ -587,11 +587,94 @@ COMMIT;
 
 /*---------Definiciones de Triggers---------*/
 
--- cada vez que hay una transferencia insertar item de factura con descripcion costo por transferencia
-	
---cada vez que hay un cambio de cuenta insertar un item de factura
---cada vez que hay un cambio en el tipo de cuenta insertar item de factura
 --cada vez que ay una apartura de una cuenta insertar item de factura
+IF OBJECT_ID('TRG_ItemFactura_x_AperturaCuenta') IS NOT NULL
+DROP TRIGGER TRG_ItemFactura_x_AperturaCuenta
+GO
+
+CREATE TRIGGER TRG_ItemFactura_x_AperturaCuenta 
+ON LPP.CUENTAS
+AFTER INSERT 
+AS
+BEGIN
+	INSERT INTO LPP.ITEMS_FACTURA (id_item, num_cuenta, monto, facturado)
+	 VALUES (1, (SELECT num_cuenta FROM inserted), (SELECT costo_apertura FROM LPP.TIPOS_CUENTA WHERE id_tipocuenta =(SELECT id_tipo FROM inserted)), 0)
+END 
+GO	
+/*Test TRG_ItemFactura_x_AperturaCuenta*/
+--INSERT INTO LPP.CUENTAS (id_cliente, saldo, id_moneda,fecha_apertura, id_tipo, id_estado, id_pais) VALUES (1, 500, 1, GETDATE(), 1, 2, 8) 
+--SELECT * FROM LPP.ITEMS_FACTURA WHERE num_cuenta = (SELECT num_cuenta FROM LPP.CUENTAS WHERE id_cliente = 1 and saldo = 500 and id_tipo =1)
+
+--cada vez que hay un cambio en el tipo de cuenta insertar item de factura
+IF OBJECT_ID('TRG_CambioCuenta') IS NOT NULL
+DROP TRIGGER TRG_CambioCuenta
+GO
+
+CREATE TRIGGER TRG_CambioCuenta 
+ON LPP.CAMBIOS_CUENTA
+AFTER INSERT
+AS
+BEGIN
+	BEGIN TRANSACTION 
+	UPDATE LPP.CUENTAS SET id_tipo = (SELECT tipocuenta_final FROM inserted) WHERE num_cuenta = (SELECT num_cuenta FROM inserted)
+	
+	INSERT INTO LPP.ITEMS_FACTURA (id_item, num_cuenta, monto, facturado)
+	 VALUES (2, (SELECT num_cuenta FROM inserted), (SELECT costo_apertura FROM LPP.TIPOS_CUENTA WHERE id_tipocuenta=(SELECT tipocuenta_final FROM inserted)), 0)
+	 COMMIT 
+END 
+GO	
+/*Test TRG_CambioCuenta*/
+--SELECT num_cuenta, id_tipo FROM LPP.CUENTAS WHERE num_cuenta =1111111111111111 
+--INSERT INTO LPP.CAMBIOS_CUENTA (num_cuenta, tipocuenta_origen, tipocuenta_final, fecha) VALUES (1111111111111111, 4, 2, GETDATE())
+--SELECT num_cuenta, id_tipo FROM LPP.CUENTAS WHERE num_cuenta =1111111111111111
+--SELECT * FROM LPP.ITEMS_FACTURA WHERE num_cuenta = (SELECT num_cuenta FROM LPP.CUENTAS WHERE num_cuenta =1111111111111111 and id_tipo = 2) and id_item = 2
+
+-- cada vez que hay una transferencia insertar item de factura con descripcion costo por transferencia
+IF OBJECT_ID('TRG_ItemFactura_x_Transferencia') IS NOT NULL
+DROP TRIGGER TRG_ItemFactura_x_Transferencia
+GO
+
+CREATE TRIGGER TRG_ItemFactura_x_Transferencia 
+ON LPP.TRANSFERENCIAS
+AFTER INSERT 
+AS
+BEGIN
+	INSERT INTO LPP.ITEMS_FACTURA (id_item, num_cuenta, monto, facturado)
+	 VALUES (3, (SELECT num_cuenta_origen FROM inserted), (SELECT costo_trans FROM inserted), 0)
+END 
+GO
+
+/*Test TRG_ItemFactura_x_Transferencia*/
+--SELECT * FROM LPP.TRANSFERENCIAS	
+--INSERT INTO LPP.TRANSFERENCIAS (num_cuenta_origen, num_cuenta_destino, importe, fecha, costo_trans) VALUES (1111111111111111, 1111111111111139, 90, GETDATE(), 1111)
+--SELECT * FROM LPP.ITEMS_FACTURA WHERE num_cuenta = 1111111111111111 AND monto = 1111
+
+--cuando se factura los costos de apertura de cuenta cambiar el tipo de cuenta de pendiente de activacion a activada
+/*IF OBJECT_ID('TRG_cuenta_pendientedeactivacion_a_activada') IS NOT NULL
+DROP TRIGGER TRG_cuenta_pendientedeactivacion_a_activada
+GO
+
+CREATE TRIGGER TRG_cuenta_pendientedeactivacion_a_activada
+ON LPP.ITEMS_FACTURA
+AFTER UPDATE
+AS
+BEGIN 
+	UPDATE LPP.CUENTAS SET id_estado =1 WHERE (SELECT num_cuenta FROM inserted) = num_cuenta
+END
+GO
+/*Test TRG_cuenta_pedienteactivacion_a_activada*/
+SELECT * FROM LPP.ITEMS_FACTURA WHERE id_item = 3
+INSERT INTO LPP.CUENTAS (id_cliente, saldo, id_moneda,fecha_apertura, id_tipo, id_estado, id_pais) VALUES (1, 500, 1, GETDATE(), 1, 2, 8) 
+SELECT * FROM LPP.ITEMS_FACTURA WHERE id_item = 1
+UPDATE LPP.ITEMS_FACTURA SET facturado = 1, id_factura = 1
+*/
+
+
+
 
 /*---------Definiciones de Procedures-------*/
+
+--inhabilitar cuentas por vencimiento de la duracion de la cuenta
+--scheduled stored procedure: se ejecutara una vez por dia
+
 
