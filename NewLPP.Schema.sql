@@ -346,6 +346,7 @@ num_cuenta NUMERIC(18,0) NOT NULL,
 monto NUMERIC(18,2),
 facturado BIT, 
 id_factura NUMERIC(18,0),
+fecha DATETIME,
 PRIMARY KEY(id_item_factura));
 
 CREATE TABLE [LPP].ITEMS(
@@ -626,8 +627,8 @@ BEGIN TRANSACTION
 COMMIT;		
 
 BEGIN TRANSACTION
-	INSERT INTO [LPP].ITEMS_FACTURA (id_factura, id_item, num_cuenta, monto,facturado)
-	SELECT [Factura_Numero],(SELECT id_item FROM LPP.ITEMS WHERE descripcion = [Item_Factura_Descr]) 'id_item',[Cuenta_Numero], [Item_Factura_Importe], 1 'facturado'
+	INSERT INTO [LPP].ITEMS_FACTURA (id_factura, id_item, num_cuenta, monto,facturado, fecha)
+	SELECT [Factura_Numero],(SELECT id_item FROM LPP.ITEMS WHERE descripcion = [Item_Factura_Descr]) 'id_item',[Cuenta_Numero], [Item_Factura_Importe], 1 'facturado', [Transf_Fecha]
 	FROM [GD1C2015].gd_esquema.Maestra WHERE Item_Factura_Descr IS NOT NULL
 COMMIT;
 
@@ -642,8 +643,8 @@ ON LPP.CUENTAS
 AFTER INSERT 
 AS
 BEGIN
-	INSERT INTO LPP.ITEMS_FACTURA (id_item, num_cuenta, monto, facturado)
-	 VALUES (1, (SELECT num_cuenta FROM inserted), (SELECT costo_apertura FROM LPP.TIPOS_CUENTA WHERE id_tipocuenta =(SELECT id_tipo FROM inserted)), 0)
+	INSERT INTO LPP.ITEMS_FACTURA (id_item, num_cuenta, monto, facturado, fecha)
+	 VALUES (1, (SELECT num_cuenta FROM inserted), (SELECT costo_apertura FROM LPP.TIPOS_CUENTA WHERE id_tipocuenta =(SELECT id_tipo FROM inserted)), 0, GETDATE())
 END 
 GO	
 /*Test TRG_ItemFactura_x_AperturaCuenta*/
@@ -663,8 +664,8 @@ BEGIN
 	BEGIN TRANSACTION 
 	UPDATE LPP.CUENTAS SET id_tipo = (SELECT tipocuenta_final FROM inserted) WHERE num_cuenta = (SELECT num_cuenta FROM inserted)
 	
-	INSERT INTO LPP.ITEMS_FACTURA (id_item, num_cuenta, monto, facturado)
-	 VALUES (2, (SELECT num_cuenta FROM inserted), (SELECT costo_apertura FROM LPP.TIPOS_CUENTA WHERE id_tipocuenta=(SELECT tipocuenta_final FROM inserted)), 0)
+	INSERT INTO LPP.ITEMS_FACTURA (id_item, num_cuenta, monto, facturado, fecha)
+	 VALUES (2, (SELECT num_cuenta FROM inserted), (SELECT costo_apertura FROM LPP.TIPOS_CUENTA WHERE id_tipocuenta=(SELECT tipocuenta_final FROM inserted)), 0, GETDATE())
 	 COMMIT 
 END 
 GO	
@@ -682,8 +683,8 @@ ON LPP.TRANSFERENCIAS
 AFTER INSERT 
 AS
 BEGIN
-	INSERT INTO LPP.ITEMS_FACTURA (id_item, num_cuenta, monto, facturado)
-	 VALUES (3, (SELECT num_cuenta_origen FROM inserted), (SELECT costo_trans FROM inserted), 0)
+	INSERT INTO LPP.ITEMS_FACTURA (id_item, num_cuenta, monto, facturado, fecha)
+	 VALUES (3, (SELECT num_cuenta_origen FROM inserted), (SELECT costo_trans FROM inserted), 0, GETDATE())
 END 
 GO
 
