@@ -477,6 +477,13 @@ INSERT INTO LPP.ROLESXUSUARIO (rol, username) VALUES ('Administrador', 'admin');
 INSERT INTO LPP.ROLESXUSUARIO (rol, username)	VALUES ('Administrador', 'admin2');
 COMMIT
 
+/*Creacion de Tipos de Documento*/
+BEGIN TRANSACTION
+INSERT INTO LPP.TIPO_DOCS (tipo_descr) VALUES ('DNI');
+INSERT INTO LPP.TIPO_DOCS (tipo_descr) VALUES ('Cedula');
+INSERT INTO LPP.TIPO_DOCS (tipo_descr) VALUES ('Libreta de Enrolamiento');
+COMMIT
+
 /*Creacion de los tipos de cuenta*/
 BEGIN TRANSACTION
 INSERT INTO LPP.TIPOS_CUENTA (descripcion, duracion, costo_apertura, costo_transaccion, estado) VALUES('Oro', 66, 200, 200, 1);
