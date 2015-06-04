@@ -9,6 +9,33 @@ BEGIN
 EXEC sp_executesql N'CREATE SCHEMA LPP '
 END
 
+/**********Limpieza************************/
+/*---------Limpieza de Funciones----------*/
+IF OBJECT_ID('FUNC_encriptar_tarjeta') IS NOT NULL
+DROP FUNCTION FUNC_encriptar_tarjeta
+GO
+
+/*---------Limpieza de Procedures---------*/
+
+/*---------Limpieza de Triggers-----------*/
+IF OBJECT_ID('TRG_ItemFactura_x_AperturaCuenta') IS NOT NULL
+DROP TRIGGER TRG_ItemFactura_x_AperturaCuenta
+GO
+
+IF OBJECT_ID('TRG_CambioCuenta') IS NOT NULL
+DROP TRIGGER TRG_CambioCuenta
+GO
+
+IF OBJECT_ID('TRG_ItemFactura_x_Transferencia') IS NOT NULL
+DROP TRIGGER TRG_ItemFactura_x_Transferencia
+GO
+
+IF OBJECT_ID('TRG_cuenta_pendientedeactivacion_a_activada') IS NOT NULL
+DROP TRIGGER TRG_cuenta_pendientedeactivacion_a_activada
+GO
+
+/*---------Limpieza de Views--------------*/
+
 /*---------Limpieza de Tablas-------------*/
 
 IF OBJECT_ID('LPP.ROLESXUSUARIO ') IS NOT NULL
@@ -135,7 +162,6 @@ IF OBJECT_ID('LPP.USUARIOS ') IS NOT NULL
 BEGIN
 	DROP TABLE LPP.USUARIOS ;
 END;
-
 
 /*---------Definiciones de Tabla-------------*/
 
@@ -330,6 +356,8 @@ id_cliente NUMERIC(18, 0) NOT NULL,
 fecha DATETIME, 
 PRIMARY KEY(id_factura));
 
+/*---------Definiciones de Vistas-----------*/
+
 /*---------Definiciones de Relaciones-------*/
 
 ALTER TABLE LPP.ROLESXUSUARIO ADD
@@ -383,6 +411,9 @@ ALTER TABLE LPP.ITEMS_FACTURA ADD
 							FOREIGN KEY (id_factura) references LPP.FACTURAS,
 							FOREIGN KEY(id_item) references LPP.ITEMS,
 							FOREIGN KEY (num_cuenta) references LPP.CUENTAS;
+
+
+
 										
 /*---------Carga de datos--------------------*/
 
@@ -465,6 +496,19 @@ INSERT INTO LPP.ITEMS (descripcion) VALUES ('Comision por apertura de cuenta.');
 INSERT INTO LPP.ITEMS (descripcion) VALUES ('Comision por cambio de tipo de cuenta.');
 COMMIT
 
+
+/*---------Definiciones de Funciones--------*/
+GO
+CREATE FUNCTION FUNC_encriptar_tarjeta (@num_tarjeta VARCHAR(16))
+RETURNS VARCHAR(16)
+WITH SCHEMABINDING
+AS
+BEGIN
+	DECLARE @ret VARCHAR(16);
+	SET @ret = CONVERT(VARCHAR(12), HASHBYTES('SHA1', SUBSTRING(@num_tarjeta, 1, (LEN(@num_tarjeta)-4 ))), 2)+ SUBSTRING(@num_tarjeta, (LEN(@num_tarjeta)-4 ), LEN(@num_tarjeta));
+	RETURN @ret;	
+END;
+GO
 /*---------Migracion-------------------------*/
 
 BEGIN TRANSACTION
@@ -524,21 +568,21 @@ INSERT INTO LPP.CUENTAS (id_cliente, num_cuenta, saldo, fecha_apertura, id_pais,
 SET IDENTITY_INSERT [LPP].CUENTAS OFF;
 --RR: Asumí que las cuentas son gratuitas, ya que el tipo de cuenta no está definida en la tabla maestra
 COMMIT; 
-	
+
 BEGIN TRANSACTION
-	INSERT INTO [LPP].TARJETAS (num_tarjeta, id_emisor, cod_seguridad, fecha_emision, fecha_vencimiento, id_cliente)
-		SELECT DISTINCT [Tarjeta_Numero],(SELECT DISTINCT [id_emisor] FROM [LPP].EMISORES WHERE [emisor_descr] = m.[Tarjeta_Emisor_Descripcion])'idemisor',
-		[Tarjeta_Codigo_Seg],[Tarjeta_Fecha_Emision],[Tarjeta_Fecha_Vencimiento],(SELECT id_cliente FROM LPP.CLIENTES WHERE nombre=Cli_Nombre and apellido=Cli_Apellido)
-        FROM [GD1C2015].[gd_esquema].[Maestra] m  WHERE [Tarjeta_Numero] IS NOT NULL;   
-COMMIT;      
+INSERT INTO [LPP].TARJETAS (num_tarjeta, id_emisor, cod_seguridad, fecha_emision, fecha_vencimiento, id_cliente)
+	SELECT DISTINCT (dbo.FUNC_encriptar_tarjeta([Tarjeta_Numero])),(SELECT DISTINCT [id_emisor] FROM [LPP].EMISORES WHERE [emisor_descr] = m.[Tarjeta_Emisor_Descripcion])'id_emisor',
+		[Tarjeta_Codigo_Seg],[Tarjeta_Fecha_Emision],[Tarjeta_Fecha_Vencimiento],(SELECT id_cliente FROM LPP.CLIENTES WHERE nombre=Cli_Nombre and apellido=Cli_Apellido) 'id_cliente'
+        FROM [GD1C2015].[gd_esquema].[Maestra] m WHERE [Tarjeta_Numero] IS NOT NULL;  
+COMMIT
 
 BEGIN TRANSACTION
 SET IDENTITY_INSERT [LPP].DEPOSITOS ON;
 	INSERT INTO [LPP].DEPOSITOS (num_deposito, num_cuenta, importe, id_moneda,num_tarjeta, fecha_deposito)
-		SELECT [Deposito_Codigo],[Cuenta_Numero],[Deposito_Importe], 1, [Tarjeta_Numero],[Deposito_Fecha]
-	    FROM [GD1C2015].[gd_esquema].[Maestra] WHERE Deposito_Codigo IS NOT NULL
-SET IDENTITY_INSERT [LPP].DEPOSITOS OFF;    		
-COMMIT;
+		SELECT [Deposito_Codigo],[Cuenta_Numero],[Deposito_Importe], 1, (dbo.FUNC_encriptar_tarjeta([Tarjeta_Numero])),[Deposito_Fecha]
+	    FROM [GD1C2015].[gd_esquema].[Maestra] WHERE Deposito_Codigo IS NOT NULL 
+SET IDENTITY_INSERT [LPP].DEPOSITOS OFF; 
+COMMIT;      
 
 BEGIN TRANSACTION
 SET IDENTITY_INSERT [LPP].RETIROS ON;
@@ -577,16 +621,7 @@ BEGIN TRANSACTION
 	FROM [GD1C2015].gd_esquema.Maestra WHERE Item_Factura_Descr IS NOT NULL
 COMMIT;
 
-/*---------Definiciones de Funciones--------*/
-
---CREATE FUNCTION encriptarTarjeta ();
---CREATE FUNCTION desencriptarTarjeta();
-
-
-/*---------Definiciones de Vistas-----------*/
-
 /*---------Definiciones de Triggers---------*/
-
 --cada vez que ay una apartura de una cuenta insertar item de factura
 IF OBJECT_ID('TRG_ItemFactura_x_AperturaCuenta') IS NOT NULL
 DROP TRIGGER TRG_ItemFactura_x_AperturaCuenta
@@ -630,9 +665,7 @@ GO
 --SELECT * FROM LPP.ITEMS_FACTURA WHERE num_cuenta = (SELECT num_cuenta FROM LPP.CUENTAS WHERE num_cuenta =1111111111111111 and id_tipo = 2) and id_item = 2
 
 -- cada vez que hay una transferencia insertar item de factura con descripcion costo por transferencia
-IF OBJECT_ID('TRG_ItemFactura_x_Transferencia') IS NOT NULL
-DROP TRIGGER TRG_ItemFactura_x_Transferencia
-GO
+
 
 CREATE TRIGGER TRG_ItemFactura_x_Transferencia 
 ON LPP.TRANSFERENCIAS
@@ -668,9 +701,6 @@ INSERT INTO LPP.CUENTAS (id_cliente, saldo, id_moneda,fecha_apertura, id_tipo, i
 SELECT * FROM LPP.ITEMS_FACTURA WHERE id_item = 1
 UPDATE LPP.ITEMS_FACTURA SET facturado = 1, id_factura = 1
 */
-
-
-
 
 /*---------Definiciones de Procedures-------*/
 
