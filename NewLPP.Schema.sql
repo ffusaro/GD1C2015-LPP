@@ -374,6 +374,10 @@ ALTER TABLE LPP.ROLESXUSUARIO ADD
 								
 ALTER TABLE LPP.LOGSXUSUARIO ADD
 							FOREIGN KEY (username) references LPP.USUARIOS;
+							
+ALTER TABLE LPP.FUNCIONALIDADXROL ADD
+							FOREIGN KEY (rol) references LPP.ROLES,
+							FOREIGN KEY (funcionalidad) references LPP.FUNCIONALIDAD;							
 								
 ALTER TABLE LPP.CLIENTES ADD
 							FOREIGN KEY (username) references LPP.USUARIOS,
@@ -701,13 +705,9 @@ GO
 --SELECT * FROM LPP.ITEMS_FACTURA WHERE num_cuenta = 1111111111111111 AND monto = 1111
 
 --cuando se factura los costos de apertura de cuenta cambiar el tipo de cuenta de pendiente de activacion a activada
-/*IF OBJECT_ID('TRG_cuenta_pendientedeactivacion_a_activada') IS NOT NULL
-DROP TRIGGER TRG_cuenta_pendientedeactivacion_a_activada
-GO
-
 CREATE TRIGGER TRG_cuenta_pendientedeactivacion_a_activada
 ON LPP.ITEMS_FACTURA
-AFTER UPDATE
+INSTEAD OF UPDATE
 AS
 BEGIN 
 	UPDATE LPP.CUENTAS SET id_estado =1 WHERE (SELECT num_cuenta FROM inserted) = num_cuenta
