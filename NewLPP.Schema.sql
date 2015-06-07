@@ -15,6 +15,7 @@ IF OBJECT_ID('FUNC_encriptar_tarjeta') IS NOT NULL
 DROP FUNCTION FUNC_encriptar_tarjeta
 GO
 
+
 /*---------Limpieza de Procedures---------*/
 
 /*---------Limpieza de Triggers-----------*/
@@ -37,6 +38,7 @@ GO
 IF OBJECT_ID('TRG_inserta_tarjeta_encriptada') IS NOT NULL
 DROP TRIGGER TRG_inserta_tarjeta_encriptada
 GO
+
 /*---------Limpieza de Views--------------*/
 
 /*---------Limpieza de Tablas-------------*/
@@ -61,14 +63,14 @@ BEGIN
 	DROP TABLE LPP.TRANSFERENCIAS ;
 END;
 
-IF OBJECT_ID('LPP.ITEMS') IS NOT NULL
-BEGIN
-	DROP TABLE LPP.ITEMS;
-END;
-
 IF OBJECT_ID('LPP.ITEMS_FACTURA') IS NOT NULL
 BEGIN
 	DROP TABLE LPP.ITEMS_FACTURA;
+END;
+
+IF OBJECT_ID('LPP.ITEMS') IS NOT NULL
+BEGIN
+	DROP TABLE LPP.ITEMS;
 END;
 
 IF OBJECT_ID('LPP.FACTURAS') IS NOT NULL
@@ -183,22 +185,24 @@ PRIMARY KEY(username));
 CREATE TABLE [LPP].ROLESXUSUARIO(
 id_rolxusuario INTEGER NOT NULL IDENTITY(1,1),
 username VARCHAR(255)NOT NULL,
-rol VARCHAR(50) NOT NULL,
+rol INTEGER NOT NULL,
 PRIMARY KEY(id_rolxusuario));
 
 CREATE TABLE [LPP].ROLES(
+id_rol INTEGER NOT NULL IDENTITY(1,1),
 nombre VARCHAR(50) NOT NULL,
 habilitado BIT DEFAULT 1,
-PRIMARY KEY(nombre));
+PRIMARY KEY(id_rol));
 
 CREATE TABLE [LPP].FUNCIONALIDAD(
 id_funcionalidad SMALLINT NOT NULL,
 descripcion VARCHAR(50),
 PRIMARY KEY(id_funcionalidad));
- 
+
+
 CREATE TABLE [LPP].FUNCIONALIDADXROL(
 id BIGINT IDENTITY(1,1) NOT NULL,
-rol VARCHAR(50) NOT NULL,
+rol INTEGER,
 funcionalidad SMALLINT NOT NULL,
 PRIMARY KEY(id)); 
 
@@ -445,27 +449,33 @@ INSERT INTO LPP.FUNCIONALIDAD (id_funcionalidad, descripcion) VALUES (11, 'Asoci
 COMMIT
 
 /*Asignacion de Funcionalidades por Rol*/
+
+GO
+DECLARE @ID INTEGER;
+SET @ID = (SELECT id_rol FROM LPP.ROLES WHERE nombre='Administrador');
+
 BEGIN TRANSACTION
-INSERT INTO LPP.FUNCIONALIDADXROL (rol, funcionalidad) VALUES ('Administrador', 1);
-INSERT INTO LPP.FUNCIONALIDADXROL (rol, funcionalidad) VALUES ('Administrador', 2);
-INSERT INTO LPP.FUNCIONALIDADXROL (rol, funcionalidad) VALUES ('Administrador', 3);
-INSERT INTO LPP.FUNCIONALIDADXROL (rol, funcionalidad) VALUES ('Administrador', 4);
-INSERT INTO LPP.FUNCIONALIDADXROL (rol, funcionalidad) VALUES ('Administrador', 5);
-INSERT INTO LPP.FUNCIONALIDADXROL (rol, funcionalidad) VALUES ('Administrador', 6);
-INSERT INTO LPP.FUNCIONALIDADXROL (rol, funcionalidad) VALUES ('Administrador', 7);
-INSERT INTO LPP.FUNCIONALIDADXROL (rol, funcionalidad) VALUES ('Administrador', 8);
-INSERT INTO LPP.FUNCIONALIDADXROL (rol, funcionalidad) VALUES ('Administrador', 9);
-INSERT INTO LPP.FUNCIONALIDADXROL (rol, funcionalidad) VALUES ('Administrador', 10);
-INSERT INTO LPP.FUNCIONALIDADXROL (rol, funcionalidad) VALUES ('Administrador', 11);
+INSERT INTO LPP.FUNCIONALIDADXROL (rol, funcionalidad) VALUES (@ID, 1);
+INSERT INTO LPP.FUNCIONALIDADXROL (rol, funcionalidad) VALUES (@ID, 2);
+INSERT INTO LPP.FUNCIONALIDADXROL (rol, funcionalidad) VALUES (@ID, 3);
+INSERT INTO LPP.FUNCIONALIDADXROL (rol, funcionalidad) VALUES (@ID, 4);
+INSERT INTO LPP.FUNCIONALIDADXROL (rol, funcionalidad) VALUES (@ID, 5);
+INSERT INTO LPP.FUNCIONALIDADXROL (rol, funcionalidad) VALUES (@ID, 6);
+INSERT INTO LPP.FUNCIONALIDADXROL (rol, funcionalidad) VALUES (@ID, 7);
+INSERT INTO LPP.FUNCIONALIDADXROL (rol, funcionalidad) VALUES (@ID, 8);
+INSERT INTO LPP.FUNCIONALIDADXROL (rol, funcionalidad) VALUES (@ID, 9);
+INSERT INTO LPP.FUNCIONALIDADXROL (rol, funcionalidad) VALUES (@ID, 10);
+INSERT INTO LPP.FUNCIONALIDADXROL (rol, funcionalidad) VALUES (@ID, 11);
 
+SET @ID = (SELECT id_rol FROM LPP.ROLES WHERE nombre='Cliente');
 
-INSERT INTO LPP.FUNCIONALIDADXROL (rol, funcionalidad) VALUES ('Cliente', 3);
-INSERT INTO LPP.FUNCIONALIDADXROL (rol, funcionalidad) VALUES ('Cliente', 4);
-INSERT INTO LPP.FUNCIONALIDADXROL (rol, funcionalidad) VALUES ('Cliente', 5);
-INSERT INTO LPP.FUNCIONALIDADXROL (rol, funcionalidad) VALUES ('Cliente', 7);
-INSERT INTO LPP.FUNCIONALIDADXROL (rol, funcionalidad) VALUES ('Cliente', 8);
-INSERT INTO LPP.FUNCIONALIDADXROL (rol, funcionalidad) VALUES ('Cliente', 10);
-INSERT INTO LPP.FUNCIONALIDADXROL (rol, funcionalidad) VALUES ('Cliente', 11);
+INSERT INTO LPP.FUNCIONALIDADXROL (rol, funcionalidad) VALUES (@ID, 3);
+INSERT INTO LPP.FUNCIONALIDADXROL (rol, funcionalidad) VALUES (@ID, 4);
+INSERT INTO LPP.FUNCIONALIDADXROL (rol, funcionalidad) VALUES (@ID, 5);
+INSERT INTO LPP.FUNCIONALIDADXROL (rol, funcionalidad) VALUES (@ID, 7);
+INSERT INTO LPP.FUNCIONALIDADXROL (rol, funcionalidad) VALUES (@ID, 8);
+INSERT INTO LPP.FUNCIONALIDADXROL (rol, funcionalidad) VALUES (@ID, 10);
+INSERT INTO LPP.FUNCIONALIDADXROL (rol, funcionalidad) VALUES (@ID, 11);
 COMMIT
 
 /*Creacion de Usuarios Admin -HASH del password w23e: 'e6b87050bfcb8143fcb8db0170a4dc9ed00d904ddd3e2a4ad1b1e8dc0dc9be7'*/
@@ -473,9 +483,9 @@ BEGIN TRANSACTION
 INSERT INTO LPP.USUARIOS (username, pass, fecha_creacion) VALUES('admin', 'e6b87050bfcb8143fcb8db0170a4dc9ed00d904ddd3e2a4ad1b1e8dc0dc9be7', GETDATE());
 INSERT INTO LPP.USUARIOS (username, pass, fecha_creacion) VALUES('admin2', 'e6b87050bfcb8143fcb8db0170a4dc9ed00d904ddd3e2a4ad1b1e8dc0dc9be7', GETDATE());
 
-
-INSERT INTO LPP.ROLESXUSUARIO (rol, username) VALUES ('Administrador', 'admin');
-INSERT INTO LPP.ROLESXUSUARIO (rol, username)	VALUES ('Administrador', 'admin2');
+SET @ID = (SELECT id_rol FROM LPP.ROLES WHERE nombre='Administrador');
+INSERT INTO LPP.ROLESXUSUARIO (rol, username) VALUES (@ID, 'admin');
+INSERT INTO LPP.ROLESXUSUARIO (rol, username)	VALUES (@ID, 'admin2');
 COMMIT
 
 /*Creacion de Tipos de Documento*/
@@ -520,6 +530,8 @@ BEGIN
 	RETURN @ret;	
 END;
 GO
+
+
 /*---------Migracion-------------------------*/
 
 BEGIN TRANSACTION
@@ -631,12 +643,10 @@ BEGIN TRANSACTION
 	SELECT [Factura_Numero],(SELECT id_item FROM LPP.ITEMS WHERE descripcion = [Item_Factura_Descr]) 'id_item',[Cuenta_Numero], [Item_Factura_Importe], 1 'facturado', [Transf_Fecha]
 	FROM [GD1C2015].gd_esquema.Maestra WHERE Item_Factura_Descr IS NOT NULL
 COMMIT;
-
-/*---------Definiciones de Triggers---------*/
---cada vez que ay una apartura de una cuenta insertar item de factura
-IF OBJECT_ID('TRG_ItemFactura_x_AperturaCuenta') IS NOT NULL
-DROP TRIGGER TRG_ItemFactura_x_AperturaCuenta
 GO
+/*---------Definiciones de Triggers---------*/
+--cada vez que hay una apartura de una cuenta insertar item de factura
+
 
 CREATE TRIGGER TRG_ItemFactura_x_AperturaCuenta 
 ON LPP.CUENTAS
@@ -652,9 +662,6 @@ GO
 --SELECT * FROM LPP.ITEMS_FACTURA WHERE num_cuenta = (SELECT num_cuenta FROM LPP.CUENTAS WHERE id_cliente = 1 and saldo = 500 and id_tipo =1)
 
 --cada vez que hay un cambio en el tipo de cuenta insertar item de factura
-IF OBJECT_ID('TRG_CambioCuenta') IS NOT NULL
-DROP TRIGGER TRG_CambioCuenta
-GO
 
 CREATE TRIGGER TRG_CambioCuenta 
 ON LPP.CAMBIOS_CUENTA
@@ -731,5 +738,3 @@ GO
 
 --inhabilitar cuentas por vencimiento de la duracion de la cuenta
 --scheduled stored procedure: se ejecutara una vez por dia
-
-
