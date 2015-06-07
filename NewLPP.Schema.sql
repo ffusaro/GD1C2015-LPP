@@ -713,7 +713,7 @@ BEGIN
 	UPDATE LPP.CUENTAS SET id_estado =1 WHERE (SELECT num_cuenta FROM inserted) = num_cuenta
 END
 GO
-/*Test TRG_cuenta_pedienteactivacion_a_activada*/
+/*Test TRG_cuenta_pedienteactivacion_a_activada
 SELECT * FROM LPP.ITEMS_FACTURA WHERE id_item = 3
 INSERT INTO LPP.CUENTAS (id_cliente, saldo, id_moneda,fecha_apertura, id_tipo, id_estado, id_pais) VALUES (1, 500, 1, GETDATE(), 1, 2, 8) 
 SELECT * FROM LPP.ITEMS_FACTURA WHERE id_item = 1
