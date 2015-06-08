@@ -18,6 +18,10 @@ GO
 
 /*---------Limpieza de Procedures---------*/
 
+IF OBJECT_ID('PRC_inhabilitar_cuentas') IS NOT NULL
+DROP PROCEDURE PRC_inhabilitar_cuentas
+GO
+
 /*---------Limpieza de Triggers-----------*/
 IF OBJECT_ID('TRG_ItemFactura_x_AperturaCuenta') IS NOT NULL
 DROP TRIGGER TRG_ItemFactura_x_AperturaCuenta
@@ -738,3 +742,25 @@ GO
 
 --inhabilitar cuentas por vencimiento de la duracion de la cuenta
 --scheduled stored procedure: se ejecutara una vez por dia
+CREATE PROCEDURE PRC_inhabilitar_cuentas
+as
+begin
+	while 1 = 1
+	begin 
+		waitfor time '09:00:00'
+		begin
+			update LPP.CUENTAS set id_estado = 
+			 (select id_estadocuenta from LPP.ESTADOS_CUENTA WHERE descripcion = 'Inhabilitada') 
+			where num_cuenta IN (
+			select num_cuenta from lPP.CUENTAS c
+			WHERE 
+			 (GETDATE() - fecha_apertura) > (select duracion from lPP.TIPOS_CUENTA T WHERE id_tipo = t.id_tipocuenta)) 
+		end
+	end
+end
+go
+-- chequear tambien la fecha de cambio de cuenta
+--ver si esta es una opcion para que se corra diariamente, yo no tengo el sql server agent para administrar jobs
+-- sp_procoption 'PRC_inhabilitar_cuentas','startup', 'on'
+-- GO
+
