@@ -839,6 +839,8 @@ BEGIN
 END
 GO
 
+--procedures consultas de saldos
+
 --listado estadistico 1
 CREATE PROCEDURE PRC_estadistico_cuentas_inhabilitadas
 @desde INTEGER,
@@ -902,7 +904,7 @@ GO
 
 --listado estadistico 4
 --tarda mucho la consulta, luego lo reviso
-/*CREATE PROCEDURE PRC_estadistico_pais_mas_movimientos
+CREATE PROCEDURE PRC_estadistico_pais_mas_movimientos
 @desde INTEGER,
 @hasta INTEGER,
 @anio INTEGER
@@ -916,11 +918,14 @@ BEGIN
 		JOIN LPP.TRANSFERENCIAS t1 ON t1.num_cuenta_origen = c.num_cuenta
 		JOIN LPP.TRANSFERENCIAS t2 ON t2.num_cuenta_destino = c.num_cuenta
 	WHERE t1.id_transferencia <> t2.id_transferencia
-	--AND i.fecha BETWEEN @desde AND @hasta
+	AND (MONTH(d.fecha_deposito) BETWEEN @desde AND @hasta AND YEAR(d.fecha_deposito)=@anio)
+	AND(MONTH(r.fecha) BETWEEN @desde AND @hasta AND YEAR(r.fecha)=@anio)
+	AND (MONTH(t1.fecha) BETWEEN @desde AND @hasta AND YEAR(t1.fecha)=@anio)
+	AND (MONTH(t2.fecha) BETWEEN @desde AND @hasta AND YEAR(t2.fecha)=@anio)
 	GROUP BY pais
 	ORDER BY 2 DESC
 END
-GO*/
+GO
 
 --listado estadistico 5
 CREATE PROCEDURE PRC_estadistico_facturado_tipo_cuentas
