@@ -9,9 +9,9 @@ using System.Windows.Forms;
 
 namespace PagoElectronico.ABM_Rol
 {
-    public partial class Depositos : Form
+    public partial class ListadosEstadisticos : Form
     {
-        public Depositos()
+        public ListadosEstadisticos()
         {
             InitializeComponent();
         }
