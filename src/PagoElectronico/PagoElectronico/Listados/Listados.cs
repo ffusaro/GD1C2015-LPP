@@ -75,6 +75,7 @@ namespace PagoElectronico
             Conexion con = new Conexion();
             int inicio;
             int fin;
+            int anio = Convert.ToInt32(cmbAño.SelectedItem);
 
             if (cmbPeriodo.Text == "Enero-Febrero-Marzo")
             {
@@ -111,6 +112,7 @@ namespace PagoElectronico
                 command.CommandType = CommandType.StoredProcedure;
                 command.Parameters.AddWithValue("@desde", inicio);
                 command.Parameters.AddWithValue("@hasta", fin);
+                command.Parameters.AddWithValue("@anio", anio);
                 SqlDataReader lector = command.ExecuteReader();
 
                 if (!lector.Read())
@@ -139,6 +141,7 @@ namespace PagoElectronico
                  command.CommandType = CommandType.StoredProcedure;
                  command.Parameters.AddWithValue("@desde", inicio);
                  command.Parameters.AddWithValue("@hasta", fin);
+                 command.Parameters.AddWithValue("@anio", anio);
                  SqlDataReader lector = command.ExecuteReader();
 
                 if (!lector.Read())
@@ -168,6 +171,7 @@ namespace PagoElectronico
                 command.CommandType = CommandType.StoredProcedure;
                 command.Parameters.AddWithValue("@desde", inicio);
                 command.Parameters.AddWithValue("@hasta", fin);
+                command.Parameters.AddWithValue("@anio", anio);
                 SqlDataReader lector = command.ExecuteReader();
 
                 if (!lector.Read())
@@ -197,6 +201,7 @@ namespace PagoElectronico
                 command.CommandType = CommandType.StoredProcedure;
                 command.Parameters.AddWithValue("@desde", inicio);
                 command.Parameters.AddWithValue("@hasta", fin);
+                command.Parameters.AddWithValue("@anio", anio);
                 SqlDataReader lector2 = command.ExecuteReader();
 
                 if (!lector2.Read())
@@ -226,6 +231,7 @@ namespace PagoElectronico
                 command.CommandType = CommandType.StoredProcedure;
                 command.Parameters.AddWithValue("@desde", inicio);
                 command.Parameters.AddWithValue("@hasta", fin);
+                command.Parameters.AddWithValue("@anio", anio);
                 SqlDataReader lector2 = command.ExecuteReader();
 
                 if (!lector2.Read())

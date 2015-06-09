@@ -142,11 +142,11 @@
     <Compile Include="Transferencias\Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
-    <Compile Include="Retiros\Form1.cs">
+    <Compile Include="Retiros\Retiros.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Retiros\Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <Compile Include="Retiros\Retiros.Designer.cs">
+      <DependentUpon>Retiros.cs</DependentUpon>
     </Compile>
     <Compile Include="Depositos\Depositos.cs">
       <SubType>Form</SubType>
