@@ -22,6 +22,28 @@ IF OBJECT_ID('PRC_inhabilitar_cuentas') IS NOT NULL
 DROP PROCEDURE PRC_inhabilitar_cuentas
 GO
 
+IF OBJECT_ID('PRC_estadistico_cuentas_inhabilitadas') IS NOT NULL
+DROP PROCEDURE PRC_estadistico_cuentas_inhabilitadas
+GO
+
+IF OBJECT_ID('PRC_estadistico_comisiones_facturadas') IS NOT NULL
+DROP PROCEDURE PRC_estadistico_comisiones_facturadas
+GO
+
+IF OBJECT_ID('PRC_estadistico_transacciones_cuentas_propias') IS NOT NULL
+DROP PROCEDURE PRC_estadistico_transacciones_cuentas_propias
+GO
+
+IF OBJECT_ID('PRC_estadistico_pais_mas_movimientos') IS NOT NULL
+DROP PROCEDURE PRC_estadistico_pais_mas_movimientos
+GO
+
+IF OBJECT_ID('PRC_estadistico_facturado_tipo_cuentas') IS NOT NULL
+DROP PROCEDURE PRC_estadistico_facturado_tipo_cuentas
+GO
+
+
+
 /*---------Limpieza de Triggers-----------*/
 IF OBJECT_ID('TRG_ItemFactura_x_AperturaCuenta') IS NOT NULL
 DROP TRIGGER TRG_ItemFactura_x_AperturaCuenta
@@ -763,4 +785,100 @@ go
 --ver si esta es una opcion para que se corra diariamente, yo no tengo el sql server agent para administrar jobs
 -- sp_procoption 'PRC_inhabilitar_cuentas','startup', 'on'
 -- GO
+
+--listado estadistico 1
+CREATE PROCEDURE PRC_estadistico_cuentas_inhabilitadas
+@desde DATETIME,
+@hasta DATETIME
+AS
+BEGIN
+	SELECT TOP 5 c.id_cliente, username, nombre, apellido, t.tipo_descr, num_doc, fecha_nac, mail, COUNT(i.id_item_factura)
+	FROM LPP.CLIENTES c
+		JOIN LPP.CUENTAS cu ON cu.id_cliente = c.id_cliente
+		JOIN LPP.ESTADOS_CUENTA e ON e.id_estadocuenta = cu.id_estado
+		JOIN LPP.TIPO_DOCS t ON t.tipo_cod = c.id_tipo_doc
+		JOIN LPP.ITEMS_FACTURA i ON i.num_cuenta= cu.num_cuenta
+		JOIN LPP.ITEMS it ON it.id_item = i.id_item
+	WHERE e.descripcion = 'Inhabilitada' AND i.facturado = 0 AND it.id_item = 3 AND i.fecha BETWEEN @desde AND @hasta
+	GROUP BY c.id_cliente, username, nombre, apellido, t.tipo_descr, num_doc,  fecha_nac, mail
+	ORDER BY COUNT(i.id_item_factura) DESC
+END
+GO	
+
+--listado estadistico 2
+CREATE PROCEDURE PRC_estadistico_comisiones_facturadas
+@desde DATETIME,
+@hasta DATETIME
+AS
+BEGIN
+	SELECT TOP 5 c.id_cliente, username, nombre, apellido, t.tipo_descr, num_doc,  fecha_nac, mail, COUNT(i.id_item_factura)
+	FROM LPP.CLIENTES c
+		JOIN LPP.CUENTAS cu ON cu.id_cliente = c.id_cliente
+		JOIN LPP.ITEMS_FACTURA i ON i.num_cuenta= cu.num_cuenta
+		JOIN LPP.TIPO_DOCS t ON t.tipo_cod = c.id_tipo_doc
+		WHERE i.facturado = 1
+			AND i.fecha BETWEEN @desde AND @hasta
+		GROUP BY c.id_cliente, username, nombre, apellido, t.tipo_descr, num_doc,  fecha_nac, mail
+		ORDER BY COUNT(i.id_item_factura) DESC
+END
+GO
+
+--listado estadistico 3
+CREATE PROCEDURE PRC_estadistico_transacciones_cuentas_propias
+@desde DATETIME,
+@hasta DATETIME
+AS
+BEGIN
+	SELECT TOP 5 c.id_cliente, username, nombre, apellido, t.tipo_descr, num_doc,  fecha_nac, mail, COUNT(tr.id_transferencia)
+	FROM LPP.CLIENTES c
+		JOIN LPP.CUENTAS c1 ON c1.id_cliente = c.id_cliente
+		JOIN LPP.CUENTAS c2 ON c2.id_cliente = c.id_cliente
+		JOIN LPP.TIPO_DOCS t ON t.tipo_cod = c.id_tipo_doc
+		JOIN LPP.TRANSFERENCIAS tr ON tr.num_cuenta_origen = c1.num_cuenta AND tr.num_cuenta_destino = c2.num_cuenta
+		WHERE c1.num_cuenta <> c2.num_cuenta
+			AND tr.fecha BETWEEN @desde AND @hasta	
+		GROUP BY c.id_cliente, username, nombre, apellido, t.tipo_descr, num_doc,  fecha_nac, mail
+		ORDER BY  COUNT(tr.id_transferencia) DESC
+		
+END
+GO
+
+
+--listado estadistico 4
+--tarda mucho la consulta, luego lo reviso
+/*CREATE PROCEDURE PRC_estadistico_pais_mas_movimientos
+@desde DATETIME,
+@hasta DATETIME
+AS
+BEGIN
+	SELECT TOP 5 pais, COUNT(d.num_deposito)+COUNT(r.id_retiro)+COUNT(t1.id_transferencia)+COUNT(t2.id_transferencia)
+	FROM LPP.PAISES p
+		JOIN LPP.CUENTAS c ON c.id_pais = p.id_pais
+		JOIN LPP.DEPOSITOS d ON d.num_cuenta = c.num_cuenta
+		JOIN LPP.RETIROS r ON r.num_cuenta = c.num_cuenta
+		JOIN LPP.TRANSFERENCIAS t1 ON t1.num_cuenta_origen = c.num_cuenta
+		JOIN LPP.TRANSFERENCIAS t2 ON t2.num_cuenta_destino = c.num_cuenta
+	WHERE t1.id_transferencia <> t2.id_transferencia
+	--AND i.fecha BETWEEN @desde AND @hasta
+	GROUP BY pais
+	ORDER BY 2 DESC
+END
+GO*/
+
+--listado estadistico 5
+CREATE PROCEDURE PRC_estadistico_facturado_tipo_cuentas
+@desde DATETIME,
+@hasta DATETIME
+AS
+BEGIN
+	SELECT TOP 5 id_tipocuenta, descripcion, SUM(monto) 
+	FROM LPP.TIPOS_CUENTA t
+		JOIN LPP.CUENTAS c ON c.id_tipo = t.id_tipocuenta
+		JOIN LPP.ITEMS_FACTURA i ON i.num_cuenta = c.num_cuenta
+	WHERE i.facturado = 1	
+	GROUP BY id_tipocuenta, descripcion
+	ORDER BY SUM(monto) DESC	
+END
+GO
+
 
