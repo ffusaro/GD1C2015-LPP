@@ -42,7 +42,17 @@ IF OBJECT_ID('PRC_estadistico_facturado_tipo_cuentas') IS NOT NULL
 DROP PROCEDURE PRC_estadistico_facturado_tipo_cuentas
 GO
 
+IF OBJECT_ID('PRC_realizar_transferencia') IS NOT NULL
+DROP PROCEDURE PRC_realizar_transferencia
+GO
 
+IF OBJECT_ID('PRC_cuentas_habilitadas_e_inhabilitadas') IS NOT NULL
+DROP PROCEDURE PRC_cuentas_habilitadas_e_inhabilitadas
+GO
+
+IF OBJECT_ID('PRC_cuentas_de_un_cliente') IS NOT NULL
+DROP PROCEDURE PRC_cuentas_de_un_cliente
+GO
 
 /*---------Limpieza de Triggers-----------*/
 IF OBJECT_ID('TRG_ItemFactura_x_AperturaCuenta') IS NOT NULL
@@ -539,7 +549,7 @@ INSERT INTO LPP.ESTADOS_CUENTA (descripcion)VALUES ('Habilitada');
 INSERT INTO LPP.ESTADOS_CUENTA (descripcion)VALUES ('Pendiente de activacion');
 INSERT INTO LPP.ESTADOS_CUENTA (descripcion)VALUES ('Cerrada');
 INSERT INTO LPP.ESTADOS_CUENTA (descripcion)VALUES ('Inhabilitada');
-COMMIT
+COMMIT 
 
 /*Creacion de descripcion de Items*/
 BEGIN TRANSACTION
@@ -617,7 +627,7 @@ SET IDENTITY_INSERT [LPP].CUENTAS ON;
 INSERT INTO LPP.CUENTAS (id_cliente, num_cuenta, saldo, fecha_apertura, id_pais, id_moneda, id_tipo, id_estado) 
 			SELECT DISTINCT (SELECT id_cliente FROM LPP.CLIENTES WHERE nombre=Cli_Nombre and apellido=Cli_Apellido) as id_cliente, 
 			Cuenta_Numero, 0,Cuenta_Fecha_Creacion, Cuenta_Pais_Codigo,(SELECT id_moneda from LPP.MONEDAS where descripcion='Dólares'),
-			(SELECT id_tipocuenta FROM LPP.TIPOS_CUENTA WHERE descripcion = 'Gratuita'), 4 FROM gd_esquema.Maestra; --id_estado = 4 cuenta habilitada
+			(SELECT id_tipocuenta FROM LPP.TIPOS_CUENTA WHERE descripcion = 'Gratuita'), 1 FROM gd_esquema.Maestra; --id_estado = 1 cuenta habilitada
 SET IDENTITY_INSERT [LPP].CUENTAS OFF;
 --RR: Asumí que las cuentas son gratuitas, ya que el tipo de cuenta no está definida en la tabla maestra
 COMMIT; 
@@ -781,10 +791,53 @@ begin
 	end
 end
 go
+
+
 -- chequear tambien la fecha de cambio de cuenta
 --ver si esta es una opcion para que se corra diariamente, yo no tengo el sql server agent para administrar jobs
 -- sp_procoption 'PRC_inhabilitar_cuentas','startup', 'on'
 -- GO
+
+--procedures transferencias
+CREATE PROCEDURE PRC_cuentas_de_un_cliente
+@id_cliente INTEGER
+AS
+BEGIN
+	SELECT * FROM LPP.CUENTAS c WHERE c.id_cliente = @id_cliente	
+END
+GO
+
+CREATE PROCEDURE PRC_cuentas_habilitadas_e_inhabilitadas
+AS
+BEGIN
+	SELECT * FROM LPP.CUENTAS c JOIN LPP.ESTADOS_CUENTA e ON c.id_estado = e.id_estadocuenta WHERE (e.id_estadocuenta = 1 or e.id_estadocuenta = 4)
+END
+GO
+
+
+CREATE PROCEDURE PRC_realizar_transferencia
+@num_cuenta_origen NUMERIC(18,0),
+@num_cuenta_destino NUMERIC(18,0),
+@importe NUMERIC(18,2),
+@fecha DATETIME
+AS
+BEGIN
+	IF(@num_cuenta_origen = @num_cuenta_destino)
+		BEGIN
+			INSERT INTO LPP.TRANSFERENCIAS (num_cuenta_origen, num_cuenta_destino, importe, fecha, costo_trans) VALUES (@num_cuenta_origen, @num_cuenta_destino, @importe, @fecha, 0);
+		END	
+	ELSE 
+		BEGIN
+			DECLARE @costo NUMERIC(18, 2);
+			SET @costo = (SELECT costo_transaccion FROM LPP.TIPOS_CUENTA t JOIN LPP.CUENTAS c ON c.id_tipo =t.id_tipocuenta WHERE C.num_cuenta = @num_cuenta_origen);
+			INSERT INTO LPP.TRANSFERENCIAS (num_cuenta_origen, num_cuenta_destino, importe, fecha, costo_trans)
+				VALUES (@num_cuenta_origen, @num_cuenta_destino, @importe, @fecha, @costo);
+			UPDATE LPP.CUENTAS SET saldo = saldo - @importe WHERE num_cuenta = @num_cuenta_origen;
+			UPDATE LPP.CUENTAS SET saldo = saldo + @importe WHERE num_cuenta = @num_cuenta_destino;	 
+		END	
+	
+END
+GO
 
 --listado estadistico 1
 CREATE PROCEDURE PRC_estadistico_cuentas_inhabilitadas
