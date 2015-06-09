@@ -155,6 +155,26 @@ namespace PagoElectronico
             command4.ExecuteNonQuery();
             con.cnn.Close();
 
+            //SUMO IMPORTE EN CUENTA
+            string query5 = "UPDATE LPP.CUENTAS set saldo = saldo + "+Convert.ToInt32(txtImporte.Text)+" WHERE num_cuenta = "+Convert.ToInt32(cmbNroCuenta.SelectedItem)+"";
+            con.cnn.Open();
+            SqlCommand command5 = new SqlCommand(query5, con.cnn);
+            command5.ExecuteNonQuery();
+            con.cnn.Close();
+
+             DialogResult dialogResult = MessageBox.Show("Su deposito se realizo correctamente. ¿Desea ver el comprobante?", "Despositos", MessageBoxButtons.YesNo);
+             if (dialogResult == DialogResult.Yes)
+             {
+                 int num_cuenta = Convert.ToInt32(cmbNroCuenta.SelectedItem);
+                 ListaDepositos ld = new ListaDepositos(num_cuenta);
+                 ld.Show();
+                 this.Close();
+             }
+             else
+             {
+                 this.Close(); 
+             }
+           
             //FALTA LO DEL COMPROBANTE DE DEPOSITO QUE NO ENTENDI BIEN
 
         }

@@ -15,3 +15,5 @@ C:\Users\CSOSA\Documents\GitHub\GD1C2015-LPP\PagoElectronico\PagoElectronico\bin
 C:\Users\CSOSA\Documents\GitHub\GD1C2015-LPP\PagoElectronico\PagoElectronico\bin\Debug\PagoElectronico.pdb
 C:\Users\CSOSA\Documents\GitHub\GD1C2015-LPP\PagoElectronico\PagoElectronico\obj\Debug\PagoElectronico.exe
 C:\Users\CSOSA\Documents\GitHub\GD1C2015-LPP\PagoElectronico\PagoElectronico\obj\Debug\PagoElectronico.pdb
+C:\Users\CSOSA\Documents\GitHub\GD1C2015-LPP\src\PagoElectronico\PagoElectronico\obj\Debug\PagoElectronico.exe
+C:\Users\CSOSA\Documents\GitHub\GD1C2015-LPP\src\PagoElectronico\PagoElectronico\obj\Debug\PagoElectronico.pdb

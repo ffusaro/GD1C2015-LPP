@@ -109,12 +109,7 @@ namespace PagoElectronico
                 _formcliente.padre_buscar = this;
                 this.Close();
             
-            
-            
         }
-
-       
-
         private void btnSalir_Click(object sender, EventArgs e)
         {
             this.Close();

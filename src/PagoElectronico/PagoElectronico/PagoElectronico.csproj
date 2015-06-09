@@ -60,6 +60,12 @@
     <Compile Include="ABM Cliente\BuscarCliente.designer.cs">
       <DependentUpon>BuscarCliente.cs</DependentUpon>
     </Compile>
+    <Compile Include="Depositos\ListaDepositos.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Depositos\ListaDepositos.Designer.cs">
+      <DependentUpon>ListaDepositos.cs</DependentUpon>
+    </Compile>
     <Compile Include="ABM Cuenta\Form1.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -170,6 +176,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Depositos\Depositos.resx">
       <DependentUpon>Depositos.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Depositos\ListaDepositos.resx">
+      <DependentUpon>ListaDepositos.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Login\CambiarContraseña.resx">
       <DependentUpon>CambiarContraseña.cs</DependentUpon>

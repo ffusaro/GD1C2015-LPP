@@ -1,0 +1,5 @@
+﻿Fecha= 26-12-2017
+Data Source= localhost\SQLSERVER2008
+Initial Catalog= GD1C2015
+User ID= gd
+Password= gd2015
