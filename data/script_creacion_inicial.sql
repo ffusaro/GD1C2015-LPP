@@ -788,8 +788,9 @@ go
 
 --listado estadistico 1
 CREATE PROCEDURE PRC_estadistico_cuentas_inhabilitadas
-@desde DATETIME,
-@hasta DATETIME
+@desde INTEGER,
+@hasta INTEGER,
+@anio INTEGER
 AS
 BEGIN
 	SELECT TOP 5 c.id_cliente, username, nombre, apellido, t.tipo_descr, num_doc, fecha_nac, mail, COUNT(i.id_item_factura)
@@ -799,7 +800,7 @@ BEGIN
 		JOIN LPP.TIPO_DOCS t ON t.tipo_cod = c.id_tipo_doc
 		JOIN LPP.ITEMS_FACTURA i ON i.num_cuenta= cu.num_cuenta
 		JOIN LPP.ITEMS it ON it.id_item = i.id_item
-	WHERE e.descripcion = 'Inhabilitada' AND i.facturado = 0 AND it.id_item = 3 AND i.fecha BETWEEN @desde AND @hasta
+	WHERE e.descripcion = 'Inhabilitada' AND i.facturado = 0 AND it.id_item = 3 AND MONTH(i.fecha) BETWEEN @desde AND @hasta AND YEAR(i.fecha) = @anio
 	GROUP BY c.id_cliente, username, nombre, apellido, t.tipo_descr, num_doc,  fecha_nac, mail
 	ORDER BY COUNT(i.id_item_factura) DESC
 END
@@ -807,8 +808,9 @@ GO
 
 --listado estadistico 2
 CREATE PROCEDURE PRC_estadistico_comisiones_facturadas
-@desde DATETIME,
-@hasta DATETIME
+@desde INTEGER,
+@hasta INTEGER,
+@anio INTEGER
 AS
 BEGIN
 	SELECT TOP 5 c.id_cliente, username, nombre, apellido, t.tipo_descr, num_doc,  fecha_nac, mail, COUNT(i.id_item_factura)
@@ -817,7 +819,7 @@ BEGIN
 		JOIN LPP.ITEMS_FACTURA i ON i.num_cuenta= cu.num_cuenta
 		JOIN LPP.TIPO_DOCS t ON t.tipo_cod = c.id_tipo_doc
 		WHERE i.facturado = 1
-			AND i.fecha BETWEEN @desde AND @hasta
+			AND MONTH(i.fecha) BETWEEN @desde AND @hasta AND YEAR(i.fecha) = @anio
 		GROUP BY c.id_cliente, username, nombre, apellido, t.tipo_descr, num_doc,  fecha_nac, mail
 		ORDER BY COUNT(i.id_item_factura) DESC
 END
@@ -825,8 +827,9 @@ GO
 
 --listado estadistico 3
 CREATE PROCEDURE PRC_estadistico_transacciones_cuentas_propias
-@desde DATETIME,
-@hasta DATETIME
+@desde INTEGER,
+@hasta INTEGER,
+@anio INTEGER
 AS
 BEGIN
 	SELECT TOP 5 c.id_cliente, username, nombre, apellido, t.tipo_descr, num_doc,  fecha_nac, mail, COUNT(tr.id_transferencia)
@@ -836,7 +839,7 @@ BEGIN
 		JOIN LPP.TIPO_DOCS t ON t.tipo_cod = c.id_tipo_doc
 		JOIN LPP.TRANSFERENCIAS tr ON tr.num_cuenta_origen = c1.num_cuenta AND tr.num_cuenta_destino = c2.num_cuenta
 		WHERE c1.num_cuenta <> c2.num_cuenta
-			AND tr.fecha BETWEEN @desde AND @hasta	
+			AND MONTH(tr.fecha) BETWEEN @desde AND @hasta AND YEAR(tr.costo_trans) = @anio
 		GROUP BY c.id_cliente, username, nombre, apellido, t.tipo_descr, num_doc,  fecha_nac, mail
 		ORDER BY  COUNT(tr.id_transferencia) DESC
 		
@@ -847,8 +850,9 @@ GO
 --listado estadistico 4
 --tarda mucho la consulta, luego lo reviso
 /*CREATE PROCEDURE PRC_estadistico_pais_mas_movimientos
-@desde DATETIME,
-@hasta DATETIME
+@desde INTEGER,
+@hasta INTEGER,
+@anio INTEGER
 AS
 BEGIN
 	SELECT TOP 5 pais, COUNT(d.num_deposito)+COUNT(r.id_retiro)+COUNT(t1.id_transferencia)+COUNT(t2.id_transferencia)
@@ -867,15 +871,16 @@ GO*/
 
 --listado estadistico 5
 CREATE PROCEDURE PRC_estadistico_facturado_tipo_cuentas
-@desde DATETIME,
-@hasta DATETIME
+@desde INTEGER,
+@hasta INTEGER,
+@anio INTEGER
 AS
 BEGIN
 	SELECT TOP 5 id_tipocuenta, descripcion, SUM(monto) 
 	FROM LPP.TIPOS_CUENTA t
 		JOIN LPP.CUENTAS c ON c.id_tipo = t.id_tipocuenta
 		JOIN LPP.ITEMS_FACTURA i ON i.num_cuenta = c.num_cuenta
-	WHERE i.facturado = 1	
+	WHERE i.facturado = 1 AND MONTH(i.fecha) BETWEEN @desde AND @hasta AND YEAR(i.fecha) = @anio	
 	GROUP BY id_tipocuenta, descripcion
 	ORDER BY SUM(monto) DESC	
 END
