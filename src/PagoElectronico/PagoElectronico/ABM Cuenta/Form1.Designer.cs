@@ -1,6 +1,6 @@
 ﻿namespace PagoElectronico.ABM_Rol
 {
-    partial class ListadosEstadisticos
+    partial class RetiroDeEfectivo
     {
         /// <summary>
         /// Required designer variable.

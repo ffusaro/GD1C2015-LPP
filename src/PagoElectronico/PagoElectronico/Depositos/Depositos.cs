@@ -145,7 +145,7 @@ namespace PagoElectronico
             con.cnn.Open();
             SqlCommand command1 = new SqlCommand(query1, con.cnn);
             SqlDataReader lector1 = command1.ExecuteReader();
-            int id_emisor = lector.GetInt32(0);
+            int id_emisor = lector1.GetInt32(0);
             con.cnn.Close();
 
             //INSERTO DATOS EN DEPOSITOS
@@ -175,7 +175,7 @@ namespace PagoElectronico
                  this.Close(); 
              }
            
-            //FALTA LO DEL COMPROBANTE DE DEPOSITO QUE NO ENTENDI BIEN
+           
 
         }
     }

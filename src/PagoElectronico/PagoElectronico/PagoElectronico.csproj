@@ -136,6 +136,18 @@
     <Compile Include="MenuPrincipal.designer.cs">
       <DependentUpon>MenuPrincipal.cs</DependentUpon>
     </Compile>
+    <Compile Include="Retiros\Cheque.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Retiros\Cheque.Designer.cs">
+      <DependentUpon>Cheque.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Retiros\ListaRetiros.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Retiros\ListaRetiros.Designer.cs">
+      <DependentUpon>ListaRetiros.cs</DependentUpon>
+    </Compile>
     <Compile Include="Transferencias\Form1.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -196,6 +208,15 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Retiros\Cheque.resx">
+      <DependentUpon>Cheque.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Retiros\ListaRetiros.resx">
+      <DependentUpon>ListaRetiros.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Retiros\Retiros.resx">
+      <DependentUpon>Retiros.cs</DependentUpon>
     </EmbeddedResource>
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
