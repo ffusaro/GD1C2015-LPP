@@ -54,6 +54,30 @@ IF OBJECT_ID('PRC_cuentas_de_un_cliente') IS NOT NULL
 DROP PROCEDURE PRC_cuentas_de_un_cliente
 GO
 
+IF OBJECT_ID('PRC_items_factura_pendientes_de_un_cliente') IS NOT NULL
+DROP PROCEDURE PRC_items_factura_pendientes_de_un_cliente
+GO
+
+IF OBJECT_ID('PRC_cuentas_deudoras') IS NOT NULL
+DROP PROCEDURE PRC_cuentas_deudoras
+GO
+
+IF OBJECT_ID('PRC_inhabilitar_cuenta_por_deudor') IS NOT NULL
+DROP PROCEDURE PRC_inhabilitar_cuenta_por_deudor
+GO
+
+IF OBJECT_ID('PRC_obtener_factura') IS NOT NULL
+DROP PROCEDURE PRC_obtener_factura
+GO
+
+IF OBJECT_ID('PRC_facturar_item_factura') IS NOT NULL
+DROP PROCEDURE PRC_facturar_item_factura
+GO
+
+IF OBJECT_ID('PRC_items_de_una_factura') IS NOT NULL
+DROP PROCEDURE PRC_items_de_una_factura
+GO
+
 /*---------Limpieza de Triggers-----------*/
 IF OBJECT_ID('TRG_ItemFactura_x_AperturaCuenta') IS NOT NULL
 DROP TRIGGER TRG_ItemFactura_x_AperturaCuenta
@@ -396,7 +420,7 @@ PRIMARY KEY(id_item));
 
 CREATE TABLE [LPP].FACTURAS(
 id_factura NUMERIC(18,0) NOT NULL IDENTITY (1,1),
-id_cliente NUMERIC(18, 0) NOT NULL,
+id_cliente INTEGER NOT NULL,
 fecha DATETIME, 
 PRIMARY KEY(id_factura));
 
@@ -460,7 +484,8 @@ ALTER TABLE LPP.ITEMS_FACTURA ADD
 							FOREIGN KEY(id_item) references LPP.ITEMS,
 							FOREIGN KEY (num_cuenta) references LPP.CUENTAS;
 
-
+ALTER TABLE LPP.FACTURAS ADD
+							FOREIGN KEY(id_cliente) references LPP.CLIENTES;
 
 										
 /*---------Carga de datos--------------------*/
@@ -799,6 +824,7 @@ go
 -- GO
 
 --procedures transferencias
+--sp que obtiene las cuentas de un cliente, que se puede usar como cuenta origen de una trasnferencia
 CREATE PROCEDURE PRC_cuentas_de_un_cliente
 @id_cliente INTEGER
 AS
@@ -807,6 +833,7 @@ BEGIN
 END
 GO
 
+--sp que obtiene las cuentas habilitadas e inhabilitadas a las cuales se le puede trasnferir dinero(cuenta destino de una trasnferencia)
 CREATE PROCEDURE PRC_cuentas_habilitadas_e_inhabilitadas
 AS
 BEGIN
@@ -814,7 +841,7 @@ BEGIN
 END
 GO
 
-
+--sp que realiza la transferencia de un importe entre dos cuentas, ya sean del mismo usuario o de diferentes.
 CREATE PROCEDURE PRC_realizar_transferencia
 @num_cuenta_origen NUMERIC(18,0),
 @num_cuenta_destino NUMERIC(18,0),
@@ -838,7 +865,68 @@ BEGIN
 END
 GO
 
---procedures consultas de saldos
+--procedures facturacion
+--obtener items de factura pendientes de un usuario
+CREATE PROCEDURE PRC_items_factura_pendientes_de_un_cliente
+@id_cliente INTEGER
+AS
+BEGIN
+	SELECT * FROM LPP.ITEMS_FACTURA i JOIN LPP.CUENTAS c ON c.num_cuenta = i.num_cuenta
+		WHERE c.id_cliente = @id_cliente AND i.facturado = 0		
+END
+GO
+
+--obtener cuentas que deben mas de 5 transacciones
+CREATE PROCEDURE PRC_cuentas_deudoras
+@id_cliente INTEGER
+AS
+BEGIN
+	SELECT i.num_cuenta FROM LPP.ITEMS_FACTURA i JOIN LPP.CUENTAS c ON c.num_cuenta = i.num_cuenta
+		WHERE c.id_cliente = @id_cliente AND i.facturado = 1
+		GROUP BY i.num_cuenta
+		HAVING COUNT(i.id_item_factura) > 5	
+END
+GO
+
+--inhabilitar cuenta si debe mas 5 transacciones
+CREATE PROCEDURE PRC_inhabilitar_cuenta_por_deudor
+@num_cuenta NUMERIC(18, 0)
+AS
+BEGIN 
+	UPDATE LPP.CUENTAS SET id_estado = 4 WHERE num_cuenta = @num_cuenta
+END
+GO
+
+--generar factura
+CREATE PROCEDURE PRC_obtener_factura
+@fecha DATETIME,
+@id_cliente INTEGER,
+@id_factura NUMERIC(18, 0) OUTPUT
+AS
+BEGIN
+	INSERT INTO LPP.FACTURAS (fecha, id_cliente) VALUES (@fecha, @id_cliente)
+	SELECT @id_factura = id_factura FROM LPP.FACTURAS WHERE fecha = @fecha AND id_cliente = @id_cliente
+END
+GO
+
+--facturar items de factura
+CREATE PROCEDURE PRC_facturar_item_factura
+@id_item_factura NUMERIC(18,0),
+@id_factura NUMERIC(18,0)
+AS
+BEGIN
+	UPDATE LPP.ITEMS_FACTURA SET facturado = 1, id_factura = @id_factura WHERE id_item_factura = @id_item_factura
+END
+GO
+
+--obtener items de una factura
+CREATE PROCEDURE PRC_items_de_una_factura
+@id_factura NUMERIC(18, 0)
+AS
+BEGIN
+	SELECT * FROM LPP.ITEMS_FACTURA WHERE id_factura = @id_factura
+END
+GO
 
 --listado estadistico 1
 CREATE PROCEDURE PRC_estadistico_cuentas_inhabilitadas
