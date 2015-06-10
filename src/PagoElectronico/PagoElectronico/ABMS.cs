@@ -63,7 +63,7 @@ namespace PagoElectronico
             }
             catch (Exception ex)
             {
-                MessageBox.Show("El Cliente ya existe");
+                MessageBox.Show("El Cliente ya existe",ex.ToString());
             }
             con1.cnn.Close();  
             return contador;

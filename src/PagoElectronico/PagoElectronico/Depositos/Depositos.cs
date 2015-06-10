@@ -126,7 +126,7 @@ namespace PagoElectronico.Depositos
             }
             catch (Exception h)
             {
-                MessageBox.Show("Importe solo puede contener números");
+                MessageBox.Show("Importe solo puede contener números",h.ToString());
                 return;
             }
 

@@ -10,7 +10,7 @@ using System.Data.SqlClient;
 using System.Security.Cryptography;
 using Helper;
 
-namespace PagoElectronico
+namespace PagoElectronico.Login
 {
     public partial class CambiarContraseña : Form
     {
@@ -82,6 +82,7 @@ namespace PagoElectronico
         {
             this.Close();
         }
+
 
    
 

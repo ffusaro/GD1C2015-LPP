@@ -20,7 +20,7 @@ namespace PagoElectronico
 
         public MenuPrincipal padre_mp;
        
-        public BuscarCliente padre_buscar;
+        public ABM_Cliente.BuscarCliente padre_buscar;
         public string evento;
         public string tipoDoc = "";
         public int nroDoc = 0;

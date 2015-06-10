@@ -1,4 +1,4 @@
-﻿namespace PagoElectronico
+﻿namespace PagoElectronico.Login
 {
     partial class LogIn
     {

@@ -10,7 +10,7 @@ using System.Data.SqlClient;
 using System.Security.Cryptography;
 using Helper;
 
-namespace PagoElectronico
+namespace PagoElectronico.Login
 {
     public partial class LogIn : Form
     {
@@ -36,7 +36,7 @@ namespace PagoElectronico
             MessageBox.Show("Bienvenido/a   "+txtUsuario.Text,""+cmbRol.Text);
             
             mp.Show();
-            mp.cargarUsuario(txtUsuario.Text,cmbRol.Text,this);
+            mp.cargarUsuario(txtUsuario.Text, cmbRol.Text, this);
             txtPass.Text = "";
             txtUsuario.Text = "";
             txtPass.Enabled = false;
@@ -93,7 +93,7 @@ namespace PagoElectronico
             }
 
             string pass = lector.GetString(0);
-            int intFallidos = lector.GetInt16(1);
+            int intFallidos = lector.GetInt32(1);
             bool userHabilitado = lector.GetBoolean(2);
 
             con.cnn.Close();
@@ -116,18 +116,19 @@ namespace PagoElectronico
                 {
                     //SI HAY 3 INTENTOS FALLIDOS SE DESHABILITA AL USUARIO
                     query2 = "UPDATE LPP.USUARIOS SET habilitado = 0 WHERE username = '" + txtUsuario.Text + "'";
+                    MessageBox.Show("Se ha inhabilitado al usuario");
 
                 }
                 else
                 {
 
-                    query2 = "UPDATE LPP.USUARIOS SET intentos = " + (intFallidos + 1) + " WHERE Usuario = '" + txtUsuario.Text + "'";
+                    query2 = "UPDATE LPP.USUARIOS SET intentos = " + (intFallidos + 1) + " WHERE username = '" + txtUsuario.Text + "'";
                 }
 
 
-                //CARGO DATOS EN LOGUXSUARIO(Usuario incorrecto)
+                //CARGO DATOS EN LOGUXSUARIO(Usuario incorrecto) AGREGAR TIPO INTENTO!
                 DateTime fechaConfiguracion = DateTime.ParseExact(readConfiguracion.Configuracion.fechaSystem(), "yyyy-dd-MM", System.Globalization.CultureInfo.InvariantCulture);
-                string query4 = "INSERT INTO LPP.LOGSXUSUARIO (username,fecha,tipo_intento,num_intento) VALUES ('" + txtUsuario.Text + "', '" + fechaConfiguracion + "',0, " + intFallidos + " )";
+                string query4 = "INSERT INTO LPP.LOGSXUSUARIO (username,fecha,num_intento) VALUES ('" + txtUsuario.Text + "', '" + fechaConfiguracion + "', " + intFallidos + " )";
                 con.cnn.Open();
                 SqlCommand command4 = new SqlCommand(query4, con.cnn);
                 command4.ExecuteNonQuery();
@@ -140,6 +141,7 @@ namespace PagoElectronico
                 con.cnn.Close();
                 MessageBox.Show("Contraseña Inválida");
                 txtPass.Text = "";
+                txtPass.Focus();
                 return;
             }
             else

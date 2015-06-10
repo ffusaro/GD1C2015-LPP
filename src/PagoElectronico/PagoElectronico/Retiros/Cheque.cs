@@ -81,7 +81,7 @@ namespace PagoElectronico.Retiros
             }
             catch (Exception h)
             {
-                MessageBox.Show("Numero de Documento debe ser numerico");
+                MessageBox.Show("Numero de Documento debe ser numerico",h.ToString());
                 return;
             }
             Conexion con = new Conexion();

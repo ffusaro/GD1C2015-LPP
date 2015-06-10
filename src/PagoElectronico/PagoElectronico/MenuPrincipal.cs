@@ -15,14 +15,14 @@ namespace PagoElectronico
     {
         public string user;
         DataGridView dgvejemplo = new DataGridView();
-        public LogIn log;
+        public Login.LogIn log;
 
         public MenuPrincipal()
         {
             InitializeComponent();
         }
       
-        public void cargarUsuario(string usuario, string hot, LogIn form)
+        public void cargarUsuario(string usuario, string hot, Login.LogIn form)
         {
             user = usuario;
             log = form;
@@ -172,7 +172,7 @@ namespace PagoElectronico
         private void cambiarPasstoolStripMenuItem_Click(object sender, EventArgs e)
         {
             
-            CambiarContraseña cambiarPass = new CambiarContraseña(user);
+            Login.CambiarContraseña cambiarPass = new Login.CambiarContraseña(user);
             cambiarPass.padre_PostL = this;
             cambiarPass.Show();
             
@@ -188,7 +188,7 @@ namespace PagoElectronico
 
         private void buscarUsuarioToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-            BuscarCliente buscarCliente = new BuscarCliente();
+            ABM_Cliente.BuscarCliente buscarCliente = new ABM_Cliente.BuscarCliente();
             buscarCliente.Show();
             buscarCliente.padre_mp = this;
             
@@ -197,7 +197,7 @@ namespace PagoElectronico
       
         private void aBMRolToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            ABMRol crearRol = new ABMRol("A");
+            ABM_Rol.ABMRol crearRol = new ABM_Rol.ABMRol("A");
             crearRol.Show();
             crearRol.mp = this;
            
@@ -205,7 +205,7 @@ namespace PagoElectronico
 
         private void buscarRolToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            BuscarRol buscarRol = new BuscarRol("M");
+            ABM_Rol.BuscarRol buscarRol = new ABM_Rol.BuscarRol("M");
             buscarRol.Show();
             buscarRol.mp = this;
            
@@ -213,7 +213,7 @@ namespace PagoElectronico
 
         private void eliminarRolToolStripMenuItem_Click(object sender, EventArgs e)
         {
-           BuscarRol eliminarRol = new BuscarRol("B");
+           ABM_Rol.BuscarRol eliminarRol = new ABM_Rol.BuscarRol("B");
             eliminarRol.Show();
             eliminarRol.mp = this;
         }
@@ -228,7 +228,7 @@ namespace PagoElectronico
 
         private void aBMUsuarioToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            ABMUsuario abmUsuario = new ABMUsuario(user,"A");
+            ABM_de_Usuario.ABMUsuario abmUsuario = new ABM_de_Usuario.ABMUsuario(user, "A");
             abmUsuario.mp = this;
             abmUsuario.Show();
            
@@ -236,7 +236,7 @@ namespace PagoElectronico
 
         private void buscarUsuarioToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            BuscarUsuario buscarUsuario = new BuscarUsuario(1);
+            ABM_de_Usuario.BuscarUsuario buscarUsuario = new ABM_de_Usuario.BuscarUsuario(1);
             buscarUsuario.mp = this;
             buscarUsuario.Show();
            
@@ -245,9 +245,7 @@ namespace PagoElectronico
      
         private void buscarListadosToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            //Listados listados = new Listados();
-            //listados.mp = this;
-            //listados.Show();
+          
         }
 
         private void realizarFacturacionToolStripMenuItem_Click(object sender, EventArgs e)
@@ -269,7 +267,7 @@ namespace PagoElectronico
 
         private void aBMDepositoToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Depositos dep = new Depositos(user);
+            Depositos.Depositos dep = new Depositos.Depositos(user);
             dep.Show();
         }
 

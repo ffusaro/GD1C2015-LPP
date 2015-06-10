@@ -1,4 +1,4 @@
-﻿namespace PagoElectronico
+﻿namespace PagoElectronico.Login
 {
     partial class CambiarContraseña
     {
@@ -91,7 +91,7 @@
             this.btnContinuar.TabIndex = 4;
             this.btnContinuar.Text = "Continuar";
             this.btnContinuar.UseVisualStyleBackColor = true;
-           // this.btnContinuar.Click += new System.EventHandler(this.btnContinuar_Click_1);
+            //this.btnContinuar.Click += new System.EventHandler(this.btnContinuar_Click_1);
             // 
             // txtNuevaPass
             // 
@@ -134,7 +134,6 @@
             this.Name = "CambiarContraseña";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "CambiarContraseña";
-            //this.Load += new System.EventHandler(this.CambiarContraseña_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.ResumeLayout(false);

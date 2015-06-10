@@ -99,24 +99,24 @@
     <Compile Include="Consulta Saldos\Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
-    <Compile Include="Depositos\ListaDepositos.cs">
+    <Compile Include="Depositos\ListaDeposito.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Depositos\ListaDepositos.Designer.cs">
-      <DependentUpon>ListaDepositos.cs</DependentUpon>
+    <Compile Include="Depositos\ListaDeposito.Designer.cs">
+      <DependentUpon>ListaDeposito.cs</DependentUpon>
     </Compile>
-    <Compile Include="Help.cs" />
     <Compile Include="Facturacion\Form1.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Facturacion\Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
-    <Compile Include="Listados\Listados.cs">
+    <Compile Include="Help.cs" />
+    <Compile Include="Listados Estadisticos\ListadosEst.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Listados\Listados.designer.cs">
-      <DependentUpon>Listados.cs</DependentUpon>
+    <Compile Include="Listados Estadisticos\ListadosEst.Designer.cs">
+      <DependentUpon>ListadosEst.cs</DependentUpon>
     </Compile>
     <Compile Include="Login\CambiarContraseña.cs">
       <SubType>Form</SubType>
@@ -192,11 +192,11 @@
     <EmbeddedResource Include="Depositos\Depositos.resx">
       <DependentUpon>Depositos.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Depositos\ListaDepositos.resx">
-      <DependentUpon>ListaDepositos.cs</DependentUpon>
+    <EmbeddedResource Include="Depositos\ListaDeposito.resx">
+      <DependentUpon>ListaDeposito.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Listados\Listados.resx">
-      <DependentUpon>Listados.cs</DependentUpon>
+    <EmbeddedResource Include="Listados Estadisticos\ListadosEst.resx">
+      <DependentUpon>ListadosEst.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Login\CambiarContraseña.resx">
       <DependentUpon>CambiarContraseña.cs</DependentUpon>

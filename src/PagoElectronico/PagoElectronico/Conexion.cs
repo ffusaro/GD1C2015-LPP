@@ -25,7 +25,7 @@ namespace PagoElectronico
             }
             catch(Exception ex)
             {
-                MessageBox.Show("No se pudo realizar la conexion");
+                MessageBox.Show("No se pudo realizar la conexion",ex.ToString());
             }
             
             
