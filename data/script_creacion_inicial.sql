@@ -86,6 +86,10 @@ IF OBJECT_ID('PRC_modificar_tarjeta') IS NOT NULL
 DROP PROCEDURE PRC_modificar_tarjeta
 GO
 
+IF OBJECT_ID('PRC_desasociar_tarjeta') IS NOT NULL
+DROP PROCEDURE PRC_desasociar_tarjeta
+GO
+
 /*---------Limpieza de Triggers-----------*/
 IF OBJECT_ID('TRG_ItemFactura_x_AperturaCuenta') IS NOT NULL
 DROP TRIGGER TRG_ItemFactura_x_AperturaCuenta
@@ -370,7 +374,7 @@ CREATE TABLE [LPP].TARJETAS(
 num_tarjeta VARCHAR(16) NOT NULL,
 id_emisor NUMERIC(18,0) NOT NULL,
 cod_seguridad VARCHAR(3) NOT NULL,
-id_cliente INTEGER NOT NULL,
+id_cliente INTEGER,
 fecha_emision DATETIME,
 fecha_vencimiento DATETIME,
 PRIMARY KEY(num_tarjeta));
@@ -860,6 +864,14 @@ END
 GO
 
 --desasociar tarjeta de cuenta
+CREATE PROCEDURE PRC_desasociar_tarjeta
+@num_tarjeta VARCHAR(16),
+@id_cliente INTEGER
+AS
+BEGIN
+	UPDATE LPP.TARJETAS SET id_cliente = NULL WHERE num_tarjeta = @num_tarjeta AND id_cliente = @id_cliente
+END
+GO
 
 --procedures transferencias
 --sp que obtiene las cuentas de un cliente, que se puede usar como cuenta origen de una trasnferencia
