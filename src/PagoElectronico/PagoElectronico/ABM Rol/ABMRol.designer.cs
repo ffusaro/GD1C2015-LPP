@@ -1,4 +1,4 @@
-﻿namespace PagoElectronico
+﻿namespace PagoElectronico.ABM_Rol
 {
     partial class ABMRol
     {

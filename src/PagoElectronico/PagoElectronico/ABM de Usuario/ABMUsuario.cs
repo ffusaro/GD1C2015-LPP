@@ -12,7 +12,7 @@ using Helper;
 using readConfiguracion;
 using System.Timers;
 
-namespace PagoElectronico
+namespace PagoElectronico.ABM_de_Usuario
 {
     public partial class ABMUsuario : Form
     {

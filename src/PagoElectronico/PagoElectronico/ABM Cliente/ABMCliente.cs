@@ -10,7 +10,6 @@ using System.Text.RegularExpressions;
 using System.Data.SqlClient;
 using System.Security.Cryptography;
 using System.IO;
-using PagoElectronico;
 using Helper;
 using readConfiguracion;
 
@@ -301,7 +300,7 @@ namespace PagoElectronico
                     }
                     catch (Exception h)
                     {
-                        MessageBox.Show("Numero de ID y Telefono solo pueden contener numeros");
+                        MessageBox.Show("Numero de ID y Telefono solo pueden contener numeros",h.ToString());
                         return;
                     }
 
@@ -342,7 +341,7 @@ namespace PagoElectronico
                         }
 
                         con1.cnn.Close();
-                        int piso = 0;
+                        //int piso = 0;
 
                         if (txtPiso.Text == "")
                         {
@@ -472,7 +471,7 @@ namespace PagoElectronico
             btnSalir.Enabled = true;
             btnUsuario.Enabled = false;
             txtUsuario.Enabled = false;
-            BuscarCliente bc = new BuscarCliente();
+            ABM_Cliente.BuscarCliente bc = new ABM_Cliente.BuscarCliente();
             this.Close();
             bc.Show();
         }
@@ -583,7 +582,7 @@ namespace PagoElectronico
       {
           btnNuevo.Enabled = true;
           btnSalir.Enabled = true;
-          BuscarUsuario bu = new BuscarUsuario(0);
+          ABM_de_Usuario.BuscarUsuario bu = new ABM_de_Usuario.BuscarUsuario(0);
           bu.Show();
       }
 

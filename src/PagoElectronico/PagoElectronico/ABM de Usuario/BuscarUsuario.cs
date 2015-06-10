@@ -8,7 +8,7 @@ using System.Text;
 using System.Windows.Forms;
 using System.Data.SqlClient;
 
-namespace PagoElectronico
+namespace PagoElectronico.ABM_de_Usuario
 {
     public partial class BuscarUsuario : Form
          

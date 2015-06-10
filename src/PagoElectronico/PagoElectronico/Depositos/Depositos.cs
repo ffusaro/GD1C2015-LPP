@@ -8,11 +8,10 @@ using System.Text;
 using System.Windows.Forms;
 using System.Data.SqlClient;
 using System.Security.Cryptography;
-using PagoElectronico;
 using Helper;
 using readConfiguracion;
 
-namespace PagoElectronico
+namespace PagoElectronico.Depositos
 {
     public partial class Depositos : Form
     {
@@ -166,7 +165,7 @@ namespace PagoElectronico
              if (dialogResult == DialogResult.Yes)
              {
                  int num_cuenta = Convert.ToInt32(cmbNroCuenta.SelectedItem);
-                 ListaDepositos ld = new ListaDepositos(num_cuenta);
+                 ListaDeposito ld = new ListaDeposito(num_cuenta);
                  ld.Show();
                  this.Close();
              }

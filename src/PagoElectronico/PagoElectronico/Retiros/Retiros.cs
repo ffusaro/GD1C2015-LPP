@@ -8,7 +8,6 @@ using System.Text;
 using System.Windows.Forms;
 using System.Data.SqlClient;
 using System.Security.Cryptography;
-using PagoElectronico;
 using Helper;
 using readConfiguracion;
 
@@ -117,7 +116,7 @@ namespace PagoElectronico.Retiros
             }
             catch (Exception h)
             {
-                MessageBox.Show("Importe solo puede contener números");
+                MessageBox.Show("Importe solo puede contener números",h.ToString());
                 return;
             }
 

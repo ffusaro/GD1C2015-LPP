@@ -60,12 +60,6 @@
     <Compile Include="ABM Cliente\BuscarCliente.designer.cs">
       <DependentUpon>BuscarCliente.cs</DependentUpon>
     </Compile>
-    <Compile Include="Depositos\ListaDepositos.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Depositos\ListaDepositos.Designer.cs">
-      <DependentUpon>ListaDepositos.cs</DependentUpon>
-    </Compile>
     <Compile Include="ABM Cuenta\Form1.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -104,6 +98,12 @@
     </Compile>
     <Compile Include="Consulta Saldos\Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Depositos\ListaDepositos.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Depositos\ListaDepositos.Designer.cs">
+      <DependentUpon>ListaDepositos.cs</DependentUpon>
     </Compile>
     <Compile Include="Help.cs" />
     <Compile Include="Facturacion\Form1.cs">
@@ -173,6 +173,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ABM Cliente\BuscarCliente.resx">
       <DependentUpon>BuscarCliente.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ABM Cuenta\Form1.resx">
+      <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ABM de Usuario\ABMUsuario.resx">
       <DependentUpon>ABMUsuario.cs</DependentUpon>

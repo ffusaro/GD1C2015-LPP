@@ -1,4 +1,4 @@
-﻿namespace PagoElectronico
+﻿namespace PagoElectronico.ABM_Cliente
 {
     partial class BuscarCliente
     {

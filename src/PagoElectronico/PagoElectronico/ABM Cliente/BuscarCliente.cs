@@ -9,7 +9,7 @@ using System.Windows.Forms;
 using System.Data.SqlClient;
 
 
-namespace PagoElectronico
+namespace PagoElectronico.ABM_Cliente
 {
     public partial class BuscarCliente : Form
     {

@@ -6,25 +6,24 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using PagoElectronico;
 using Helper;
 using readConfiguracion;
 using System.Data.SqlClient;
 
-namespace PagoElectronico
+namespace PagoElectronico.Depositos
 {
-    public partial class ListaDepositos : Form
+    public partial class ListaDeposito : Form
     {
         public int num_cuenta;
         public DataTable dt;
-        public ListaDepositos(int cuenta)
+        public ListaDeposito(int cuenta)
         {
             InitializeComponent();
             num_cuenta = cuenta;
 
             //CARGO EL DATAGRIDVIEW CON LOS DATOS DEL DEPOSITO
             Conexion con = new Conexion();
-            string query = "SELECT * FROM LPP.DEPOSITOS WHERE num_cuenta = "+num_cuenta+" ";
+            string query = "SELECT * FROM LPP.DEPOSITOS WHERE num_cuenta = " + num_cuenta + " ";
             DataTable dtDatos = new DataTable();
             SqlDataAdapter da = new SqlDataAdapter(query, con.cnn);
             da.Fill(dtDatos);
@@ -37,5 +36,12 @@ namespace PagoElectronico
         {
             this.Close();
         }
+
+       
+
+       
+
+
+       
     }
 }

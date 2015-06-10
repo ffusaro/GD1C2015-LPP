@@ -1,6 +1,6 @@
-﻿namespace PagoElectronico
+﻿namespace PagoElectronico.Depositos
 {
-    partial class ListaDepositos
+    partial class ListaDeposito
     {
         /// <summary>
         /// Required designer variable.
@@ -39,10 +39,10 @@
             // 
             this.groupBox1.Controls.Add(this.btnSalir);
             this.groupBox1.Controls.Add(this.dgvDepositos);
-            this.groupBox1.Location = new System.Drawing.Point(12, 12);
+            this.groupBox1.Location = new System.Drawing.Point(2, 6);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(740, 248);
-            this.groupBox1.TabIndex = 0;
+            this.groupBox1.TabIndex = 1;
             this.groupBox1.TabStop = false;
             // 
             // btnSalir
@@ -63,14 +63,12 @@
             this.dgvDepositos.Size = new System.Drawing.Size(692, 150);
             this.dgvDepositos.TabIndex = 0;
             // 
-            // ListaDepositos
+            // ListaDeposito
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(764, 272);
+            this.ClientSize = new System.Drawing.Size(764, 261);
             this.Controls.Add(this.groupBox1);
             this.MaximizeBox = false;
-            this.Name = "ListaDepositos";
+            this.Name = "ListaDeposito";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Lista Depositos";
             this.groupBox1.ResumeLayout(false);

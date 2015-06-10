@@ -1,17 +1,17 @@
-﻿namespace PagoElectronico.ABM_Rol
+﻿namespace PagoElectronico.Facturacion
 {
-    partial class RetiroDeEfectivo
+    partial class Form1
     {
         /// <summary>
         /// Required designer variable.
         /// </summary>
-       // private System.ComponentModel.IContainer components = null;
+        private System.ComponentModel.IContainer components = null;
 
         /// <summary>
         /// Clean up any resources being used.
         /// </summary>
         /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
-        /*protected override void Dispose(bool disposing)
+        protected override void Dispose(bool disposing)
         {
             if (disposing && (components != null))
             {
@@ -33,6 +33,6 @@
             this.Text = "Form1";
         }
 
-        #endregion*/
+        #endregion
     }
 }

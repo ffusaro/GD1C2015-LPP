@@ -1,4 +1,4 @@
-﻿namespace PagoElectronico
+﻿namespace PagoElectronico.ABM_de_Usuario
 {
     partial class ABMUsuario
     {

@@ -8,7 +8,6 @@ using System.Text;
 using System.Windows.Forms;
 using System.Data.SqlClient;
 using System.Security.Cryptography;
-using PagoElectronico;
 using Helper;
 using readConfiguracion;
 
