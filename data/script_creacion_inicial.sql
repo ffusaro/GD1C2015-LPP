@@ -832,10 +832,9 @@ BEGIN
 			SET @costo = (SELECT costo_transaccion FROM LPP.TIPOS_CUENTA t JOIN LPP.CUENTAS c ON c.id_tipo =t.id_tipocuenta WHERE C.num_cuenta = @num_cuenta_origen);
 			INSERT INTO LPP.TRANSFERENCIAS (num_cuenta_origen, num_cuenta_destino, importe, fecha, costo_trans)
 				VALUES (@num_cuenta_origen, @num_cuenta_destino, @importe, @fecha, @costo);
-			UPDATE LPP.CUENTAS SET saldo = saldo - @importe WHERE num_cuenta = @num_cuenta_origen;
-			UPDATE LPP.CUENTAS SET saldo = saldo + @importe WHERE num_cuenta = @num_cuenta_destino;	 
-		END	
-	
+		END
+	UPDATE LPP.CUENTAS SET saldo = saldo - @importe WHERE num_cuenta = @num_cuenta_origen;
+	UPDATE LPP.CUENTAS SET saldo = saldo + @importe WHERE num_cuenta = @num_cuenta_destino;	 		
 END
 GO
 
