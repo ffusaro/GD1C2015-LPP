@@ -78,6 +78,14 @@ IF OBJECT_ID('PRC_items_de_una_factura') IS NOT NULL
 DROP PROCEDURE PRC_items_de_una_factura
 GO
 
+IF OBJECT_ID('PRC_insertar_nueva_tarjeta') IS NOT NULL
+DROP PROCEDURE PRC_insertar_nueva_tarjeta
+GO
+
+IF OBJECT_ID('PRC_modificar_tarjeta') IS NOT NULL
+DROP PROCEDURE PRC_modificar_tarjeta
+GO
+
 /*---------Limpieza de Triggers-----------*/
 IF OBJECT_ID('TRG_ItemFactura_x_AperturaCuenta') IS NOT NULL
 DROP TRIGGER TRG_ItemFactura_x_AperturaCuenta
@@ -817,11 +825,41 @@ begin
 end
 go
 
-
 -- chequear tambien la fecha de cambio de cuenta
 --ver si esta es una opcion para que se corra diariamente, yo no tengo el sql server agent para administrar jobs
 -- sp_procoption 'PRC_inhabilitar_cuentas','startup', 'on'
 -- GO
+
+
+--procedures asociar/desasociar tarjetas de credito
+
+--alta tarjeta
+CREATE PROCEDURE PRC_insertar_nueva_tarjeta
+@num_tarjeta VARCHAR(16),
+@id_emisor NUMERIC(18,0),
+@cod_seguridad VARCHAR(3),
+@id_cliente INTEGER,
+@fecha_emision DATETIME,
+@fecha_vencimiento DATETIME
+AS
+BEGIN
+	INSERT INTO LPP.TARJETAS (num_tarjeta, id_emisor,cod_seguridad,id_cliente, fecha_emision, fecha_vencimiento) VALUES (dbo.FUNC_encriptar_tarjeta(@num_tarjeta), @id_emisor,@cod_seguridad,@id_cliente, @fecha_emision, @fecha_vencimiento)
+END
+GO
+
+--modif tarjeta
+CREATE PROCEDURE PRC_modificar_tarjeta
+@num_tarjeta VARCHAR(16),
+@cod_seguridad VARCHAR(3),
+@fecha_emision DATETIME,
+@fecha_vencimiento DATETIME
+AS
+BEGIN
+	UPDATE LPP.TARJETAS SET cod_seguridad = @cod_seguridad, fecha_emision =@fecha_emision, fecha_vencimiento= @fecha_vencimiento WHERE num_tarjeta = @num_tarjeta
+END
+GO
+
+--desasociar tarjeta de cuenta
 
 --procedures transferencias
 --sp que obtiene las cuentas de un cliente, que se puede usar como cuenta origen de una trasnferencia
