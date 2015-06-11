@@ -86,6 +86,26 @@ IF OBJECT_ID('PRC_modificar_tarjeta') IS NOT NULL
 DROP PROCEDURE PRC_modificar_tarjeta
 GO
 
+IF OBJECT_ID('PRC_desasociar_tarjeta') IS NOT NULL
+DROP PROCEDURE PRC_desasociar_tarjeta
+GO
+
+IF OBJECT_ID('PRC_obtener_saldo_de_una_cuenta') IS NOT NULL
+DROP PROCEDURE PRC_obtener_saldo_de_una_cuenta
+GO
+
+IF OBJECT_ID('PRC_ultimos_5_depositos_de_una_cuenta') IS NOT NULL
+DROP PROCEDURE PRC_ultimos_5_depositos_de_una_cuenta
+GO
+
+IF OBJECT_ID('PRC_ultimos_5_retiros_de_una_cuenta') IS NOT NULL
+DROP PROCEDURE PRC_ultimos_5_retiros_de_una_cuenta
+GO
+
+IF OBJECT_ID('PRC_ultimas_10_transferencias_de_una_cuenta') IS NOT NULL
+DROP PROCEDURE PPRC_ultimas_10_transferencias_de_una_cuenta
+GO
+
 /*---------Limpieza de Triggers-----------*/
 IF OBJECT_ID('TRG_ItemFactura_x_AperturaCuenta') IS NOT NULL
 DROP TRIGGER TRG_ItemFactura_x_AperturaCuenta
@@ -370,7 +390,7 @@ CREATE TABLE [LPP].TARJETAS(
 num_tarjeta VARCHAR(16) NOT NULL,
 id_emisor NUMERIC(18,0) NOT NULL,
 cod_seguridad VARCHAR(3) NOT NULL,
-id_cliente INTEGER NOT NULL,
+id_cliente INTEGER,
 fecha_emision DATETIME,
 fecha_vencimiento DATETIME,
 PRIMARY KEY(num_tarjeta));
@@ -860,6 +880,14 @@ END
 GO
 
 --desasociar tarjeta de cuenta
+CREATE PROCEDURE PRC_desasociar_tarjeta
+@num_tarjeta VARCHAR(16),
+@id_cliente INTEGER
+AS
+BEGIN
+	UPDATE LPP.TARJETAS SET id_cliente = NULL WHERE num_tarjeta = @num_tarjeta AND id_cliente = @id_cliente
+END
+GO
 
 --procedures transferencias
 --sp que obtiene las cuentas de un cliente, que se puede usar como cuenta origen de una trasnferencia
@@ -963,6 +991,44 @@ CREATE PROCEDURE PRC_items_de_una_factura
 AS
 BEGIN
 	SELECT * FROM LPP.ITEMS_FACTURA WHERE id_factura = @id_factura
+END
+GO
+
+--procedures de consultas de saldos
+--obtener saldo de una cuenta
+CREATE PROCEDURE PRC_obtener_saldo_de_una_cuenta
+@num_cuenta NUMERIC(18, 0),
+@saldo NUMERIC(18, 2) OUTPUT
+AS
+BEGIN
+	SELECT @saldo = saldo FROM LPP.CUENTAS WHERE num_cuenta = @num_cuenta
+END
+GO
+
+--listado ultimos 5 depositos de una cuenta
+CREATE PROCEDURE PRC_ultimos_5_depositos_de_una_cuenta
+@num_cuenta NUMERIC(18, 0)
+AS
+BEGIN
+	SELECT TOP 5 * FROM LPP.DEPOSITOS WHERE num_cuenta = @num_cuenta ORDER BY fecha_deposito DESC 
+END
+GO
+
+--listado ultimos 5 retiros de una cuenta
+CREATE PROCEDURE PRC_ultimos_5_retiros_de_una_cuenta
+@num_cuenta NUMERIC(18, 0)
+AS
+BEGIN
+	SELECT TOP 5 * FROM LPP.RETIROS WHERE num_cuenta = @num_cuenta ORDER BY fecha DESC
+END
+GO
+
+--listados ultimas 1o transferencias
+CREATE PROCEDURE PRC_ultimas_10_transferencias_de_una_cuenta
+@num_cuenta NUMERIC(18, 0)
+AS
+BEGIN
+	SELECT TOP 10 * FROM LPP.TRANSFERENCIAS WHERE num_cuenta_origen = @num_cuenta ORDER BY fecha DESC
 END
 GO
 
