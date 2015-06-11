@@ -37,6 +37,12 @@ namespace PagoElectronico.Login
             con.cnn.Close();
 
         }
+       
+        private void btnCancelar_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
         private void btnContinuar_Click(object sender, EventArgs e)
         {
             /*VERIFICA QUE LOS CAMPOS NO ESTEN VACIOS*/
@@ -70,7 +76,7 @@ namespace PagoElectronico.Login
 
             Conexion con = new Conexion();
 
-            string query = "UPDATE LPP.USUARIOS SET pass = '" + pass_new + "' WHERE Usuario = '" + user + "'";
+            string query = "UPDATE LPP.USUARIOS SET pass = '" + pass_new + "' WHERE username = '" + user + "'";
             con.cnn.Open();
             SqlCommand command = new SqlCommand(query, con.cnn);
             command.ExecuteNonQuery();
@@ -78,10 +84,8 @@ namespace PagoElectronico.Login
             MessageBox.Show("Contraseña Cambiada con Éxito");
             this.Close();
         }
-        private void btnCancelar_Click(object sender, EventArgs e)
-        {
-            this.Close();
-        }
+
+        
 
 
    

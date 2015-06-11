@@ -63,6 +63,7 @@
             this.txtConfirmPass.Name = "txtConfirmPass";
             this.txtConfirmPass.Size = new System.Drawing.Size(234, 20);
             this.txtConfirmPass.TabIndex = 7;
+            this.txtConfirmPass.UseSystemPasswordChar = true;
             // 
             // label3
             // 
@@ -91,7 +92,7 @@
             this.btnContinuar.TabIndex = 4;
             this.btnContinuar.Text = "Continuar";
             this.btnContinuar.UseVisualStyleBackColor = true;
-            //this.btnContinuar.Click += new System.EventHandler(this.btnContinuar_Click_1);
+            this.btnContinuar.Click += new System.EventHandler(this.btnContinuar_Click);
             // 
             // txtNuevaPass
             // 
@@ -99,6 +100,7 @@
             this.txtNuevaPass.Name = "txtNuevaPass";
             this.txtNuevaPass.Size = new System.Drawing.Size(234, 20);
             this.txtNuevaPass.TabIndex = 3;
+            this.txtNuevaPass.UseSystemPasswordChar = true;
             // 
             // txtPass
             // 
@@ -106,6 +108,7 @@
             this.txtPass.Name = "txtPass";
             this.txtPass.Size = new System.Drawing.Size(234, 20);
             this.txtPass.TabIndex = 2;
+            this.txtPass.UseSystemPasswordChar = true;
             // 
             // label2
             // 

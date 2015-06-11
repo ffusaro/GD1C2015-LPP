@@ -153,6 +153,7 @@ namespace PagoElectronico.ABM_de_Usuario
             btnLimpiar.Enabled = true;
             btnContinuar.Enabled = true;
             ban = 1;
+            txtUsuario.Focus();
         }
 
         private void btnModificar_Click(object sender, EventArgs e)

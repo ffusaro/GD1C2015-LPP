@@ -57,6 +57,7 @@
             this.eliminarRolToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.facturarToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.realizarFacturacionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.consultarSaldoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -73,10 +74,11 @@
             this.listadosEstadisticosToolStripMenuItem,
             this.tarjetasToolStripMenuItem,
             this.rolToolStripMenuItem,
-            this.facturarToolStripMenuItem});
+            this.facturarToolStripMenuItem,
+            this.consultarSaldoToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(904, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(1048, 24);
             this.menuStrip1.TabIndex = 6;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -161,14 +163,14 @@
             // aBMClienteToolStripMenuItem
             // 
             this.aBMClienteToolStripMenuItem.Name = "aBMClienteToolStripMenuItem";
-            this.aBMClienteToolStripMenuItem.Size = new System.Drawing.Size(149, 22);
+            this.aBMClienteToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.aBMClienteToolStripMenuItem.Text = "ABM Cliente";
             this.aBMClienteToolStripMenuItem.Click += new System.EventHandler(this.aBMClienteToolStripMenuItem_Click);
             // 
             // buscarUsuarioToolStripMenuItem1
             // 
             this.buscarUsuarioToolStripMenuItem1.Name = "buscarUsuarioToolStripMenuItem1";
-            this.buscarUsuarioToolStripMenuItem1.Size = new System.Drawing.Size(149, 22);
+            this.buscarUsuarioToolStripMenuItem1.Size = new System.Drawing.Size(152, 22);
             this.buscarUsuarioToolStripMenuItem1.Text = "Buscar Cliente";
             this.buscarUsuarioToolStripMenuItem1.Click += new System.EventHandler(this.buscarUsuarioToolStripMenuItem1_Click);
             // 
@@ -290,11 +292,17 @@
             this.realizarFacturacionToolStripMenuItem.Text = "Realizar Facturacion";
             this.realizarFacturacionToolStripMenuItem.Click += new System.EventHandler(this.realizarFacturacionToolStripMenuItem_Click);
             // 
+            // consultarSaldoToolStripMenuItem
+            // 
+            this.consultarSaldoToolStripMenuItem.Name = "consultarSaldoToolStripMenuItem";
+            this.consultarSaldoToolStripMenuItem.Size = new System.Drawing.Size(102, 20);
+            this.consultarSaldoToolStripMenuItem.Text = "Consultar Saldo";
+            // 
             // MenuPrincipal
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(904, 430);
+            this.ClientSize = new System.Drawing.Size(1048, 430);
             this.ControlBox = false;
             this.Controls.Add(this.menuStrip1);
             this.IsMdiContainer = true;
@@ -341,6 +349,7 @@
         private System.Windows.Forms.ToolStripMenuItem cambiarPasstoolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem eliminarRolToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem cancelarReservaToolStripMenuItem2;
+        private System.Windows.Forms.ToolStripMenuItem consultarSaldoToolStripMenuItem;
 
     }
 }

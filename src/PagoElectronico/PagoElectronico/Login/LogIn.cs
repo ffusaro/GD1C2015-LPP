@@ -95,7 +95,7 @@ namespace PagoElectronico.Login
             string pass = lector.GetString(0);
             int intFallidos = lector.GetInt32(1);
             bool userHabilitado = lector.GetBoolean(2);
-
+           
             con.cnn.Close();
 
             /*VERIFICA HABILITACION*/
@@ -105,13 +105,14 @@ namespace PagoElectronico.Login
                 MessageBox.Show("Usuario Inhabilitado", "ERROR");
                 return;
             }
+            
 
             /*VALIDA CONTRASEÑA*/
 
             if (!(pass == txtPass.Text.Sha256()))
             {
                 string query2;
-
+               
                 if (intFallidos >= 3)
                 {
                     //SI HAY 3 INTENTOS FALLIDOS SE DESHABILITA AL USUARIO
@@ -156,7 +157,7 @@ namespace PagoElectronico.Login
                 con.cnn.Close();
 
                 //CARGO DATOS EN LOGUXSUARIO (Usuario correcto)
-                string query6 = "INSERT INTO LPP.LOGSXUSUARIO (username,fecha,tipo_intento,num_intento) VALUES ('" + txtUsuario.Text + "', '" + fechaConfiguracion + "',0, " + intFallidos + " )";
+                string query6 = "INSERT INTO LPP.LOGSXUSUARIO (username,fecha,num_intento) VALUES ('" + txtUsuario.Text + "', '" + fechaConfiguracion + "', " + intFallidos + " )";
                 con.cnn.Open();
                 SqlCommand command6 = new SqlCommand(query6, con.cnn);
                 command6.ExecuteNonQuery();
@@ -169,7 +170,7 @@ namespace PagoElectronico.Login
                 /*CARGAR ROLES*/
                 Conexion con1 = new Conexion();
                 string query5 = "SELECT DISTINCT R.nombre FROM LPP.ROLES R JOIN LPP.ROLESXUSUARIO U " +
-                                "ON U.rol = R.rol AND U.username = '" + txtUsuario.Text + " " +
+                                "ON U.rol = R.id_rol AND U.username = '" + txtUsuario.Text + " " +
                                 "' AND R.habilitado = 1";
 
                 con1.cnn.Open();
@@ -184,6 +185,11 @@ namespace PagoElectronico.Login
                 con1.cnn.Close();
 
             }
+        }
+
+        private void txtPass_TextChanged(object sender, EventArgs e)
+        {
+            btnRol.Enabled = true;
         }
       
        

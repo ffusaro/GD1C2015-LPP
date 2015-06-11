@@ -57,10 +57,7 @@ namespace PagoElectronico
             string query;
 
             
-            query = "SELECT  D.Nombre FROM LPP.FUNCIONALIDADXROL F JOIN LPP.ROLESXUSUARIO R ON R.username = '"+ user +"' JOIN LPP.ROLES O ON O.nombre = R.rol AND O.habilitado = 1 AND R.rol = F.Rol JOIN LPP.FUNCIONALIDAD D ON D.id_funcionalidad = F.funcionalidad ORDER BY D.id_funcionalidad";
-            
-           
-
+            query = "SELECT  D.descripcion FROM LPP.FUNCIONALIDADXROL F JOIN LPP.ROLESXUSUARIO R ON R.username = '"+ user +"' JOIN LPP.ROLES O ON O.id_rol = R.rol AND O.habilitado = 1 AND R.rol = F.rol JOIN LPP.FUNCIONALIDAD D ON D.id_funcionalidad = F.funcionalidad ORDER BY D.id_funcionalidad";
             con.cnn.Open();
             SqlCommand command = new SqlCommand(query, con.cnn);
             SqlDataReader lector1 = command.ExecuteReader();
@@ -82,10 +79,20 @@ namespace PagoElectronico
                     
                     }
                 }
+                if (!entro)
+                {
+
+                    if (lector1.GetString(0) == "Consulta Saldos")
+                    {
+                        entro = true;
+                        consultarSaldoToolStripMenuItem.Visible = true;
+
+                    }
+                }
               
                 if (!entro)
                 {
-                    if (lector1.GetString(0) == "Listado Estadistico")
+                    if (lector1.GetString(0) == "Listados")
                     {
                         entro = true;
                         listadosEstadisticosToolStripMenuItem.Visible = true;
@@ -110,7 +117,7 @@ namespace PagoElectronico
                 }
                 if (!entro)
                 {
-                    if (lector1.GetString(0) == "ABM de Cliente")
+                    if (lector1.GetString(0) == "ABM Cliente")
                     {
                         entro = true;
                         clienteToolStripMenuItem.Visible = true;
@@ -119,7 +126,7 @@ namespace PagoElectronico
                 }
                 if (!entro)
                 {
-                    if (lector1.GetString(0) == "ABM de Usuario")
+                    if (lector1.GetString(0) == "ABM Usuarios")
                     {
                         entro = true;
                         usuarioToolStripMenuItem.Visible = true;
@@ -128,7 +135,7 @@ namespace PagoElectronico
                 }
                 if (!entro)
                 {
-                    if (lector1.GetString(0) == "ABM de Cuenta")
+                    if (lector1.GetString(0) == "ABM Cuenta")
                     {
                         entro = true;
                         cuentaToolStripMenuItem.Visible = true;
@@ -138,7 +145,7 @@ namespace PagoElectronico
                 
                 if (!entro)
                 {
-                    if (lector1.GetString(0) == "ABM de Rol")
+                    if (lector1.GetString(0) == "ABM Rol")
                     {
                         entro = true;
                         rolToolStripMenuItem.Visible = true;
@@ -154,6 +161,16 @@ namespace PagoElectronico
                         entro = true;
                         facturarToolStripMenuItem.Visible = true;
                      
+                    }
+                }
+                if (!entro)
+                {
+                    if (lector1.GetString(0) == "Retiros")
+                    {
+
+                        entro = true;
+                        retiroToolStripMenuItem1.Visible = true;
+
                     }
                 }
                 
