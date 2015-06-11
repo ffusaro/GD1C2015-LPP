@@ -182,6 +182,8 @@
             // ckbHabilitado
             // 
             this.ckbHabilitado.AutoSize = true;
+            this.ckbHabilitado.Checked = true;
+            this.ckbHabilitado.CheckState = System.Windows.Forms.CheckState.Checked;
             this.ckbHabilitado.Location = new System.Drawing.Point(169, 147);
             this.ckbHabilitado.Name = "ckbHabilitado";
             this.ckbHabilitado.Size = new System.Drawing.Size(73, 17);
@@ -292,7 +294,6 @@
             this.Name = "ABMUsuario";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Actualizar Usuario";
-            //this.Load += new System.EventHandler(this.ABMUsuario_Load_1);
             this.boxBotones.ResumeLayout(false);
             this.boxBotones.PerformLayout();
             this.boxDatos.ResumeLayout(false);

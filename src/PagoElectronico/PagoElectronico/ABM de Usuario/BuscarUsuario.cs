@@ -23,6 +23,7 @@ namespace PagoElectronico.ABM_de_Usuario
         {
             InitializeComponent();
             ev = evento;
+            btnBusca.Enabled = false;
             if (ev==1)
             {
                 label6.Text = "Doble click en el Usuario que quiera Modificar/Eliminar";
@@ -37,10 +38,10 @@ namespace PagoElectronico.ABM_de_Usuario
        
         private void btnLimpiar_Click(object sender, EventArgs e)
         {
-            txtUsuario.Text = "";
-            txtNombre.Text = "";
-            txtApellido.Text = "";
-            btnBuscar.Enabled = false;
+            txtUsuarios.Text = "";
+            txtName.Text = "";
+            txtLname.Text = "";
+            btnBusca.Enabled = false;
 
         }
 
@@ -50,21 +51,21 @@ namespace PagoElectronico.ABM_de_Usuario
             Conexion con = new Conexion();
            
 
-            string query = "SELECT nombre,apellido,username FROM LPP.USUARIOS U JOIN LPP.CLIENTES C ON ( U.username = C.username) WHERE 1=1";
+            string query = "SELECT nombre,apellido,U.username  FROM LPP.USUARIOS U JOIN LPP.CLIENTES C ON ( U.username = C.username) WHERE 1=1";
 
-            if (textBox2.Text != "")
+            if (txtName.Text != "")
             {
-                query += "AND nombre LIKE '%" + textBox2.Text + "%'";
+                query += "AND nombre LIKE '%" + txtName.Text + "%'";
             }
 
-            if (textBox3.Text != "")
+            if (txtLname.Text != "")
             {
-                query += "AND apellido LIKE '%" + textBox3.Text + "%'";
+                query += "AND apellido LIKE '%" + txtLname.Text + "%'";
             }
 
-            if (textBox1.Text != "")
+            if (txtUsuarios.Text != "")
             {
-                query += "AND username LIKE '%" + textBox1.Text + "%'";
+                query += "AND U.username LIKE '%" + txtUsuarios.Text + "%'";
             }
 
             con.cnn.Open();
@@ -106,6 +107,21 @@ namespace PagoElectronico.ABM_de_Usuario
         private void BuscarUsuario_Load(object sender, EventArgs e)
         {
 
+        }
+
+        private void txtUsuarios_TextChanged(object sender, EventArgs e)
+        {
+            btnBusca.Enabled = true;
+        }
+
+        private void txtName_TextChanged(object sender, EventArgs e)
+        {
+            btnBusca.Enabled = true;
+        }
+
+        private void txtLname_TextChanged(object sender, EventArgs e)
+        {
+            btnBusca.Enabled = true;
         }
 
        

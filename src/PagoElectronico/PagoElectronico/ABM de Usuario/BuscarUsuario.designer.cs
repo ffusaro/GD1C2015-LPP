@@ -42,11 +42,11 @@
             this.gpDatosFiltrados = new System.Windows.Forms.GroupBox();
             this.label6 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.textBox3 = new System.Windows.Forms.TextBox();
-            this.textBox2 = new System.Windows.Forms.TextBox();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.button1 = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
+            this.txtLname = new System.Windows.Forms.TextBox();
+            this.txtName = new System.Windows.Forms.TextBox();
+            this.txtUsuarios = new System.Windows.Forms.TextBox();
+            this.btnLimp = new System.Windows.Forms.Button();
+            this.btnBusca = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
@@ -183,11 +183,11 @@
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.textBox3);
-            this.groupBox1.Controls.Add(this.textBox2);
-            this.groupBox1.Controls.Add(this.textBox1);
-            this.groupBox1.Controls.Add(this.button1);
-            this.groupBox1.Controls.Add(this.button2);
+            this.groupBox1.Controls.Add(this.txtLname);
+            this.groupBox1.Controls.Add(this.txtName);
+            this.groupBox1.Controls.Add(this.txtUsuarios);
+            this.groupBox1.Controls.Add(this.btnLimp);
+            this.groupBox1.Controls.Add(this.btnBusca);
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Controls.Add(this.label3);
@@ -198,46 +198,49 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Filtro";
             // 
-            // textBox3
+            // txtLname
             // 
-            this.textBox3.Location = new System.Drawing.Point(127, 79);
-            this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(178, 20);
-            this.textBox3.TabIndex = 7;
+            this.txtLname.Location = new System.Drawing.Point(127, 79);
+            this.txtLname.Name = "txtLname";
+            this.txtLname.Size = new System.Drawing.Size(178, 20);
+            this.txtLname.TabIndex = 7;
+            this.txtLname.TextChanged += new System.EventHandler(this.txtLname_TextChanged);
             // 
-            // textBox2
+            // txtName
             // 
-            this.textBox2.Location = new System.Drawing.Point(127, 51);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(178, 20);
-            this.textBox2.TabIndex = 6;
+            this.txtName.Location = new System.Drawing.Point(127, 51);
+            this.txtName.Name = "txtName";
+            this.txtName.Size = new System.Drawing.Size(178, 20);
+            this.txtName.TabIndex = 6;
+            this.txtName.TextChanged += new System.EventHandler(this.txtName_TextChanged);
             // 
-            // textBox1
+            // txtUsuarios
             // 
-            this.textBox1.Location = new System.Drawing.Point(127, 21);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(178, 20);
-            this.textBox1.TabIndex = 5;
+            this.txtUsuarios.Location = new System.Drawing.Point(127, 21);
+            this.txtUsuarios.Name = "txtUsuarios";
+            this.txtUsuarios.Size = new System.Drawing.Size(178, 20);
+            this.txtUsuarios.TabIndex = 5;
+            this.txtUsuarios.TextChanged += new System.EventHandler(this.txtUsuarios_TextChanged);
             // 
-            // button1
+            // btnLimp
             // 
-            this.button1.Location = new System.Drawing.Point(540, 40);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(167, 36);
-            this.button1.TabIndex = 4;
-            this.button1.Text = "Limpiar";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.btnLimpiar_Click);
+            this.btnLimp.Location = new System.Drawing.Point(540, 40);
+            this.btnLimp.Name = "btnLimp";
+            this.btnLimp.Size = new System.Drawing.Size(167, 36);
+            this.btnLimp.TabIndex = 4;
+            this.btnLimp.Text = "Limpiar";
+            this.btnLimp.UseVisualStyleBackColor = true;
+            this.btnLimp.Click += new System.EventHandler(this.btnLimpiar_Click);
             // 
-            // button2
+            // btnBusca
             // 
-            this.button2.Location = new System.Drawing.Point(352, 40);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(167, 36);
-            this.button2.TabIndex = 3;
-            this.button2.Text = "Buscar";
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.btnBuscar_Click);
+            this.btnBusca.Location = new System.Drawing.Point(352, 40);
+            this.btnBusca.Name = "btnBusca";
+            this.btnBusca.Size = new System.Drawing.Size(167, 36);
+            this.btnBusca.TabIndex = 3;
+            this.btnBusca.Text = "Buscar";
+            this.btnBusca.UseVisualStyleBackColor = true;
+            this.btnBusca.Click += new System.EventHandler(this.btnBuscar_Click);
             // 
             // label1
             // 
@@ -305,14 +308,14 @@
         private System.Windows.Forms.Button btnSalir;
         private System.Windows.Forms.GroupBox gpDatosFiltrados;
         private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button btnLimp;
+        private System.Windows.Forms.Button btnBusca;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.TextBox textBox3;
-        private System.Windows.Forms.TextBox textBox2;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox txtLname;
+        private System.Windows.Forms.TextBox txtName;
+        private System.Windows.Forms.TextBox txtUsuarios;
     }
 }

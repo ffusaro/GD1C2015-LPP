@@ -393,6 +393,7 @@ namespace PagoElectronico
                         con3.cnn.Open();
                         SqlCommand command3 = new SqlCommand(query3, con3.cnn);
                         SqlDataReader lector3 = command3.ExecuteReader();
+                        lector3.Read();
                         int id_domicilio = lector3.GetInt32(0);
                         con3.cnn.Close();
 

@@ -23,6 +23,7 @@ namespace PagoElectronico.ABM_de_Usuario
         public string evento;
         public int ban;
         public string usuario;
+        public DateTime fechaConfiguracion = DateTime.ParseExact(readConfiguracion.Configuracion.fechaSystem(), "yyyy-dd-MM", System.Globalization.CultureInfo.InvariantCulture);
         
       
         public ABMUsuario(string user,string ev)
@@ -38,6 +39,9 @@ namespace PagoElectronico.ABM_de_Usuario
             btnEliminar.Enabled = false;
             btnContinuar.Enabled = false;
             btnBuscar.Enabled = true;
+            cmbpregunta_secreta.Items.Add("¿Nombre de la Madre?");
+            cmbpregunta_secreta.Items.Add("¿Nombre de la primera mascota?");
+            cmbpregunta_secreta.Items.Add("¿Lugar de nacimiento?");
           
             Conexion con = new Conexion();
             cbRol.Items.Add("");
@@ -59,7 +63,7 @@ namespace PagoElectronico.ABM_de_Usuario
             else
             {
                 string query2 = "SELECT U.username, R.rol, U.habilitado, U.pregunta_secreta, U.respuesta_secreta " +
-                                "FROM LPP.USUARIOS U JOIN LPP.ROLESxUSUARIO R ON R.username = U.username WHERE U.username = '" + evento + "'";
+                                "FROM LPP.USUARIOS U JOIN LPP.ROLESXUSUARIO R ON R.username = U.username WHERE U.username = '" + evento + "'";
                               
 
                 con.cnn.Open();
@@ -301,24 +305,29 @@ namespace PagoElectronico.ABM_de_Usuario
                 con.cnn.Close();
 
 
-                string query1 = "INSERT INTO LPP.USUARIO (username, pass, " +
-                                "pregunta_secreta,respuesta_secreta) VALUES " +
-                                "('" + txtUsuario.Text + "','" + Helper.Help.Sha256(txtPass.Text) + "'" +
-                                "'"+cmbpregunta_secreta.Text+"', '"+txtrespuesta_secreta.Text+"')";
-
                 Conexion con1 = new Conexion();
+                //OBTENGO ID DE ROL
                 con1.cnn.Open();
-                
+                string query2 = "SELECT id_rol FROM LPP.ROLES WHERE nombre = '"+Convert.ToString(cbRol.SelectedItem)+"'";
+                SqlCommand command2 = new SqlCommand(query2, con1.cnn);
+                SqlDataReader lector2 = command2.ExecuteReader();
+                lector2.Read();
+                int id_rol = lector2.GetInt32(0);
+                con1.cnn.Close();
+
+                //INSERTO EL USUARIO
+                string query1 = "INSERT INTO LPP.USUARIOS (username, pass, " +
+                                "pregunta_secreta,respuesta_secreta,fecha_creacion) VALUES " +
+                                "('" + txtUsuario.Text + "','" + Helper.Help.Sha256(txtPass.Text) + "','" + cmbpregunta_secreta.Text + "','" + txtrespuesta_secreta.Text + "','"+fechaConfiguracion+"')";
+                con1.cnn.Open();
                 SqlCommand command = new SqlCommand(query1, con1.cnn);
                 command.ExecuteNonQuery();
                 con1.cnn.Close();
-
-                string query9 = "INSERT INTO LPP.ROLESXUSUARIO (rol, username) VALUES ('" + cbRol.Text +
-                                "','" + txtUsuario.Text + "')";
+                //INSERTO EN ROLESXUSUARIO
+                string query9 = "INSERT INTO LPP.ROLESXUSUARIO (rol, username) VALUES (" + id_rol +",'" + txtUsuario.Text + "')";
                 con.cnn.Open();
-                
-                SqlCommand command2 = new SqlCommand(query9, con.cnn);
-                command2.ExecuteNonQuery();
+                SqlCommand command9 = new SqlCommand(query9, con.cnn);
+                command9.ExecuteNonQuery();
                 con.cnn.Close();
 
                 MessageBox.Show("Alta de Usuario Exitosa");
@@ -331,7 +340,7 @@ namespace PagoElectronico.ABM_de_Usuario
                 string query10 = "UPDATE LPP.USUARIOS SET " +
                                 " pregunta_secreta = '" + cmbpregunta_secreta.Text +
                                 "', respuesta_secreta = '" + txtrespuesta_secreta.Text+ "'" +
-                                ", Habilitado = '" + ckbHabilitado.Checked + "' " +
+                                ", habilitado = '" + ckbHabilitado.Checked + "' " +
                                 "WHERE username = '" + txtUsuario.Text + "'";
                 Conexion con = new Conexion();
                 con.cnn.Open();
