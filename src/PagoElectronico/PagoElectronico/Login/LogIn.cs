@@ -22,6 +22,8 @@ namespace PagoElectronico.Login
             InitializeComponent();
             btnIngresar.Enabled = false;
             txtPass.Enabled = false;
+            MessageBox.Show(""+fechaConfiguracion);
+            
         }
 
         private void btnIngresar_Click(object sender, EventArgs e)
@@ -129,7 +131,7 @@ namespace PagoElectronico.Login
 
                 //CARGO DATOS EN LOGUXSUARIO(Usuario incorrecto) AGREGAR TIPO INTENTO!
                 DateTime fechaConfiguracion = DateTime.ParseExact(readConfiguracion.Configuracion.fechaSystem(), "yyyy-dd-MM", System.Globalization.CultureInfo.InvariantCulture);
-                string query4 = "INSERT INTO LPP.LOGSXUSUARIO (username,fecha,num_intento) VALUES ('" + txtUsuario.Text + "', '" + fechaConfiguracion + "', " + intFallidos + " )";
+                string query4 = "INSERT INTO LPP.LOGSXUSUARIO (username,fecha,num_intento) VALUES ('" + txtUsuario.Text + "', '" + readConfiguracion.Configuracion.fechaSystem() + " 00:00:00.000', " + intFallidos + " )";
                 con.cnn.Open();
                 SqlCommand command4 = new SqlCommand(query4, con.cnn);
                 command4.ExecuteNonQuery();
@@ -157,7 +159,7 @@ namespace PagoElectronico.Login
                 con.cnn.Close();
 
                 //CARGO DATOS EN LOGUXSUARIO (Usuario correcto)
-                string query6 = "INSERT INTO LPP.LOGSXUSUARIO (username,fecha,num_intento) VALUES ('" + txtUsuario.Text + "', '" + fechaConfiguracion + "', " + intFallidos + " )";
+                string query6 = "INSERT INTO LPP.LOGSXUSUARIO (username,fecha,num_intento) VALUES ('" + txtUsuario.Text + "', '" + readConfiguracion.Configuracion.fechaSystem() + " 00:00:00.000', " + intFallidos + " )";
                 con.cnn.Open();
                 SqlCommand command6 = new SqlCommand(query6, con.cnn);
                 command6.ExecuteNonQuery();
