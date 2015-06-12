@@ -16,7 +16,10 @@ namespace PagoElectronico.Login
     {
         public MenuPrincipal mp = new MenuPrincipal();
         public DateTime fechaConfiguracion = DateTime.ParseExact(readConfiguracion.Configuracion.fechaSystem(), "yyyy-dd-MM", System.Globalization.CultureInfo.InvariantCulture);
-        
+        public bool entro;
+        public int intFallidos;
+        public string pass = "";
+
         public LogIn()
         {
             InitializeComponent();
@@ -28,15 +31,71 @@ namespace PagoElectronico.Login
 
         private void btnIngresar_Click(object sender, EventArgs e)
         {
+            Conexion con = new Conexion();
             if (cmbRol.SelectedItem==null)
             {
                 MessageBox.Show("Seleccione un Rol, por favor");
                 return;
             }
 
-            
-            MessageBox.Show("Bienvenido/a   "+txtUsuario.Text,""+cmbRol.Text);
-            
+            if (txtPass.Text == "")
+            {
+                MessageBox.Show("Ingrese la Contraseña, por favor");
+                return;
+            }
+
+            /*VALIDA CONTRASEÑA*/
+
+            if (!(pass == txtPass.Text.Sha256()))
+            {
+                string query2;
+
+                if (intFallidos >= 3)
+                {
+                    //SI HAY 3 INTENTOS FALLIDOS SE DESHABILITA AL USUARIO
+                    query2 = "UPDATE LPP.USUARIOS SET habilitado = 0 WHERE username = '" + txtUsuario.Text + "'";
+                    MessageBox.Show("Se ha inhabilitado al usuario");
+
+                }
+                else
+                {
+
+                    query2 = "UPDATE LPP.USUARIOS SET intentos = " + (intFallidos + 1) + " WHERE username = '" + txtUsuario.Text + "'";
+                }
+
+                entro = false;
+
+                con.cnn.Open();
+                MessageBox.Show("" + query2);
+                SqlCommand command1 = new SqlCommand(query2, con.cnn);
+                command1.ExecuteNonQuery();
+                con.cnn.Close();
+                MessageBox.Show("Contraseña Inválida");
+                txtPass.Text = "";
+                txtPass.Focus();
+                return;
+            }
+            else
+            {
+                /*LIMPIA LOS INTENTOS FALLIDOS*/
+
+                string query3 = "UPDATE LPP.USUARIOS SET intentos = 0 " +
+                                "WHERE username = '" + txtUsuario.Text + "'";
+                con.cnn.Open();
+                SqlCommand command2 = new SqlCommand(query3, con.cnn);
+                command2.ExecuteNonQuery();
+                con.cnn.Close();
+
+                entro = true;
+
+                btnIngresar.Enabled = true;
+                cmbRol.Enabled = true;
+                btnRol.Enabled = false;
+
+              
+            }
+            insertarEnLog();
+            MessageBox.Show("Bienvenido/a  "+txtUsuario.Text,""+cmbRol.Text);
             mp.Show();
             mp.cargarUsuario(txtUsuario.Text, cmbRol.Text, this);
             txtPass.Text = "";
@@ -69,11 +128,7 @@ namespace PagoElectronico.Login
                 MessageBox.Show("Ingrese un Nombre de Usuario, por favor");
                 return;
             }
-            if (txtPass.Text == "")
-            {
-                MessageBox.Show("Ingrese la Contraseña, por favor");
-                return;
-            }
+           
 
             /*VERIFICA EXISTENCIA DE USUARIO Y CARGA LOS DATOS*/
 
@@ -94,8 +149,8 @@ namespace PagoElectronico.Login
                 return;
             }
 
-            string pass = lector.GetString(0);
-            int intFallidos = lector.GetInt32(1);
+            pass = lector.GetString(0);
+            intFallidos = lector.GetInt32(1);
             bool userHabilitado = lector.GetBoolean(2);
            
             con.cnn.Close();
@@ -107,93 +162,60 @@ namespace PagoElectronico.Login
                 MessageBox.Show("Usuario Inhabilitado", "ERROR");
                 return;
             }
+
+
+            btnIngresar.Enabled = true;
+            cmbRol.Enabled = true;
+            btnRol.Enabled = false;
+
+            /*CARGAR ROLES*/
+            Conexion con1 = new Conexion();
+            string query5 = "SELECT DISTINCT R.nombre FROM LPP.ROLES R JOIN LPP.ROLESXUSUARIO U " +
+                            "ON U.rol = R.id_rol AND U.username = '" + txtUsuario.Text + " " +
+                            "' AND R.habilitado = 1";
+
+            con1.cnn.Open();
+            SqlCommand command5 = new SqlCommand(query5, con1.cnn);
+            SqlDataReader lector5 = command5.ExecuteReader();
+
+            while (lector5.Read())
+            {
+                cmbRol.Items.Add(lector5.GetString(0));
+            }
+
+            con1.cnn.Close();
             
-
-            /*VALIDA CONTRASEÑA*/
-
-            if (!(pass == txtPass.Text.Sha256()))
-            {
-                string query2;
-               
-                if (intFallidos >= 3)
-                {
-                    //SI HAY 3 INTENTOS FALLIDOS SE DESHABILITA AL USUARIO
-                    query2 = "UPDATE LPP.USUARIOS SET habilitado = 0 WHERE username = '" + txtUsuario.Text + "'";
-                    MessageBox.Show("Se ha inhabilitado al usuario");
-
-                }
-                else
-                {
-
-                    query2 = "UPDATE LPP.USUARIOS SET intentos = " + (intFallidos + 1) + " WHERE username = '" + txtUsuario.Text + "'";
-                }
-
-
-                //CARGO DATOS EN LOGUXSUARIO(Usuario incorrecto) AGREGAR TIPO INTENTO!
-                DateTime fechaConfiguracion = DateTime.ParseExact(readConfiguracion.Configuracion.fechaSystem(), "yyyy-dd-MM", System.Globalization.CultureInfo.InvariantCulture);
-                string query4 = "INSERT INTO LPP.LOGSXUSUARIO (username,fecha,num_intento) VALUES ('" + txtUsuario.Text + "', '" + readConfiguracion.Configuracion.fechaSystem() + " 00:00:00.000', " + intFallidos + " )";
-                con.cnn.Open();
-                SqlCommand command4 = new SqlCommand(query4, con.cnn);
-                command4.ExecuteNonQuery();
-                con.cnn.Close();
-
-                con.cnn.Open();
-                MessageBox.Show("" + query2);
-                SqlCommand command1 = new SqlCommand(query2, con.cnn);
-                command1.ExecuteNonQuery();
-                con.cnn.Close();
-                MessageBox.Show("Contraseña Inválida");
-                txtPass.Text = "";
-                txtPass.Focus();
-                return;
-            }
-            else
-            {
-                /*LIMPIA LOS INTENTOS FALLIDOS*/
-
-                string query3 = "UPDATE LPP.USUARIOS SET intentos = 0 " +
-                                "WHERE username = '" + txtUsuario.Text + "'";
-                con.cnn.Open();
-                SqlCommand command2 = new SqlCommand(query3, con.cnn);
-                command2.ExecuteNonQuery();
-                con.cnn.Close();
-
-                //CARGO DATOS EN LOGUXSUARIO (Usuario correcto)
-                string query6 = "INSERT INTO LPP.LOGSXUSUARIO (username,fecha,num_intento) VALUES ('" + txtUsuario.Text + "', '" + readConfiguracion.Configuracion.fechaSystem() + " 00:00:00.000', " + intFallidos + " )";
-                con.cnn.Open();
-                SqlCommand command6 = new SqlCommand(query6, con.cnn);
-                command6.ExecuteNonQuery();
-                con.cnn.Close();
-
-                btnIngresar.Enabled = true;
-                cmbRol.Enabled = true;
-                btnRol.Enabled = false;
-
-                /*CARGAR ROLES*/
-                Conexion con1 = new Conexion();
-                string query5 = "SELECT DISTINCT R.nombre FROM LPP.ROLES R JOIN LPP.ROLESXUSUARIO U " +
-                                "ON U.rol = R.id_rol AND U.username = '" + txtUsuario.Text + " " +
-                                "' AND R.habilitado = 1";
-
-                con1.cnn.Open();
-                SqlCommand command5 = new SqlCommand(query5, con1.cnn);
-                SqlDataReader lector5 = command5.ExecuteReader();
-
-                while (lector5.Read())
-                {
-                    cmbRol.Items.Add(lector5.GetString(0));
-                }
-
-                con1.cnn.Close();
-
-            }
         }
 
         private void txtPass_TextChanged(object sender, EventArgs e)
         {
             btnRol.Enabled = true;
         }
-      
+
+        public void insertarEnLog()
+        {
+           Conexion con = new Conexion();
+           if (entro)
+           {
+               //CARGO DATOS EN LOGUXSUARIO (Usuario correcto)
+               string query6 = "INSERT INTO LPP.LOGSXUSUARIO (username,fecha,num_intento) VALUES ('" + txtUsuario.Text + "', '" + readConfiguracion.Configuracion.fechaSystem() + " 00:00:00.000', " + intFallidos + " )";
+               con.cnn.Open();
+               SqlCommand command6 = new SqlCommand(query6, con.cnn);
+               command6.ExecuteNonQuery();
+               con.cnn.Close();
+
+           }
+           else
+           {
+               //CARGO DATOS EN LOGUXSUARIO(Usuario incorrecto) AGREGAR TIPO INTENTO!
+               DateTime fechaConfiguracion = DateTime.ParseExact(readConfiguracion.Configuracion.fechaSystem(), "yyyy-dd-MM", System.Globalization.CultureInfo.InvariantCulture);
+               string query4 = "INSERT INTO LPP.LOGSXUSUARIO (username,fecha,num_intento) VALUES ('" + txtUsuario.Text + "', '" + readConfiguracion.Configuracion.fechaSystem() + " 00:00:00.000', " + intFallidos + " )";
+               con.cnn.Open();
+               SqlCommand command4 = new SqlCommand(query4, con.cnn);
+               command4.ExecuteNonQuery();
+               con.cnn.Close();
+           }
+       }
        
 
        
