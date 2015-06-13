@@ -56,8 +56,13 @@ namespace PagoElectronico
             Conexion con = new Conexion();
             string query;
 
-            
-            query = "SELECT  D.descripcion FROM LPP.FUNCIONALIDADXROL F JOIN LPP.ROLESXUSUARIO R ON R.username = '"+ user +"' JOIN LPP.ROLES O ON O.id_rol = R.rol AND O.habilitado = 1 AND R.rol = F.rol JOIN LPP.FUNCIONALIDAD D ON D.id_funcionalidad = F.funcionalidad ORDER BY D.id_funcionalidad";
+
+            query = "SELECT  F.descripcion FROM LPP.FUNCIONALIDADXROL FR" 
+                    +" JOIN LPP.FUNCIONALIDAD F ON F.id_funcionalidad = FR.funcionalidad"
+                    +" JOIN LPP.ROLES R ON R.id_rol = FR.rol"  
+                    +" JOIN LPP.ROLESXUSUARIO RU ON RU.rol = R.id_rol"
+                    +" WHERE R.habilitado = 1 and RU.username = '"+ user +"'" +"ORDER BY F.id_funcionalidad";
+
             con.cnn.Open();
             SqlCommand command = new SqlCommand(query, con.cnn);
             SqlDataReader lector1 = command.ExecuteReader();
@@ -230,7 +235,7 @@ namespace PagoElectronico
 
         private void eliminarRolToolStripMenuItem_Click(object sender, EventArgs e)
         {
-           ABM_Rol.BuscarRol eliminarRol = new ABM_Rol.BuscarRol("B");
+            ABM_Rol.BuscarRol eliminarRol = new ABM_Rol.BuscarRol("B");
             eliminarRol.Show();
             eliminarRol.mp = this;
         }
@@ -262,7 +267,9 @@ namespace PagoElectronico
      
         private void buscarListadosToolStripMenuItem_Click(object sender, EventArgs e)
         {
-          
+            Listados_Estadisticos.Listados lis = new Listados_Estadisticos.Listados();
+            lis.Show();
+
         }
 
         private void realizarFacturacionToolStripMenuItem_Click(object sender, EventArgs e)
@@ -277,15 +284,18 @@ namespace PagoElectronico
 
         }
 
-        private void hotelToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-
-        }
 
         private void aBMDepositoToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Depositos.Depositos dep = new Depositos.Depositos(user);
             dep.Show();
+        }
+
+  
+        private void aBMRolToolStripMenuItem1_Click_1(object sender, EventArgs e)
+        {
+            ABM_Rol.ABMRol rol = new ABM_Rol.ABMRol(user);
+            rol.Show();
         }
 
       
