@@ -73,6 +73,51 @@ namespace PagoElectronico.Login
                 MessageBox.Show("Contraseña Inválida");
                 txtPass.Text = "";
                 txtPass.Focus();
+                 // Conexion con = new Conexion();
+            string query = "SELECT pass, intentos, habilitado " +
+                           "FROM LPP.USUARIOS WHERE username = '" + txtUsuario.Text + "'";
+
+            con.cnn.Open();
+            SqlCommand command = new SqlCommand(query, con.cnn);
+            SqlDataReader lector = command.ExecuteReader();
+
+            if (!lector.Read())
+            {
+                con.cnn.Close();
+                MessageBox.Show("Usuario Inválido");
+                txtUsuario.Text = "";
+                txtPass.Text = "";
+                return;
+            }
+
+            pass = lector.GetString(0);
+            intFallidos = lector.GetInt32(1);
+            bool userHabilitado = lector.GetBoolean(2);
+           
+            con.cnn.Close();
+
+            //Conexion con = new Conexion();
+            query = "SELECT pass, intentos, habilitado " +
+                           "FROM LPP.USUARIOS WHERE username = '" + txtUsuario.Text + "'";
+
+            con.cnn.Open();
+            command = new SqlCommand(query, con.cnn);
+            lector = command.ExecuteReader();
+
+            if (!lector.Read())
+            {
+                con.cnn.Close();
+                MessageBox.Show("Usuario Inválido");
+                txtUsuario.Text = "";
+                txtPass.Text = "";
+                return;
+            }
+
+            pass = lector.GetString(0);
+            intFallidos = lector.GetInt32(1);
+            userHabilitado = lector.GetBoolean(2);
+
+            con.cnn.Close();
                 return;
             }
             else
