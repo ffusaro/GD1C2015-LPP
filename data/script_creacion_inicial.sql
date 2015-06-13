@@ -103,7 +103,7 @@ DROP PROCEDURE PRC_ultimos_5_retiros_de_una_cuenta
 GO
 
 IF OBJECT_ID('PRC_ultimas_10_transferencias_de_una_cuenta') IS NOT NULL
-DROP PROCEDURE PPRC_ultimas_10_transferencias_de_una_cuenta
+DROP PROCEDURE PRC_ultimas_10_transferencias_de_una_cuenta
 GO
 
 /*---------Limpieza de Triggers-----------*/
@@ -799,7 +799,7 @@ ON LPP.ITEMS_FACTURA
 INSTEAD OF UPDATE
 AS
 BEGIN 
-	UPDATE LPP.CUENTAS SET id_estado =1 WHERE (SELECT num_cuenta FROM inserted) = num_cuenta
+	UPDATE LPP.CUENTAS SET id_estado =1 WHERE (SELECT DISTINCT num_cuenta FROM inserted) = num_cuenta AND (SELECT DISTINCT id_item FROM inserted) = 1
 END
 GO
 /*Test TRG_cuenta_pedienteactivacion_a_activada

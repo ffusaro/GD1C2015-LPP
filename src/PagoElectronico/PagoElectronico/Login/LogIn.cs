@@ -18,6 +18,7 @@ namespace PagoElectronico.Login
         public DateTime fechaConfiguracion = DateTime.ParseExact(readConfiguracion.Configuracion.fechaSystem(), "yyyy-dd-MM", System.Globalization.CultureInfo.InvariantCulture);
         public bool entro;
         public int intFallidos;
+        public bool userHabilitado;
         public string pass = "";
 
         public LogIn()
@@ -73,51 +74,7 @@ namespace PagoElectronico.Login
                 MessageBox.Show("Contraseña Inválida");
                 txtPass.Text = "";
                 txtPass.Focus();
-                 // Conexion con = new Conexion();
-            string query = "SELECT pass, intentos, habilitado " +
-                           "FROM LPP.USUARIOS WHERE username = '" + txtUsuario.Text + "'";
-
-            con.cnn.Open();
-            SqlCommand command = new SqlCommand(query, con.cnn);
-            SqlDataReader lector = command.ExecuteReader();
-
-            if (!lector.Read())
-            {
-                con.cnn.Close();
-                MessageBox.Show("Usuario Inválido");
-                txtUsuario.Text = "";
-                txtPass.Text = "";
-                return;
-            }
-
-            pass = lector.GetString(0);
-            intFallidos = lector.GetInt32(1);
-            bool userHabilitado = lector.GetBoolean(2);
-           
-            con.cnn.Close();
-
-            //Conexion con = new Conexion();
-            query = "SELECT pass, intentos, habilitado " +
-                           "FROM LPP.USUARIOS WHERE username = '" + txtUsuario.Text + "'";
-
-            con.cnn.Open();
-            command = new SqlCommand(query, con.cnn);
-            lector = command.ExecuteReader();
-
-            if (!lector.Read())
-            {
-                con.cnn.Close();
-                MessageBox.Show("Usuario Inválido");
-                txtUsuario.Text = "";
-                txtPass.Text = "";
-                return;
-            }
-
-            pass = lector.GetString(0);
-            intFallidos = lector.GetInt32(1);
-            userHabilitado = lector.GetBoolean(2);
-
-            con.cnn.Close();
+                this.busquedaDatosUsuario();
                 return;
             }
             else
@@ -176,8 +133,8 @@ namespace PagoElectronico.Login
            
 
             /*VERIFICA EXISTENCIA DE USUARIO Y CARGA LOS DATOS*/
-
-            Conexion con = new Conexion();
+            this.busquedaDatosUsuario();
+            /*Conexion con = new Conexion();
             string query = "SELECT pass, intentos, habilitado " +
                            "FROM LPP.USUARIOS WHERE username = '" + txtUsuario.Text + "'";
 
@@ -198,21 +155,18 @@ namespace PagoElectronico.Login
             intFallidos = lector.GetInt32(1);
             bool userHabilitado = lector.GetBoolean(2);
            
-            con.cnn.Close();
+            con.cnn.Close();*/
 
             /*VERIFICA HABILITACION*/
-
+            /*
             if (!userHabilitado)
             {
                 MessageBox.Show("Usuario Inhabilitado", "ERROR");
                 return;
-            }
-
-
+            }*/
             btnIngresar.Enabled = true;
             cmbRol.Enabled = true;
             btnRol.Enabled = false;
-
             /*CARGAR ROLES*/
             Conexion con1 = new Conexion();
             string query5 = "SELECT DISTINCT R.nombre FROM LPP.ROLES R JOIN LPP.ROLESXUSUARIO U " +
@@ -237,6 +191,40 @@ namespace PagoElectronico.Login
             btnRol.Enabled = true;
         }
 
+        public void busquedaDatosUsuario() {
+            Conexion con = new Conexion();
+            string query = "SELECT pass, intentos, habilitado " +
+                           "FROM LPP.USUARIOS WHERE username = '" + txtUsuario.Text + "'";
+
+            con.cnn.Open();
+            SqlCommand command = new SqlCommand(query, con.cnn);
+            SqlDataReader lector = command.ExecuteReader();
+
+            if (!lector.Read())
+            {
+                con.cnn.Close();
+                MessageBox.Show("Usuario Inválido");
+                txtUsuario.Text = "";
+                txtPass.Text = "";
+                return;
+            }
+
+            pass = lector.GetString(0);
+            intFallidos = lector.GetInt32(1);
+            bool userHabilitado = lector.GetBoolean(2);
+
+            con.cnn.Close();
+
+            if (!userHabilitado)
+            {
+                MessageBox.Show("Usuario Inhabilitado", "ERROR");
+                return;
+            }
+
+
+           
+
+        }
         public void insertarEnLog()
         {
            Conexion con = new Conexion();
