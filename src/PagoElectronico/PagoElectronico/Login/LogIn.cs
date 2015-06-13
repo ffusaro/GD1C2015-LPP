@@ -26,8 +26,7 @@ namespace PagoElectronico.Login
             InitializeComponent();
             btnIngresar.Enabled = false;
             txtPass.Enabled = false;
-            MessageBox.Show(""+fechaConfiguracion);
-            
+                       
         }
 
         private void btnIngresar_Click(object sender, EventArgs e)
