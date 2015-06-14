@@ -28,7 +28,15 @@ namespace PagoElectronico
 
             try
             {
-                string query = "INSERT INTO LPP.CLIENTES (num_doc, apellido, nombre, fecha_nac, mail, id_tipo_Doc, Nacionalidad, Habilitado,id_domicilio,username) VALUES (" + Numero_ID + ", '" + Apellido + "', '" + Nombre + "', '" + Nacimiento + "', '" + Mail + "', '" + Tipo_ID + "','" + Nacionalidad + "', '" + Habilitacion + "', "+id_domicilio +",'"+ usuario +"')";
+                //string query2 = "INSERT INTO LPP.CLIENTES"+
+                 //               "(num_doc, apellido, nombre, fecha_nac, mail, id_tipo_Doc, Nacionalidad, Habilitado,id_domicilio,username)"+
+                  //              "VALUES (" + Numero_ID + ", '" + Apellido + "', '" + Nombre + "', '" + Nacimiento + "', '" + Mail + "', '" + Tipo_ID + "','" + Nacionalidad + "', '" + Habilitacion + "', "+id_domicilio +",'"+ usuario +"')";
+                string query = "INSERT INTO LPP.CLIENTES" +
+                                " (num_doc, apellido, nombre, fecha_nac, mail, id_tipo_Doc, id_pais, id_domicilio) " +
+                                "VALUES (" + Numero_ID + ", '" + Apellido + "', '" + Nombre + "', '" + Nacimiento.ToString("yyyy-MM-dd HH:MM:ss") + "',"
+                                +" '" + Mail + "', (select tipo_cod FROM LPP.TIPO_DOCS WHERE tipo_descr = '" + Tipo_ID + "')" +
+                                ", (select id_pais from LPP.PAISES WHERE RIGHT(pais, LEN(pais)-1) = '" + Nacionalidad + "' )," + id_domicilio + ") ";
+                
                 SqlCommand command = new SqlCommand(query, con1.cnn);
                 command.ExecuteNonQuery();
 
