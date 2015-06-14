@@ -49,13 +49,14 @@ namespace PagoElectronico
             con1.cnn.Open();
             int contador = 0;
             try
-            {
-                string query = "SELECT id_tipo_doc, num_doc FROM LPP.CLIENTES WHERE id_tipo_doc = '"+ Tipo_ID +"' AND num_doc = "+ Numero_ID +"";
+            {   
+
+                string query = "SELECT id_tipo_doc, num_doc FROM LPP.CLIENTES WHERE id_tipo_doc = (SELECT tipo_cod FROM LPP.TIPO_DOCS WHERE tipo_descr = '" + Tipo_ID + "') AND num_doc = " + Numero_ID + "";
                 SqlCommand command = new SqlCommand(query, con1.cnn);
                 dr = command.ExecuteReader();
-                while(dr.Read())
+                while (dr.Read())
                 {
-                    
+
                     contador++;
                 }
                 dr.Close();
@@ -63,12 +64,13 @@ namespace PagoElectronico
             }
             catch (Exception ex)
             {
-                MessageBox.Show("El Cliente ya existe",ex.ToString());
+                con1.cnn.Close();
+                return contador;
+                
             }
-            con1.cnn.Close();  
-            return contador;
-        
-        
+            con1.cnn.Close();
+            //MessageBox.Show("El Cliente ya existe");
+            return 0;
         }
 
         public string modificarCliente(string Nombre, string Apellido, string Tipo_ID, int Numero_ID, string Mail, DateTime Nacimiento,string Nacionalidad, bool Habilitacion)
@@ -124,7 +126,7 @@ namespace PagoElectronico
             con1.cnn.Open();
             try
             {
-                string query = "INSERT INTO LPP.DOMICILIO (calle, numero, piso, depto, localidad)" +
+                string query = "INSERT INTO LPP.DOMICILIOS (calle, num, piso, depto, localidad)" +
                                " VALUES ('" + calle + "'," + numero + "," + Piso + ",'"+ depto +"', '"+ localidad +"')";
                               
                 
@@ -141,11 +143,12 @@ namespace PagoElectronico
 
 
             Conexion con3 = new Conexion();
-            string query3 = "SELECT id_domicilio FROM LPP.DOMICILIO WHERE calle = '"+calle+"' AND num = "+numero+" AND piso= "+Piso+" ";
+            string query3 = "SELECT id_domicilio FROM LPP.DOMICILIOS WHERE calle = '"+calle+"' AND num = "+numero+"AND piso= "+Piso+" ";
             con3.cnn.Open();
             SqlCommand command3 = new SqlCommand(query3, con3.cnn);
             SqlDataReader lector3 = command3.ExecuteReader();
-            int id_domicilio = lector3.GetInt32(0);
+            lector3.Read();
+            int id_domicilio = lector3.GetInt32(lector3.GetOrdinal("id_domicilio"));
             con3.cnn.Close();
 
             return id_domicilio;
@@ -159,7 +162,7 @@ namespace PagoElectronico
             con1.cnn.Open();
             try
             {
-                string query = "UPDATE LPP.DOMICILIO SET calle = '" + calle +"',  numero = " + numero + ""+
+                string query = "UPDATE LPP.DOMICILIOS SET calle = '" + calle +"',  numero = " + numero + ""+
                                "piso = " +Piso + ", depto = '"+ depto+"', localidad = '" +localidad+"'" +
                                "WHERE id_domicilio = "+id_domicilio+"";
                 
