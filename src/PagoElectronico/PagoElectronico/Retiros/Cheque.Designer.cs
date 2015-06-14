@@ -37,6 +37,7 @@
             this.btnCancelar = new System.Windows.Forms.Button();
             this.btnContinuar = new System.Windows.Forms.Button();
             this.grpBanco = new System.Windows.Forms.GroupBox();
+            this.btnBanco = new System.Windows.Forms.Button();
             this.cmbBanco = new System.Windows.Forms.ComboBox();
             this.label3 = new System.Windows.Forms.Label();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
@@ -44,7 +45,7 @@
             this.label4 = new System.Windows.Forms.Label();
             this.txtDoc = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
-            this.btnBanco = new System.Windows.Forms.Button();
+            this.btLimpiar = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.grpBanco.SuspendLayout();
@@ -99,6 +100,7 @@
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.btLimpiar);
             this.groupBox2.Controls.Add(this.btnCancelar);
             this.groupBox2.Location = new System.Drawing.Point(13, 159);
             this.groupBox2.Name = "groupBox2";
@@ -108,7 +110,7 @@
             // 
             // btnCancelar
             // 
-            this.btnCancelar.Location = new System.Drawing.Point(245, 13);
+            this.btnCancelar.Location = new System.Drawing.Point(437, 14);
             this.btnCancelar.Name = "btnCancelar";
             this.btnCancelar.Size = new System.Drawing.Size(75, 23);
             this.btnCancelar.TabIndex = 1;
@@ -137,6 +139,16 @@
             this.grpBanco.TabIndex = 2;
             this.grpBanco.TabStop = false;
             this.grpBanco.Text = "Banco";
+            // 
+            // btnBanco
+            // 
+            this.btnBanco.Location = new System.Drawing.Point(437, 15);
+            this.btnBanco.Name = "btnBanco";
+            this.btnBanco.Size = new System.Drawing.Size(75, 23);
+            this.btnBanco.TabIndex = 4;
+            this.btnBanco.Text = "Elegir Banco";
+            this.btnBanco.UseVisualStyleBackColor = true;
+            this.btnBanco.Click += new System.EventHandler(this.btnBanco_Click);
             // 
             // cmbBanco
             // 
@@ -202,15 +214,15 @@
             this.label5.TabIndex = 0;
             this.label5.Text = "Numero de Documento";
             // 
-            // btnBanco
+            // btLimpiar
             // 
-            this.btnBanco.Location = new System.Drawing.Point(437, 15);
-            this.btnBanco.Name = "btnBanco";
-            this.btnBanco.Size = new System.Drawing.Size(75, 23);
-            this.btnBanco.TabIndex = 4;
-            this.btnBanco.Text = "Elegir Banco";
-            this.btnBanco.UseVisualStyleBackColor = true;
-            this.btnBanco.Click += new System.EventHandler(this.btnBanco_Click);
+            this.btLimpiar.Location = new System.Drawing.Point(30, 14);
+            this.btLimpiar.Name = "btLimpiar";
+            this.btLimpiar.Size = new System.Drawing.Size(75, 23);
+            this.btLimpiar.TabIndex = 2;
+            this.btLimpiar.Text = "Limpiar";
+            this.btLimpiar.UseVisualStyleBackColor = true;
+            this.btLimpiar.Click += new System.EventHandler(this.btLimpiar_Click);
             // 
             // Cheque
             // 
@@ -253,5 +265,6 @@
         private System.Windows.Forms.TextBox txtDoc;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Button btnBanco;
+        private System.Windows.Forms.Button btLimpiar;
     }
 }

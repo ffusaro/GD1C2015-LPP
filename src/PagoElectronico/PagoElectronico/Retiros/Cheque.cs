@@ -158,6 +158,13 @@ namespace PagoElectronico.Retiros
             con.cnn.Close();
         }
 
+        private void btLimpiar_Click(object sender, EventArgs e)
+        {
+            cbID.SelectedItem = null;
+            cmbBanco.SelectedItem = null;
+            txtDoc.Text = " ";
+        }
+
         
 
        

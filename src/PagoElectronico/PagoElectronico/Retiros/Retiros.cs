@@ -185,8 +185,6 @@ namespace PagoElectronico.Retiros
             decimal id_retiro = Convert.ToDecimal(command3.ExecuteScalar());
             con.cnn.Close();
 
-         
-
             //INSERTO EN CHEQUE
             string query2 = "INSERT INTO LPP.CHEQUES (id_retiro,importe,fecha,id_banco,cliente_receptor) VALUES "
                 +"(" +id_retiro +", "+ importe+", "
@@ -197,7 +195,6 @@ namespace PagoElectronico.Retiros
             SqlDataReader lector2 = command2.ExecuteReader();
             con.cnn.Close();
 
-            //OBTENGO ID CHEQUE Y LO MUESTRO
             DialogResult dialogResult = MessageBox.Show("Su retiro se realizo correctamente. ¿Desea ver el comprobante?", "Retiro de Efectivo", MessageBoxButtons.YesNo);
             if (dialogResult == DialogResult.Yes)
             {
