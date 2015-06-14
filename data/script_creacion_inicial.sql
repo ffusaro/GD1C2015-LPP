@@ -398,8 +398,8 @@ PRIMARY KEY(num_tarjeta));
 
 CREATE TABLE [LPP].DEPOSITOS(
 num_deposito NUMERIC(18,0) NOT NULL IDENTITY(1,1),
-num_cuenta NUMERIC(18,0) NOT NULL,--FF: en la maestra no hay datos de cuenta en los depositos, que hacemos?
-importe NUMERIC(18,2) NOT NULL, --RR TODO: Poner bancos default
+num_cuenta NUMERIC(18,0) NOT NULL,
+importe NUMERIC(18,2) NOT NULL, 
 id_moneda NUMERIC(18,0) DEFAULT 1,
 num_tarjeta VARCHAR(16),
 id_emisor NUMERIC(18,0),
@@ -675,6 +675,11 @@ BEGIN TRANSACTION
 				(SELECT id_domicilio FROM LPP.DOMICILIOS WHERE num= Cli_Dom_Nro AND calle = Cli_Dom_Calle AND depto = Cli_Dom_Depto ), Cli_Mail
 		FROM gd_esquema.Maestra;
 COMMIT; 
+
+--TODO: BORRARLO PARA LA ENTREGA
+--para pruebas se le asigna el cliente id_cliente= 3 que posee tres cuentas, el usuario admin 
+UPDATE LPP.CLIENTES SET username = 'admin' WHERE id_cliente = 3
+
 
 BEGIN TRANSACTION
 SET IDENTITY_INSERT [LPP].CUENTAS ON;

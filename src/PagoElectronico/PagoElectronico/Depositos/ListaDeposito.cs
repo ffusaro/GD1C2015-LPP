@@ -14,16 +14,16 @@ namespace PagoElectronico.Depositos
 {
     public partial class ListaDeposito : Form
     {
-        public int num_cuenta;
+        public decimal num_deposito;
         public DataTable dt;
-        public ListaDeposito(int cuenta)
+        public ListaDeposito(decimal id_deposito)
         {
             InitializeComponent();
-            num_cuenta = cuenta;
+            num_deposito = id_deposito;
 
             //CARGO EL DATAGRIDVIEW CON LOS DATOS DEL DEPOSITO
             Conexion con = new Conexion();
-            string query = "SELECT * FROM LPP.DEPOSITOS WHERE num_cuenta = " + num_cuenta + " ";
+            string query = "SELECT * FROM LPP.DEPOSITOS WHERE num_deposito = " + num_deposito + " ";
             DataTable dtDatos = new DataTable();
             SqlDataAdapter da = new SqlDataAdapter(query, con.cnn);
             da.Fill(dtDatos);

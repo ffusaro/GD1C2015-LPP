@@ -17,7 +17,10 @@ namespace PagoElectronico.Depositos
     {
         string usuario;
         public DateTime fechaConfiguracion = DateTime.ParseExact(readConfiguracion.Configuracion.fechaSystem(), "yyyy-dd-MM", System.Globalization.CultureInfo.InvariantCulture);
-        
+        private decimal id_emisor;
+        private decimal id_moneda;
+        private decimal num_deposito;
+
         public Depositos(string user)
         {
             InitializeComponent();
@@ -29,12 +32,11 @@ namespace PagoElectronico.Depositos
             btnLimpiar.Enabled = false;
 
             //CARGA DE NUMEROS DE CUENTA
-            
             Conexion con = new Conexion();
-            string query = "SELECT DISTINCT C.num_cuenta" +
-                            "FROM LPP.CLIENTES U JOIN LPP.CUENTAS C ON C.id_cliente = U.id_cliente AND U.username = '" + usuario + "' " +
-                                                "JOIN LPP.ESTADOS_CUENTA E ON E.id_estadocuenta = C.id_estado" +
-                            "WHERE E.descripcion ='Habilitada'";
+            string query = "SELECT DISTINCT C.num_cuenta FROM LPP.CUENTAS C" +
+                           " JOIN LPP.CLIENTES CL ON CL.id_cliente = C.id_cliente "+
+                           " JOIN LPP.ESTADOS_CUENTA E ON E.id_estadocuenta = C.id_estado " +
+                           " WHERE E.id_estadocuenta = 1 AND CL.username = '" + usuario  + "'";
 
             con.cnn.Open();
             SqlCommand command = new SqlCommand(query, con.cnn);
@@ -42,34 +44,34 @@ namespace PagoElectronico.Depositos
 
             while (lector.Read())
             {
-                cmbNroCuenta.Items.Add(lector.GetString(0));
+                cmbNroCuenta.Items.Add(lector.GetDecimal(0));
             }
 
             con.cnn.Close();
 
             //CARGA DE TIPOS DE MONEDAS
-
             string query2 = "SELECT DISTINCT M.descripcion FROM LPP.MONEDAS M ";
             con.cnn.Open();
             SqlCommand command2 = new SqlCommand(query2, con.cnn);
             SqlDataReader lector2 = command2.ExecuteReader();
             while (lector2.Read())
             {
-                cmbNroCuenta.Items.Add(lector2.GetString(0));
+                cmbMoneda.Items.Add(lector2.GetString(0));
             }
             con.cnn.Close();
 
             //CARGA DE TARJETAS DE CREDTIOS ASOCIADAS
-            string query3 = "SELECT DISTINCT C.num_tarjeta" +
-                            "FROM LPP.CLIENTES C JOIN LPP.TARJETAS T ON C.id_cliente = C.id_cliente AND U.username = '" + usuario + "' " +
-                            "WHERE T.fecha_vencimiento > '"+fechaConfiguracion+"'";
+            string query3 = "SELECT DISTINCT T.num_tarjeta FROM LPP.TARJETAS T "
+                            +" JOIN LPP.CLIENTES C ON C.id_cliente = T.id_cliente"
+                            +" WHERE C.username = '"+usuario+"'"
+                            +" AND T.fecha_vencimiento > convert(datetime,'" + readConfiguracion.Configuracion.fechaSystem() + " 00:00:00.000', 103)";
 
             con.cnn.Open();
             SqlCommand command3 = new SqlCommand(query3, con.cnn);
             SqlDataReader lector3 = command3.ExecuteReader();
             while (lector3.Read())
             {
-                cmbNroCuenta.Items.Add(lector3.GetString(0));
+                cmbTarjeta.Items.Add(lector3.GetString(0));
             }
             con.cnn.Close();
        }
@@ -131,41 +133,67 @@ namespace PagoElectronico.Depositos
             }
 
             Conexion con = new Conexion();
-            //CONSIGO ID DE MONEDA
-            string query = "SELECT M.id_moneda FROM LPP.MONEDAS WHERE M.descripcion = '"+cmbMoneda.Text+"'";
-            con.cnn.Open();
-            SqlCommand command = new SqlCommand(query, con.cnn);
-            SqlDataReader lector = command.ExecuteReader();
-            int id_moneda = lector.GetInt32(0);
-            con.cnn.Close();
-
             //CONSIGO ID DE EMISOR TARJETA (?)
-            string query1 = "SELECT T.id_emisor FROM LPP.TARJETAS WHERE T.num_tarjeta = " + Convert.ToInt32(cmbTarjeta.Text) + "";
+            string query1 = "SELECT id_emisor FROM LPP.TARJETAS WHERE num_tarjeta = '" + cmbTarjeta.Text + "'";
             con.cnn.Open();
             SqlCommand command1 = new SqlCommand(query1, con.cnn);
             SqlDataReader lector1 = command1.ExecuteReader();
-            int id_emisor = lector1.GetInt32(0);
+            while (lector1.Read())
+            {
+                id_emisor = lector1.GetDecimal(0);
+            }
             con.cnn.Close();
 
+            //CONSIGO ID DE MONEDA
+            string query = "SELECT id_moneda FROM LPP.MONEDAS WHERE descripcion = '"+cmbMoneda.Text+"'";
+            con.cnn.Open();
+            SqlCommand command = new SqlCommand(query, con.cnn);
+            SqlDataReader lector = command.ExecuteReader();
+            while (lector.Read())
+            {
+                id_moneda = lector.GetDecimal(0);
+            }
+            con.cnn.Close();
+
+           
+
             //INSERTO DATOS EN DEPOSITOS
-            string query4 = "INSERT INTO LPP.DEPOSITOS (num_cuenta,importe,id_moneda,num_tarjeta,id_emisor,fecha_deposito) VALUES (" + Convert.ToInt32(cmbNroCuenta.Text) + ", "+Convert.ToInt32(txtImporte.Text)+", "+id_moneda+", "+Convert.ToInt32(cmbTarjeta.Text)+","+id_emisor+", '" + fechaConfiguracion + "' )";
+            string query4 = "INSERT INTO LPP.DEPOSITOS (num_cuenta, importe, id_moneda, num_tarjeta, id_emisor, fecha_deposito)"
+                            +" VALUES (" + Convert.ToDecimal(cmbNroCuenta.Text) + ", "+Convert.ToDecimal(txtImporte.Text) +", "+ id_moneda +", '"+ cmbTarjeta.Text +"', "+ id_emisor +", CONVERT(datetime,'" + readConfiguracion.Configuracion.fechaSystem() + " 00:00:00.000', 103))";
             con.cnn.Open();
             SqlCommand command4 = new SqlCommand(query4, con.cnn);
             command4.ExecuteNonQuery();
             con.cnn.Close();
 
             //SUMO IMPORTE EN CUENTA
-            string query5 = "UPDATE LPP.CUENTAS set saldo = saldo + "+Convert.ToInt32(txtImporte.Text)+" WHERE num_cuenta = "+Convert.ToInt32(cmbNroCuenta.SelectedItem)+"";
+            string query5 = "UPDATE LPP.CUENTAS SET saldo = saldo + "+Convert.ToDecimal(txtImporte.Text)+" WHERE num_cuenta = "+Convert.ToDecimal(cmbNroCuenta.SelectedItem)+"";
             con.cnn.Open();
             SqlCommand command5 = new SqlCommand(query5, con.cnn);
             command5.ExecuteNonQuery();
             con.cnn.Close();
 
+            
+
              DialogResult dialogResult = MessageBox.Show("Su deposito se realizo correctamente. ¿Desea ver el comprobante?", "Despositos", MessageBoxButtons.YesNo);
              if (dialogResult == DialogResult.Yes)
              {
-                 int num_cuenta = Convert.ToInt32(cmbNroCuenta.SelectedItem);
-                 ListaDeposito ld = new ListaDeposito(num_cuenta);
+                 //Obtengo el numero del deposito que acabo de hacer
+                string query6 = "SELECT num_deposito FROM LPP.DEPOSITOS WHERE "
+                             +" num_cuenta = " + Convert.ToDecimal(cmbNroCuenta.Text) 
+                             +" AND importe = "+Convert.ToDecimal(txtImporte.Text) 
+                             +" AND id_moneda = "+ id_moneda 
+                             +" AND num_tarjeta = '"+ cmbTarjeta.Text +"'"
+                             +" AND id_emisor = "+ id_emisor 
+                             +" AND fecha_deposito = CONVERT(datetime,'" + readConfiguracion.Configuracion.fechaSystem() + " 00:00:00.000', 103))";
+                con.cnn.Open();
+                SqlCommand command6 = new SqlCommand(query6, con.cnn);
+                SqlDataReader lector6 = command.ExecuteReader();
+                while (lector6.Read())
+                {
+                     num_deposito = lector6.GetDecimal(0);
+                }
+                
+                 ListaDeposito ld = new ListaDeposito(num_deposito);
                  ld.Show();
                  this.Close();
              }
