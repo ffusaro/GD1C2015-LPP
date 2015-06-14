@@ -676,6 +676,11 @@ BEGIN TRANSACTION
 		FROM gd_esquema.Maestra;
 COMMIT; 
 
+BEGIN TRANSACTION
+	INSERT INTO LPP.ROLESXUSUARIO (username, rol)
+		SELECT username, 2 FROM LPP.USUARIOS
+COMMIT;		
+
 --TODO: BORRARLO PARA LA ENTREGA
 --para pruebas se le asigna el cliente id_cliente= 3 que posee tres cuentas, el usuario admin 
 UPDATE LPP.CLIENTES SET username = 'admin' WHERE id_cliente = 3
@@ -777,11 +782,14 @@ AFTER INSERT
 AS
 BEGIN
 	BEGIN TRANSACTION 
-	UPDATE LPP.CUENTAS SET id_tipo = (SELECT tipocuenta_final FROM inserted) WHERE num_cuenta = (SELECT num_cuenta FROM inserted)
+		UPDATE LPP.CUENTAS SET id_tipo = (SELECT tipocuenta_final FROM inserted) WHERE num_cuenta = (SELECT num_cuenta FROM inserted)
 	
-	INSERT INTO LPP.ITEMS_FACTURA (id_item, num_cuenta, monto, facturado, fecha)
-	 VALUES (2, (SELECT num_cuenta FROM inserted), (SELECT costo_apertura FROM LPP.TIPOS_CUENTA WHERE id_tipocuenta=(SELECT tipocuenta_final FROM inserted)), 0, GETDATE())
-	 COMMIT 
+		INSERT INTO LPP.ITEMS_FACTURA (id_item, num_cuenta, monto, facturado, fecha)
+			VALUES (2, (SELECT num_cuenta FROM inserted), (SELECT costo_apertura FROM LPP.TIPOS_CUENTA WHERE id_tipocuenta=(SELECT tipocuenta_final FROM inserted)), 0, GETDATE())
+	
+			IF( (SELECT COUNT(id_item_factura) FROM LPP.ITEMS_FACTURA WHERE facturado= 0) > 5 )
+		UPDATE LPP.CUENTAS SET id_estado = 4 WHERE num_cuenta = (SELECT num_cuenta FROM inserted)
+	COMMIT 
 END 
 GO	
 /*Test TRG_CambioCuenta*/
@@ -799,7 +807,9 @@ AFTER INSERT
 AS
 BEGIN
 	INSERT INTO LPP.ITEMS_FACTURA (id_item, num_cuenta, monto, facturado, fecha)
-	 VALUES (3, (SELECT num_cuenta_origen FROM inserted), (SELECT costo_trans FROM inserted), 0, GETDATE())
+		VALUES (3, (SELECT num_cuenta_origen FROM inserted), (SELECT costo_trans FROM inserted), 0, GETDATE())
+	IF( (SELECT COUNT(id_item_factura) FROM LPP.ITEMS_FACTURA WHERE facturado= 0) > 5 )
+		UPDATE LPP.CUENTAS SET id_estado = 4 WHERE num_cuenta = (SELECT num_cuenta_origen FROM inserted)
 END 
 GO
 
@@ -1054,14 +1064,14 @@ CREATE PROCEDURE PRC_estadistico_cuentas_inhabilitadas
 @anio INTEGER
 AS
 BEGIN
-	SELECT TOP 5 c.id_cliente, username, nombre, apellido, t.tipo_descr, num_doc, fecha_nac, mail, COUNT(i.id_item_factura)
+	SELECT TOP 5 c.id_cliente, username, nombre, apellido, t.tipo_descr, num_doc, fecha_nac, mail, COUNT(i.id_item_factura) AS items_adeudados
 	FROM LPP.CLIENTES c
 		JOIN LPP.CUENTAS cu ON cu.id_cliente = c.id_cliente
 		JOIN LPP.ESTADOS_CUENTA e ON e.id_estadocuenta = cu.id_estado
 		JOIN LPP.TIPO_DOCS t ON t.tipo_cod = c.id_tipo_doc
 		JOIN LPP.ITEMS_FACTURA i ON i.num_cuenta= cu.num_cuenta
 		JOIN LPP.ITEMS it ON it.id_item = i.id_item
-	WHERE e.descripcion = 'Inhabilitada' AND i.facturado = 0 AND it.id_item = 3 AND MONTH(i.fecha) BETWEEN @desde AND @hasta AND YEAR(i.fecha) = @anio
+	WHERE e.id_estadocuenta = 4 AND MONTH(i.fecha) BETWEEN @desde AND @hasta AND YEAR(i.fecha) = @anio
 	GROUP BY c.id_cliente, username, nombre, apellido, t.tipo_descr, num_doc,  fecha_nac, mail
 	ORDER BY COUNT(i.id_item_factura) DESC
 END
