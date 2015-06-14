@@ -17,7 +17,9 @@ namespace PagoElectronico.Retiros
     {
         string usuario;
         public DateTime fechaConfiguracion = DateTime.ParseExact(readConfiguracion.Configuracion.fechaSystem(), "yyyy-dd-MM", System.Globalization.CultureInfo.InvariantCulture);
-        int bandera;
+        public decimal num_cuenta;
+        public decimal importe;
+        public decimal id_moneda;
 
         public RetiroDeEfectivo(string user)
         {
@@ -32,10 +34,11 @@ namespace PagoElectronico.Retiros
             //CARGA DE NUMEROS DE CUENTA
 
             Conexion con = new Conexion();
-            string query = "SELECT DISTINCT C.num_cuenta" +
-                            "FROM LPP.CLIENTES U JOIN LPP.CUENTAS C ON C.id_cliente = U.id_cliente AND U.username = '" + usuario + "' " +
-                                                "JOIN LPP.ESTADOS_CUENTA E ON E.id_estadocuenta = C.id_estado" +
-                            "WHERE E.descripcion ='Habilitada' AND C.saldo > 0";
+            string query = "SELECT DISTINCT C.num_cuenta" 
+                           + " FROM LPP.CUENTAS C"
+                           + " JOIN LPP.CLIENTES CL ON CL.id_cliente = C.id_cliente"
+                           + " JOIN LPP.ESTADOS_CUENTA E ON E.id_estadocuenta = C.id_estado"
+                           + " WHERE CL.username  = '"+ usuario +"' AND E.id_estadocuenta = 1 AND C.saldo > 0";
 
             con.cnn.Open();
             SqlCommand command = new SqlCommand(query, con.cnn);
@@ -43,7 +46,7 @@ namespace PagoElectronico.Retiros
 
             while (lector.Read())
             {
-                cmbNroCuenta.Items.Add(lector.GetString(0));
+                cmbNroCuenta.Items.Add(lector.GetDecimal(0));
             }
 
             con.cnn.Close();
@@ -56,7 +59,7 @@ namespace PagoElectronico.Retiros
             SqlDataReader lector2 = command2.ExecuteReader();
             while (lector2.Read())
             {
-                cmbNroCuenta.Items.Add(lector2.GetString(0));
+                cmbMoneda.Items.Add(lector2.GetString(0));
             }
             con.cnn.Close();
         }
@@ -122,13 +125,17 @@ namespace PagoElectronico.Retiros
 
             Conexion con = new Conexion();
             //CORROBORO SALDO
-            string query = "SELECT C.saldo FROM LPP.CUENTAS WHERE C.num_cuenta = "+Convert.ToInt32(cmbNroCuenta.Text)+" AND C.saldo >= "+Convert.ToInt32(txtImporte.Text)+"";
+            string query = "SELECT saldo FROM LPP.CUENTAS WHERE num_cuenta = "+Convert.ToDecimal(cmbNroCuenta.Text)+" AND saldo >= "+Convert.ToDecimal(txtImporte.Text)+"";
+            importe = Convert.ToDecimal(txtImporte.Text);
+            id_moneda = this.getIdMoneda();
             con.cnn.Open();
             SqlCommand command = new SqlCommand(query, con.cnn);
             SqlDataReader lector = command.ExecuteReader();
             if (lector.Read())
             {
-                Cheque form_cheque = new Cheque(Convert.ToInt32(cmbNroCuenta.SelectedItem), usuario);
+                Cheque form_cheque = new Cheque(Convert.ToDecimal(cmbNroCuenta.Text), usuario);
+                form_cheque.importe = importe;
+                form_cheque.id_moneda = id_moneda;
                 form_cheque.Show();
 
             }
@@ -141,51 +148,50 @@ namespace PagoElectronico.Retiros
 
 
         }
-        public void GuardarDatos(string banco)
-        {
+
+        public decimal getIdMoneda() {
             Conexion con = new Conexion();
 
             //CONSIGO ID DE MONEDA
-            string query0 = "SELECT M.id_moneda FROM LPP.MONEDAS WHERE M.descripcion = '" + cmbMoneda.Text + "'";
+            string query0 = "SELECT id_moneda FROM LPP.MONEDAS WHERE descripcion = '" + cmbMoneda.Text + "'";
             con.cnn.Open();
             SqlCommand command0 = new SqlCommand(query0, con.cnn);
-            SqlDataReader lector0 = command0.ExecuteReader();
-            int id_moneda = lector0.GetInt32(0);
+            decimal id_moneda = Convert.ToDecimal(command0.ExecuteScalar());
             con.cnn.Close();
+            return id_moneda;
+        }
+
+        public void GuardarDatos(Int32 cliente_receptor, decimal id_banco)
+        {
+            Conexion con = new Conexion();
 
             //INSERTO RETIRO
-            string query = "INSERT INTO LPP.RETIROS (num_cuenta,importe,fecha,id_moneda) VALUES ("+Convert.ToInt32(cmbNroCuenta.Text)+", "+Convert.ToInt32(txtImporte.Text)+", '"+fechaConfiguracion+"', "+id_moneda+")";
+            string query = "INSERT INTO LPP.RETIROS (num_cuenta, importe, id_moneda,fecha)"
+                            + " VALUES (" + num_cuenta + ", " + importe + ", " + id_moneda + ", CONVERT(datetime,'" + readConfiguracion.Configuracion.fechaSystem() + " 00:00:00.000', 103))";
+                
             con.cnn.Open();
             SqlCommand command = new SqlCommand(query, con.cnn);
             SqlDataReader lector = command.ExecuteReader();
             con.cnn.Close();
 
             //OBTENGO ID DE RETIRO
-            string query3 = "SELECT TOP 1 id_retiro FROM LPP.RETIROS WHERE num_cuenta = " + Convert.ToInt32(cmbNroCuenta.Text)+" ORDER BY fecha DESC";
+            string query3 = "SELECT id_retiro FROM LPP.RETIROS"
+                            +" WHERE num_cuenta = " + num_cuenta 
+                            +" AND importe =" +importe
+                            +" AND fecha = CONVERT(datetime,'" + readConfiguracion.Configuracion.fechaSystem() + " 00:00:00.000', 103)"
+                            +" AND id_moneda ="+ id_moneda+ " ";
             con.cnn.Open();
             SqlCommand command3 = new SqlCommand(query3, con.cnn);
-            SqlDataReader lector3 = command3.ExecuteReader();
-            int id_retiro = lector3.GetInt32(0);
+            decimal id_retiro = Convert.ToDecimal(command3.ExecuteScalar());
             con.cnn.Close();
 
-            //OBTENGO ID DE BANCO
-            string query5 = "SELECT id_banco FROM LPP.BANCOS WHERE nombre = '" + banco + "'";
-            con.cnn.Open();
-            SqlCommand command5 = new SqlCommand(query5, con.cnn);
-            SqlDataReader lector5 = command5.ExecuteReader();
-            int id_banco = lector5.GetInt32(0);
-            con.cnn.Close();
-
-            //OBTENGO CLIENTE_RECPEPTOR
-            string query4 = "SELECT CONCAT(nombre,apellido) FROM LPP.CLIENTES WHERE username = '"+usuario+"' ";
-            con.cnn.Open();
-            SqlCommand command4 = new SqlCommand(query4, con.cnn);
-            SqlDataReader lector4 = command4.ExecuteReader();
-            string cliente = lector4.GetString(0);
-            con.cnn.Close();
+         
 
             //INSERTO EN CHEQUE
-            string query2 = "INSERT INTO LPP.CHEQUES (id_retiro,importe,fecha,id_banco,cliente_receptor) VALUES ("+id_retiro+", "+Convert.ToInt32(txtImporte.Text)+", '"+fechaConfiguracion+"', "+id_banco+", '"+cliente+"')";
+            string query2 = "INSERT INTO LPP.CHEQUES (id_retiro,importe,fecha,id_banco,cliente_receptor) VALUES "
+                +"(" +id_retiro +", "+ importe+", "
+                + "convert(datetime,'" + readConfiguracion.Configuracion.fechaSystem() + " 00:00:00.000', 103)"
+                +", "+id_banco+", '"+cliente_receptor+"')";
             con.cnn.Open();
             SqlCommand command2 = new SqlCommand(query2, con.cnn);
             SqlDataReader lector2 = command2.ExecuteReader();
@@ -196,7 +202,7 @@ namespace PagoElectronico.Retiros
             if (dialogResult == DialogResult.Yes)
             {
                 
-                ListaRetiros lr = new ListaRetiros(Convert.ToInt32(cmbNroCuenta.SelectedItem));
+                ListaRetiros lr = new ListaRetiros(id_retiro);
                 lr.Show();
                 this.Close();
             }

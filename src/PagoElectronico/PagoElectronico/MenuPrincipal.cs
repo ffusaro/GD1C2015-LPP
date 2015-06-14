@@ -298,11 +298,15 @@ namespace PagoElectronico
             rol.Show();
         }
 
-      
+        private void realizarRetiro_Click(object sender, EventArgs e)
+        {
+            Retiros.RetiroDeEfectivo ret = new Retiros.RetiroDeEfectivo(user);
+            ret.Show();
+        }
 
-        
+       
 
-        
+               
 
         
     }

@@ -44,7 +44,7 @@
             this.depositosToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aBMDepositoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.retiroToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.cancelarReservaToolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
+            this.realizarRetiro = new System.Windows.Forms.ToolStripMenuItem();
             this.transferenciaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.registrarEstadiaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.listadosEstadisticosToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -191,16 +191,17 @@
             // retiroToolStripMenuItem1
             // 
             this.retiroToolStripMenuItem1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.cancelarReservaToolStripMenuItem2});
+            this.realizarRetiro});
             this.retiroToolStripMenuItem1.Name = "retiroToolStripMenuItem1";
             this.retiroToolStripMenuItem1.Size = new System.Drawing.Size(143, 25);
             this.retiroToolStripMenuItem1.Text = "Retiro en Efectivo";
             // 
-            // cancelarReservaToolStripMenuItem2
+            // realizarRetiro
             // 
-            this.cancelarReservaToolStripMenuItem2.Name = "cancelarReservaToolStripMenuItem2";
-            this.cancelarReservaToolStripMenuItem2.Size = new System.Drawing.Size(122, 26);
-            this.cancelarReservaToolStripMenuItem2.Text = "Retiro";
+            this.realizarRetiro.Name = "realizarRetiro";
+            this.realizarRetiro.Size = new System.Drawing.Size(152, 26);
+            this.realizarRetiro.Text = "Retiro";
+            this.realizarRetiro.Click += new System.EventHandler(this.realizarRetiro_Click);
             // 
             // transferenciaToolStripMenuItem
             // 
@@ -347,7 +348,7 @@
         private System.Windows.Forms.ToolStripMenuItem retiroToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem cambiarPasstoolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem eliminarRolToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem cancelarReservaToolStripMenuItem2;
+        private System.Windows.Forms.ToolStripMenuItem realizarRetiro;
         private System.Windows.Forms.ToolStripMenuItem consultarSaldoToolStripMenuItem;
 
     }

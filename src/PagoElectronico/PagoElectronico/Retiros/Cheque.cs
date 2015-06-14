@@ -15,9 +15,14 @@ namespace PagoElectronico.Retiros
 {
     public partial class Cheque : Form
     {
-        public int num_cuenta;
+        public decimal num_cuenta;
         public string usuario;
-        public Cheque(int cuenta, string user)
+        public decimal importe;
+        public decimal id_moneda;
+        private decimal id_banco;
+        private Int32 cliente_receptor;
+
+        public Cheque(decimal cuenta, string user)
         {
             InitializeComponent();
             grpBanco.Enabled = false;
@@ -38,12 +43,12 @@ namespace PagoElectronico.Retiros
                 // Cargo la descripciones en la lista
                 cbID.Items.Add(lector1.GetString(0));
             }
+            con1.cnn.Close();
 
             //CARGO COMBO BOX BANCOS
-            con1.cnn.Close();
             con1.cnn.Open();
             
-            string query2 = "SELECT nombre FROM LPP.BANCOS";
+            string query2 = "SELECT DISTINCT nombre FROM LPP.BANCOS";
 
             SqlCommand command2 = new SqlCommand(query2, con1.cnn);
             SqlDataReader lector2 = command2.ExecuteReader();
@@ -63,21 +68,21 @@ namespace PagoElectronico.Retiros
 
         private void btnContinuar_Click(object sender, EventArgs e)
         {
-            if (cmbTipo.SelectedItem == null)
+            if (cbID.SelectedItem == null)
             {
                 MessageBox.Show("Debe elegir algun tipo de documento");
                 return;
             }
-            if (txtDNI.Text=="")
+            if (txtDoc.Text=="")
             {
                 MessageBox.Show("Debe ingresar Numero de Documento");
                 return;
             }
-            int temp;
+            decimal temp;
             try
             {
              if (txtDoc.Text != "")
-                    temp = Convert.ToInt32(txtDoc.Text);
+                    temp = Convert.ToDecimal(txtDoc.Text);
             }
             catch (Exception h)
             {
@@ -89,25 +94,26 @@ namespace PagoElectronico.Retiros
             string query1 = "SELECT tipo_cod FROM LPP.TIPO_DOCS WHERE tipo_descr = '"+cbID.Text+"'";
             con.cnn.Open();
             SqlCommand command1 = new SqlCommand(query1, con.cnn);
-            SqlDataReader lector1 = command1.ExecuteReader();
-            int tipo = lector1.GetInt32(0);
+            //SqlDataReader lector1 = command1.ExecuteReader();
+            decimal tipo = Convert.ToDecimal(command1.ExecuteScalar());
             con.cnn.Close();
 
             //CORROBORO SI LOS DATOS INGRESADOR COINCIDEN CON EL USUARIO LOGUEADO
-            string query2 = "SELECT 1 FROM LPP.USUARIOS U JOIN LPP.CLIENTES C ON U.username = '"+usuario+"' " +
-                             "WHERE C.num_doc = "+Convert.ToInt32(txtDoc.Text)+" AND C.id_tipo_doc = "+tipo+"";
+            string query2 = "SELECT TOP 1 U.username FROM LPP.USUARIOS U "
+                            +" JOIN LPP.CLIENTES C ON U.username = '"+usuario+"' " 
+                            +" WHERE C.num_doc = "+Convert.ToDecimal(txtDoc.Text)+" AND C.id_tipo_doc = "+tipo+"";
             con.cnn.Open();
             SqlCommand command2 = new SqlCommand(query2, con.cnn);
             SqlDataReader lector2 = command2.ExecuteReader();
 
             if (lector2.Read())
             {
-                MessageBox.Show("Datos correctos, elija el Banco al cual pertenece el Cheque por favor");
+                MessageBox.Show("Datos correctos, elija el Banco al cual pertenece el Cheque por favor.");
                 grpBanco.Enabled = true;
             }
             else
             {
-                MessageBox.Show("Tipo Documento y/o Numero de Documento incorrecto/s");
+                MessageBox.Show("Datos incorrectos, no ingreso los datos del cliente que esta logueado.");
                 return;
             }
             con.cnn.Close();
@@ -124,11 +130,32 @@ namespace PagoElectronico.Retiros
             }
             else
             {
-                string banco = cmbBanco.Text;
+                this.cargarDatosDeCheque();
                 RetiroDeEfectivo re = new RetiroDeEfectivo(usuario);
-                re.GuardarDatos(banco);
+                re.id_moneda = id_moneda;
+                re.importe = importe;
+                re.num_cuenta = num_cuenta;
+                re.GuardarDatos(cliente_receptor, id_banco);
                 this.Close();
             }
+        }
+
+        public void cargarDatosDeCheque() {
+            Conexion con = new Conexion();
+            //OBTENGO ID DE BANCO
+            string banco = cmbBanco.Text;
+            string query5 = "SELECT id_banco FROM LPP.BANCOS WHERE nombre = '" + banco + "'";
+            con.cnn.Open();
+            SqlCommand command5 = new SqlCommand(query5, con.cnn);
+            id_banco = Convert.ToDecimal(command5.ExecuteScalar());
+            con.cnn.Close();
+
+            //OBTENGO CLIENTE_RECEPTOR
+            string query4 = "SELECT id_cliente FROM LPP.CLIENTES WHERE username = '" + usuario + "' ";
+            con.cnn.Open();
+            SqlCommand command4 = new SqlCommand(query4, con.cnn);
+            cliente_receptor = Convert.ToInt32(command4.ExecuteScalar());
+            con.cnn.Close();
         }
 
         

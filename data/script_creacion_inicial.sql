@@ -415,7 +415,7 @@ id_moneda NUMERIC(18,0),
 PRIMARY KEY(id_retiro));
 
 CREATE TABLE [LPP].CHEQUES(
-cheque_num NUMERIC(18,0) NOT NULL,
+cheque_num NUMERIC(18,0) NOT NULL IDENTITY(1,1),
 id_retiro NUMERIC(18, 0) NOT NULL,
 importe NUMERIC(18, 2),
 fecha DATETIME,
@@ -691,6 +691,10 @@ SET IDENTITY_INSERT [LPP].CUENTAS OFF;
 --RR: Asumí que las cuentas son gratuitas, ya que el tipo de cuenta no está definida en la tabla maestra
 COMMIT; 
 
+--TODO: BORRARLO PARA LA ENTREGA
+--para pruebas se le carga saldo a las cuentas del cliente con id_cliente= 3 
+UPDATE LPP.CUENTAS SET saldo = 1000 WHERE id_cliente = 3 
+
 BEGIN TRANSACTION
 INSERT INTO [LPP].TARJETAS (num_tarjeta, id_emisor, cod_seguridad, fecha_emision, fecha_vencimiento, id_cliente)
 	SELECT DISTINCT (dbo.FUNC_encriptar_tarjeta([Tarjeta_Numero])),(SELECT DISTINCT [id_emisor] FROM [LPP].EMISORES WHERE [emisor_descr] = m.[Tarjeta_Emisor_Descripcion])'id_emisor',
@@ -711,10 +715,15 @@ SET IDENTITY_INSERT [LPP].RETIROS ON;
 	INSERT INTO [LPP].RETIROS (id_retiro, num_cuenta, importe,fecha)
 		SELECT [Retiro_Codigo],[Cuenta_Numero],[Retiro_Importe], [Retiro_Fecha]
 		FROM [GD1C2015].[gd_esquema].[Maestra] WHERE Retiro_Codigo is not null
+SET IDENTITY_INSERT [LPP].RETIROS OFF;	
+COMMIT;	
+
+BEGIN TRANSACTION		
+SET IDENTITY_INSERT [LPP].CHEQUES ON;
 	INSERT INTO [LPP].CHEQUES (cheque_num, id_retiro,importe, fecha, id_banco, cliente_receptor)
 		SELECT [Cheque_Numero], [Retiro_Codigo],[Cheque_Importe],[Cheque_Fecha],[Banco_Cogido], (SELECT id_cliente FROM LPP.CLIENTES WHERE nombre=Cli_Nombre and apellido=Cli_Apellido)
 				FROM [GD1C2015].[gd_esquema].[Maestra] WHERE Retiro_Codigo IS NOT NULL AND Cheque_Numero IS NOT NULL
-SET IDENTITY_INSERT [LPP].RETIROS OFF;
+SET IDENTITY_INSERT [LPP].CHEQUES OFF;
 COMMIT;
 
 BEGIN TRANSACTION

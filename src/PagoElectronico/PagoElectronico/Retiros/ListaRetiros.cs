@@ -14,23 +14,31 @@ namespace PagoElectronico.Retiros
 {
     public partial class ListaRetiros : Form
     {
-        public int cuenta;
-        public DataTable dt;
-        public ListaRetiros(int num_cuenta)
+        private decimal id_retiro;
+        private DataTable dtRetiro;
+        private DataTable dtCheque;
+
+        public ListaRetiros(decimal retiro)
         {
             InitializeComponent();
-            cuenta = num_cuenta;
-            //CARGO EL DATAGRIDVIEW CON LOS DATOS DEL RETIRO
+            id_retiro = retiro;
+
             Conexion con = new Conexion();
-            string query = "SELECT C.cheque_num, R.id_retiro,R.num_cuenta,R.importe,R.fecha,C.cliente_receptor,B.nombre " +
-                           "FROM LPP.RETIROS R JOIN LPP.CHEQUES C ON R.id_retiro= C.id_retiro JOIN LPP.BANCOS B ON B.id_banco=C.id_banco " +
-                           "WHERE R.num_cuenta = "+cuenta+"";
-                           
+            
+            string query = "SELECT * FROM LPP.RETIROS WHERE id_retiro = " + id_retiro + " ";                          
             DataTable dtDatos = new DataTable();
             SqlDataAdapter da = new SqlDataAdapter(query, con.cnn);
             da.Fill(dtDatos);
-            dt = dtDatos;
-            dgvRetiros.DataSource = dtDatos;
+            dtRetiro = dtDatos;
+            dgvRetiro.DataSource = dtDatos;
+            con.cnn.Close();
+
+            string query2 = "SELECT * FROM LPP.CHEQUES WHERE id_retiro = " + id_retiro + " ";
+            DataTable dtCh = new DataTable();
+            SqlDataAdapter dch = new SqlDataAdapter(query2, con.cnn);
+            dch.Fill(dtCh);
+            dtCheque = dtCh;
+            dgvCheque.DataSource = dtCh;
             con.cnn.Close();
         }
 
