@@ -671,7 +671,7 @@ BEGIN TRANSACTION
 	INSERT INTO LPP.USUARIOS (username, pass, fecha_creacion) 
 		SELECT DISTINCT REPLACE(Cli_Nombre+Cli_Apellido,' ',''), 'd74ff0ee8da3b9806b18c877dbf29bbde50b5bd8e4dad7a3a725000feb82e8f1' , GETDATE() FROM gd_esquema.Maestra; --HASH sha56: pass
 	INSERT INTO LPP.CLIENTES (username, nombre, apellido, fecha_nac, id_pais, id_tipo_doc, num_doc, id_domicilio, mail) 
-		SELECT DISTINCT REPLACE(Cli_Nombre+Cli_Apellido,' ',''), Cli_Nombre, Cli_Apellido, Cli_Fecha_Nac, Cli_Pais_Codigo, Cli_Tipo_Doc_Cod, Cli_Nro_Doc,
+		SELECT DISTINCT REPLACE(Cli_Nombre+Cli_Apellido,' ',''), Cli_Nombre, Cli_Apellido, CONVERT(DATETIME, Cli_Fecha_Nac, 103), Cli_Pais_Codigo, Cli_Tipo_Doc_Cod, Cli_Nro_Doc,
 				(SELECT id_domicilio FROM LPP.DOMICILIOS WHERE num= Cli_Dom_Nro AND calle = Cli_Dom_Calle AND depto = Cli_Dom_Depto ), Cli_Mail
 		FROM gd_esquema.Maestra;
 COMMIT; 
@@ -690,7 +690,7 @@ BEGIN TRANSACTION
 SET IDENTITY_INSERT [LPP].CUENTAS ON;
 INSERT INTO LPP.CUENTAS (id_cliente, num_cuenta, saldo, fecha_apertura, id_pais, id_moneda, id_tipo, id_estado) 
 			SELECT DISTINCT (SELECT id_cliente FROM LPP.CLIENTES WHERE nombre=Cli_Nombre and apellido=Cli_Apellido) as id_cliente, 
-			Cuenta_Numero, 0,Cuenta_Fecha_Creacion, Cuenta_Pais_Codigo,(SELECT id_moneda from LPP.MONEDAS where descripcion='Dólares'),
+			Cuenta_Numero, 0,CONVERT(DATETIME, Cuenta_Fecha_Creacion, 103), Cuenta_Pais_Codigo,(SELECT id_moneda from LPP.MONEDAS where descripcion='Dólares'),
 			(SELECT id_tipocuenta FROM LPP.TIPOS_CUENTA WHERE descripcion = 'Gratuita'), 1 FROM gd_esquema.Maestra; --id_estado = 1 cuenta habilitada
 SET IDENTITY_INSERT [LPP].CUENTAS OFF;
 --RR: Asumí que las cuentas son gratuitas, ya que el tipo de cuenta no está definida en la tabla maestra
@@ -703,14 +703,14 @@ UPDATE LPP.CUENTAS SET saldo = 1000 WHERE id_cliente = 3
 BEGIN TRANSACTION
 INSERT INTO [LPP].TARJETAS (num_tarjeta, id_emisor, cod_seguridad, fecha_emision, fecha_vencimiento, id_cliente)
 	SELECT DISTINCT (dbo.FUNC_encriptar_tarjeta([Tarjeta_Numero])),(SELECT DISTINCT [id_emisor] FROM [LPP].EMISORES WHERE [emisor_descr] = m.[Tarjeta_Emisor_Descripcion])'id_emisor',
-		[Tarjeta_Codigo_Seg],[Tarjeta_Fecha_Emision],[Tarjeta_Fecha_Vencimiento],(SELECT id_cliente FROM LPP.CLIENTES WHERE nombre=Cli_Nombre and apellido=Cli_Apellido) 'id_cliente'
+		[Tarjeta_Codigo_Seg],CONVERT(DATETIME,[Tarjeta_Fecha_Emision], 103), CONVERT(DATETIME,[Tarjeta_Fecha_Vencimiento], 103),(SELECT id_cliente FROM LPP.CLIENTES WHERE nombre=Cli_Nombre and apellido=Cli_Apellido) 'id_cliente'
         FROM [GD1C2015].[gd_esquema].[Maestra] m WHERE [Tarjeta_Numero] IS NOT NULL;  
 COMMIT
 
 BEGIN TRANSACTION
 SET IDENTITY_INSERT [LPP].DEPOSITOS ON;
 	INSERT INTO [LPP].DEPOSITOS (num_deposito, num_cuenta, importe, id_moneda,num_tarjeta, fecha_deposito)
-		SELECT [Deposito_Codigo],[Cuenta_Numero],[Deposito_Importe], 1, (dbo.FUNC_encriptar_tarjeta([Tarjeta_Numero])),[Deposito_Fecha]
+		SELECT [Deposito_Codigo],[Cuenta_Numero],[Deposito_Importe], 1, (dbo.FUNC_encriptar_tarjeta([Tarjeta_Numero])),CONVERT(DATETIME, [Deposito_Fecha], 103)
 	    FROM [GD1C2015].[gd_esquema].[Maestra] WHERE Deposito_Codigo IS NOT NULL 
 SET IDENTITY_INSERT [LPP].DEPOSITOS OFF; 
 COMMIT;      
@@ -718,7 +718,7 @@ COMMIT;
 BEGIN TRANSACTION
 SET IDENTITY_INSERT [LPP].RETIROS ON;
 	INSERT INTO [LPP].RETIROS (id_retiro, num_cuenta, importe,fecha)
-		SELECT [Retiro_Codigo],[Cuenta_Numero],[Retiro_Importe], [Retiro_Fecha]
+		SELECT [Retiro_Codigo],[Cuenta_Numero],[Retiro_Importe], CONVERT(DATETIME, [Retiro_Fecha], 103)
 		FROM [GD1C2015].[gd_esquema].[Maestra] WHERE Retiro_Codigo is not null
 SET IDENTITY_INSERT [LPP].RETIROS OFF;	
 COMMIT;	
@@ -726,21 +726,21 @@ COMMIT;
 BEGIN TRANSACTION		
 SET IDENTITY_INSERT [LPP].CHEQUES ON;
 	INSERT INTO [LPP].CHEQUES (cheque_num, id_retiro,importe, fecha, id_banco, cliente_receptor)
-		SELECT [Cheque_Numero], [Retiro_Codigo],[Cheque_Importe],[Cheque_Fecha],[Banco_Cogido], (SELECT id_cliente FROM LPP.CLIENTES WHERE nombre=Cli_Nombre and apellido=Cli_Apellido)
+		SELECT [Cheque_Numero], [Retiro_Codigo],[Cheque_Importe],CONVERT(DATETIME, [Cheque_Fecha], 103),[Banco_Cogido], (SELECT id_cliente FROM LPP.CLIENTES WHERE nombre=Cli_Nombre and apellido=Cli_Apellido)
 				FROM [GD1C2015].[gd_esquema].[Maestra] WHERE Retiro_Codigo IS NOT NULL AND Cheque_Numero IS NOT NULL
 SET IDENTITY_INSERT [LPP].CHEQUES OFF;
 COMMIT;
 
 BEGIN TRANSACTION
 	INSERT INTO [LPP].TRANSFERENCIAS (num_cuenta_origen, num_cuenta_destino, importe , fecha, costo_trans)
-		SELECT [Cuenta_Numero], [Cuenta_Dest_Numero], [Trans_Importe], [Transf_Fecha], [Trans_Costo_Trans]
+		SELECT [Cuenta_Numero], [Cuenta_Dest_Numero], [Trans_Importe], CONVERT(DATETIME, [Transf_Fecha], 103), [Trans_Costo_Trans]
 		FROM [GD1C2015].[gd_esquema].[Maestra] WHERE Transf_Fecha IS NOT NULL
 COMMIT;
 
 BEGIN TRANSACTION
 SET IDENTITY_INSERT [LPP].FACTURAS ON;
 	INSERT INTO [LPP].FACTURAS (id_factura, fecha, id_cliente)
-		SELECT DISTINCT [Factura_Numero], [Factura_Fecha], (SELECT id_cliente FROM LPP.CLIENTES WHERE nombre=Cli_Nombre and apellido=Cli_Apellido)
+		SELECT DISTINCT [Factura_Numero], CONVERT(DATETIME, [Factura_Fecha], 103), (SELECT id_cliente FROM LPP.CLIENTES WHERE nombre=Cli_Nombre and apellido=Cli_Apellido)
 		FROM [GD1C2015].[gd_esquema].[Maestra] WHERE [Factura_Numero] IS NOT NULL
 SET IDENTITY_INSERT [LPP].FACTURAS OFF;
 COMMIT;
@@ -753,7 +753,7 @@ COMMIT;
 
 BEGIN TRANSACTION
 	INSERT INTO [LPP].ITEMS_FACTURA (id_factura, id_item, num_cuenta, monto,facturado, fecha)
-	SELECT [Factura_Numero],(SELECT id_item FROM LPP.ITEMS WHERE descripcion = [Item_Factura_Descr]) 'id_item',[Cuenta_Numero], [Item_Factura_Importe], 1 'facturado', [Transf_Fecha]
+	SELECT [Factura_Numero],(SELECT id_item FROM LPP.ITEMS WHERE descripcion = [Item_Factura_Descr]) 'id_item',[Cuenta_Numero], [Item_Factura_Importe], 1 'facturado', CONVERT(DATETIME, [Transf_Fecha], 103)
 	FROM [GD1C2015].gd_esquema.Maestra WHERE Item_Factura_Descr IS NOT NULL
 COMMIT;
 GO
