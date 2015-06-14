@@ -19,7 +19,6 @@ namespace PagoElectronico.Depositos
         public DateTime fechaConfiguracion = DateTime.ParseExact(readConfiguracion.Configuracion.fechaSystem(), "yyyy-dd-MM", System.Globalization.CultureInfo.InvariantCulture);
         private decimal id_emisor;
         private decimal id_moneda;
-        private decimal num_deposito;
 
         public Depositos(string user)
         {
@@ -184,18 +183,14 @@ namespace PagoElectronico.Depositos
                              +" AND id_moneda = "+ id_moneda 
                              +" AND num_tarjeta = '"+ cmbTarjeta.Text +"'"
                              +" AND id_emisor = "+ id_emisor 
-                             +" AND fecha_deposito = CONVERT(datetime,'" + readConfiguracion.Configuracion.fechaSystem() + " 00:00:00.000', 103))";
+                             +" AND fecha_deposito = CONVERT(datetime,'" + readConfiguracion.Configuracion.fechaSystem() + " 00:00:00.000', 103)";
                 con.cnn.Open();
                 SqlCommand command6 = new SqlCommand(query6, con.cnn);
-                SqlDataReader lector6 = command.ExecuteReader();
-                while (lector6.Read())
-                {
-                     num_deposito = lector6.GetDecimal(0);
-                }
+                decimal num_deposito = Convert.ToDecimal(command6.ExecuteScalar());
                 
-                 ListaDeposito ld = new ListaDeposito(num_deposito);
-                 ld.Show();
-                 this.Close();
+                ListaDeposito ld = new ListaDeposito(num_deposito);
+                ld.Show();
+                this.Close();
              }
              else
              {
