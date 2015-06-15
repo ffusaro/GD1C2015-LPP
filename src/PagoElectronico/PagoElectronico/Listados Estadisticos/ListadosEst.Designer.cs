@@ -85,6 +85,7 @@
             this.btnLimpiar.TabIndex = 7;
             this.btnLimpiar.Text = "Limpiar";
             this.btnLimpiar.UseVisualStyleBackColor = true;
+            this.btnLimpiar.Click += new System.EventHandler(this.btnLimpiar_Click_1);
             // 
             // btnBuscar
             // 
@@ -94,13 +95,14 @@
             this.btnBuscar.TabIndex = 6;
             this.btnBuscar.Text = "Buscar";
             this.btnBuscar.UseVisualStyleBackColor = true;
+            this.btnBuscar.Click += new System.EventHandler(this.btnBuscar_Click_1);
             // 
             // cmbListado
             // 
             this.cmbListado.FormattingEnabled = true;
             this.cmbListado.Location = new System.Drawing.Point(86, 75);
             this.cmbListado.Name = "cmbListado";
-            this.cmbListado.Size = new System.Drawing.Size(296, 21);
+            this.cmbListado.Size = new System.Drawing.Size(508, 21);
             this.cmbListado.TabIndex = 5;
             // 
             // cmbPeriodo
