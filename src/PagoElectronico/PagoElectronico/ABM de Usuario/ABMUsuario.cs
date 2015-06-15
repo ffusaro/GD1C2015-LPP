@@ -42,19 +42,10 @@ namespace PagoElectronico.ABM_de_Usuario
             cmbpregunta_secreta.Items.Add("¿Nombre de la Madre?");
             cmbpregunta_secreta.Items.Add("¿Nombre de la primera mascota?");
             cmbpregunta_secreta.Items.Add("¿Lugar de nacimiento?");
-          
-            Conexion con = new Conexion();
-            cbRol.Items.Add("");
-            string query1 = "SELECT nombre FROM LPP.ROLES WHERE habilitado = 1";
 
-            con.cnn.Open();
-            SqlCommand command = new SqlCommand (query1, con.cnn);
-            SqlDataReader lector = command.ExecuteReader();;
-            while (lector.Read())
-            {
-                cbRol.Items.Add(lector.GetString(0));
-            }
-            con.cnn.Close();
+            this.cargarRoles();
+
+            Conexion con = new Conexion();
 
             if (usuario == "A")
             {
@@ -72,7 +63,9 @@ namespace PagoElectronico.ABM_de_Usuario
                 if (lector2.Read())
                 {
                     txtUsuario.Text = lector2.GetString(0);
-                    cbRol.Text = lector2.GetString(1);
+                    int id_rol = lector2.GetInt32(1);
+                    this.cargarRoles();
+                    cbRol.SelectedIndex = id_rol;
                     txtPass.Enabled = false;
                     txtPass.Text = "++++++++";
                     txtConfirmarPass.Text = "++++++++";
@@ -88,6 +81,22 @@ namespace PagoElectronico.ABM_de_Usuario
                 btnLimpiar.Enabled = true;
                
             }
+        }
+
+
+        public void cargarRoles() {
+            Conexion con = new Conexion();
+            cbRol.Items.Add("");
+            string query1 = "SELECT nombre FROM LPP.ROLES WHERE habilitado = 1";
+
+            con.cnn.Open();
+            SqlCommand command = new SqlCommand(query1, con.cnn);
+            SqlDataReader lector = command.ExecuteReader(); ;
+            while (lector.Read())
+            {
+                cbRol.Items.Add(lector.GetString(0));
+            }
+            con.cnn.Close();
         }
 
         public static bool fechaMenorA(int fecha)
@@ -247,23 +256,23 @@ namespace PagoElectronico.ABM_de_Usuario
         {
             
             /*VERIFICA QUE NO HAYA NINGUN CAMPO VACIO*/
-            if (txtUsuario.Text == "")
+            if (txtUsuario.Text == "" && ban == 1)
             {
                 MessageBox.Show("Ingrese Usuario");
                 return;
             }
 
-            if (txtPass.Text == "")
+            if (txtPass.Text == "" && ban == 1)
             {
                 MessageBox.Show("Ingrese una contraseña");
                 return;
             }
-            if (txtConfirmarPass.Text == "")
+            if (txtConfirmarPass.Text == "" && ban == 1)
             {
                 MessageBox.Show("Confirme contraseña");
                 return;
             }
-            if (txtConfirmarPass.Text != txtPass.Text)
+            if (txtConfirmarPass.Text != txtPass.Text && ban == 1)
             {
                 MessageBox.Show("Las contraseñas no coinciden");
                 return;
@@ -318,7 +327,7 @@ namespace PagoElectronico.ABM_de_Usuario
                 //INSERTO EL USUARIO
                 string query1 = "INSERT INTO LPP.USUARIOS (username, pass, " +
                                 "pregunta_secreta,respuesta_secreta,fecha_creacion) VALUES " +
-                                "('" + txtUsuario.Text + "','" + Helper.Help.Sha256(txtPass.Text) + "','" + cmbpregunta_secreta.Text + "','" + txtrespuesta_secreta.Text + "','"+fechaConfiguracion+"')";
+                                "('" + txtUsuario.Text + "','" + Helper.Help.Sha256(txtPass.Text) + "','" + cmbpregunta_secreta.Text + "','" + txtrespuesta_secreta.Text + "',CONVERT(datetime,'" + readConfiguracion.Configuracion.fechaSystem() + " 00:00:00.000', 103))";
                 con1.cnn.Open();
                 SqlCommand command = new SqlCommand(query1, con1.cnn);
                 command.ExecuteNonQuery();
@@ -341,7 +350,7 @@ namespace PagoElectronico.ABM_de_Usuario
                                 " pregunta_secreta = '" + cmbpregunta_secreta.Text +
                                 "', respuesta_secreta = '" + txtrespuesta_secreta.Text+ "'" +
                                 ", habilitado = '" + ckbHabilitado.Checked + "' " +
-                                "WHERE username = '" + txtUsuario.Text + "'";
+                                "WHERE username = '" + usuario + "'";
                 Conexion con = new Conexion();
                 con.cnn.Open();
                 SqlCommand command = new SqlCommand(query10, con.cnn);
@@ -355,13 +364,13 @@ namespace PagoElectronico.ABM_de_Usuario
                 command13.ExecuteNonQuery();
                 con.cnn.Close(); ;
 
-                string query14 = "INSERT INTO LPP.ROLESXUSUARIO (rol, username) VALUES ('" + cbRol.Text +
-                            "','" + txtUsuario.Text + "')";
-                MessageBox.Show("Usuario Modificado exitosamente");
+                string query14 = "INSERT INTO LPP.ROLESXUSUARIO (rol, username) VALUES ('" + cbRol.SelectedIndex +
+                            "','" + usuario + "')";
                 con.cnn.Open();
                 SqlCommand command14 = new SqlCommand(query14, con.cnn);
                 command14.ExecuteNonQuery();
-                con.cnn.Close(); ;
+                con.cnn.Close();
+                MessageBox.Show("Usuario Modificado exitosamente"); 
 
                 padre_buscarUsuario.mp.Show();
                 padre_buscarUsuario.Close();

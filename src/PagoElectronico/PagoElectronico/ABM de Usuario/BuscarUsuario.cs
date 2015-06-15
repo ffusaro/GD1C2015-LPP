@@ -39,8 +39,6 @@ namespace PagoElectronico.ABM_de_Usuario
         private void btnLimpiar_Click(object sender, EventArgs e)
         {
             txtUsuarios.Text = "";
-            txtName.Text = "";
-            txtLname.Text = "";
             btnBusca.Enabled = false;
 
         }
@@ -51,21 +49,11 @@ namespace PagoElectronico.ABM_de_Usuario
             Conexion con = new Conexion();
            
 
-            string query = "SELECT nombre,apellido,U.username  FROM LPP.USUARIOS U JOIN LPP.CLIENTES C ON ( U.username = C.username) WHERE 1=1";
-
-            if (txtName.Text != "")
-            {
-                query += "AND nombre LIKE '%" + txtName.Text + "%'";
-            }
-
-            if (txtLname.Text != "")
-            {
-                query += "AND apellido LIKE '%" + txtLname.Text + "%'";
-            }
+            string query = "SELECT username  FROM LPP.USUARIOS WHERE habilitado = 1";
 
             if (txtUsuarios.Text != "")
             {
-                query += "AND U.username LIKE '%" + txtUsuarios.Text + "%'";
+                query += "AND username LIKE '%" + txtUsuarios.Text + "%'";
             }
 
             con.cnn.Open();
@@ -79,11 +67,12 @@ namespace PagoElectronico.ABM_de_Usuario
         private void dgvUsuario_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
             int indice = e.RowIndex;
-            string Usuario = dgvUsuario.Rows[indice].Cells["Usuario"].Value.ToString();
+            string Usuario = dgvUsuario.Rows[indice].Cells["username"].Value.ToString();
 
             if (ev == 1)
             {
                 FormUsuario = new ABMUsuario(Usuario, "M_E");
+                FormUsuario.usuario = Usuario;
                 FormUsuario.Show();
                 FormUsuario.padre_buscarUsuario = this;
                 this.Close();
