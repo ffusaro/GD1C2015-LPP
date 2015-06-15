@@ -117,9 +117,9 @@
             this.lblSaldo.AutoSize = true;
             this.lblSaldo.Location = new System.Drawing.Point(16, 96);
             this.lblSaldo.Name = "lblSaldo";
-            this.lblSaldo.Size = new System.Drawing.Size(35, 13);
+            this.lblSaldo.Size = new System.Drawing.Size(34, 13);
             this.lblSaldo.TabIndex = 11;
-            this.lblSaldo.Text = "label1";
+            this.lblSaldo.Text = "Saldo";
             // 
             // txtSaldo
             // 
@@ -128,7 +128,7 @@
             this.txtSaldo.Size = new System.Drawing.Size(145, 20);
             this.txtSaldo.TabIndex = 12;
             // 
-            // BuscarCuenta
+            // BuscarCuentas
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -143,7 +143,7 @@
             this.Controls.Add(this.txtCuenta);
             this.Controls.Add(this.lblCuenta);
             this.Controls.Add(this.dgvListado);
-            this.Name = "BuscarCuenta";
+            this.Name = "BuscarCuentas";
             this.Text = "ConsultaDeSaldos";
             this.Load += new System.EventHandler(this.ConsultaDeSaldos_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dgvListado)).EndInit();

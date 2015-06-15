@@ -242,6 +242,7 @@
             this.btnContinuar.TabIndex = 7;
             this.btnContinuar.Text = "Continuar";
             this.btnContinuar.UseVisualStyleBackColor = true;
+            this.btnContinuar.Click += new System.EventHandler(this.btnContinuar_Click_1);
             // 
             // btnSalir
             // 

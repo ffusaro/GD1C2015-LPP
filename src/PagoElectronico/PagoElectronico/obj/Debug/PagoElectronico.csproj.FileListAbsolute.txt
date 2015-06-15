@@ -93,7 +93,6 @@ C:\Users\LORENA\Documents\GitHub\GD1C2015-LPP\src\PagoElectronico\PagoElectronic
 C:\Users\LORENA\Documents\GitHub\GD1C2015-LPP\src\PagoElectronico\PagoElectronico\obj\Debug\PagoElectronico.ABM_Cliente.BuscarCliente.resources
 C:\Users\LORENA\Documents\GitHub\GD1C2015-LPP\src\PagoElectronico\PagoElectronico\obj\Debug\PagoElectronico.ABM_Cuenta.AltaCuenta.resources
 C:\Users\LORENA\Documents\GitHub\GD1C2015-LPP\src\PagoElectronico\PagoElectronico\obj\Debug\PagoElectronico.ABM_Cuenta.BuscarCuenta.resources
-C:\Users\LORENA\Documents\GitHub\GD1C2015-LPP\src\PagoElectronico\PagoElectronico\obj\Debug\PagoElectronico.ABM_Cuenta.Form1.resources
 C:\Users\LORENA\Documents\GitHub\GD1C2015-LPP\src\PagoElectronico\PagoElectronico\obj\Debug\PagoElectronico.ABM_de_Usuario.ABMUsuario.resources
 C:\Users\LORENA\Documents\GitHub\GD1C2015-LPP\src\PagoElectronico\PagoElectronico\obj\Debug\PagoElectronico.ABM_de_Usuario.BuscarUsuario.resources
 C:\Users\LORENA\Documents\GitHub\GD1C2015-LPP\src\PagoElectronico\PagoElectronico\obj\Debug\PagoElectronico.ABM_Rol.ABMRol.resources
@@ -117,3 +116,6 @@ C:\Users\ffusaro\Desktop\GD1C2015-LPP\src\PagoElectronico\PagoElectronico\obj\De
 C:\Users\ffusaro\Desktop\GD1C2015-LPP\src\PagoElectronico\PagoElectronico\obj\Debug\PagoElectronico.ABM_Cuenta.BuscarCuenta.resources
 C:\Users\ffusaro\Desktop\GD1C2015-LPP\src\PagoElectronico\PagoElectronico\obj\Debug\PagoElectronico.ABM_Cuenta.BuscarCuentas.resources
 C:\Users\ffusaro\Desktop\GD1C2015-LPP\src\PagoElectronico\PagoElectronico\obj\Debug\PagoElectronico.ABM_Cliente.AsignarUsuario.resources
+C:\Users\LORENA\Documents\GitHub\GD1C2015-LPP\src\PagoElectronico\PagoElectronico\bin\Debug\PagoElectronico.exe
+C:\Users\LORENA\Documents\GitHub\GD1C2015-LPP\src\PagoElectronico\PagoElectronico\bin\Debug\PagoElectronico.pdb
+C:\Users\LORENA\Documents\GitHub\GD1C2015-LPP\src\PagoElectronico\PagoElectronico\obj\Debug\PagoElectronico.ABM_Cliente.AsignarUsuario.resources

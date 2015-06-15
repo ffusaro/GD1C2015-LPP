@@ -67,7 +67,7 @@ namespace PagoElectronico.ABM_Cuenta
             /* Verifico numero de cuenta */
 
             Conexion con = new Conexion();
-            string query = "SELECT num_cuenta FROM LPP.CUENTA WHERE num_cuenta = '" + txtCuenta.Text + "'";
+            string query = "SELECT num_cuenta FROM LPP.CUENTAS WHERE num_cuenta = '" + txtCuenta.Text + "'";
             con.cnn.Open();
             SqlCommand command = new SqlCommand (query, con.cnn);
             SqlDataReader lector = command.ExecuteReader();;
@@ -157,10 +157,6 @@ namespace PagoElectronico.ABM_Cuenta
                  con.cnn.Close();
 
              }
-
-           
-
-
 
         }
 

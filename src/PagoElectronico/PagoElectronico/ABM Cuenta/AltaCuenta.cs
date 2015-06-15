@@ -33,11 +33,11 @@ namespace PagoElectronico.ABM_Cuenta
             evento = user;
             usuario = evnto;
             
-            txtUsuario.Enabled = false;
-            txtPais.Enabled = false;
-            cmbMoneda.Enabled = false;
+            txtUsuario.Enabled = true;
+            txtPais.Enabled = true;
+            cmbMoneda.Enabled = true;
             dtpFechaApertura.Enabled = false;
-            cmbTipoCuenta.Enabled = false;
+            cmbTipoCuenta.Enabled = true;
             dtpFechaCierre.Enabled = false;
             btnBuscar.Enabled = true;
             btnEliminar.Enabled = true;
@@ -80,10 +80,10 @@ namespace PagoElectronico.ABM_Cuenta
                 dtpFechaCierre.Enabled = false;
             }
             else{
-                 string query2 = "SELECT C.id_usuario, M.descripcion, TC.id_tipocuenta, e.descripcion " +
-                                "FROM LPP.CUENTAS C JOIN LPP.MONEDAS  M ON C.id_moneda = M.id_moneda" +
-                                                   "JOIN LPP.ESTADOS_CUENTA E C.id_estado = E.id_estadocuenta" +
-                                                   "JOIN LPP.TIPOS_CUENTA TC C.id_tipo = TC.id_tipocuenta WHERE C.username = '" + user + "'"; 
+                string query2 = "SELECT C.id_usuario, M.descripcion, TC.id_tipocuenta, e.descripcion " +
+                               "FROM LPP.CUENTAS C JOIN LPP.MONEDAS  M ON C.id_moneda = M.id_moneda" +
+                                                  "JOIN LPP.ESTADOS_CUENTA E C.id_estado = E.id_estadocuenta" +
+                                                  "JOIN LPP.TIPOS_CUENTA TC C.id_tipo = TC.id_tipocuenta WHERE C.username = '" + user + "'"; 
                               
 
                 con.cnn.Open();
@@ -110,183 +110,12 @@ namespace PagoElectronico.ABM_Cuenta
            
         }
 
-        private void btnContinuar_Click(object sender, EventArgs e)
-        {
-            /* Verifica que no haya campos vacios */
-
-            if (txtUsuario.Text == "")
-            {
-                MessageBox.Show("Ingrese Usuario");
-                return;
-            }
-            if (cmbMoneda.Text == "")
-            {
-                MessageBox.Show("Elija una moneda");
-                return;
-            }
-
-            if (cmbTipoCuenta.Text == "")
-            {
-                MessageBox.Show("Elija un tipo de cuenta");
-            }
-            
-             if (txtPais.Text == "")
-            {
-                MessageBox.Show("Ingrese un pais");
-            }
-
-
-             if (dtpFechaCierre.Text == "")
-            {
-                MessageBox.Show("Elija una fecha de cierre");
-            }
-
-             if (dtpFechaApertura.Text == "")
-            {
-                MessageBox.Show("Elija una fecha de apertura");
-            }
-
-             if (ban == 1)
-             {
-
-                 /*VERIFICA EXISTENCIA DE USUARIO Y CARGA LOS DATOS*/
-                 string query = "SELECT 1 " +
-                                "FROM LPP.USUARIOS WHERE username = '" + txtUsuario.Text + "'";
-                 Conexion con = new Conexion();
-                 con.cnn.Open();
-                 SqlCommand command3 = new SqlCommand(query, con.cnn);
-                 SqlDataReader lector3 = command3.ExecuteReader();
-
-                 if (!(lector3.Read()))
-                 {
-                     con.cnn.Close();
-                     MessageBox.Show("Nombre de Usuario no existente, por favor elija otro");
-                     return;
-                 }
-                 con.cnn.Close();
-
-
-                 Conexion con1 = new Conexion();
-                 //OBTENGO ID DE PAIS
-                 con1.cnn.Open();
-                 string query2 = "SELECT id_pais FROM LPP.PAISES WHERE pais= '" + txtPais.Text + "'";
-                 SqlCommand command2 = new SqlCommand(query2, con1.cnn);
-                 SqlDataReader lector2 = command2.ExecuteReader();
-                 lector2.Read();
-                 int id_pais = lector2.GetInt32(0);
-                 con1.cnn.Close();
-
-
-
-                 //OBTENGO ID DE CLIENTE
-                 con1.cnn.Open();
-                 string query4 = "SELECT id_cliente FROM LPP.CLIENTES WHERE username = '" + txtUsuario.Text + "'";
-                 SqlCommand command4 = new SqlCommand(query4, con1.cnn);
-                 SqlDataReader lector4 = command2.ExecuteReader();
-                 lector2.Read();
-                 int id_cliente = lector4.GetInt32(0);
-                 con1.cnn.Close();
-
-
-                 //OBTENGO ID MONEDA
-                 con1.cnn.Open();
-                 string query5 = "SELECT id_moneda FROM LPP.MONEDAS WHERE descripcion = '" + Convert.ToString(cmbMoneda.SelectedItem) + "'";
-                 SqlCommand command5 = new SqlCommand(query5, con1.cnn);
-                 SqlDataReader lector5 = command5.ExecuteReader();
-                 lector5.Read();
-                 int id_moneda = lector5.GetInt32(0);
-                 con1.cnn.Close();
-
-                 //OBTENGO ID DE TIPO_CUENTA
-                 con1.cnn.Open();
-                 string query6 = "SELECT id_tipocuenta FROM LPP.TIPOS_CUENTA WHERE descripcion = '" + Convert.ToString(cmbTipoCuenta.SelectedItem) + "'";
-                 SqlCommand command6 = new SqlCommand(query6, con1.cnn);
-                 SqlDataReader lector6 = command6.ExecuteReader();
-                 lector6.Read();
-                 int id_tipoCuenta = lector6.GetInt32(0);
-                 con1.cnn.Close();
-
-                 //INSERTO LA CUENTA
-                 string query1 = "INSERT INTO LPP.CUENTAS (id_pais, " +
-                                 "id_cliente, id_moneda, fecha_apertura, id_tipo) VALUES " +
-                                 "('"+ id_pais +"','" + id_cliente + "','" + id_moneda + "', Convert(DateTime,'"+ readConfiguracion.Configuracion.fechaSystem()+ "00:00:00.000',103) ,'" + id_tipoCuenta + "')";
-                 con1.cnn.Open();
-                 SqlCommand command = new SqlCommand(query1, con1.cnn);
-                 command.ExecuteNonQuery();
-                 con1.cnn.Close();
-
-                 con1.cnn.Open();
-                 string query11 = "SELECT num_cuenta FROM LPP.CUENTAS WHERE id_cliente = '" + id_cliente + "'";
-                 SqlCommand command11 = new SqlCommand(query11, con1.cnn);
-                 SqlDataReader lector11 = command6.ExecuteReader();
-                 lector11.Read();
-                 int id_cuenta = lector11.GetInt32(0);
-                 con1.cnn.Close();
-
-                 
-
-                 MessageBox.Show("Alta de Cuenta Exitosa, su Numero de cuenta es: id_cuenta");
-
-                 mp.Show();
-                 this.Close();
-             }
-             if (ban == 2){
-
-              //OBTENGO ID DE CLIENTE
-             Conexion con1 = new Conexion();
-             con1.cnn.Open();
-             string query10 = "SELECT id_cliente FROM LPP.CLIENTES WHERE username = '" + txtUsuario.Text + "'";
-             SqlCommand command10 = new SqlCommand(query10, con1.cnn);
-             SqlDataReader lector10 = command10.ExecuteReader();
-             lector10.Read();
-             int id_clienteMod = lector10.GetInt32(0);
-             con1.cnn.Close();
-
-             //OBTENGO ID MONEDA
-             con1.cnn.Open();
-             string query7 = "SELECT id_moneda FROM LPP.MONEDAS WHERE descripcion = '" + Convert.ToString(cmbMoneda.SelectedItem) + "'";
-             SqlCommand command7 = new SqlCommand(query7, con1.cnn);
-             SqlDataReader lector7 = command7.ExecuteReader();
-             lector7.Read();
-             int id_monedaMod = lector7.GetInt32(0);
-             con1.cnn.Close();
-
-             //OBTENGO ID DE TIPO_CUENTA
-             con1.cnn.Open();
-             string query8 = "SELECT id_tipocuenta FROM LPP.TIPOS_CUENTA WHERE descripcion = '" + Convert.ToString(cmbTipoCuenta.SelectedItem) + "'";
-             SqlCommand command8 = new SqlCommand(query8, con1.cnn);
-             SqlDataReader lector8 = command8.ExecuteReader();
-             lector8.Read();
-             int id_tipoCuentaMod = lector8.GetInt32(0);
-             con1.cnn.Close();
-
-
-             string query9 = "UPDATE LPP.CUENTAS SET " +
-                                 " id_moneda = '" + id_monedaMod +
-                                 "'id_tipo = '" + id_tipoCuentaMod + "'" +
-                                 ", habilitado = '" + ckbHabilitado.Checked + "' " +
-                                 "WHERE id_cliente = '" + id_clienteMod + "'";
-                 Conexion con = new Conexion();
-                 con.cnn.Open();
-                 SqlCommand command = new SqlCommand(query9, con.cnn);
-                 command.ExecuteNonQuery();
-                 con.cnn.Close(); ;
-
-
-                 padre_buscarCuenta.mp.Show();
-                 padre_buscarCuenta.Close();
-                 this.Close();
-             }
-
-
-}
-
         private void btnEliminar_Click(object sender, EventArgs e)
         {
             //OBTENGO ID DE TIPO_CUENTA
             Conexion con1 = new Conexion();
             con1.cnn.Open();
-            string query6 = "SELECT id_tipocuenta FROM LPP.TIPOS_CUENTA WHERE descripcion = '" + Convert.ToString(cmbTipoCuenta.SelectedItem) + "'";
+            string query6 = "SELECT id_tipo FROM LPP.TIPO_CUENTAS WHERE descripcion = '" + Convert.ToString(cmbTipoCuenta.SelectedItem) + "'";
             SqlCommand command6 = new SqlCommand(query6, con1.cnn);
             SqlDataReader lector6 = command6.ExecuteReader();
             lector6.Read();
@@ -300,7 +129,7 @@ namespace PagoElectronico.ABM_Cuenta
             try
             {
 
-                string query = " UPDATE LPP.ESTADOS_CUENTA SET habilitado = 0 WHERE num_cuenta = '" + id_tipoCuenta + "' ";
+                string query = " UPDATE LPP.ESTADOCUENTA SET habilitado = 0 WHERE num_cuenta = '" + id_tipoCuenta + "' ";
                 SqlCommand command = new SqlCommand(query, con.cnn);
                 command.ExecuteNonQuery();
 
@@ -386,6 +215,166 @@ namespace PagoElectronico.ABM_Cuenta
             ckbHabilitado.Checked = false;
             cmbTipoCuenta.SelectedItem = null;
             cmbMoneda.SelectedItem = null;
+
+        }
+
+        private void btnContinuar_Click_1(object sender, EventArgs e)
+        {
+              /* Verifica que no haya campos vacios */
+
+            if (txtUsuario.Text == "")
+            {
+                MessageBox.Show("Ingrese Usuario");
+                return;
+            }
+            if (cmbMoneda.Text == "")
+            {
+                MessageBox.Show("Elija una moneda");
+                return;
+            }
+
+            if (cmbTipoCuenta.Text == "")
+            {
+                MessageBox.Show("Elija un tipo de cuenta");
+            }
+            
+             if (txtPais.Text == "")
+            {
+                MessageBox.Show("Ingrese un pais");
+            }
+
+             if (ban == 1)
+             {
+
+                 /*VERIFICA EXISTENCIA DE USUARIO Y CARGA LOS DATOS*/
+                 string query = "SELECT 1 " +
+                                "FROM LPP.USUARIOS WHERE username = '" + txtUsuario.Text + "'";
+                 Conexion con = new Conexion();
+                 con.cnn.Open();
+                 SqlCommand command3 = new SqlCommand(query, con.cnn);
+                 SqlDataReader lector3 = command3.ExecuteReader();
+
+                 if (!(lector3.Read()))
+                 {
+                     con.cnn.Close();
+                     MessageBox.Show("Nombre de Usuario no existente, por favor elija otro");
+                     return;
+                 }
+                 con.cnn.Close();
+
+
+                 Conexion con1 = new Conexion();
+                 //OBTENGO ID DE PAIS
+                 con1.cnn.Open();
+                 string query2 = "SELECT id_pais FROM LPP.PAISES WHERE pais = '" + txtPais.Text + "'";
+                 SqlCommand command2 = new SqlCommand(query2, con1.cnn);
+                 SqlDataReader lector2 = command2.ExecuteReader();
+                 lector2.Read();
+                 int id_pais = lector2.GetInt32(0);
+                 con1.cnn.Close();
+
+
+
+                 //OBTENGO ID DE CLIENTE
+                 con1.cnn.Open();
+                 string query4 = "SELECT id_cliente FROM LPP.CLIENTES WHERE username = '" + txtUsuario.Text  + "'";
+                 SqlCommand command4 = new SqlCommand(query4, con1.cnn);
+                 SqlDataReader lector4 = command2.ExecuteReader();
+                 lector2.Read();
+                 int id_cliente = lector4.GetInt32(0);
+                 con1.cnn.Close();
+
+
+                 //OBTENGO ID MONEDA
+                 con1.cnn.Open();
+                 string query5 = "SELECT id_moneda FROM LPP.MONEDAS WHERE descripcion = '" + Convert.ToString(cmbMoneda.SelectedItem) + "'";
+                 SqlCommand command5 = new SqlCommand(query5, con1.cnn);
+                 SqlDataReader lector5 = command5.ExecuteReader();
+                 lector5.Read();
+                 int id_moneda = lector5.GetInt32(0);
+                 con1.cnn.Close();
+
+                 //OBTENGO ID DE TIPO_CUENTA
+                 con1.cnn.Open();
+                 string query6 = "SELECT id_tipocuenta FROM LPP.TIPOS_CUENTA WHERE descripcion = '" + Convert.ToString(cmbTipoCuenta.SelectedItem) + "'";
+                 SqlCommand command6 = new SqlCommand(query6, con1.cnn);
+                 SqlDataReader lector6 = command6.ExecuteReader();
+                 lector6.Read();
+                 int id_tipoCuenta = lector6.GetInt32(0);
+                 con1.cnn.Close();
+
+                 //INSERTO LA CUENTA
+                 string query1 = "INSERT INTO LPP.CUENTAS (id_pais, " +
+                                 "id_cliente, id_moneda, fecha_apertura, id_tipo) VALUES " +
+                                 "('" + id_pais + "','" + id_cliente + "','" + id_moneda + "', Convert(DateTime,'" + readConfiguracion.Configuracion.fechaSystem() + "00:00:00.000',103) ,'";
+                 con1.cnn.Open();
+                 SqlCommand command = new SqlCommand(query1, con1.cnn);
+                 command.ExecuteNonQuery();
+                 con1.cnn.Close();
+
+                 con1.cnn.Open();
+                 string query11 = "SELECT num_cuenta FROM LPP.CUENTAS WHERE id_cliente = '" + id_cliente + "'";
+                 SqlCommand command11 = new SqlCommand(query11, con1.cnn);
+                 SqlDataReader lector11 = command6.ExecuteReader();
+                 lector11.Read();
+                 int id_cuenta = lector11.GetInt32(0);
+                 con1.cnn.Close();
+
+                 
+
+                 MessageBox.Show("Alta de Cuenta Exitosa, su Numero de cuenta es: id_cuenta");
+
+                 mp.Show();
+                 this.Close();
+             }
+             if (ban == 2){
+
+              //OBTENGO ID DE CLIENTE
+             Conexion con1 = new Conexion();
+             con1.cnn.Open();
+             string query10 = "SELECT id_cliente FROM LPP.CLIENTES WHERE username = '" + txtUsuario.Text + "'";
+             SqlCommand command10 = new SqlCommand(query10, con1.cnn);
+             SqlDataReader lector10 = command10.ExecuteReader();
+             lector10.Read();
+             int id_clienteMod = lector10.GetInt32(0);
+             con1.cnn.Close();
+
+             //OBTENGO ID MONEDA
+             con1.cnn.Open();
+             string query7 = "SELECT id_moneda FROM LPP.MONEDAS WHERE descripcion = '" + Convert.ToString(cmbMoneda.SelectedItem) + "'";
+             SqlCommand command7 = new SqlCommand(query7, con1.cnn);
+             SqlDataReader lector7 = command7.ExecuteReader();
+             lector7.Read();
+             int id_monedaMod = lector7.GetInt32(0);
+             con1.cnn.Close();
+
+             //OBTENGO ID DE TIPO_CUENTA
+             con1.cnn.Open();
+             string query8 = "SELECT id_tipocuenta FROM LPP.TIPOS_CUENTA WHERE descripcion = '" + Convert.ToString(cmbTipoCuenta.SelectedItem) + "'";
+             SqlCommand command8 = new SqlCommand(query8, con1.cnn);
+             SqlDataReader lector8 = command8.ExecuteReader();
+             lector8.Read();
+             int id_tipoCuentaMod = lector8.GetInt32(0);
+             con1.cnn.Close();
+
+
+             string query9 = "UPDATE LPP.CUENTAS SET " +
+                                 " id_moneda = '" + id_monedaMod +
+                                 "'id_tipo = '" + id_tipoCuentaMod + "'" +
+                                 ", habilitado = '" + ckbHabilitado.Checked + "' " +
+                                 "WHERE id_cliente = '" + id_clienteMod + "'";
+                 Conexion con = new Conexion();
+                 con.cnn.Open();
+                 SqlCommand command = new SqlCommand(query9, con.cnn);
+                 command.ExecuteNonQuery();
+                 con.cnn.Close(); ;
+
+
+                 padre_buscarCuenta.mp.Show();
+                 padre_buscarCuenta.Close();
+                 this.Close();
+             }
+
 
         }
 
