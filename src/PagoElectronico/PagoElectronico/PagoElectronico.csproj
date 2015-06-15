@@ -148,12 +148,6 @@
     <Compile Include="Retiros\ListaRetiros.Designer.cs">
       <DependentUpon>ListaRetiros.cs</DependentUpon>
     </Compile>
-    <Compile Include="Transferencias\Form1.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Transferencias\Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
-    </Compile>
     <Compile Include="Retiros\Retiros.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -221,6 +215,15 @@
     <EmbeddedResource Include="Retiros\Retiros.resx">
       <DependentUpon>Retiros.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Transferencias\BuscarCuentas.resx">
+      <DependentUpon>BuscarCuentas.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Transferencias\ListaTransferencias.resx">
+      <DependentUpon>ListaTransferencias.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Transferencias\Transferencias.resx">
+      <DependentUpon>Transferencias.cs</DependentUpon>
+    </EmbeddedResource>
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
@@ -233,6 +236,24 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="Transferencias\BuscarCuentas.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Transferencias\BuscarCuentas.designer.cs">
+      <DependentUpon>BuscarCuentas.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Transferencias\ListaTransferencias.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Transferencias\ListaTransferencias.designer.cs">
+      <DependentUpon>ListaTransferencias.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Transferencias\Transferencias.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Transferencias\Transferencias.designer.cs">
+      <DependentUpon>Transferencias.cs</DependentUpon>
     </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
