@@ -47,3 +47,7 @@ C:\Users\CSOSA\Documents\GitHub\GD1C2015-LPP\src\PagoElectronico\PagoElectronico
 C:\Users\ffusaro\Desktop\GD1C2015-LPP\src\PagoElectronico\PagoElectronico\obj\Release\PagoElectronico.Transferencias.BuscarCuentas.resources
 C:\Users\ffusaro\Desktop\GD1C2015-LPP\src\PagoElectronico\PagoElectronico\obj\Release\PagoElectronico.Transferencias.ListaTransferencias.resources
 C:\Users\ffusaro\Desktop\GD1C2015-LPP\src\PagoElectronico\PagoElectronico\obj\Release\PagoElectronico.Transferencias.Transferencias.resources
+C:\Users\ffusaro\Desktop\GD1C2015-LPP\src\PagoElectronico\PagoElectronico\obj\Release\PagoElectronico.ABM_Cuenta.AltaCuenta.resources
+C:\Users\ffusaro\Desktop\GD1C2015-LPP\src\PagoElectronico\PagoElectronico\obj\Release\PagoElectronico.ABM_Cuenta.BuscarCuenta.resources
+C:\Users\ffusaro\Desktop\GD1C2015-LPP\src\PagoElectronico\PagoElectronico\obj\Release\PagoElectronico.ABM_Cuenta.BuscarCuentas.resources
+C:\Users\ffusaro\Desktop\GD1C2015-LPP\src\PagoElectronico\PagoElectronico\obj\Release\PagoElectronico.ABM_Cliente.AsignarUsuario.resources

@@ -942,14 +942,14 @@ AS
 BEGIN
 	IF(@num_cuenta_origen = @num_cuenta_destino)
 		BEGIN
-			INSERT INTO LPP.TRANSFERENCIAS (num_cuenta_origen, num_cuenta_destino, importe, fecha, costo_trans) VALUES (@num_cuenta_origen, @num_cuenta_destino, @importe, @fecha, 0);
+			INSERT INTO LPP.TRANSFERENCIAS (num_cuenta_origen, num_cuenta_destino, importe, fecha, costo_trans) VALUES (@num_cuenta_origen, @num_cuenta_destino, @importe, CONVERT(datetime, @fecha, 103), 0);
 		END	
 	ELSE 
 		BEGIN
 			DECLARE @costo NUMERIC(18, 2);
 			SET @costo = (SELECT costo_transaccion FROM LPP.TIPOS_CUENTA t JOIN LPP.CUENTAS c ON c.id_tipo =t.id_tipocuenta WHERE C.num_cuenta = @num_cuenta_origen);
 			INSERT INTO LPP.TRANSFERENCIAS (num_cuenta_origen, num_cuenta_destino, importe, fecha, costo_trans)
-				VALUES (@num_cuenta_origen, @num_cuenta_destino, @importe, @fecha, @costo);
+				VALUES (@num_cuenta_origen, @num_cuenta_destino, @importe, CONVERT(datetime, @fecha, 103), @costo);
 		END
 	UPDATE LPP.CUENTAS SET saldo = saldo - @importe WHERE num_cuenta = @num_cuenta_origen;
 	UPDATE LPP.CUENTAS SET saldo = saldo + @importe WHERE num_cuenta = @num_cuenta_destino;	 		
@@ -973,7 +973,7 @@ CREATE PROCEDURE PRC_cuentas_deudoras
 AS
 BEGIN
 	SELECT i.num_cuenta FROM LPP.ITEMS_FACTURA i JOIN LPP.CUENTAS c ON c.num_cuenta = i.num_cuenta
-		WHERE c.id_cliente = @id_cliente AND i.facturado = 1
+		WHERE c.id_cliente = @id_cliente AND i.facturado = 0
 		GROUP BY i.num_cuenta
 		HAVING COUNT(i.id_item_factura) > 5	
 END
@@ -996,7 +996,7 @@ CREATE PROCEDURE PRC_obtener_factura
 AS
 BEGIN
 	INSERT INTO LPP.FACTURAS (fecha, id_cliente) VALUES (@fecha, @id_cliente)
-	SELECT @id_factura = id_factura FROM LPP.FACTURAS WHERE fecha = @fecha AND id_cliente = @id_cliente
+	SELECT @id_factura = id_factura FROM LPP.FACTURAS WHERE fecha = CONVERT(datetime, @fecha, 103) AND id_cliente = @id_cliente
 END
 GO
 

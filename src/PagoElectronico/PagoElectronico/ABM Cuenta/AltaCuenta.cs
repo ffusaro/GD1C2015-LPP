@@ -209,7 +209,7 @@ namespace PagoElectronico.ABM_Cuenta
                  //INSERTO LA CUENTA
                  string query1 = "INSERT INTO LPP.CUENTA (id_pais, " +
                                  "id_cliente,id_moneda,fecha_apertura,id_tipo) VALUES " +
-                                 "('"+ id_pais +"','" + id_cliente + "','" + id_moneda + "', Convert(DateTime,'readConfiguracion.Configuracion.fechaSystem()+"00:00:00.000"',103) ,'" + id_tipoCuenta + "')";
+                                 "('"+ id_pais +"','" + id_cliente + "','" + id_moneda + "', Convert(DateTime,'"+ readConfiguracion.Configuracion.fechaSystem()+ "00:00:00.000',103) ,'" + id_tipoCuenta + "')";
                  con1.cnn.Open();
                  SqlCommand command = new SqlCommand(query1, con1.cnn);
                  command.ExecuteNonQuery();

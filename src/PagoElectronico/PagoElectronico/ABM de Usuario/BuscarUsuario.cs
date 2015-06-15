@@ -15,6 +15,7 @@ namespace PagoElectronico.ABM_de_Usuario
     {
         ABMUsuario FormUsuario;
         ABMCliente FormCliente;
+        ABM_Cliente.AsignarUsuario FormAsignar;
         public MenuPrincipal mp;
         public DataTable dt;
         public int ev;
@@ -79,9 +80,9 @@ namespace PagoElectronico.ABM_de_Usuario
             }
             else
             {
-                
-                FormCliente = new ABMCliente("A",Usuario);
-                FormCliente.Show();
+
+                FormAsignar = new ABM_Cliente.AsignarUsuario("B", Usuario);
+                FormAsignar.Show();
                 this.Close();
             
             
@@ -91,11 +92,6 @@ namespace PagoElectronico.ABM_de_Usuario
         private void btnSalir_Click(object sender, EventArgs e)
         {
             this.Close();
-        }
-
-        private void BuscarUsuario_Load(object sender, EventArgs e)
-        {
-
         }
 
         private void txtUsuarios_TextChanged(object sender, EventArgs e)

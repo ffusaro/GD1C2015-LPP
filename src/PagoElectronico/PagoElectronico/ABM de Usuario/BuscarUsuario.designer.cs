@@ -143,7 +143,6 @@
             this.Name = "BuscarUsuario";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Buscar Usuario";
-            this.Load += new System.EventHandler(this.BuscarUsuario_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dgvUsuario)).EndInit();
             this.gpDatosFiltrados.ResumeLayout(false);
             this.gpDatosFiltrados.PerformLayout();

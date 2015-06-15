@@ -54,6 +54,12 @@
     <Compile Include="ABM Cliente\ABMCliente.designer.cs">
       <DependentUpon>ABMCliente.cs</DependentUpon>
     </Compile>
+    <Compile Include="ABM Cliente\AsignarUsuario.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ABM Cliente\AsignarUsuario.Designer.cs">
+      <DependentUpon>AsignarUsuario.cs</DependentUpon>
+    </Compile>
     <Compile Include="ABM Cliente\BuscarCliente.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -182,6 +188,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="ABM Cliente\ABMCliente.resx">
       <DependentUpon>ABMCliente.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ABM Cliente\AsignarUsuario.resx">
+      <DependentUpon>AsignarUsuario.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ABM Cliente\BuscarCliente.resx">
       <DependentUpon>BuscarCliente.cs</DependentUpon>

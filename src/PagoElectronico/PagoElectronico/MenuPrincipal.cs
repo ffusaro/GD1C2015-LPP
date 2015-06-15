@@ -193,9 +193,10 @@ namespace PagoElectronico
 
         private void aBMClienteToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            ABMCliente abmCliente = new ABMCliente("A","U");
-            abmCliente.Show();
-            abmCliente.padre_mp = this;
+
+            ABM_Cliente.AsignarUsuario asignarUsuario = new ABM_Cliente.AsignarUsuario("A", "U");
+            asignarUsuario.Show();
+            asignarUsuario.padre_mp = this;
             
         }
 

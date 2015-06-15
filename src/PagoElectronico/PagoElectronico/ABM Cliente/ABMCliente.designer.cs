@@ -30,7 +30,6 @@
         {
             this.boxDatosCliente = new System.Windows.Forms.GroupBox();
             this.txtUsuario = new System.Windows.Forms.TextBox();
-            this.btnUsuario = new System.Windows.Forms.Button();
             this.chkMail = new System.Windows.Forms.CheckBox();
             this.lblMailExistente = new System.Windows.Forms.Label();
             this.txtDepto = new System.Windows.Forms.TextBox();
@@ -65,14 +64,15 @@
             this.btnGrabar = new System.Windows.Forms.Button();
             this.btnModificar = new System.Windows.Forms.Button();
             this.btnNuevo = new System.Windows.Forms.Button();
+            this.label4 = new System.Windows.Forms.Label();
             this.boxDatosCliente.SuspendLayout();
             this.boxBotones.SuspendLayout();
             this.SuspendLayout();
             // 
             // boxDatosCliente
             // 
+            this.boxDatosCliente.Controls.Add(this.label4);
             this.boxDatosCliente.Controls.Add(this.txtUsuario);
-            this.boxDatosCliente.Controls.Add(this.btnUsuario);
             this.boxDatosCliente.Controls.Add(this.chkMail);
             this.boxDatosCliente.Controls.Add(this.lblMailExistente);
             this.boxDatosCliente.Controls.Add(this.txtDepto);
@@ -113,22 +113,12 @@
             this.txtUsuario.Size = new System.Drawing.Size(185, 20);
             this.txtUsuario.TabIndex = 30;
             // 
-            // btnUsuario
-            // 
-            this.btnUsuario.Location = new System.Drawing.Point(44, 241);
-            this.btnUsuario.Name = "btnUsuario";
-            this.btnUsuario.Size = new System.Drawing.Size(123, 23);
-            this.btnUsuario.TabIndex = 29;
-            this.btnUsuario.Text = "Asociar a un Usuario";
-            this.btnUsuario.UseVisualStyleBackColor = true;
-            this.btnUsuario.Click += new System.EventHandler(this.btnUsuario_Click);
-            // 
             // chkMail
             // 
             this.chkMail.AutoSize = true;
             this.chkMail.Location = new System.Drawing.Point(720, 168);
             this.chkMail.Name = "chkMail";
-            this.chkMail.Size = new System.Drawing.Size(15, 14);
+            this.chkMail.Size = new System.Drawing.Size(22, 21);
             this.chkMail.TabIndex = 28;
             this.chkMail.UseVisualStyleBackColor = true;
             this.chkMail.CheckedChanged += new System.EventHandler(this.chkMail_CheckedChanged);
@@ -429,6 +419,15 @@
             this.btnNuevo.UseVisualStyleBackColor = true;
             this.btnNuevo.Click += new System.EventHandler(this.btnNuevo_Click);
             // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(41, 245);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(90, 13);
+            this.label4.TabIndex = 31;
+            this.label4.Text = "Usuario Asignado";
+            // 
             // ABMCliente
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -440,7 +439,6 @@
             this.Name = "ABMCliente";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Actualizar Cliente";
-            this.Load += new System.EventHandler(this.ABMCliente_Load);
             this.boxDatosCliente.ResumeLayout(false);
             this.boxDatosCliente.PerformLayout();
             this.boxBotones.ResumeLayout(false);
@@ -486,6 +484,6 @@
         private System.Windows.Forms.Label lblMailExistente;
         private System.Windows.Forms.CheckBox chkMail;
         private System.Windows.Forms.TextBox txtUsuario;
-        private System.Windows.Forms.Button btnUsuario;
+        private System.Windows.Forms.Label label4;
     }
 }

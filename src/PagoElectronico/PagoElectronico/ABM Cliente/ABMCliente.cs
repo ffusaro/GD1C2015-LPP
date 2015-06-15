@@ -52,6 +52,7 @@ namespace PagoElectronico
 
 
             lblMailExistente.Visible = false;
+            txtUsuario.Text = usuario;
             // Conectar a DB
             Conexion con1 = new Conexion();
             Conexion conDomicilio = new Conexion();
@@ -478,7 +479,6 @@ namespace PagoElectronico
         {
             btnNuevo.Enabled = true;
             btnSalir.Enabled = true;
-            btnUsuario.Enabled = false;
             txtUsuario.Enabled = false;
             ABM_Cliente.BuscarCliente bc = new ABM_Cliente.BuscarCliente();
             this.Close();
@@ -584,19 +584,7 @@ namespace PagoElectronico
             }
         }
 
-      private void btnUsuario_Click(object sender, EventArgs e)
-      {
-          btnNuevo.Enabled = true;
-          btnSalir.Enabled = true;
-          ABM_de_Usuario.BuscarUsuario bu = new ABM_de_Usuario.BuscarUsuario(0);
-          bu.Show();
-      }
 
-      private void ABMCliente_Load(object sender, EventArgs e)
-      {
-
-      }
-
-       
+          
     }
 }
