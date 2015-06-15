@@ -61,13 +61,16 @@ namespace PagoElectronico.ABM_Cliente
             
 
             //HACER CONSULTA
-            string query = "SELECT id_cliente, nombre, apellido, mail, id_tipo_doc, num_doc FROM LPP.CLIENTES";
-
+            //string query = "SELECT id_cliente, nombre, apellido, mail, id_tipo_doc, num_doc FROM LPP.CLIENTES WHERE ";
+            string query = String.Format("SELECT nombre, apellido, d.tipo_descr, num_doc, " + 
+                                " p.pais, fecha_nac,id_domicilio, mail "+
+                                " FROM LPP.CLIENTES cl LEFT JOIN LPP.PAISES p ON cl.id_pais=p.id_pais "+
+                                " LEFT JOIN LPP.TIPO_DOCS d ON cl.id_tipo_doc = d.tipo_cod WHERE 1=1 ");
             // Cargo todos los Clientes en el DATAGRIDVIEW
 
             if (txtNombre.Text != "")
             {
-                query += " AND nombre LIKE '%" + txtNombre.Text + "%'";
+                query += "AND nombre LIKE '%" + txtNombre.Text + "%'";
             }
             if (txtApellido.Text != "")
             {
@@ -94,6 +97,8 @@ namespace PagoElectronico.ABM_Cliente
             
             dgvCliente.DataSource = dtDatos;
             con.cnn.Close();
+
+
 
         }
 

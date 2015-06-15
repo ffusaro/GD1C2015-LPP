@@ -74,24 +74,25 @@ namespace PagoElectronico
             if(evento != "A")
             {
                 
-                string query1 = "SELECT DISTINCT id_tipo_doc, num_doc, nombre, apellido, " +
+               /* string query1 = "SELECT DISTINCT id_tipo_doc, num_doc, nombre, apellido, " +
                                 "id_pais, fecha_nac,id_domicilio,username " +
                                 "FROM LPP.CLIENTES " +
-                                "WHERE mail = '" + evento + "'";
-                              
+                                "WHERE mail = '" + evento + "'";*/
+                string query1 = "SELECT d.tipo_descr, num_doc, nombre, apellido, " + 
+                                " p.pais, fecha_nac,id_domicilio, mail "+
+                                " FROM LPP.CLIENTES cl LEFT JOIN LPP.PAISES p ON cl.id_pais=p.id_pais "+
+                                " LEFT JOIN LPP.TIPO_DOCS d ON cl.id_tipo_doc = d.tipo_cod WHERE mail = '" + evento + "'";
                 con1.cnn.Open();
                 SqlCommand command1 = new SqlCommand(query1, con1.cnn);
                 SqlDataReader lector = command1.ExecuteReader();
                 
                 lector.Read();
-                cbID.Text = lector.GetDecimal(0).ToString(); //TODO CORREGIR CUANDO SE MUESTRE DESCR
+                cbID.Text = lector.GetString(0); 
                 txtNumeroID.Text = lector.GetDecimal(1).ToString();
                 txtNombre.Text = lector.GetString(2);
                 txtApellido.Text = lector.GetString(3);
-                txtNacionalidad.Text = lector.GetDecimal(4).ToString(); //TODO CORREGIR CUANDO SE MUESTRE DESCR
+                txtNacionalidad.Text = lector.GetString(4); 
                 fechaNacimiento.Value = Convert.ToDateTime(lector.GetDateTime(5));
-                //chkHabilitado.Checked = lector.GetBoolean(6); Aca no esta porque el campo es del usuario, no del cliente
-                //int id_domicilio = Convert.ToInt32(lector.GetDecimal(6));
                 int id_domicilio = lector.GetInt32(6);
                 txtMail.Text = evento;
                 txtUsuario.Text = lector.GetString(7);
