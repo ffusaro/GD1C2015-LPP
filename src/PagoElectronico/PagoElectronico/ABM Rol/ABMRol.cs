@@ -17,6 +17,7 @@ namespace PagoElectronico.ABM_Rol
         public MenuPrincipal mp;
         public BuscarRol bc;
         public int ban;
+        public int id_rol_abm;
 
         public ABMRol(string ev)
         {
@@ -41,7 +42,7 @@ namespace PagoElectronico.ABM_Rol
             Conexion con2 = new Conexion();
 
             /*CARGO LAS FUNCIONALIDADES EN UN CHECKLIST*/
-            string query = "SELECT nombre FROM LPP.FUNCIONALIDADES";
+            string query = "SELECT descripcion FROM LPP.FUNCIONALIDAD";
             
             con.cnn.Open();
             SqlCommand command = new SqlCommand(query, con.cnn);
@@ -55,11 +56,22 @@ namespace PagoElectronico.ABM_Rol
 
                 if (evento != "A")
                 {
+
+                    //CONSIGO ID_ROL
+                    Conexion con3 = new Conexion();
+                    string query3 = "SELECT id_rol FROM LPP.ROLES WHERE nombre = '" + evento + "'";
+                    con3.cnn.Open();
+                    SqlCommand command3 = new SqlCommand(query3, con3.cnn);
+                    SqlDataReader lector3 = command3.ExecuteReader();
+                    lector3.Read();
+                    int id_rol_abm = lector3.GetInt32(0);
+                    con3.cnn.Close();
+
                     /*VERIFICA SI EL ROL CONTIENE LA FUNCIONALIDAD*/
                     query = "SELECT 1 FROM LPP.FUNCIONALIDADXROL F " +
-                                 "JOIN LPP.FUNCIONALIDADES D ON D.id_funcionalidad = F.funcionalidad " +
-                                 "AND D.nombre = '" + funcionalidad + "' " +
-                                 "WHERE F.rol = '" + evento + "'";
+                                 "JOIN LPP.FUNCIONALIDAD D ON D.id_funcionalidad = F.funcionalidad " +
+                                 "AND D.descripcion = '" + funcionalidad + "' " +
+                                 "WHERE F.rol = '" + id_rol_abm + "'";
                     
                     con2.cnn.Open();
                     SqlCommand command2 = new SqlCommand(query, con2.cnn);
@@ -75,12 +87,9 @@ namespace PagoElectronico.ABM_Rol
             con.cnn.Close();
             if (evento != "A")
             {
-
-
                 con.cnn.Open();
                 try
                 {
-                    
                     string queryM = "SELECT habilitado FROM LPP.ROLES WHERE nombre = '" +evento + "' ";
                     SqlCommand commando = new SqlCommand(queryM, con.cnn);
                     SqlDataReader lectorcito = commando.ExecuteReader();
@@ -114,8 +123,17 @@ namespace PagoElectronico.ABM_Rol
             Conexion con = new Conexion();
             if (evento != "A")
             {
-                
-                string query = "DELETE LPP.FUNCIONALIDADXROL WHERE rol = '" + txtNombre.Text + "'";
+
+                //CONSIGO ID_ROL
+                string query3 = "SELECT id_rol FROM LPP.ROLES WHERE nombre = '" + evento + "'";
+                con.cnn.Open();
+                SqlCommand command3 = new SqlCommand(query3, con.cnn);
+                SqlDataReader lector3 = command3.ExecuteReader();
+                lector3.Read();
+                int id_rol = lector3.GetInt32(0);
+                con.cnn.Close();
+
+                string query = "DELETE LPP.FUNCIONALIDADXROL WHERE rol = " + id_rol + "";
                 con.cnn.Open();
                 SqlCommand command = new SqlCommand(query, con.cnn);
                 command.ExecuteNonQuery();
@@ -143,18 +161,24 @@ namespace PagoElectronico.ABM_Rol
                 command.ExecuteNonQuery();
                 con.cnn.Close();
 
-              
             }
+            //CONSIGO ID_ROL
+            string query5 = "SELECT id_rol FROM LPP.ROLES WHERE nombre = '" + txtNombre.Text + "'";
+            con.cnn.Open();
+            SqlCommand command5 = new SqlCommand(query5, con.cnn);
+            SqlDataReader lector5 = command5.ExecuteReader();
+            lector5.Read();
+            int id_rol_nuevo = lector5.GetInt32(0);
+            con.cnn.Close();
 
             foreach (object itemsCheck in chkListFuncionalidades.CheckedItems)
             {
-                string query = "INSERT INTO LPP.FUNCIONALIDADXROL (rol, funcionalidad) VALUES ('" + txtNombre.Text + "',(SELECT F.id_Funcionalidad FROM LPP.Funcionalidad F WHERE F.Nombre = '" + itemsCheck.ToString() + "'))";
+                string query = "INSERT INTO LPP.FUNCIONALIDADXROL (rol, funcionalidad) VALUES ('" + id_rol_nuevo + "',(SELECT F.id_Funcionalidad FROM LPP.Funcionalidad F WHERE F.descripcion = '" + itemsCheck.ToString() + "'))";
                 con.cnn.Open();
-                SqlCommand command = new SqlCommand(query, con.cnn);
-                command.ExecuteNonQuery();
+                SqlCommand command2 = new SqlCommand(query, con.cnn);
+                command2.ExecuteNonQuery();
                 con.cnn.Close();
             }
-
             if (evento == "A")
             {
                 MessageBox.Show("Rol Creado Correctamente");

@@ -209,7 +209,7 @@ namespace PagoElectronico.Login
            if (entro)
            {
                //CARGO DATOS EN LOGUXSUARIO (Usuario correcto)
-               string query6 = "INSERT INTO LPP.LOGSXUSUARIO (username,fecha,num_intento, logueo) VALUES ('" + txtUsuario.Text + "', convert(datetime,'" + readConfiguracion.Configuracion.fechaSystem() + " 00:00:00.000', 103), " + intFallidos + ", 1 )";
+               string query6 = "INSERT INTO LPP.LOGSXUSUARIO (username,fecha,num_intento,logueo) VALUES ('" + txtUsuario.Text + "', convert(datetime,'" + readConfiguracion.Configuracion.fechaSystem() + " 00:00:00.000', 103), " + intFallidos + ", 1)";
                con.cnn.Open();
                SqlCommand command6 = new SqlCommand(query6, con.cnn);
                command6.ExecuteNonQuery();
@@ -219,7 +219,7 @@ namespace PagoElectronico.Login
            else
            {
                //CARGO DATOS EN LOGUXSUARIO(Usuario incorrecto) AGREGAR TIPO INTENTO!
-               string query4 = "INSERT INTO LPP.LOGSXUSUARIO (username,fecha,num_intento, logueo) VALUES ('" + txtUsuario.Text + "', convert(datetime,'" + readConfiguracion.Configuracion.fechaSystem() + " 00:00:00.000', 103), " + intFallidos + ", 0 )";
+               string query4 = "INSERT INTO LPP.LOGSXUSUARIO (username,fecha,num_intento,logueo) VALUES ('" + txtUsuario.Text + "', convert(datetime,'" + readConfiguracion.Configuracion.fechaSystem() + " 00:00:00.000', 103), " + intFallidos + ", 0 )";
                con.cnn.Open();
                SqlCommand command4 = new SqlCommand(query4, con.cnn);
                command4.ExecuteNonQuery();
