@@ -1,4 +1,4 @@
-﻿namespace PagoElectronico.Listados_Estadisticos
+﻿ namespace PagoElectronico.Listados_Estadisticos
 {
     partial class Listados
     {
@@ -27,6 +27,7 @@
         /// the contents of this method with the code editor.
         /// </summary>
         private void InitializeComponent()
+
         {
             this.btnSalir = new System.Windows.Forms.Button();
             this.dgvDatos = new System.Windows.Forms.DataGridView();
@@ -162,7 +163,6 @@
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
-
         }
 
         #endregion
