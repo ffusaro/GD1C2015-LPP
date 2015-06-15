@@ -75,32 +75,33 @@ namespace PagoElectronico
             {
                 
                 string query1 = "SELECT DISTINCT id_tipo_doc, num_doc, nombre, apellido, " +
-                                "nacionalidad, fecha_nac, habilitado,id_domicilio,username " +
-                                "FROM LPP.Cliente " +
-                                "WHERE Mail = '" + evento + "'";
+                                "id_pais, fecha_nac,id_domicilio,username " +
+                                "FROM LPP.CLIENTES " +
+                                "WHERE mail = '" + evento + "'";
                               
                 con1.cnn.Open();
                 SqlCommand command1 = new SqlCommand(query1, con1.cnn);
                 SqlDataReader lector = command1.ExecuteReader();
                 
                 lector.Read();
-                cbID.Text = lector.GetString(0);
+                cbID.Text = lector.GetDecimal(0).ToString(); //TODO CORREGIR CUANDO SE MUESTRE DESCR
                 txtNumeroID.Text = lector.GetDecimal(1).ToString();
                 txtNombre.Text = lector.GetString(2);
                 txtApellido.Text = lector.GetString(3);
-                txtNacionalidad.Text = lector.GetString(4);
+                txtNacionalidad.Text = lector.GetDecimal(4).ToString(); //TODO CORREGIR CUANDO SE MUESTRE DESCR
                 fechaNacimiento.Value = Convert.ToDateTime(lector.GetDateTime(5));
-                chkHabilitado.Checked = lector.GetBoolean(6);
-                int id_domicilio = Convert.ToInt32(lector.GetDecimal(7));
+                //chkHabilitado.Checked = lector.GetBoolean(6); Aca no esta porque el campo es del usuario, no del cliente
+                //int id_domicilio = Convert.ToInt32(lector.GetDecimal(6));
+                int id_domicilio = lector.GetInt32(6);
                 txtMail.Text = evento;
-                txtUsuario.Text = lector.GetString(8);
+                txtUsuario.Text = lector.GetString(7);
                 txtUsuario.Enabled = false;
                 con1.cnn.Close();
 
                 //Consulto Domicilio
                 string queryDomicilio = "SELECT DISTINCT calle,num,depto,piso,localidad " +
-                                        "FROM LPP.Cliente " +
-                                        "WHERE id_domicilio = '+ id_domicilio +'";
+                                        "FROM LPP.DOMICILIOS " +
+                                        "WHERE id_domicilio = "+ id_domicilio +" ";
 
                 conDomicilio.cnn.Open();
                 SqlCommand commandDomicilio = new SqlCommand(queryDomicilio, conDomicilio.cnn);
@@ -110,11 +111,30 @@ namespace PagoElectronico
 
 
                 //Cargo Datos Domicilio
-                txtDomicilio.Text = lectorDomicilio.GetString(0);
-                txtNumeroCalle.Text = lectorDomicilio.GetDecimal(1).ToString();
-                txtDepto.Text = lectorDomicilio.GetString(2);
-                txtPiso.Text = lectorDomicilio.GetDecimal(3).ToString();
-                txtLocalidad.Text = lectorDomicilio.GetString(4);
+                
+                if (!lectorDomicilio.IsDBNull(0))
+                {
+                    txtDomicilio.Text = lectorDomicilio.GetString(0);
+                }
+                if (!lectorDomicilio.IsDBNull(1))
+                {
+                    txtNumeroCalle.Text = lectorDomicilio.GetDecimal(1).ToString();
+                }
+                
+                if (!lectorDomicilio.IsDBNull(2))
+                {
+                    txtDepto.Text = lectorDomicilio.GetString(2);
+                }
+                if (!lectorDomicilio.IsDBNull(3))
+                {
+                    txtPiso.Text = lectorDomicilio.GetDecimal(3).ToString();
+                }
+                
+                if (!lectorDomicilio.IsDBNull(4))
+                {
+                    txtLocalidad.Text = lectorDomicilio.GetString(4);
+                }
+                
                 
                 txtMail.Enabled = false;
                 btnModificar.Enabled = true;
@@ -124,7 +144,6 @@ namespace PagoElectronico
             else
             {
                 fechaNacimiento.Value = Convert.ToDateTime("2000-01-01");
-                chkHabilitado.Visible = false;
             }
             if (user != "U")
 
@@ -357,13 +376,12 @@ namespace PagoElectronico
 
 
                         int id_domicilio = abm.insertarDomicilio(txtDomicilio.Text, Convert.ToInt32(txtNumeroCalle.Text), Convert.ToInt32(txtPiso.Text), txtDepto.Text, txtLocalidad.Text);
-                        string salida = abm.insertarCliente(txtNombre.Text, txtApellido.Text, cbID.Text, Convert.ToInt32(txtNumeroID.Text), txtMail.Text,fechaNacimiento.Value, txtNacionalidad.Text, chkHabilitado.Checked,id_domicilio,txtUsuario.Text);
+                        string salida = abm.insertarCliente(txtNombre.Text, txtApellido.Text, cbID.Text, Convert.ToInt32(txtNumeroID.Text), txtMail.Text,fechaNacimiento.Value, txtNacionalidad.Text, id_domicilio,txtUsuario.Text);
                         MessageBox.Show("" + salida);
                         tipoDoc = cbID.Text;
                         nroDoc = Convert.ToInt32(txtNumeroID.Text);
                         boxDatosCliente.Enabled = false;
                         cbID.Text = "Elija una opcion";
-                        chkHabilitado.Checked = false;
                         fechaNacimiento.Value = DateTime.Today;
                         lblNombre.Enabled = false;
                         txtNombre.Enabled = false;
@@ -389,7 +407,7 @@ namespace PagoElectronico
                     {
                         //Saco id_domicilio para modificar
                         Conexion con3 = new Conexion();
-                        string query3 = "SELECT id_domicilio FROM LPP.CLIENTES WHERE id_tipo_doc = '" + cbID.Text + "' AND num_doc= " + Convert.ToInt32(txtNumeroID.Text) + " ";
+                        string query3 = "SELECT id_domicilio FROM LPP.CLIENTES WHERE id_tipo_doc = (select tipo_cod from LPP.TIPO_DOCS WHERE tipo_descr = '" + cbID.Text + "') AND num_doc= " + Convert.ToInt32(txtNumeroID.Text) + " ";
                         con3.cnn.Open();
                         SqlCommand command3 = new SqlCommand(query3, con3.cnn);
                         SqlDataReader lector3 = command3.ExecuteReader();
@@ -419,7 +437,7 @@ namespace PagoElectronico
 
                             //Modifico en la Tabla Domicilio y CLiente
                             abm.modificarDomicilio(txtDomicilio.Text,Convert.ToInt32(txtNumeroCalle.Text),Convert.ToInt32(txtPiso.Text), txtDepto.Text, txtLocalidad.Text,id_domicilio);
-                            string salida = abm.modificarCliente(txtNombre.Text, txtApellido.Text, cbID.Text, Convert.ToInt32(txtNumeroID.Text), txtMail.Text, fechaNacimiento.Value, txtNacionalidad.Text, chkHabilitado.Checked);
+                            string salida = abm.modificarCliente(txtNombre.Text, txtApellido.Text, cbID.Text, Convert.ToInt32(txtNumeroID.Text), txtMail.Text, fechaNacimiento.Value, txtNacionalidad.Text);
                             MessageBox.Show("" + salida);
                         }
 
@@ -427,14 +445,13 @@ namespace PagoElectronico
                         {
                             //Modifico en la Tabla Domicilio y Cliente
                             abm.modificarDomicilio(txtDomicilio.Text, Convert.ToInt32(txtNumeroCalle.Text), Convert.ToInt32(txtPiso.Text), txtDepto.Text, txtLocalidad.Text, id_domicilio);
-                            string salida = abm.modificarCliente(txtNombre.Text, txtApellido.Text, cbID.Text, Convert.ToInt32(txtNumeroID.Text), txtMail.Text, fechaNacimiento.Value, txtNacionalidad.Text, chkHabilitado.Checked);
+                            string salida = abm.modificarCliente(txtNombre.Text, txtApellido.Text, cbID.Text, Convert.ToInt32(txtNumeroID.Text), txtMail.Text, fechaNacimiento.Value, txtNacionalidad.Text);
                             MessageBox.Show("" + salida);
 
                         }
 
                         boxDatosCliente.Enabled = false;
                         cbID.Text = "";
-                        chkHabilitado.Checked = false;
                         fechaNacimiento.Value = fecha;
                         lblNombre.Enabled = false;
                         txtNombre.Enabled = false;
@@ -532,7 +549,6 @@ namespace PagoElectronico
            txtNumeroCalle.Text = "";
            fechaNacimiento.Value = fecha;
            cbID.Text = "Elija una opción";
-           chkHabilitado.Checked = false;
            txtNombre.Focus();
            boxDatosCliente.Enabled = false;
            btnEliminar.Enabled = false;

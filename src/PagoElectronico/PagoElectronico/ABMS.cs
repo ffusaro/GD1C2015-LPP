@@ -20,7 +20,7 @@ namespace PagoElectronico
 
 
         //ABM CLIENTE
-        public string insertarCliente(string Nombre, string Apellido, string Tipo_ID, int Numero_ID, string Mail, DateTime Nacimiento, string Nacionalidad, bool Habilitacion,int id_domicilio, string usuario)
+        public string insertarCliente(string Nombre, string Apellido, string Tipo_ID, int Numero_ID, string Mail, DateTime Nacimiento, string Nacionalidad,int id_domicilio, string usuario)
         {
             con1.cnn.Open();
            
@@ -28,9 +28,6 @@ namespace PagoElectronico
 
             try
             {
-                //string query2 = "INSERT INTO LPP.CLIENTES"+
-                 //               "(num_doc, apellido, nombre, fecha_nac, mail, id_tipo_Doc, Nacionalidad, Habilitado,id_domicilio,username)"+
-                  //              "VALUES (" + Numero_ID + ", '" + Apellido + "', '" + Nombre + "', '" + Nacimiento + "', '" + Mail + "', '" + Tipo_ID + "','" + Nacionalidad + "', '" + Habilitacion + "', "+id_domicilio +",'"+ usuario +"')";
                 string query = "INSERT INTO LPP.CLIENTES" +
                                 " (num_doc, apellido, nombre, fecha_nac, mail, id_tipo_Doc, id_pais, id_domicilio) " +
                                 "VALUES (" + Numero_ID + ", '" + Apellido + "', '" + Nombre + "', '" + Nacimiento.ToString("yyyy-MM-dd HH:MM:ss") + "',"
@@ -81,14 +78,14 @@ namespace PagoElectronico
             return 0;
         }
 
-        public string modificarCliente(string Nombre, string Apellido, string Tipo_ID, int Numero_ID, string Mail, DateTime Nacimiento,string Nacionalidad, bool Habilitacion)
+        public string modificarCliente(string Nombre, string Apellido, string Tipo_ID, int Numero_ID, string Mail, DateTime Nacimiento,string Nacionalidad)
         {
             con1.cnn.Open();
             string salida = "Se modificó el Cliente correctamente";
 
             try
             {
-                string query = "UPDATE LPP.CLIENTES SET fecha_nac = '" + Nacimiento + "', mail = '" + Mail + "', apellido = '" + Apellido + "', nombre = '" + Nombre + "',  Nacionalidad='" + Nacionalidad + "', Habilitado ='" + Habilitacion + "' WHERE id_tipo_doc = '"+Tipo_ID+"' AND num_doc = "+ Numero_ID+"";
+                string query = "UPDATE LPP.CLIENTES SET fecha_nac = '" + Nacimiento + "', mail = '" + Mail + "', apellido = '" + Apellido + "', nombre = '" + Nombre + "',  id_pais=(select id_pais from LPP.PAISES where pais like '%" + Nacionalidad +  "') WHERE id_tipo_doc = ( select tipo_cod from LPP.TIPO_DOCS where tipo_descr='"+Tipo_ID+"') AND num_doc = "+ Numero_ID+"";
                 SqlCommand command = new SqlCommand(query, con1.cnn);
                 command.ExecuteNonQuery();
 
@@ -111,7 +108,7 @@ namespace PagoElectronico
 
             try
             {
-                string query = "UPDATE LPP.CLIENTES SET habilitado = 0 WHERE id_tipo_doc = '" +Tipo_ID + "' AND num_doc = '" + Numero_ID + "'";
+                string query = "UPDATE LPP.CLIENTES SET habilitado = 0 WHERE id_tipo_doc = (select tipo_cod from LPP.TIPO_DOCS where tipo_descr = '" +Tipo_ID + "') AND num_doc = '" + Numero_ID + "'";
                 SqlCommand command = new SqlCommand(query, con1.cnn);
                 command.ExecuteNonQuery();
 

@@ -28,7 +28,7 @@ namespace PagoElectronico.ABM_Cliente
             con1.cnn.Open();
 
             // Pregunto todos los TipoDoc de la DB
-            string query = "SELECT Tipo FROM LPP.Tipo_Doc";
+            string query = "SELECT tipo_descr FROM LPP.TIPO_DOCS";
 
             SqlCommand command = new SqlCommand(query, con1.cnn);
             SqlDataReader lector = command.ExecuteReader();
@@ -61,7 +61,7 @@ namespace PagoElectronico.ABM_Cliente
             
 
             //HACER CONSULTA
-            string query = "SELECT id_cliente, nombre, apellido, mail, id_tipo_doc, num_doc FROM LPP.CLIENTES WHERE 1=1";
+            string query = "SELECT id_cliente, nombre, apellido, mail, id_tipo_doc, num_doc FROM LPP.CLIENTES";
 
             // Cargo todos los Clientes en el DATAGRIDVIEW
 
@@ -75,7 +75,7 @@ namespace PagoElectronico.ABM_Cliente
             }
             if (cbTipo.Text != "Elija una opcion")
             {
-                query += " AND id_tipo_doc = '" + cbTipo.Text + "'";
+                query += " AND id_tipo_doc = (select tipo_cod from LPP.TIPO_DOCS where tipo_descr = '" + cbTipo.Text + "')";
             }
             if (txtNumeroID.Text != "")
             {

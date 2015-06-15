@@ -32,7 +32,6 @@
             this.txtUsuario = new System.Windows.Forms.TextBox();
             this.btnUsuario = new System.Windows.Forms.Button();
             this.chkMail = new System.Windows.Forms.CheckBox();
-            this.chkHabilitado = new System.Windows.Forms.CheckBox();
             this.lblMailExistente = new System.Windows.Forms.Label();
             this.txtDepto = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
@@ -77,7 +76,6 @@
             this.boxDatosCliente.Controls.Add(this.txtUsuario);
             this.boxDatosCliente.Controls.Add(this.btnUsuario);
             this.boxDatosCliente.Controls.Add(this.chkMail);
-            this.boxDatosCliente.Controls.Add(this.chkHabilitado);
             this.boxDatosCliente.Controls.Add(this.lblMailExistente);
             this.boxDatosCliente.Controls.Add(this.txtDepto);
             this.boxDatosCliente.Controls.Add(this.label3);
@@ -138,16 +136,6 @@
             this.chkMail.TabIndex = 28;
             this.chkMail.UseVisualStyleBackColor = true;
             this.chkMail.CheckedChanged += new System.EventHandler(this.chkMail_CheckedChanged);
-            // 
-            // chkHabilitado
-            // 
-            this.chkHabilitado.AutoSize = true;
-            this.chkHabilitado.Location = new System.Drawing.Point(527, 247);
-            this.chkHabilitado.Name = "chkHabilitado";
-            this.chkHabilitado.Size = new System.Drawing.Size(73, 17);
-            this.chkHabilitado.TabIndex = 27;
-            this.chkHabilitado.Text = "Habilitado";
-            this.chkHabilitado.UseVisualStyleBackColor = true;
             // 
             // lblMailExistente
             // 
@@ -265,7 +253,7 @@
             // 
             // txtTelefono
             // 
-            this.txtTelefono.Location = new System.Drawing.Point(527, 200);
+            this.txtTelefono.Location = new System.Drawing.Point(527, 202);
             this.txtTelefono.Name = "txtTelefono";
             this.txtTelefono.Size = new System.Drawing.Size(185, 20);
             this.txtTelefono.TabIndex = 12;
@@ -518,7 +506,6 @@
         private System.Windows.Forms.TextBox txtDepto;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label lblMailExistente;
-        private System.Windows.Forms.CheckBox chkHabilitado;
         private System.Windows.Forms.CheckBox chkMail;
         private System.Windows.Forms.TextBox txtUsuario;
         private System.Windows.Forms.Button btnUsuario;
