@@ -172,14 +172,14 @@
             this.label1.TabIndex = 6;
             this.label1.Text = "Número de Cuenta Origen";
             // 
-            // Transferencis
+            // Transferencias
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(514, 227);
             this.Controls.Add(this.boxBotones);
             this.Controls.Add(this.grpDatos);
-            this.Name = "Transferencis";
+            this.Name = "Transferencias";
             this.Text = "Transferencis";
             this.boxBotones.ResumeLayout(false);
             this.grpDatos.ResumeLayout(false);
@@ -199,9 +199,9 @@
         private System.Windows.Forms.Button btnBuscar;
         private System.Windows.Forms.TextBox txtCuentaDestino;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.ComboBox cmbNroCuenta;
-        private System.Windows.Forms.TextBox txtImporte;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
+        public System.Windows.Forms.ComboBox cmbNroCuenta;
+        public System.Windows.Forms.TextBox txtImporte;
     }
 }

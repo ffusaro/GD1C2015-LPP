@@ -21,7 +21,7 @@ namespace PagoElectronico.Transferencias
         public decimal importe;
         private decimal costoTransferencia;
 
-        public Transferencias(string user,int num_cuenta)
+        public Transferencias(string user,decimal num_cuenta)
         {
             InitializeComponent();
             usuario = user;
@@ -74,7 +74,10 @@ namespace PagoElectronico.Transferencias
         private void btnBuscar_Click(object sender, EventArgs e)
         {
             BuscarCuentas bc = new BuscarCuentas(usuario);
+            bc.num_cuenta_origen = Convert.ToDecimal(cmbNroCuenta.Text);
+            bc.importe = Convert.ToDecimal(txtImporte.Text);
             bc.Show();
+            this.Close();
         }
 
         private void btnGrabar_Click(object sender, EventArgs e)

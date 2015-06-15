@@ -807,7 +807,7 @@ AFTER INSERT
 AS
 BEGIN
 	INSERT INTO LPP.ITEMS_FACTURA (id_item, num_cuenta, monto, facturado, fecha)
-		VALUES (3, (SELECT num_cuenta_origen FROM inserted), (SELECT costo_trans FROM inserted), 0, GETDATE())
+		VALUES (3, (SELECT num_cuenta_origen FROM inserted), (SELECT costo_trans FROM inserted), 0, (SELECT fecha FROM LPP.TRANSFERENCIAS))
 	IF( (SELECT COUNT(id_item_factura) FROM LPP.ITEMS_FACTURA WHERE facturado= 0) > 5 )
 		UPDATE LPP.CUENTAS SET id_estado = 4 WHERE num_cuenta = (SELECT num_cuenta_origen FROM inserted)
 END 
@@ -996,7 +996,7 @@ CREATE PROCEDURE PRC_obtener_factura
 AS
 BEGIN
 	INSERT INTO LPP.FACTURAS (fecha, id_cliente) VALUES (@fecha, @id_cliente)
-	SELECT @id_factura = id_factura FROM LPP.FACTURAS WHERE fecha = CONVERT(datetime, @fecha, 103) AND id_cliente = @id_cliente
+	SELECT DISTINCT @id_factura = id_factura FROM LPP.FACTURAS WHERE fecha = CONVERT(datetime, @fecha, 103) AND id_cliente = @id_cliente ORDER BY fecha DESC
 END
 GO
 

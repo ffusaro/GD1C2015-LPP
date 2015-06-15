@@ -69,6 +69,7 @@
             // 
             this.dgvCuentas.AllowUserToAddRows = false;
             this.dgvCuentas.AllowUserToDeleteRows = false;
+            this.dgvCuentas.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
             this.dgvCuentas.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvCuentas.Location = new System.Drawing.Point(12, 170);
             this.dgvCuentas.MultiSelect = false;

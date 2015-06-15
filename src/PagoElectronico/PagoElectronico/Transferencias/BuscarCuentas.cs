@@ -12,11 +12,14 @@ namespace PagoElectronico.Transferencias
 {
     public partial class BuscarCuentas : Form
     {
-        public DataTable dt;
-        public int nroDoc;
-        public string tipoDoc;
-        public Transferencias tr;
+        private DataTable dt;
+        private int nroDoc;
+        private string tipoDoc;
+        private Transferencias tr;
         public string usuario;
+        public decimal num_cuenta_origen;
+        public decimal importe;
+
 
         public BuscarCuentas(string user)
         {
@@ -106,8 +109,10 @@ namespace PagoElectronico.Transferencias
         {
             //int id;
             int indice = e.RowIndex;
-            int num_cuenta = Convert.ToInt32(dgvCuentas.Rows[indice].Cells["num_cuenta"].Value.ToString());
+            decimal num_cuenta = Convert.ToDecimal(dgvCuentas.Rows[indice].Cells["num_cuenta"].Value);
             tr = new Transferencias(usuario,num_cuenta);
+            tr.txtImporte.Text = importe.ToString();
+            tr.cmbNroCuenta.Text = num_cuenta_origen.ToString();
             tr.Show();
             this.Close();
         }
