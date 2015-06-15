@@ -16,29 +16,18 @@ namespace PagoElectronico
         public string user;
         DataGridView dgvejemplo = new DataGridView();
         public Login.LogIn log;
+        public string rol;
 
         public MenuPrincipal()
         {
             InitializeComponent();
         }
       
-        public void cargarUsuario(string usuario, string hot, Login.LogIn form)
+        public void cargarUsuario(string usuario, string roluser, Login.LogIn form)
         {
             user = usuario;
             log = form;
-
-           /* if (user != "")
-            {
-                //MenuPrincipal.ActiveForm.Text = hot + "     ";
-                sesionToolStripMenuItem.Visible = true;
-                
-            }
-            else
-            {
-                //MenuPrincipal.ActiveForm.Text =" Bienvenido    ";
-                sesionToolStripMenuItem.Visible = true;
-                
-            }*/
+            rol = roluser;
 
             /*PREPARAR BOTONERA*/
 
@@ -61,7 +50,9 @@ namespace PagoElectronico
                     +" JOIN LPP.FUNCIONALIDAD F ON F.id_funcionalidad = FR.funcionalidad"
                     +" JOIN LPP.ROLES R ON R.id_rol = FR.rol"  
                     +" JOIN LPP.ROLESXUSUARIO RU ON RU.rol = R.id_rol"
-                    +" WHERE R.habilitado = 1 and RU.username = '"+ user +"'" +"ORDER BY F.id_funcionalidad";
+                    +" WHERE R.habilitado = 1 and RU.username = '"+ user +"' AND r.nombre = '"+rol+"'"
+                    +"ORDER BY F.id_funcionalidad";
+
 
             con.cnn.Open();
             SqlCommand command = new SqlCommand(query, con.cnn);
