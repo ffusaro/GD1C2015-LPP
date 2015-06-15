@@ -58,6 +58,7 @@
             this.facturarToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.realizarFacturacionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.consultarSaldoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.desasociarToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -199,7 +200,7 @@
             // realizarRetiro
             // 
             this.realizarRetiro.Name = "realizarRetiro";
-            this.realizarRetiro.Size = new System.Drawing.Size(152, 26);
+            this.realizarRetiro.Size = new System.Drawing.Size(122, 26);
             this.realizarRetiro.Text = "Retiro";
             this.realizarRetiro.Click += new System.EventHandler(this.realizarRetiro_Click);
             // 
@@ -235,7 +236,8 @@
             // tarjetasToolStripMenuItem
             // 
             this.tarjetasToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.registrarConsumibleToolStripMenuItem});
+            this.registrarConsumibleToolStripMenuItem,
+            this.desasociarToolStripMenuItem});
             this.tarjetasToolStripMenuItem.Name = "tarjetasToolStripMenuItem";
             this.tarjetasToolStripMenuItem.Size = new System.Drawing.Size(212, 25);
             this.tarjetasToolStripMenuItem.Text = "Asociar/Desasociar Tarjetas";
@@ -243,8 +245,8 @@
             // registrarConsumibleToolStripMenuItem
             // 
             this.registrarConsumibleToolStripMenuItem.Name = "registrarConsumibleToolStripMenuItem";
-            this.registrarConsumibleToolStripMenuItem.Size = new System.Drawing.Size(230, 26);
-            this.registrarConsumibleToolStripMenuItem.Text = "Registrar Consumible";
+            this.registrarConsumibleToolStripMenuItem.Size = new System.Drawing.Size(155, 26);
+            this.registrarConsumibleToolStripMenuItem.Text = "Asociar";
             // 
             // rolToolStripMenuItem
             // 
@@ -298,6 +300,12 @@
             this.consultarSaldoToolStripMenuItem.Size = new System.Drawing.Size(132, 25);
             this.consultarSaldoToolStripMenuItem.Text = "Consultar Saldo";
             // 
+            // desasociarToolStripMenuItem
+            // 
+            this.desasociarToolStripMenuItem.Name = "desasociarToolStripMenuItem";
+            this.desasociarToolStripMenuItem.Size = new System.Drawing.Size(155, 26);
+            this.desasociarToolStripMenuItem.Text = "Desasociar";
+            // 
             // MenuPrincipal
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -350,6 +358,7 @@
         private System.Windows.Forms.ToolStripMenuItem eliminarRolToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem realizarRetiro;
         private System.Windows.Forms.ToolStripMenuItem consultarSaldoToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem desasociarToolStripMenuItem;
 
     }
 }

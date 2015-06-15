@@ -1134,10 +1134,10 @@ BEGIN
 		JOIN LPP.TRANSFERENCIAS t1 ON t1.num_cuenta_origen = c.num_cuenta
 		JOIN LPP.TRANSFERENCIAS t2 ON t2.num_cuenta_destino = c.num_cuenta
 	WHERE t1.id_transferencia <> t2.id_transferencia
-	AND (MONTH(d.fecha_deposito) BETWEEN @desde AND @hasta AND YEAR(d.fecha_deposito)=@anio)
-	AND(MONTH(r.fecha) BETWEEN @desde AND @hasta AND YEAR(r.fecha)=@anio)
-	AND (MONTH(t1.fecha) BETWEEN @desde AND @hasta AND YEAR(t1.fecha)=@anio)
-	AND (MONTH(t2.fecha) BETWEEN @desde AND @hasta AND YEAR(t2.fecha)=@anio)
+	--AND (MONTH(d.fecha_deposito) BETWEEN @desde AND @hasta AND YEAR(d.fecha_deposito)=@anio)
+	--AND(MONTH(r.fecha) BETWEEN @desde AND @hasta AND YEAR(r.fecha)=@anio)
+	--AND (MONTH(t1.fecha) BETWEEN @desde AND @hasta AND YEAR(t1.fecha)=@anio)
+	--AND (MONTH(t2.fecha) BETWEEN @desde AND @hasta AND YEAR(t2.fecha)=@anio)
 	GROUP BY pais
 	ORDER BY 2 DESC
 END
@@ -1150,7 +1150,7 @@ CREATE PROCEDURE PRC_estadistico_facturado_tipo_cuentas
 @anio INTEGER
 AS
 BEGIN
-	SELECT TOP 5 id_tipocuenta, descripcion, SUM(monto) 
+	SELECT TOP 5 id_tipocuenta, descripcion, SUM(monto) AS 'totalFacturado'
 	FROM LPP.TIPOS_CUENTA t
 		JOIN LPP.CUENTAS c ON c.id_tipo = t.id_tipocuenta
 		JOIN LPP.ITEMS_FACTURA i ON i.num_cuenta = c.num_cuenta

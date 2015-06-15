@@ -44,3 +44,6 @@ C:\Users\CSOSA\Documents\GitHub\GD1C2015-LPP\src\PagoElectronico\PagoElectronico
 C:\Users\CSOSA\Documents\GitHub\GD1C2015-LPP\src\PagoElectronico\PagoElectronico\obj\Release\PagoElectronico.Retiros.ListaRetiros.resources
 C:\Users\CSOSA\Documents\GitHub\GD1C2015-LPP\src\PagoElectronico\PagoElectronico\obj\Release\PagoElectronico.Retiros.RetiroDeEfectivo.resources
 C:\Users\CSOSA\Documents\GitHub\GD1C2015-LPP\src\PagoElectronico\PagoElectronico\obj\Release\PagoElectronico.csproj.GenerateResource.Cache
+C:\Users\ffusaro\Desktop\GD1C2015-LPP\src\PagoElectronico\PagoElectronico\obj\Release\PagoElectronico.Transferencias.BuscarCuentas.resources
+C:\Users\ffusaro\Desktop\GD1C2015-LPP\src\PagoElectronico\PagoElectronico\obj\Release\PagoElectronico.Transferencias.ListaTransferencias.resources
+C:\Users\ffusaro\Desktop\GD1C2015-LPP\src\PagoElectronico\PagoElectronico\obj\Release\PagoElectronico.Transferencias.Transferencias.resources

@@ -85,7 +85,7 @@ namespace PagoElectronico
 
             try
             {
-                string query = "UPDATE LPP.CLIENTES SET fecha_nac = '" + Nacimiento + "', mail = '" + Mail + "', apellido = '" + Apellido + "', nombre = '" + Nombre + "',  id_pais=(select id_pais from LPP.PAISES where pais like '%" + Nacionalidad +  "') WHERE id_tipo_doc = ( select tipo_cod from LPP.TIPO_DOCS where tipo_descr='"+Tipo_ID+"') AND num_doc = "+ Numero_ID+"";
+                string query = "UPDATE LPP.CLIENTES SET fecha_nac = CONVERT(DATETIME, '" + Nacimiento.ToString("yyyy-MM-dd HH:MM:ss")+ "', 103)"+", mail = '" + Mail + "', apellido = '" + Apellido + "', nombre = '" + Nombre + "',  id_pais=(select id_pais from LPP.PAISES where pais like '%" + Nacionalidad +  "') WHERE id_tipo_doc = ( select tipo_cod from LPP.TIPO_DOCS where tipo_descr='"+Tipo_ID+"') AND num_doc = "+ Numero_ID+"";
                 SqlCommand command = new SqlCommand(query, con1.cnn);
                 command.ExecuteNonQuery();
 

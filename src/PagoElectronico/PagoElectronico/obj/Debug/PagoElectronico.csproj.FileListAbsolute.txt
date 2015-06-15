@@ -84,3 +84,6 @@ C:\Documents and Settings\UsuarioAdmin\Escritorio\GD1C2015-LPP\src\PagoElectroni
 C:\Documents and Settings\UsuarioAdmin\Escritorio\GD1C2015-LPP\src\PagoElectronico\PagoElectronico\obj\Debug\PagoElectronico.Retiros.ListaRetiros.resources
 C:\Documents and Settings\UsuarioAdmin\Escritorio\GD1C2015-LPP\src\PagoElectronico\PagoElectronico\obj\Debug\PagoElectronico.Retiros.RetiroDeEfectivo.resources
 C:\Documents and Settings\UsuarioAdmin\Escritorio\GD1C2015-LPP\src\PagoElectronico\PagoElectronico\obj\Debug\PagoElectronico.csproj.GenerateResource.Cache
+C:\Users\ffusaro\Desktop\GD1C2015-LPP\src\PagoElectronico\PagoElectronico\obj\Debug\PagoElectronico.Transferencias.BuscarCuentas.resources
+C:\Users\ffusaro\Desktop\GD1C2015-LPP\src\PagoElectronico\PagoElectronico\obj\Debug\PagoElectronico.Transferencias.ListaTransferencias.resources
+C:\Users\ffusaro\Desktop\GD1C2015-LPP\src\PagoElectronico\PagoElectronico\obj\Debug\PagoElectronico.Transferencias.Transferencias.resources

@@ -73,11 +73,6 @@ namespace PagoElectronico
 
             if(evento != "A")
             {
-                
-               /* string query1 = "SELECT DISTINCT id_tipo_doc, num_doc, nombre, apellido, " +
-                                "id_pais, fecha_nac,id_domicilio,username " +
-                                "FROM LPP.CLIENTES " +
-                                "WHERE mail = '" + evento + "'";*/
                 string query1 = "SELECT d.tipo_descr, num_doc, nombre, apellido, " + 
                                 " p.pais, fecha_nac,id_domicilio, mail "+
                                 " FROM LPP.CLIENTES cl LEFT JOIN LPP.PAISES p ON cl.id_pais=p.id_pais "+
@@ -137,7 +132,7 @@ namespace PagoElectronico
                 }
                 
                 
-                txtMail.Enabled = false;
+                txtMail.Enabled = true;
                 btnModificar.Enabled = true;
                 btnNuevo.Enabled = false;
                 btnEliminar.Enabled = true;
@@ -312,10 +307,7 @@ namespace PagoElectronico
                     // Con este try y este catch verifico que no tengan letras ciertos campos
                     try
                     {
-                        if (txtTelefono.Text != "")
-                            temp = Convert.ToInt32(txtTelefono.Text);
-                        
-                        if (txtNumeroID.Text != "")
+                         if (txtNumeroID.Text != "")
                             temp = Convert.ToInt32(txtNumeroID.Text);
                     }
                     catch (Exception h)
@@ -326,11 +318,10 @@ namespace PagoElectronico
 
                     
                     this.grabarEnTabla();
-                    
-                
 
             }
         }
+
         private void grabarEnTabla()
         {
             // Conectar a DB
@@ -338,7 +329,7 @@ namespace PagoElectronico
 
 
             // Inserto Cliente
-            if (txtNombre.Text != "" && txtApellido.Text != "" && cbID.Text != "" && txtNumeroID.Text != "" && txtMail.Text != "" && txtTelefono.Text != "" && txtNacionalidad.Text != "" && txtLocalidad.Text != "" && fechaNacimiento.Value != null)
+            if (txtNombre.Text != "" && txtApellido.Text != "" && cbID.Text != "" && txtNumeroID.Text != "" && txtMail.Text != "" && txtNacionalidad.Text != "" && txtLocalidad.Text != "" && fechaNacimiento.Value != null)
             {
                 if (ban == 1)
                 {
@@ -398,11 +389,11 @@ namespace PagoElectronico
                         txtNumeroID.Text = "";
                         txtMail.Text = "";
                         txtDomicilio.Text = "";
-                        txtTelefono.Text = "";
                         txtNumeroCalle.Text = "";
                         txtPiso.Text = "";
                         
                     }
+                }
                     //Modifico al Cliente
                     if (ban == 2)
                     {
@@ -438,7 +429,7 @@ namespace PagoElectronico
 
                             //Modifico en la Tabla Domicilio y CLiente
                             abm.modificarDomicilio(txtDomicilio.Text,Convert.ToInt32(txtNumeroCalle.Text),Convert.ToInt32(txtPiso.Text), txtDepto.Text, txtLocalidad.Text,id_domicilio);
-                            string salida = abm.modificarCliente(txtNombre.Text, txtApellido.Text, cbID.Text, Convert.ToInt32(txtNumeroID.Text), txtMail.Text, fechaNacimiento.Value, txtNacionalidad.Text);
+                            string salida = abm.modificarCliente(txtNombre.Text, txtApellido.Text, cbID.Text, Convert.ToInt32(txtNumeroID.Text), txtMail.Text, fechaNacimiento.Value , txtNacionalidad.Text);
                             MessageBox.Show("" + salida);
                         }
 
@@ -451,28 +442,28 @@ namespace PagoElectronico
 
                         }
 
-                        boxDatosCliente.Enabled = false;
-                        cbID.Text = "";
-                        fechaNacimiento.Value = fecha;
-                        lblNombre.Enabled = false;
-                        txtNombre.Enabled = false;
-                        btnLimpiar.Enabled = true;
-                        btnGrabar.Enabled = false;
-                        btnBuscar.Enabled = true;
-                        btnNuevo.Enabled = true;
-                        btnSalir.Enabled = true;
-                        txtNombre.Text = "";
-                        txtApellido.Text = "";
-                        txtLocalidad.Text = "";
-                        txtNacionalidad.Text = "";
-                        txtNumeroID.Text = "";
-                        txtMail.Text = "";
-                        txtDomicilio.Text = "";
-                        txtTelefono.Text = "";
-                        txtNumeroCalle.Text = "";
-                        txtPiso.Text = "";
-
+                      
                     }
+
+                    boxDatosCliente.Enabled = false;
+                    cbID.Text = "";
+                    fechaNacimiento.Value = fecha;
+                    lblNombre.Enabled = false;
+                    txtNombre.Enabled = false;
+                    btnLimpiar.Enabled = true;
+                    btnGrabar.Enabled = false;
+                    btnBuscar.Enabled = true;
+                    btnNuevo.Enabled = true;
+                    btnSalir.Enabled = true;
+                    txtNombre.Text = "";
+                    txtApellido.Text = "";
+                    txtLocalidad.Text = "";
+                    txtNacionalidad.Text = "";
+                    txtNumeroID.Text = "";
+                    txtMail.Text = "";
+                    txtDomicilio.Text = "";
+                    txtNumeroCalle.Text = "";
+                    txtPiso.Text = "";
                 }
                 else
                 {
@@ -480,7 +471,6 @@ namespace PagoElectronico
                     MessageBox.Show("Faltan Ingresar Datos");
                 }
 
-           }
         }
 
 
@@ -520,7 +510,6 @@ namespace PagoElectronico
             txtNumeroID.Text = "";
             txtMail.Text = "";
             txtDomicilio.Text = "";
-            txtTelefono.Text = "";
             txtNumeroCalle.Text = "";
             fechaNacimiento.Value = fecha;
             txtPiso.Text = "";
@@ -545,7 +534,6 @@ namespace PagoElectronico
            txtNumeroID.Text = "";
            txtMail.Text = "";
            txtDomicilio.Text = "";
-           txtTelefono.Text = "";
            txtPiso.Text = "";
            txtNumeroCalle.Text = "";
            fechaNacimiento.Value = fecha;
@@ -608,19 +596,6 @@ namespace PagoElectronico
       {
 
       }
-
-       
-
-       
-
-      
-
-      
-      
-
-       
-
-       
 
        
     }

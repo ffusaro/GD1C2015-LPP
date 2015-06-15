@@ -46,7 +46,6 @@
             this.txtNacionalidad = new System.Windows.Forms.TextBox();
             this.txtNumeroID = new System.Windows.Forms.TextBox();
             this.txtApellido = new System.Windows.Forms.TextBox();
-            this.txtTelefono = new System.Windows.Forms.TextBox();
             this.txtDomicilio = new System.Windows.Forms.TextBox();
             this.txtNombre = new System.Windows.Forms.TextBox();
             this.lblNacimiento = new System.Windows.Forms.Label();
@@ -54,7 +53,6 @@
             this.lblDireccion = new System.Windows.Forms.Label();
             this.lblLocalidad = new System.Windows.Forms.Label();
             this.lblMail = new System.Windows.Forms.Label();
-            this.lblTelefono = new System.Windows.Forms.Label();
             this.lblNumero = new System.Windows.Forms.Label();
             this.lblTipo = new System.Windows.Forms.Label();
             this.lblApellido = new System.Windows.Forms.Label();
@@ -90,7 +88,6 @@
             this.boxDatosCliente.Controls.Add(this.txtNacionalidad);
             this.boxDatosCliente.Controls.Add(this.txtNumeroID);
             this.boxDatosCliente.Controls.Add(this.txtApellido);
-            this.boxDatosCliente.Controls.Add(this.txtTelefono);
             this.boxDatosCliente.Controls.Add(this.txtDomicilio);
             this.boxDatosCliente.Controls.Add(this.txtNombre);
             this.boxDatosCliente.Controls.Add(this.lblNacimiento);
@@ -98,7 +95,6 @@
             this.boxDatosCliente.Controls.Add(this.lblDireccion);
             this.boxDatosCliente.Controls.Add(this.lblLocalidad);
             this.boxDatosCliente.Controls.Add(this.lblMail);
-            this.boxDatosCliente.Controls.Add(this.lblTelefono);
             this.boxDatosCliente.Controls.Add(this.lblNumero);
             this.boxDatosCliente.Controls.Add(this.lblTipo);
             this.boxDatosCliente.Controls.Add(this.lblApellido);
@@ -251,13 +247,6 @@
             this.txtApellido.TabIndex = 13;
             this.txtApellido.Validating += new System.ComponentModel.CancelEventHandler(this.txtApellido_Validating);
             // 
-            // txtTelefono
-            // 
-            this.txtTelefono.Location = new System.Drawing.Point(527, 202);
-            this.txtTelefono.Name = "txtTelefono";
-            this.txtTelefono.Size = new System.Drawing.Size(185, 20);
-            this.txtTelefono.TabIndex = 12;
-            // 
             // txtDomicilio
             // 
             this.txtDomicilio.Location = new System.Drawing.Point(183, 132);
@@ -318,15 +307,6 @@
             this.lblMail.Size = new System.Drawing.Size(26, 13);
             this.lblMail.TabIndex = 5;
             this.lblMail.Text = "Mail";
-            // 
-            // lblTelefono
-            // 
-            this.lblTelefono.AutoSize = true;
-            this.lblTelefono.Location = new System.Drawing.Point(409, 202);
-            this.lblTelefono.Name = "lblTelefono";
-            this.lblTelefono.Size = new System.Drawing.Size(49, 13);
-            this.lblTelefono.TabIndex = 4;
-            this.lblTelefono.Text = "Teléfono";
             // 
             // lblNumero
             // 
@@ -477,7 +457,6 @@
         private System.Windows.Forms.Label lblTipo;
         private System.Windows.Forms.Label lblApellido;
         private System.Windows.Forms.Label lblMail;
-        private System.Windows.Forms.Label lblTelefono;
         private System.Windows.Forms.Label lblNacionalidad;
         private System.Windows.Forms.Label lblDireccion;
         private System.Windows.Forms.Label lblLocalidad;
@@ -489,7 +468,6 @@
         private System.Windows.Forms.TextBox txtNacionalidad;
         private System.Windows.Forms.TextBox txtNumeroID;
         private System.Windows.Forms.TextBox txtApellido;
-        private System.Windows.Forms.TextBox txtTelefono;
         private System.Windows.Forms.TextBox txtDomicilio;
         private System.Windows.Forms.Button btnModificar;
         private System.Windows.Forms.Button btnNuevo;

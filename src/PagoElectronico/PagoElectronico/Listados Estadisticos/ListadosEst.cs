@@ -47,8 +47,8 @@ namespace PagoElectronico.Listados_Estadisticos
         private void btnLimpiar_Click(object sender, EventArgs e)
         {
 
-            cmbAño.Text = "";
-            cmbListado.Text = "";
+            cmbAño.Text = " ";
+            cmbListado.Text = " ";
             cmbPeriodo.Text = "";
 
         }
@@ -275,14 +275,11 @@ namespace PagoElectronico.Listados_Estadisticos
                     con.cnn.Close();
                     return;
                 }
-                con.cnn.Close();
-
-                con.cnn.Open();
+                
                 DataTable dtDatos = new DataTable();
-                SqlDataAdapter da = new SqlDataAdapter(query2, con.cnn);
-                da.Fill(dtDatos);
-
-                dgvDatos.DataSource = dtDatos;
+                dtDatos.Load(lector2);
+                con.cnn.Close();
+                dgvDatos.DataSource = dtDatos; ;
                 con.cnn.Close();
             }
         }
