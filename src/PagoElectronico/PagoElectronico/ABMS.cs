@@ -67,7 +67,7 @@ namespace PagoElectronico
                 dr.Close();
 
             }
-            catch (Exception ex)
+            catch (Exception )
             {
                 con1.cnn.Close();
                 return contador;
