@@ -123,11 +123,17 @@
     <Compile Include="Depositos\ListaDeposito.Designer.cs">
       <DependentUpon>ListaDeposito.cs</DependentUpon>
     </Compile>
-    <Compile Include="Facturacion\Form1.cs">
+    <Compile Include="Facturacion\Buscar.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Facturacion\Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <Compile Include="Facturacion\Buscar.designer.cs">
+      <DependentUpon>Buscar.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Facturacion\Facturacion.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Facturacion\Facturacion.designer.cs">
+      <DependentUpon>Facturacion.cs</DependentUpon>
     </Compile>
     <Compile Include="Help.cs" />
     <Compile Include="Listados Estadisticos\ListadosEst.cs">
@@ -215,6 +221,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Depositos\ListaDeposito.resx">
       <DependentUpon>ListaDeposito.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Facturacion\Buscar.resx">
+      <DependentUpon>Buscar.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Facturacion\Facturacion.resx">
+      <DependentUpon>Facturacion.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Listados Estadisticos\ListadosEst.resx">
       <DependentUpon>ListadosEst.cs</DependentUpon>
