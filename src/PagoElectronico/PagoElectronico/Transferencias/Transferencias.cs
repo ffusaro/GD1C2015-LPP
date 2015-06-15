@@ -112,6 +112,17 @@ namespace PagoElectronico.Transferencias
                 MessageBox.Show("Elija un Numero de Cuenta Destino por favor");
                 return;
             }
+            try
+            {
+                if (txtCuentaDestino.Text != "")
+                    temp = Convert.ToInt32(txtCuentaDestino.Text);
+
+            }
+            catch (Exception h)
+            {
+                MessageBox.Show("Cuenta destino solo puede contener números", h.ToString());
+                return;
+            }
 
 
             costoTransferencia = getCosto(usuario,Convert.ToDecimal(cmbNroCuenta.SelectedItem));

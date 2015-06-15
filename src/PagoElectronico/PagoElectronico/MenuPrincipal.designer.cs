@@ -34,7 +34,8 @@
             this.cerrarSesionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.salirToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.cuentaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.aBMHotelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.aBMCuentaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.buscarCuentaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.usuarioToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aBMUsuarioToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.buscarUsuarioToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -46,11 +47,12 @@
             this.retiroToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.realizarRetiro = new System.Windows.Forms.ToolStripMenuItem();
             this.transferenciaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.registrarEstadiaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.realizarTransferenciaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.listadosEstadisticosToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.buscarListadosToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tarjetasToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.registrarConsumibleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.desasociarToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.rolToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aBMRolToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.modificarRolToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -58,7 +60,6 @@
             this.facturarToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.realizarFacturacionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.consultarSaldoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.desasociarToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -117,16 +118,25 @@
             // cuentaToolStripMenuItem
             // 
             this.cuentaToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.aBMHotelToolStripMenuItem});
+            this.aBMCuentaToolStripMenuItem,
+            this.buscarCuentaToolStripMenuItem});
             this.cuentaToolStripMenuItem.Name = "cuentaToolStripMenuItem";
             this.cuentaToolStripMenuItem.Size = new System.Drawing.Size(71, 25);
             this.cuentaToolStripMenuItem.Text = "Cuenta";
             // 
-            // aBMHotelToolStripMenuItem
+            // aBMCuentaToolStripMenuItem
             // 
-            this.aBMHotelToolStripMenuItem.Name = "aBMHotelToolStripMenuItem";
-            this.aBMHotelToolStripMenuItem.Size = new System.Drawing.Size(166, 26);
-            this.aBMHotelToolStripMenuItem.Text = "ABM Cuenta";
+            this.aBMCuentaToolStripMenuItem.Name = "aBMCuentaToolStripMenuItem";
+            this.aBMCuentaToolStripMenuItem.Size = new System.Drawing.Size(179, 26);
+            this.aBMCuentaToolStripMenuItem.Text = "ABM Cuenta";
+            this.aBMCuentaToolStripMenuItem.Click += new System.EventHandler(this.aBMCuentaToolStripMenuItem_Click);
+            // 
+            // buscarCuentaToolStripMenuItem
+            // 
+            this.buscarCuentaToolStripMenuItem.Name = "buscarCuentaToolStripMenuItem";
+            this.buscarCuentaToolStripMenuItem.Size = new System.Drawing.Size(179, 26);
+            this.buscarCuentaToolStripMenuItem.Text = "Buscar Cuenta";
+            this.buscarCuentaToolStripMenuItem.Click += new System.EventHandler(this.buscarCuentaToolStripMenuItem_Click);
             // 
             // usuarioToolStripMenuItem
             // 
@@ -207,16 +217,17 @@
             // transferenciaToolStripMenuItem
             // 
             this.transferenciaToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.registrarEstadiaToolStripMenuItem});
+            this.realizarTransferenciaToolStripMenuItem});
             this.transferenciaToolStripMenuItem.Name = "transferenciaToolStripMenuItem";
             this.transferenciaToolStripMenuItem.Size = new System.Drawing.Size(115, 25);
             this.transferenciaToolStripMenuItem.Text = "Transferencia";
             // 
-            // registrarEstadiaToolStripMenuItem
+            // realizarTransferenciaToolStripMenuItem
             // 
-            this.registrarEstadiaToolStripMenuItem.Name = "registrarEstadiaToolStripMenuItem";
-            this.registrarEstadiaToolStripMenuItem.Size = new System.Drawing.Size(232, 26);
-            this.registrarEstadiaToolStripMenuItem.Text = "Realizar Transferencia";
+            this.realizarTransferenciaToolStripMenuItem.Name = "realizarTransferenciaToolStripMenuItem";
+            this.realizarTransferenciaToolStripMenuItem.Size = new System.Drawing.Size(232, 26);
+            this.realizarTransferenciaToolStripMenuItem.Text = "Realizar Transferencia";
+            this.realizarTransferenciaToolStripMenuItem.Click += new System.EventHandler(this.realizarTransferenciaToolStripMenuItem_Click);
             // 
             // listadosEstadisticosToolStripMenuItem
             // 
@@ -247,6 +258,12 @@
             this.registrarConsumibleToolStripMenuItem.Name = "registrarConsumibleToolStripMenuItem";
             this.registrarConsumibleToolStripMenuItem.Size = new System.Drawing.Size(155, 26);
             this.registrarConsumibleToolStripMenuItem.Text = "Asociar";
+            // 
+            // desasociarToolStripMenuItem
+            // 
+            this.desasociarToolStripMenuItem.Name = "desasociarToolStripMenuItem";
+            this.desasociarToolStripMenuItem.Size = new System.Drawing.Size(155, 26);
+            this.desasociarToolStripMenuItem.Text = "Desasociar";
             // 
             // rolToolStripMenuItem
             // 
@@ -300,12 +317,6 @@
             this.consultarSaldoToolStripMenuItem.Size = new System.Drawing.Size(132, 25);
             this.consultarSaldoToolStripMenuItem.Text = "Consultar Saldo";
             // 
-            // desasociarToolStripMenuItem
-            // 
-            this.desasociarToolStripMenuItem.Name = "desasociarToolStripMenuItem";
-            this.desasociarToolStripMenuItem.Size = new System.Drawing.Size(155, 26);
-            this.desasociarToolStripMenuItem.Text = "Desasociar";
-            // 
             // MenuPrincipal
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -340,13 +351,13 @@
         private System.Windows.Forms.ToolStripMenuItem rolToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem cerrarSesionToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem salirToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem aBMHotelToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem aBMCuentaToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem aBMUsuarioToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem buscarUsuarioToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem aBMClienteToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem buscarUsuarioToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem aBMDepositoToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem registrarEstadiaToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem realizarTransferenciaToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem buscarListadosToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem registrarConsumibleToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem facturarToolStripMenuItem;
@@ -359,6 +370,7 @@
         private System.Windows.Forms.ToolStripMenuItem realizarRetiro;
         private System.Windows.Forms.ToolStripMenuItem consultarSaldoToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem desasociarToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem buscarCuentaToolStripMenuItem;
 
     }
 }

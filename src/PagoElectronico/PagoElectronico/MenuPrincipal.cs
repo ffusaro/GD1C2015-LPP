@@ -296,9 +296,25 @@ namespace PagoElectronico
             ret.Show();
         }
 
-    
+        private void aBMCuentaToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ABM_Cuenta.AltaCuenta altacuenta = new ABM_Cuenta.AltaCuenta("A", user);
+            altacuenta.Show();
+        }
 
-       
+        private void buscarCuentaToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ABM_Cuenta.BuscarCuenta buCuenta = new ABM_Cuenta.BuscarCuenta(1);
+
+        }
+
+        private void realizarTransferenciaToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Transferencias.Transferencias transf = new Transferencias.Transferencias(user, 0);
+            transf.Show();
+        }
+
+         
 
                
 

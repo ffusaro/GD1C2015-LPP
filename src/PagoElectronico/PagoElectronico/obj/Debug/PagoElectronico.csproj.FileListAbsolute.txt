@@ -45,7 +45,6 @@ C:\Users\ffusaro\Desktop\GD1C2015-LPP\src\PagoElectronico\PagoElectronico\bin\De
 C:\Users\ffusaro\Desktop\GD1C2015-LPP\src\PagoElectronico\PagoElectronico\obj\Debug\ResolveAssemblyReference.cache
 C:\Users\ffusaro\Desktop\GD1C2015-LPP\src\PagoElectronico\PagoElectronico\obj\Debug\PagoElectronico.ABMCliente.resources
 C:\Users\ffusaro\Desktop\GD1C2015-LPP\src\PagoElectronico\PagoElectronico\obj\Debug\PagoElectronico.ABM_Cliente.BuscarCliente.resources
-C:\Users\ffusaro\Desktop\GD1C2015-LPP\src\PagoElectronico\PagoElectronico\obj\Debug\PagoElectronico.ABM_Cuenta.Form1.resources
 C:\Users\ffusaro\Desktop\GD1C2015-LPP\src\PagoElectronico\PagoElectronico\obj\Debug\PagoElectronico.ABM_de_Usuario.ABMUsuario.resources
 C:\Users\ffusaro\Desktop\GD1C2015-LPP\src\PagoElectronico\PagoElectronico\obj\Debug\PagoElectronico.ABM_de_Usuario.BuscarUsuario.resources
 C:\Users\ffusaro\Desktop\GD1C2015-LPP\src\PagoElectronico\PagoElectronico\obj\Debug\PagoElectronico.ABM_Rol.ABMRol.resources

@@ -57,15 +57,15 @@ namespace PagoElectronico.Transferencias
 
             //HACER CONSULTA
             string query = " SELECT T.num_cuenta,C.nombre + C.apellido, C.id_tipo_doc, C.num_doc"+
-                             "FROM LPP.CLIENTES C JOIN LPP.CUENTAS T ON c.id_cliente=t.id_cliente"+
-                             "JOIN LPP.ESTADOS_CUENTA e ON T.id_estado = e.id_estadocuenta"+
-                             "WHERE (e.id_estadocuenta = 1 or e.id_estadocuenta = 4) ";
+                             " FROM LPP.CLIENTES C JOIN LPP.CUENTAS T ON C.id_cliente = T.id_cliente"+
+                             " JOIN LPP.ESTADOS_CUENTA e ON T.id_estado = e.id_estadocuenta"+
+                             " WHERE (e.id_estadocuenta = 1 OR e.id_estadocuenta = 4) ";
 
             // Cargo todos los Clientes en el DATAGRIDVIEW
 
             if (txtCuenta.Text != "")
             {
-                query += " AND T.num_cuenta = "+Convert.ToDecimal(txtCuenta.Text)+"";
+                query += " AND T.num_cuenta = " + Convert.ToDecimal(txtCuenta.Text)+" ";
             }
             if (txtApellido.Text != "")
             {
@@ -87,12 +87,13 @@ namespace PagoElectronico.Transferencias
             dgvCuentas.DataSource = dtDatos;
             con.cnn.Close();
         }
+
         private decimal getIdTipo()
         {
             Conexion con = new Conexion();
             con.cnn.Open();
             //OBTENGO ID del Tipo de Documento
-            string query = "SELECT id_item FROM LPP.TIPO_DOCS WHERE tipo_descr = '"+cbTipo.Text+"'";
+            string query = "SELECT tipo_cod FROM LPP.TIPO_DOCS WHERE tipo_descr = '"+cbTipo.Text+"'";
             SqlCommand command = new SqlCommand(query, con.cnn);
             SqlDataReader lector = command.ExecuteReader();
             lector.Read();
