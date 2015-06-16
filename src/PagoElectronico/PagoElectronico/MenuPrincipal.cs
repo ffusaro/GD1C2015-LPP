@@ -8,7 +8,6 @@ using System.Text;
 using System.Windows.Forms;
 using System.Data.SqlClient;
 using System.Runtime.InteropServices;
-using PagoElectronico;
 
 namespace PagoElectronico
 {
@@ -323,9 +322,9 @@ namespace PagoElectronico
 
         private void consultaDeSaldosToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            /*ABM_Cuenta.ConsultaDeSaldos cs = new ABM_Cuenta.ConsultaDeSaldos();
+            ABM_Cuenta.ConsultaSaldos cs = new ABM_Cuenta.ConsultaSaldos(user);
             cs.Show();
-            this.Close();*/
+            this.Close();
         }
 
       

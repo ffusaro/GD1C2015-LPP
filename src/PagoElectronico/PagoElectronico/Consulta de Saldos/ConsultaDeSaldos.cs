@@ -91,22 +91,7 @@ namespace PagoElectronico.ABM_Cuenta
 
              if (cmbListado.Text == "Ultimos 5 depositos")
              {
-                 string query2 = "PRC_ultimos_5_depositos_de_una_cuenta";
-
-                 con.cnn.Open();
-                 SqlCommand command2 = new SqlCommand(query2, con.cnn);
-                 command2.CommandType = CommandType.StoredProcedure;
-                 command2.Parameters.AddWithValue("@num_cuenta", Convert.ToInt32(txtCuenta.Text));
-
-
-                 SqlDataReader lector2 = command2.ExecuteReader();
-
-                 DataTable dtDepositos = new DataTable();
-                 SqlDataAdapter da = new SqlDataAdapter(query2, con.cnn);
-                 da.Fill(dtDepositos);
-
-                 dgvListado.DataSource = dtDepositos;
-                 con.cnn.Close();
+                 
              }
 
 
@@ -116,45 +101,13 @@ namespace PagoElectronico.ABM_Cuenta
                  
              if (cmbListado.Text == "Ultimos 5 retiros")
              {
-                 string query3 = "PRC_ultimos_5_retiros_de_una_cuenta";
                  
-
-                 con.cnn.Open();
-                 SqlCommand command3 = new SqlCommand(query3, con.cnn);
-                 command3.CommandType = CommandType.StoredProcedure;
-                 command3.Parameters.AddWithValue("@num_cuenta",Convert.ToInt32(txtCuenta.Text));
-                 
-                 
-                 SqlDataReader lector3 = command3.ExecuteReader();
-
-                 DataTable dtRetiros = new DataTable();
-                 SqlDataAdapter da = new SqlDataAdapter(query3, con.cnn);
-                 da.Fill(dtRetiros);
-
-                 dgvListado.DataSource = dtRetiros;
-                 con.cnn.Close();
  
              }
 
              if (cmbListado.Text == "Ultimas 10 transferencias")
              {
-                 string query4 = "PRC_ultimas_10_transferencias_de_una_cuenta";
-
-
-                 con.cnn.Open();
-                 SqlCommand command4 = new SqlCommand(query4, con.cnn);
-                 command4.CommandType = CommandType.StoredProcedure;
-                 command4.Parameters.AddWithValue("@num_cuenta", Convert.ToInt32(txtCuenta.Text));
-
-
-                 SqlDataReader lector4 = command4.ExecuteReader();
-
-                 DataTable dtTransferencias = new DataTable();
-                 SqlDataAdapter da = new SqlDataAdapter(query4, con.cnn);
-                 da.Fill(dtTransferencias);
-
-                 dgvListado.DataSource = dtTransferencias;
-                 con.cnn.Close();
+                 
 
              }
 
