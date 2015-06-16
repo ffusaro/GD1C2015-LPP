@@ -828,8 +828,17 @@ CREATE TRIGGER TRG_cuenta_pendientedeactivacion_a_activada
 ON LPP.ITEMS_FACTURA
 INSTEAD OF UPDATE
 AS
-BEGIN 
-	UPDATE LPP.CUENTAS SET id_estado =1 WHERE (SELECT DISTINCT num_cuenta FROM inserted) = num_cuenta AND (SELECT DISTINCT id_item FROM inserted) = 1
+BEGIN
+	IF ((SELECT DISTINCT id_item FROM inserted) = 1)
+		BEGIN
+			UPDATE LPP.CUENTAS SET id_estado =1 WHERE (SELECT DISTINCT num_cuenta FROM inserted) = num_cuenta AND (SELECT DISTINCT id_item FROM inserted) = 1
+			UPDATE LPP.ITEMS_FACTURA  SET facturado = (SELECT facturado FROM inserted), id_factura = (SELECT id_factura FROM inserted) WHERE id_item_factura = (SELECT id_item_factura FROM inserted)
+		END
+	ELSE
+		BEGIN
+			UPDATE LPP.ITEMS_FACTURA  SET facturado = (SELECT facturado FROM inserted), id_factura = (SELECT id_factura FROM inserted) WHERE id_item_factura = (SELECT id_item_factura FROM inserted)
+		END 
+	
 END
 GO
 /*Test TRG_cuenta_pedienteactivacion_a_activada

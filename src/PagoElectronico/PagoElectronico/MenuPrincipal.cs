@@ -181,15 +181,7 @@ namespace PagoElectronico
             log.Close();
             this.Close();
         }
-        
-        private void cambiarPasstoolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            
-            Login.CambiarContraseña cambiarPass = new Login.CambiarContraseña(user);
-            cambiarPass.padre_PostL = this;
-            cambiarPass.Show();
-            
-        }
+       
 
         private void aBMClienteToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -266,18 +258,12 @@ namespace PagoElectronico
 
         private void realizarFacturacionToolStripMenuItem_Click(object sender, EventArgs e)
         {
-           // Facturar facturar = new Facturar(user);
+            Facturacion.Buscar fact = new Facturacion.Buscar(user);
+            fact.Show();
             //facturar.mp = this;
-            //facturar.Show();
         }
 
-        private void MenuPrincipal_Load(object sender, EventArgs e)
-        {
-
-        }
-
-
-        private void aBMDepositoToolStripMenuItem_Click(object sender, EventArgs e)
+          private void aBMDepositoToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Depositos.Depositos dep = new Depositos.Depositos(user);
             dep.Show();
@@ -324,6 +310,14 @@ namespace PagoElectronico
         {
             Tarjetas.BuscarTarjetas bt = new Tarjetas.BuscarTarjetas(user);
             bt.Show();
+        }
+
+        private void cambiarContraseToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Login.CambiarContraseña cambiarPass = new Login.CambiarContraseña(user);
+            cambiarPass.padre_PostL = this;
+            cambiarPass.Show();
+            
         }
 
       

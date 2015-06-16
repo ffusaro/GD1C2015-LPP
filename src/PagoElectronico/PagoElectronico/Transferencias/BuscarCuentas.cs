@@ -65,11 +65,20 @@ namespace PagoElectronico.Transferencias
                              " WHERE (e.id_estadocuenta = 1 OR e.id_estadocuenta = 4) ";
 
             // Cargo todos los Clientes en el DATAGRIDVIEW
-
+            
             if (txtCuenta.Text != "")
             {
-                query += " AND T.num_cuenta = " + Convert.ToDecimal(txtCuenta.Text)+" ";
+                try {
+                    query += " AND T.num_cuenta = " + Convert.ToDecimal(txtCuenta.Text) + " ";
+                }
+                catch (Exception){
+                    MessageBox.Show("Num de cuenta solo puede contener numeros");
+                    return;
+                }
+                
             }
+
+
             if (txtApellido.Text != "")
             {
                 query += " AND C.apellido LIKE '%" + txtApellido.Text + "%'";

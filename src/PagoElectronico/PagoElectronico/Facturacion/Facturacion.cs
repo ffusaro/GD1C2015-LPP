@@ -14,9 +14,11 @@ namespace PagoElectronico.Facturacion
     {
         private decimal idItem;
         public DataTable dt;
+        public DataTable dtDatos;
         private string usuario;
         private string salida;
         private decimal id_item_factura;
+
         public Facturacion(decimal id_item,string user)
         {
             InitializeComponent();
@@ -24,22 +26,38 @@ namespace PagoElectronico.Facturacion
             idItem = id_item;
             //CARGO EL DATAGRIDVIEW CON LOS DATOS A FACTURAR
             Conexion con = new Conexion();
-            string query = " SELECT I.fecha,I.monto,I.num_cuenta,T.descripcion, I.id_item_factura  "+
-                            "FROM  LPP.ITEMS T JOIN LPP.ITEMS_FACTURA I ON T.id_item="+id_item+"  "+
-                             "WHERE i.id_factura is NULL AND I.facturado = 0  "+
-                             "ORDER BY i.num_cuenta";
-            MessageBox.Show(""+query);
-            con.cnn.Open();
-            SqlCommand command = new SqlCommand(query, con.cnn);
-            SqlDataReader lector = command.ExecuteReader();
-            while (lector.Read())
+            if (id_item == 0)
             {
-                dgvFactura.Rows.Add(new Object[] {lector.GetDateTime(0),lector.GetDecimal(1),lector.GetDecimal(2),lector.GetString(3),getIdCliente() });
-                id_item_factura = lector.GetDecimal(4);
+                string query = "SELECT i.id_item_factura, i.num_cuenta, i.monto, it.descripcion, i.fecha FROM LPP.ITEMS_FACTURA i"
+                            + " JOIN LPP.ITEMS it ON it.id_item = i.id_item"
+                            + " WHERE i.id_factura is NULL AND i.facturado = 0  AND fecha IS NOT NULL ORDER BY i.num_cuenta";
+                con.cnn.Open();
+                dtDatos = new DataTable();
+                SqlDataAdapter da = new SqlDataAdapter(query, con.cnn);
+                da.Fill(dtDatos);
+                dt = dtDatos;
             }
-            //id_item_factura = lector.GetDecimal(5);
+            else
+            {
+
+                string query = "SELECT i.id_item_factura, i.num_cuenta, i.monto, it.descripcion, i.fecha FROM LPP.ITEMS_FACTURA i"
+                            + " JOIN LPP.ITEMS it ON it.id_item = i.id_item"
+                            + " WHERE i.id_item = " + id_item + " AND  i.id_factura is NULL AND i.facturado = 0  AND fecha IS NOT NULL ORDER BY i.num_cuenta";
+
+                con.cnn.Open();
+                dtDatos = new DataTable();
+                SqlDataAdapter da = new SqlDataAdapter(query, con.cnn);
+                da.Fill(dtDatos);
+                dt = dtDatos;
+            }
+
+            dgvFactura.DataSource = dtDatos;
             con.cnn.Close();
-           
+
+            DataGridViewCheckBoxColumn chk = new DataGridViewCheckBoxColumn();
+            dgvFactura.Columns.Add(chk);
+            chk.HeaderText = "Facturar";
+            chk.Name = "chk";
         }
 
         private int getIdCliente()
@@ -67,29 +85,42 @@ namespace PagoElectronico.Facturacion
             
             foreach (DataGridViewRow row in dgvFactura.Rows)
             {
-                if (Convert.ToBoolean(row.Cells[5].Value) == true)
+                int ind = dgvFactura.Columns["chk"].Index;
+                if (Convert.ToBoolean(row.Cells[ind].Value))
                 {
-                    bool algo = Convert.ToBoolean(row.Cells[5].Value);
-                    salida = facturar();
+                    int i = dgvFactura.Columns["id_item_factura"].Index;
+                    id_item_factura = Convert.ToDecimal(row.Cells[i].Value);
+                    salida = facturar(id_item_factura);
                 }
             }
 
             MessageBox.Show(""+salida);
-           
+            Buscar busc = new Buscar(usuario);
+            this.Close();           
+
         }
-        private string facturar()
+        private string facturar(decimal id_item)
         {
+            
             Conexion con = new Conexion();
-            string salida = "Se facturo correctamente";
+            string salida;
+
             try
             {
                 string query = "PRC_facturar_item_factura";
                 con.cnn.Open();
                 SqlCommand command = new SqlCommand(query, con.cnn);
                 command.CommandType = CommandType.StoredProcedure;
+                id_item_factura = id_item;
                 command.Parameters.Add(new SqlParameter("@id_item_factura",id_item_factura));
-                command.Parameters.Add(new SqlParameter("@id_factura", getIdFactura()));
+                decimal id_factura = getIdFactura();
+                command.Parameters.Add(new SqlParameter("@id_factura", id_factura));
                 command.ExecuteNonQuery();
+
+                command.ExecuteNonQuery();
+                
+                salida = "Se facturo correctamente";
+                
             }
             catch (Exception ex)
             {
@@ -105,11 +136,18 @@ namespace PagoElectronico.Facturacion
             con.cnn.Open();
             SqlCommand command = new SqlCommand(query, con.cnn);
             command.CommandType = CommandType.StoredProcedure;
-            command.Parameters.Add(new SqlParameter("@fecha", readConfiguracion.Configuracion.fechaSystem() + " 00:00:00.000"));
+            DateTime fechaConfiguracion = DateTime.ParseExact(readConfiguracion.Configuracion.fechaSystem(), "yyyy-dd-MM", System.Globalization.CultureInfo.InvariantCulture);
+            command.Parameters.Add(new SqlParameter("@fecha", fechaConfiguracion));
             command.Parameters.Add(new SqlParameter("@id_cliente", getIdCliente()));
-            
-            decimal id_Factura = Convert.ToDecimal(command.ExecuteScalar());
-            return id_Factura;
+            SqlParameter outPutParameter = new SqlParameter();
+            outPutParameter.ParameterName = "@id_factura";
+            outPutParameter.SqlDbType = System.Data.SqlDbType.Int;
+            outPutParameter.Direction = System.Data.ParameterDirection.Output;
+            command.Parameters.Add(outPutParameter);
+
+            command.ExecuteNonQuery();
+
+            return Convert.ToDecimal(outPutParameter.Value); 
         }
     }
 }

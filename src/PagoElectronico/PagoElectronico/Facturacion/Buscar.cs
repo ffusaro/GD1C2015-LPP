@@ -35,10 +35,17 @@ namespace PagoElectronico.Facturacion
 
         private void btnContinuar_Click(object sender, EventArgs e)
         {
+            decimal id_item = getIdItem();
+            if (cbItems.Text == "")
+            {
+                MessageBox.Show("Ingrese un tipo de item pendiente");
+            }
+            else {
+                Facturacion formF = new Facturacion(id_item, user);
+                formF.Show();
+                this.Close();
+            }
             
-            Facturacion formF = new Facturacion(getIdItem(),user);
-            formF.Show();
-            this.Close();
         }
 
         private void btnSalir_Click(object sender, EventArgs e)
@@ -52,13 +59,19 @@ namespace PagoElectronico.Facturacion
             //OBTENGO ID ITEM
             string query = "SELECT id_item FROM LPP.ITEMS WHERE descripcion = '"+cbItems.SelectedItem.ToString()+"'";
             SqlCommand command = new SqlCommand(query, con.cnn);
-            SqlDataReader lector = command.ExecuteReader();
-            lector.Read();
-            decimal id_item = lector.GetDecimal(0);
+            decimal id_item = Convert.ToDecimal(command.ExecuteScalar());
             con.cnn.Close();
             return id_item;
         }
 
+        private void btTodosPendientes_Click(object sender, EventArgs e)
+        {
+            Facturacion formF = new Facturacion(0, user);
+            formF.Show();
+            this.Close();
+        }
+
+        
 
       
     }
