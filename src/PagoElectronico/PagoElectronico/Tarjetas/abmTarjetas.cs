@@ -212,8 +212,10 @@ namespace PagoElectronico.Tarjetas
             command.Parameters.Add(new SqlParameter("@id_emisor", getIdEmisor()));
             command.Parameters.Add(new SqlParameter("@cod_seguridad", txtCodigo.Text));
             command.Parameters.Add(new SqlParameter("@id_cliente", getIdCliente()));
-            command.Parameters.Add(new SqlParameter("@fecha_emision", dtpEmision.Value.ToString()));
-            command.Parameters.Add(new SqlParameter("@fecha_vencimiento", dtpVencimiento.Value.ToString()));
+            DateTime fechaEmision = DateTime.Parse(dtpEmision.Value.ToString("yyyy-MM-dd"));
+            DateTime fechaVencimiento = DateTime.Parse(dtpVencimiento.Value.ToString("yyyy-MM-dd"));
+            command.Parameters.Add(new SqlParameter("@fecha_emision", fechaEmision));
+            command.Parameters.Add(new SqlParameter("@fecha_vencimiento", fechaVencimiento));
             command.ExecuteNonQuery();
             con.cnn.Close();
         }
@@ -305,8 +307,10 @@ namespace PagoElectronico.Tarjetas
             command.Parameters.Add(new SqlParameter("@num_tarjeta", txtNumTarjeta.Text));
             //command.Parameters.Add(new SqlParameter("@id_emisor", getIdEmisor()));
             command.Parameters.Add(new SqlParameter("@cod_seguridad", txtCodigo.Text));
-            command.Parameters.Add(new SqlParameter("@fecha_emision", dtpEmision.Value.ToString()));
-            command.Parameters.Add(new SqlParameter("@fecha_vencimiento", dtpVencimiento.Value.ToString()));
+            DateTime fechaEmision = DateTime.Parse(dtpEmision.Value.ToString("yyyy-MM-dd"));
+            DateTime fechaVencimiento = DateTime.Parse(dtpVencimiento.Value.ToString("yyyy-MM-dd"));
+            command.Parameters.Add(new SqlParameter("@fecha_emision", fechaEmision));
+            command.Parameters.Add(new SqlParameter("@fecha_vencimiento", fechaVencimiento));
             command.ExecuteNonQuery();
             con.cnn.Close();
         }

@@ -46,6 +46,7 @@ namespace PagoElectronico.Tarjetas
             int indice = e.RowIndex;
             string num_tarjeta = dgvTarjetas.Rows[indice].Cells["num_tarjeta"].Value.ToString();
             abmt = new Tarjetas.abmTarjetas(usuario,num_tarjeta);
+            abmt.txtNumTarjeta.Enabled = false;
             abmt.Show();
             this.Close();
         }

@@ -271,12 +271,12 @@
         private System.Windows.Forms.DateTimePicker dtpEmision;
         private System.Windows.Forms.ComboBox cmbEmisor;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.TextBox txtNumTarjeta;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button btnBuscar;
         private System.Windows.Forms.Button btnModificar;
         private System.Windows.Forms.Button btnDesasociar;
         private System.Windows.Forms.Button btnNuevo;
-        private System.Windows.Forms.TextBox txtCodigo;
+        public System.Windows.Forms.TextBox txtNumTarjeta;
+        public System.Windows.Forms.TextBox txtCodigo;
     }
 }

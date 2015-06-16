@@ -60,6 +60,7 @@
             this.listadosEstadisticosToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.buscarListadosToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.consultarSaldoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.consultaDeSaldosToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -219,7 +220,8 @@
             // 
             this.cuentaToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.aBMCuentaToolStripMenuItem,
-            this.buscarCuentaToolStripMenuItem});
+            this.buscarCuentaToolStripMenuItem,
+            this.consultaDeSaldosToolStripMenuItem});
             this.cuentaToolStripMenuItem.Name = "cuentaToolStripMenuItem";
             this.cuentaToolStripMenuItem.Size = new System.Drawing.Size(71, 25);
             this.cuentaToolStripMenuItem.Text = "Cuenta";
@@ -227,14 +229,14 @@
             // aBMCuentaToolStripMenuItem
             // 
             this.aBMCuentaToolStripMenuItem.Name = "aBMCuentaToolStripMenuItem";
-            this.aBMCuentaToolStripMenuItem.Size = new System.Drawing.Size(179, 26);
+            this.aBMCuentaToolStripMenuItem.Size = new System.Drawing.Size(212, 26);
             this.aBMCuentaToolStripMenuItem.Text = "ABM Cuenta";
             this.aBMCuentaToolStripMenuItem.Click += new System.EventHandler(this.aBMCuentaToolStripMenuItem_Click);
             // 
             // buscarCuentaToolStripMenuItem
             // 
             this.buscarCuentaToolStripMenuItem.Name = "buscarCuentaToolStripMenuItem";
-            this.buscarCuentaToolStripMenuItem.Size = new System.Drawing.Size(179, 26);
+            this.buscarCuentaToolStripMenuItem.Size = new System.Drawing.Size(212, 26);
             this.buscarCuentaToolStripMenuItem.Text = "Buscar Cuenta";
             this.buscarCuentaToolStripMenuItem.Click += new System.EventHandler(this.buscarCuentaToolStripMenuItem_Click);
             // 
@@ -319,6 +321,13 @@
             this.consultarSaldoToolStripMenuItem.Size = new System.Drawing.Size(132, 25);
             this.consultarSaldoToolStripMenuItem.Text = "Consultar Saldo";
             // 
+            // consultaDeSaldosToolStripMenuItem
+            // 
+            this.consultaDeSaldosToolStripMenuItem.Name = "consultaDeSaldosToolStripMenuItem";
+            this.consultaDeSaldosToolStripMenuItem.Size = new System.Drawing.Size(212, 26);
+            this.consultaDeSaldosToolStripMenuItem.Text = "Consulta de Saldos";
+            this.consultaDeSaldosToolStripMenuItem.Click += new System.EventHandler(this.consultaDeSaldosToolStripMenuItem_Click);
+            // 
             // MenuPrincipal
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -372,6 +381,7 @@
         private System.Windows.Forms.ToolStripMenuItem desasociarToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem buscarCuentaToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem cambiarContraseToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem consultaDeSaldosToolStripMenuItem;
 
     }
 }

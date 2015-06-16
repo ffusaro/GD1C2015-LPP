@@ -105,17 +105,11 @@
     <Compile Include="ABMS.cs" />
     <Compile Include="Conexion.cs" />
     <Compile Include="Configuracion.cs" />
-    <Compile Include="Consulta Saldos\ConsultaDeSaldos.cs">
+    <Compile Include="ABM Cuenta\ConsultaDeSaldos.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Consulta Saldos\ConsultaDeSaldos.designer.cs">
+    <Compile Include="ABM Cuenta\ConsultaDeSaldos.designer.cs">
       <DependentUpon>ConsultaDeSaldos.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Consulta Saldos\Form1.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Consulta Saldos\Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
     <Compile Include="Depositos\ListaDeposito.cs">
       <SubType>Form</SubType>
@@ -213,7 +207,7 @@
     <EmbeddedResource Include="ABM Rol\BuscarRol.resx">
       <DependentUpon>BuscarRol.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Consulta Saldos\ConsultaDeSaldos.resx">
+    <EmbeddedResource Include="ABM Cuenta\ConsultaDeSaldos.resx">
       <DependentUpon>ConsultaDeSaldos.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Depositos\Depositos.resx">
@@ -312,6 +306,9 @@
     <Compile Include="Transferencias\Transferencias.designer.cs">
       <DependentUpon>Transferencias.cs</DependentUpon>
     </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="ConsultaSaldos\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

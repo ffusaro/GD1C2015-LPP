@@ -8,6 +8,7 @@ using System.Text;
 using System.Windows.Forms;
 using System.Data.SqlClient;
 using System.Runtime.InteropServices;
+using PagoElectronico;
 
 namespace PagoElectronico
 {
@@ -318,6 +319,13 @@ namespace PagoElectronico
             cambiarPass.padre_PostL = this;
             cambiarPass.Show();
             
+        }
+
+        private void consultaDeSaldosToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            /*ABM_Cuenta.ConsultaDeSaldos cs = new ABM_Cuenta.ConsultaDeSaldos();
+            cs.Show();
+            this.Close();*/
         }
 
       

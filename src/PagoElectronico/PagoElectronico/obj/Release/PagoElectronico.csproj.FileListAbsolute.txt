@@ -51,3 +51,7 @@ C:\Users\ffusaro\Desktop\GD1C2015-LPP\src\PagoElectronico\PagoElectronico\obj\Re
 C:\Users\ffusaro\Desktop\GD1C2015-LPP\src\PagoElectronico\PagoElectronico\obj\Release\PagoElectronico.ABM_Cuenta.BuscarCuenta.resources
 C:\Users\ffusaro\Desktop\GD1C2015-LPP\src\PagoElectronico\PagoElectronico\obj\Release\PagoElectronico.ABM_Cuenta.BuscarCuentas.resources
 C:\Users\ffusaro\Desktop\GD1C2015-LPP\src\PagoElectronico\PagoElectronico\obj\Release\PagoElectronico.ABM_Cliente.AsignarUsuario.resources
+C:\Users\ffusaro\Desktop\GD1C2015-LPP\src\PagoElectronico\PagoElectronico\obj\Release\PagoElectronico.Facturacion.Buscar.resources
+C:\Users\ffusaro\Desktop\GD1C2015-LPP\src\PagoElectronico\PagoElectronico\obj\Release\PagoElectronico.Facturacion.Facturacion.resources
+C:\Users\ffusaro\Desktop\GD1C2015-LPP\src\PagoElectronico\PagoElectronico\obj\Release\PagoElectronico.Tarjetas.abmTarjetas.resources
+C:\Users\ffusaro\Desktop\GD1C2015-LPP\src\PagoElectronico\PagoElectronico\obj\Release\PagoElectronico.Tarjetas.BuscarTarjetas.resources
