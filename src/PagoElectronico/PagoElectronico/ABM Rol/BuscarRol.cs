@@ -32,12 +32,8 @@ namespace PagoElectronico.ABM_Rol
             }
             /*CARGA LOS ROLES EN EL COMBOBOX*/
             Conexion con = new Conexion();
-            string query = "SELECT nombre FROM LPP.ROLES WHERE 1=1 ";
+            string query = "SELECT nombre FROM LPP.ROLES WHERE habilitado = 1 ";
 
-            if (evento == "B")
-            {
-                query += "AND habilitado = 1";
-            }
             con.cnn.Open();
             SqlCommand command = new SqlCommand(query, con.cnn);
             SqlDataReader lector = command.ExecuteReader();

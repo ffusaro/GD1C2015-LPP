@@ -111,7 +111,7 @@ namespace PagoElectronico.ABM_Rol
             Conexion con = new Conexion();
             if (evento != "A")
             {
-                int id_rol = getIdRol(evento);
+                Int32 id_rol = getIdRol(evento);
                 string query = "DELETE LPP.FUNCIONALIDADXROL WHERE rol = " + id_rol + "";
                 con.cnn.Open();
                 SqlCommand command = new SqlCommand(query, con.cnn);
@@ -141,10 +141,10 @@ namespace PagoElectronico.ABM_Rol
 
             }
 
-            int id_rol_nuevo = getIdRol(txtNombre.Text);
+            Int32 id_rol_nuevo = getIdRol(txtNombre.Text);
             foreach (object itemsCheck in chkListFuncionalidades.CheckedItems)
             {
-                string query = "INSERT INTO LPP.FUNCIONALIDADXROL (rol, funcionalidad) VALUES ('" + id_rol_nuevo + "',(SELECT F.id_Funcionalidad FROM LPP.Funcionalidad F WHERE F.descripcion = '" + itemsCheck.ToString() + "'))";
+                string query = "INSERT INTO LPP.FUNCIONALIDADXROL (rol, funcionalidad) VALUES ('" + id_rol_nuevo + "',(SELECT F.id_funcionalidad FROM LPP.FUNCIONALIDAD F WHERE F.descripcion = '" + itemsCheck.ToString() + "'))";
                 con.cnn.Open();
                 SqlCommand command2 = new SqlCommand(query, con.cnn);
                 command2.ExecuteNonQuery();
@@ -181,17 +181,15 @@ namespace PagoElectronico.ABM_Rol
                 btnGrabar.Enabled = false;
             }
         }
-        private int getIdRol(string rol)
+        private Int32 getIdRol(string rol)
         {
             Conexion con = new Conexion();
 
             //CONSIGO ID_ROL
-            string query3 = "SELECT id_rol FROM LPP.ROLES WHERE nombre = '" + evento + "'";
+            string query3 = "SELECT id_rol FROM LPP.ROLES WHERE nombre = '" + rol + "'";
             con.cnn.Open();
             SqlCommand command3 = new SqlCommand(query3, con.cnn);
-            SqlDataReader lector3 = command3.ExecuteReader();
-            lector3.Read();
-            int id_rol = lector3.GetInt32(0);
+            Int32 id_rol = Convert.ToInt32(command3.ExecuteScalar());
             con.cnn.Close();
             return id_rol;
         
