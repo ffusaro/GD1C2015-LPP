@@ -1,4 +1,4 @@
-Curso: K3022
+Curso: K3013
 Numero de Grupo: 25
 
 Gonzalez, Lorena        147.562-9
