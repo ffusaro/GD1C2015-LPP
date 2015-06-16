@@ -110,6 +110,11 @@ IF OBJECT_ID ('PRC_cuenta_es_deudora') IS NOT NULL
 DROP PROCEDURE PRC_cuenta_es_deudora
 GO
 
+IF OBJECT_ID('PRC_cambiar_costo_apertura_cuenta') IS NOT NULL
+DROP PROCEDURE PRC_cambiar_costo_apertura_cuenta
+GO
+
+
 /*---------Limpieza de Triggers-----------*/
 IF OBJECT_ID('TRG_ItemFactura_x_AperturaCuenta') IS NOT NULL
 DROP TRIGGER TRG_ItemFactura_x_AperturaCuenta
@@ -889,6 +894,14 @@ go
 -- sp_procoption 'PRC_inhabilitar_cuentas','startup', 'on'
 -- GO
 
+CREATE PROCEDURE PRC_cambiar_costo_apertura_cuenta
+@costonuevo NUMERIC(18, 2),
+@id_tipo NUMERIC(18, 0)
+AS
+BEGIN
+	UPDATE LPP.TIPOS_CUENTA SET costo_apertura = @costonuevo WHERE id_tipocuenta = @id_tipo
+END
+GO
 --alta tarjeta
 CREATE PROCEDURE PRC_insertar_nueva_tarjeta
 @num_tarjeta VARCHAR(16),
