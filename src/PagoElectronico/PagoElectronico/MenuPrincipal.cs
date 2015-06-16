@@ -314,6 +314,20 @@ namespace PagoElectronico
             transf.Show();
         }
 
+        private void asociarTarjetaToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Tarjetas.abmTarjetas tar = new Tarjetas.abmTarjetas(user,"N");
+            tar.Show();
+        }
+
+        private void desasociarToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Tarjetas.BuscarTarjetas bt = new Tarjetas.BuscarTarjetas(user);
+            bt.Show();
+        }
+
+      
+
          
 
                

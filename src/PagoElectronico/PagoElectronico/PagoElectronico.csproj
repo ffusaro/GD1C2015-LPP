@@ -254,6 +254,12 @@
     <EmbeddedResource Include="Retiros\Retiros.resx">
       <DependentUpon>Retiros.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Tarjetas\abmTarjetas.resx">
+      <DependentUpon>abmTarjetas.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Tarjetas\BuscarTarjetas.resx">
+      <DependentUpon>BuscarTarjetas.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Transferencias\BuscarCuentas.resx">
       <DependentUpon>BuscarCuentas.cs</DependentUpon>
     </EmbeddedResource>
@@ -275,6 +281,18 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <Compile Include="Tarjetas\abmTarjetas.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Tarjetas\abmTarjetas.Designer.cs">
+      <DependentUpon>abmTarjetas.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Tarjetas\BuscarTarjetas.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Tarjetas\BuscarTarjetas.Designer.cs">
+      <DependentUpon>BuscarTarjetas.cs</DependentUpon>
     </Compile>
     <Compile Include="Transferencias\BuscarCuentas.cs">
       <SubType>Form</SubType>
