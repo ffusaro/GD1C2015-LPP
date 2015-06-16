@@ -113,6 +113,7 @@ namespace PagoElectronico.Transferencias
             tr = new Transferencias(usuario,num_cuenta);
             tr.txtImporte.Text = importe.ToString();
             tr.cmbNroCuenta.Text = num_cuenta_origen.ToString();
+            tr.habilitarTools();
             tr.Show();
             this.Close();
         }

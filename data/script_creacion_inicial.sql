@@ -106,6 +106,10 @@ IF OBJECT_ID('PRC_ultimas_10_transferencias_de_una_cuenta') IS NOT NULL
 DROP PROCEDURE PRC_ultimas_10_transferencias_de_una_cuenta
 GO
 
+IF OBJECT_ID ('PRC_cuenta_es_deudora') IS NOT NULL
+DROP PROCEDURE PRC_cuenta_es_deudora
+GO
+
 /*---------Limpieza de Triggers-----------*/
 IF OBJECT_ID('TRG_ItemFactura_x_AperturaCuenta') IS NOT NULL
 DROP TRIGGER TRG_ItemFactura_x_AperturaCuenta
@@ -807,8 +811,9 @@ AFTER INSERT
 AS
 BEGIN
 	INSERT INTO LPP.ITEMS_FACTURA (id_item, num_cuenta, monto, facturado, fecha)
-		VALUES (3, (SELECT num_cuenta_origen FROM inserted), (SELECT costo_trans FROM inserted), 0, (SELECT fecha FROM LPP.TRANSFERENCIAS))
-	IF( (SELECT COUNT(id_item_factura) FROM LPP.ITEMS_FACTURA WHERE facturado= 0) > 5 )
+		VALUES (3, (SELECT num_cuenta_origen FROM inserted), (SELECT costo_trans FROM inserted), 0, (SELECT fecha FROM inserted))
+	IF EXISTS(SELECT DISTINCT num_cuenta FROM LPP.ITEMS_FACTURA WHERE facturado = 0 AND num_cuenta = (SELECT num_cuenta_origen FROM inserted)
+			  GROUP BY num_cuenta HAVING COUNT(DISTINCT id_item_factura) >5)
 		UPDATE LPP.CUENTAS SET id_estado = 4 WHERE num_cuenta = (SELECT num_cuenta_origen FROM inserted)
 END 
 GO
@@ -874,9 +879,6 @@ go
 --ver si esta es una opcion para que se corra diariamente, yo no tengo el sql server agent para administrar jobs
 -- sp_procoption 'PRC_inhabilitar_cuentas','startup', 'on'
 -- GO
-
-
---procedures asociar/desasociar tarjetas de credito
 
 --alta tarjeta
 CREATE PROCEDURE PRC_insertar_nueva_tarjeta
@@ -996,7 +998,7 @@ CREATE PROCEDURE PRC_obtener_factura
 AS
 BEGIN
 	INSERT INTO LPP.FACTURAS (fecha, id_cliente) VALUES (@fecha, @id_cliente)
-	SELECT DISTINCT @id_factura = id_factura FROM LPP.FACTURAS WHERE fecha = CONVERT(datetime, @fecha, 103) AND id_cliente = @id_cliente ORDER BY fecha DESC
+	SELECT DISTINCT @id_factura = id_factura FROM LPP.FACTURAS WHERE fecha = CONVERT(datetime, @fecha, 103) AND id_cliente = @id_cliente 
 END
 GO
 

@@ -197,11 +197,11 @@
         private System.Windows.Forms.Button btnNuevo;
         private System.Windows.Forms.GroupBox grpDatos;
         private System.Windows.Forms.Button btnBuscar;
-        private System.Windows.Forms.TextBox txtCuentaDestino;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
         public System.Windows.Forms.ComboBox cmbNroCuenta;
         public System.Windows.Forms.TextBox txtImporte;
+        public System.Windows.Forms.TextBox txtCuentaDestino;
     }
 }
