@@ -322,6 +322,7 @@ fecha_nac DATETIME,
 mail VARCHAR(255),
 id_domicilio INTEGER,
 id_pais NUMERIC(18, 0),
+habilitado BIT DEFAULT 1,
 PRIMARY KEY(id_cliente),
 UNIQUE(id_tipo_doc, num_doc, apellido, nombre, fecha_nac));
 
