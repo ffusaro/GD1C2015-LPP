@@ -72,17 +72,23 @@
     <Compile Include="ABM Cuenta\AltaCuenta.designer.cs">
       <DependentUpon>AltaCuenta.cs</DependentUpon>
     </Compile>
-    <Compile Include="ABM Cuenta\BuscarCuenta.cs">
+    <Compile Include="ABM Cuenta\Buscar.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ABM Cuenta\BuscarCuenta.designer.cs">
-      <DependentUpon>BuscarCuenta.cs</DependentUpon>
+    <Compile Include="ABM Cuenta\Buscar.designer.cs">
+      <DependentUpon>Buscar.cs</DependentUpon>
     </Compile>
     <Compile Include="ABM Cuenta\ConsultaSaldos.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="ABM Cuenta\ConsultaSaldos.Designer.cs">
       <DependentUpon>ConsultaSaldos.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ABM Cuenta\Pregunta.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ABM Cuenta\Pregunta.designer.cs">
+      <DependentUpon>Pregunta.cs</DependentUpon>
     </Compile>
     <Compile Include="ABM Cuenta\ResultadosConsulta.cs">
       <SubType>Form</SubType>
@@ -204,11 +210,14 @@
     <EmbeddedResource Include="ABM Cuenta\AltaCuenta.resx">
       <DependentUpon>AltaCuenta.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="ABM Cuenta\BuscarCuenta.resx">
-      <DependentUpon>BuscarCuenta.cs</DependentUpon>
+    <EmbeddedResource Include="ABM Cuenta\Buscar.resx">
+      <DependentUpon>Buscar.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ABM Cuenta\ConsultaSaldos.resx">
       <DependentUpon>ConsultaSaldos.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ABM Cuenta\Pregunta.resx">
+      <DependentUpon>Pregunta.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ABM Cuenta\ResultadosConsulta.resx">
       <DependentUpon>ResultadosConsulta.cs</DependentUpon>

@@ -26,6 +26,7 @@ namespace PagoElectronico.Login
             InitializeComponent();
             btnIngresar.Enabled = false;
             txtPass.Enabled = false;
+            cmbRol.Items.Clear();
                        
         }
 
@@ -118,7 +119,7 @@ namespace PagoElectronico.Login
             txtUsuario.Text = "";
             txtPass.Enabled = false;
             txtUsuario.Focus();
-            cmbRol.Text = "";
+            cmbRol.Items.Clear();
             btnIngresar.Enabled = false;
             this.Hide();
             

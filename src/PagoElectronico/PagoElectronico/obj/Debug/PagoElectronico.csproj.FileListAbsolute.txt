@@ -147,3 +147,39 @@ C:\Documents and Settings\UsuarioAdmin\Escritorio\GD1C2015-LPP\src\PagoElectroni
 C:\Documents and Settings\UsuarioAdmin\Escritorio\GD1C2015-LPP\src\PagoElectronico\PagoElectronico\obj\Debug\PagoElectronico.Transferencias.BuscarCuentas.resources
 C:\Documents and Settings\UsuarioAdmin\Escritorio\GD1C2015-LPP\src\PagoElectronico\PagoElectronico\obj\Debug\PagoElectronico.Transferencias.ListaTransferencias.resources
 C:\Documents and Settings\UsuarioAdmin\Escritorio\GD1C2015-LPP\src\PagoElectronico\PagoElectronico\obj\Debug\PagoElectronico.Transferencias.Transferencias.resources
+C:\Users\CSOSA\Documents\GitHub\GestionDeDatos\GD1C2015-LPP\src\PagoElectronico\PagoElectronico\obj\Debug\PagoElectronico.exe
+C:\Users\CSOSA\Documents\GitHub\GestionDeDatos\GD1C2015-LPP\src\PagoElectronico\PagoElectronico\bin\Debug\PagoElectronico.exe
+C:\Users\CSOSA\Documents\GitHub\GestionDeDatos\GD1C2015-LPP\src\PagoElectronico\PagoElectronico\bin\Debug\PagoElectronico.pdb
+C:\Users\CSOSA\Documents\GitHub\GestionDeDatos\GD1C2015-LPP\src\PagoElectronico\PagoElectronico\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\CSOSA\Documents\GitHub\GestionDeDatos\GD1C2015-LPP\src\PagoElectronico\PagoElectronico\obj\Debug\PagoElectronico.ABMCliente.resources
+C:\Users\CSOSA\Documents\GitHub\GestionDeDatos\GD1C2015-LPP\src\PagoElectronico\PagoElectronico\obj\Debug\PagoElectronico.ABM_Cliente.AsignarUsuario.resources
+C:\Users\CSOSA\Documents\GitHub\GestionDeDatos\GD1C2015-LPP\src\PagoElectronico\PagoElectronico\obj\Debug\PagoElectronico.ABM_Cliente.BuscarCliente.resources
+C:\Users\CSOSA\Documents\GitHub\GestionDeDatos\GD1C2015-LPP\src\PagoElectronico\PagoElectronico\obj\Debug\PagoElectronico.ABM_Cuenta.AltaCuenta.resources
+C:\Users\CSOSA\Documents\GitHub\GestionDeDatos\GD1C2015-LPP\src\PagoElectronico\PagoElectronico\obj\Debug\PagoElectronico.ABM_Cuenta.Buscar.resources
+C:\Users\CSOSA\Documents\GitHub\GestionDeDatos\GD1C2015-LPP\src\PagoElectronico\PagoElectronico\obj\Debug\PagoElectronico.ABM_Cuenta.ConsultaSaldos.resources
+C:\Users\CSOSA\Documents\GitHub\GestionDeDatos\GD1C2015-LPP\src\PagoElectronico\PagoElectronico\obj\Debug\PagoElectronico.ABM_Cuenta.Pregunta.resources
+C:\Users\CSOSA\Documents\GitHub\GestionDeDatos\GD1C2015-LPP\src\PagoElectronico\PagoElectronico\obj\Debug\PagoElectronico.ABM_Cuenta.ResultadosConsulta.resources
+C:\Users\CSOSA\Documents\GitHub\GestionDeDatos\GD1C2015-LPP\src\PagoElectronico\PagoElectronico\obj\Debug\PagoElectronico.ABM_de_Usuario.ABMUsuario.resources
+C:\Users\CSOSA\Documents\GitHub\GestionDeDatos\GD1C2015-LPP\src\PagoElectronico\PagoElectronico\obj\Debug\PagoElectronico.ABM_de_Usuario.BuscarUsuario.resources
+C:\Users\CSOSA\Documents\GitHub\GestionDeDatos\GD1C2015-LPP\src\PagoElectronico\PagoElectronico\obj\Debug\PagoElectronico.ABM_Rol.ABMRol.resources
+C:\Users\CSOSA\Documents\GitHub\GestionDeDatos\GD1C2015-LPP\src\PagoElectronico\PagoElectronico\obj\Debug\PagoElectronico.ABM_Rol.BuscarRol.resources
+C:\Users\CSOSA\Documents\GitHub\GestionDeDatos\GD1C2015-LPP\src\PagoElectronico\PagoElectronico\obj\Debug\PagoElectronico.ABM_Cuenta.BuscarCuentas.resources
+C:\Users\CSOSA\Documents\GitHub\GestionDeDatos\GD1C2015-LPP\src\PagoElectronico\PagoElectronico\obj\Debug\PagoElectronico.Depositos.Depositos.resources
+C:\Users\CSOSA\Documents\GitHub\GestionDeDatos\GD1C2015-LPP\src\PagoElectronico\PagoElectronico\obj\Debug\PagoElectronico.Depositos.ListaDeposito.resources
+C:\Users\CSOSA\Documents\GitHub\GestionDeDatos\GD1C2015-LPP\src\PagoElectronico\PagoElectronico\obj\Debug\PagoElectronico.Facturacion.Buscar.resources
+C:\Users\CSOSA\Documents\GitHub\GestionDeDatos\GD1C2015-LPP\src\PagoElectronico\PagoElectronico\obj\Debug\PagoElectronico.Facturacion.Facturacion.resources
+C:\Users\CSOSA\Documents\GitHub\GestionDeDatos\GD1C2015-LPP\src\PagoElectronico\PagoElectronico\obj\Debug\PagoElectronico.Listados_Estadisticos.Listados.resources
+C:\Users\CSOSA\Documents\GitHub\GestionDeDatos\GD1C2015-LPP\src\PagoElectronico\PagoElectronico\obj\Debug\PagoElectronico.Login.CambiarContraseña.resources
+C:\Users\CSOSA\Documents\GitHub\GestionDeDatos\GD1C2015-LPP\src\PagoElectronico\PagoElectronico\obj\Debug\PagoElectronico.Login.LogIn.resources
+C:\Users\CSOSA\Documents\GitHub\GestionDeDatos\GD1C2015-LPP\src\PagoElectronico\PagoElectronico\obj\Debug\PagoElectronico.MenuPrincipal.resources
+C:\Users\CSOSA\Documents\GitHub\GestionDeDatos\GD1C2015-LPP\src\PagoElectronico\PagoElectronico\obj\Debug\PagoElectronico.Properties.Resources.resources
+C:\Users\CSOSA\Documents\GitHub\GestionDeDatos\GD1C2015-LPP\src\PagoElectronico\PagoElectronico\obj\Debug\PagoElectronico.Retiros.Cheque.resources
+C:\Users\CSOSA\Documents\GitHub\GestionDeDatos\GD1C2015-LPP\src\PagoElectronico\PagoElectronico\obj\Debug\PagoElectronico.Retiros.ListaRetiros.resources
+C:\Users\CSOSA\Documents\GitHub\GestionDeDatos\GD1C2015-LPP\src\PagoElectronico\PagoElectronico\obj\Debug\PagoElectronico.Retiros.RetiroDeEfectivo.resources
+C:\Users\CSOSA\Documents\GitHub\GestionDeDatos\GD1C2015-LPP\src\PagoElectronico\PagoElectronico\obj\Debug\PagoElectronico.Tarjetas.abmTarjetas.resources
+C:\Users\CSOSA\Documents\GitHub\GestionDeDatos\GD1C2015-LPP\src\PagoElectronico\PagoElectronico\obj\Debug\PagoElectronico.Tarjetas.BuscarTarjetas.resources
+C:\Users\CSOSA\Documents\GitHub\GestionDeDatos\GD1C2015-LPP\src\PagoElectronico\PagoElectronico\obj\Debug\PagoElectronico.Transferencias.BuscarCuentas.resources
+C:\Users\CSOSA\Documents\GitHub\GestionDeDatos\GD1C2015-LPP\src\PagoElectronico\PagoElectronico\obj\Debug\PagoElectronico.Transferencias.ListaTransferencias.resources
+C:\Users\CSOSA\Documents\GitHub\GestionDeDatos\GD1C2015-LPP\src\PagoElectronico\PagoElectronico\obj\Debug\PagoElectronico.Transferencias.Transferencias.resources
+C:\Users\CSOSA\Documents\GitHub\GestionDeDatos\GD1C2015-LPP\src\PagoElectronico\PagoElectronico\obj\Debug\PagoElectronico.csproj.GenerateResource.Cache
+C:\Users\CSOSA\Documents\GitHub\GestionDeDatos\GD1C2015-LPP\src\PagoElectronico\PagoElectronico\obj\Debug\PagoElectronico.pdb

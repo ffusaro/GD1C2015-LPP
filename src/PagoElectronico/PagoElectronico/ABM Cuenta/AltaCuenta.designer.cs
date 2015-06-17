@@ -29,83 +29,63 @@
         private void InitializeComponent()
         {
             this.gbDatosCuenta = new System.Windows.Forms.GroupBox();
-            this.txtPais = new System.Windows.Forms.TextBox();
+            this.cmbPaises = new System.Windows.Forms.ComboBox();
             this.cmbMoneda = new System.Windows.Forms.ComboBox();
-            this.dtpFechaApertura = new System.Windows.Forms.DateTimePicker();
-            this.lblFechaApertura = new System.Windows.Forms.Label();
             this.lblMoneda = new System.Windows.Forms.Label();
             this.lblPais = new System.Windows.Forms.Label();
             this.gbTipoCuenta = new System.Windows.Forms.GroupBox();
-            this.ckbHabilitado = new System.Windows.Forms.CheckBox();
+            this.txtCuenta = new System.Windows.Forms.TextBox();
+            this.lblCuenta = new System.Windows.Forms.Label();
             this.lblTipo = new System.Windows.Forms.Label();
-            this.lblFechaCierre = new System.Windows.Forms.Label();
-            this.dtpFechaCierre = new System.Windows.Forms.DateTimePicker();
             this.cmbTipoCuenta = new System.Windows.Forms.ComboBox();
-            this.btnEliminar = new System.Windows.Forms.Button();
             this.btnLimpiar = new System.Windows.Forms.Button();
-            this.gbDatosCliente = new System.Windows.Forms.GroupBox();
-            this.txtUsuario = new System.Windows.Forms.TextBox();
-            this.lblUsuario = new System.Windows.Forms.Label();
             this.btnBuscar = new System.Windows.Forms.Button();
             this.btnContinuar = new System.Windows.Forms.Button();
             this.btnSalir = new System.Windows.Forms.Button();
-            this.btnModificar = new System.Windows.Forms.Button();
             this.btnNuevo = new System.Windows.Forms.Button();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.txtUsuario = new System.Windows.Forms.TextBox();
             this.gbDatosCuenta.SuspendLayout();
             this.gbTipoCuenta.SuspendLayout();
-            this.gbDatosCliente.SuspendLayout();
+            this.groupBox1.SuspendLayout();
+            this.groupBox2.SuspendLayout();
             this.SuspendLayout();
             // 
             // gbDatosCuenta
             // 
-            this.gbDatosCuenta.Controls.Add(this.txtPais);
-            this.gbDatosCuenta.Controls.Add(this.cmbMoneda);
-            this.gbDatosCuenta.Controls.Add(this.dtpFechaApertura);
-            this.gbDatosCuenta.Controls.Add(this.lblFechaApertura);
-            this.gbDatosCuenta.Controls.Add(this.lblMoneda);
+            this.gbDatosCuenta.Controls.Add(this.txtCuenta);
+            this.gbDatosCuenta.Controls.Add(this.cmbPaises);
             this.gbDatosCuenta.Controls.Add(this.lblPais);
-            this.gbDatosCuenta.Location = new System.Drawing.Point(14, 90);
+            this.gbDatosCuenta.Controls.Add(this.lblCuenta);
+            this.gbDatosCuenta.Location = new System.Drawing.Point(17, 50);
             this.gbDatosCuenta.Name = "gbDatosCuenta";
-            this.gbDatosCuenta.Size = new System.Drawing.Size(335, 210);
+            this.gbDatosCuenta.Size = new System.Drawing.Size(335, 95);
             this.gbDatosCuenta.TabIndex = 0;
             this.gbDatosCuenta.TabStop = false;
-            this.gbDatosCuenta.Text = "DatosDeCuenta";
+            this.gbDatosCuenta.Text = "Datos De Cuenta";
             // 
-            // txtPais
+            // cmbPaises
             // 
-            this.txtPais.Location = new System.Drawing.Point(66, 46);
-            this.txtPais.Name = "txtPais";
-            this.txtPais.Size = new System.Drawing.Size(263, 20);
-            this.txtPais.TabIndex = 6;
+            this.cmbPaises.FormattingEnabled = true;
+            this.cmbPaises.Location = new System.Drawing.Point(68, 26);
+            this.cmbPaises.Name = "cmbPaises";
+            this.cmbPaises.Size = new System.Drawing.Size(258, 21);
+            this.cmbPaises.TabIndex = 6;
             // 
             // cmbMoneda
             // 
             this.cmbMoneda.FormattingEnabled = true;
-            this.cmbMoneda.Location = new System.Drawing.Point(69, 95);
+            this.cmbMoneda.Location = new System.Drawing.Point(88, 64);
             this.cmbMoneda.Name = "cmbMoneda";
-            this.cmbMoneda.Size = new System.Drawing.Size(260, 21);
+            this.cmbMoneda.Size = new System.Drawing.Size(210, 21);
             this.cmbMoneda.TabIndex = 5;
-            // 
-            // dtpFechaApertura
-            // 
-            this.dtpFechaApertura.Location = new System.Drawing.Point(105, 154);
-            this.dtpFechaApertura.Name = "dtpFechaApertura";
-            this.dtpFechaApertura.Size = new System.Drawing.Size(224, 20);
-            this.dtpFechaApertura.TabIndex = 4;
-            // 
-            // lblFechaApertura
-            // 
-            this.lblFechaApertura.AutoSize = true;
-            this.lblFechaApertura.Location = new System.Drawing.Point(8, 154);
-            this.lblFechaApertura.Name = "lblFechaApertura";
-            this.lblFechaApertura.Size = new System.Drawing.Size(91, 13);
-            this.lblFechaApertura.TabIndex = 3;
-            this.lblFechaApertura.Text = "FechaDeApertura";
             // 
             // lblMoneda
             // 
             this.lblMoneda.AutoSize = true;
-            this.lblMoneda.Location = new System.Drawing.Point(17, 103);
+            this.lblMoneda.Location = new System.Drawing.Point(19, 68);
             this.lblMoneda.Name = "lblMoneda";
             this.lblMoneda.Size = new System.Drawing.Size(46, 13);
             this.lblMoneda.TabIndex = 2;
@@ -114,7 +94,7 @@
             // lblPais
             // 
             this.lblPais.AutoSize = true;
-            this.lblPais.Location = new System.Drawing.Point(17, 46);
+            this.lblPais.Location = new System.Drawing.Point(17, 30);
             this.lblPais.Name = "lblPais";
             this.lblPais.Size = new System.Drawing.Size(27, 13);
             this.lblPais.TabIndex = 1;
@@ -122,113 +102,64 @@
             // 
             // gbTipoCuenta
             // 
-            this.gbTipoCuenta.Controls.Add(this.ckbHabilitado);
+            this.gbTipoCuenta.Controls.Add(this.cmbMoneda);
+            this.gbTipoCuenta.Controls.Add(this.lblMoneda);
             this.gbTipoCuenta.Controls.Add(this.lblTipo);
-            this.gbTipoCuenta.Controls.Add(this.lblFechaCierre);
-            this.gbTipoCuenta.Controls.Add(this.dtpFechaCierre);
             this.gbTipoCuenta.Controls.Add(this.cmbTipoCuenta);
-            this.gbTipoCuenta.Location = new System.Drawing.Point(355, 17);
+            this.gbTipoCuenta.Location = new System.Drawing.Point(358, 50);
             this.gbTipoCuenta.Name = "gbTipoCuenta";
-            this.gbTipoCuenta.Size = new System.Drawing.Size(469, 139);
+            this.gbTipoCuenta.Size = new System.Drawing.Size(337, 95);
             this.gbTipoCuenta.TabIndex = 1;
             this.gbTipoCuenta.TabStop = false;
-            this.gbTipoCuenta.Text = "TipoDeCuenta";
             // 
-            // ckbHabilitado
+            // txtCuenta
             // 
-            this.ckbHabilitado.AutoSize = true;
-            this.ckbHabilitado.Location = new System.Drawing.Point(20, 116);
-            this.ckbHabilitado.Name = "ckbHabilitado";
-            this.ckbHabilitado.Size = new System.Drawing.Size(73, 17);
-            this.ckbHabilitado.TabIndex = 8;
-            this.ckbHabilitado.Text = "Habilitado";
-            this.ckbHabilitado.UseVisualStyleBackColor = true;
+            this.txtCuenta.Location = new System.Drawing.Point(118, 64);
+            this.txtCuenta.Name = "txtCuenta";
+            this.txtCuenta.Size = new System.Drawing.Size(208, 20);
+            this.txtCuenta.TabIndex = 8;
+            // 
+            // lblCuenta
+            // 
+            this.lblCuenta.AutoSize = true;
+            this.lblCuenta.Location = new System.Drawing.Point(17, 68);
+            this.lblCuenta.Name = "lblCuenta";
+            this.lblCuenta.Size = new System.Drawing.Size(96, 13);
+            this.lblCuenta.TabIndex = 8;
+            this.lblCuenta.Text = "Numero de Cuenta";
             // 
             // lblTipo
             // 
             this.lblTipo.AutoSize = true;
-            this.lblTipo.Location = new System.Drawing.Point(17, 40);
+            this.lblTipo.Location = new System.Drawing.Point(19, 30);
             this.lblTipo.Name = "lblTipo";
             this.lblTipo.Size = new System.Drawing.Size(65, 13);
             this.lblTipo.TabIndex = 7;
             this.lblTipo.Text = "Tipo Cuenta";
             // 
-            // lblFechaCierre
-            // 
-            this.lblFechaCierre.AutoSize = true;
-            this.lblFechaCierre.Location = new System.Drawing.Point(17, 70);
-            this.lblFechaCierre.Name = "lblFechaCierre";
-            this.lblFechaCierre.Size = new System.Drawing.Size(82, 13);
-            this.lblFechaCierre.TabIndex = 6;
-            this.lblFechaCierre.Text = "Fecha de Cierre";
-            // 
-            // dtpFechaCierre
-            // 
-            this.dtpFechaCierre.Location = new System.Drawing.Point(146, 70);
-            this.dtpFechaCierre.Name = "dtpFechaCierre";
-            this.dtpFechaCierre.Size = new System.Drawing.Size(287, 20);
-            this.dtpFechaCierre.TabIndex = 5;
-            // 
             // cmbTipoCuenta
             // 
             this.cmbTipoCuenta.FormattingEnabled = true;
-            this.cmbTipoCuenta.Location = new System.Drawing.Point(146, 32);
+            this.cmbTipoCuenta.Location = new System.Drawing.Point(88, 26);
             this.cmbTipoCuenta.Name = "cmbTipoCuenta";
-            this.cmbTipoCuenta.Size = new System.Drawing.Size(287, 21);
+            this.cmbTipoCuenta.Size = new System.Drawing.Size(210, 21);
             this.cmbTipoCuenta.TabIndex = 0;
-            // 
-            // btnEliminar
-            // 
-            this.btnEliminar.Location = new System.Drawing.Point(608, 320);
-            this.btnEliminar.Name = "btnEliminar";
-            this.btnEliminar.Size = new System.Drawing.Size(104, 36);
-            this.btnEliminar.TabIndex = 3;
-            this.btnEliminar.Text = "Eliminar";
-            this.btnEliminar.UseVisualStyleBackColor = true;
-            this.btnEliminar.Click += new System.EventHandler(this.btnEliminar_Click);
             // 
             // btnLimpiar
             // 
-            this.btnLimpiar.Location = new System.Drawing.Point(491, 320);
+            this.btnLimpiar.Location = new System.Drawing.Point(161, 13);
             this.btnLimpiar.Name = "btnLimpiar";
-            this.btnLimpiar.Size = new System.Drawing.Size(111, 36);
+            this.btnLimpiar.Size = new System.Drawing.Size(72, 23);
             this.btnLimpiar.TabIndex = 4;
             this.btnLimpiar.Text = "Limpiar";
             this.btnLimpiar.UseVisualStyleBackColor = true;
             this.btnLimpiar.Click += new System.EventHandler(this.btnLimpiar_Click);
             // 
-            // gbDatosCliente
-            // 
-            this.gbDatosCliente.Controls.Add(this.txtUsuario);
-            this.gbDatosCliente.Controls.Add(this.lblUsuario);
-            this.gbDatosCliente.Location = new System.Drawing.Point(14, 17);
-            this.gbDatosCliente.Name = "gbDatosCliente";
-            this.gbDatosCliente.Size = new System.Drawing.Size(335, 69);
-            this.gbDatosCliente.TabIndex = 5;
-            this.gbDatosCliente.TabStop = false;
-            this.gbDatosCliente.Text = "Datos Cliente";
-            // 
-            // txtUsuario
-            // 
-            this.txtUsuario.Location = new System.Drawing.Point(66, 30);
-            this.txtUsuario.Name = "txtUsuario";
-            this.txtUsuario.Size = new System.Drawing.Size(252, 20);
-            this.txtUsuario.TabIndex = 3;
-            // 
-            // lblUsuario
-            // 
-            this.lblUsuario.AutoSize = true;
-            this.lblUsuario.Location = new System.Drawing.Point(17, 37);
-            this.lblUsuario.Name = "lblUsuario";
-            this.lblUsuario.Size = new System.Drawing.Size(43, 13);
-            this.lblUsuario.TabIndex = 2;
-            this.lblUsuario.Text = "Usuario";
-            // 
             // btnBuscar
             // 
-            this.btnBuscar.Location = new System.Drawing.Point(129, 322);
+            this.btnBuscar.Location = new System.Drawing.Point(444, 13);
             this.btnBuscar.Name = "btnBuscar";
-            this.btnBuscar.Size = new System.Drawing.Size(109, 36);
+            this.btnBuscar.Size = new System.Drawing.Size(70, 23);
             this.btnBuscar.TabIndex = 6;
             this.btnBuscar.Text = "Buscar";
             this.btnBuscar.UseVisualStyleBackColor = true;
@@ -236,9 +167,9 @@
             // 
             // btnContinuar
             // 
-            this.btnContinuar.Location = new System.Drawing.Point(244, 322);
+            this.btnContinuar.Location = new System.Drawing.Point(303, 13);
             this.btnContinuar.Name = "btnContinuar";
-            this.btnContinuar.Size = new System.Drawing.Size(110, 36);
+            this.btnContinuar.Size = new System.Drawing.Size(71, 23);
             this.btnContinuar.TabIndex = 7;
             this.btnContinuar.Text = "Continuar";
             this.btnContinuar.UseVisualStyleBackColor = true;
@@ -246,57 +177,83 @@
             // 
             // btnSalir
             // 
-            this.btnSalir.Location = new System.Drawing.Point(718, 320);
+            this.btnSalir.Location = new System.Drawing.Point(584, 13);
             this.btnSalir.Name = "btnSalir";
-            this.btnSalir.Size = new System.Drawing.Size(106, 36);
+            this.btnSalir.Size = new System.Drawing.Size(67, 23);
             this.btnSalir.TabIndex = 8;
             this.btnSalir.Text = "Salir";
             this.btnSalir.UseVisualStyleBackColor = true;
             this.btnSalir.Click += new System.EventHandler(this.btnSalir_Click);
             // 
-            // btnModificar
-            // 
-            this.btnModificar.Location = new System.Drawing.Point(366, 322);
-            this.btnModificar.Name = "btnModificar";
-            this.btnModificar.Size = new System.Drawing.Size(116, 35);
-            this.btnModificar.TabIndex = 9;
-            this.btnModificar.Text = "Modificar";
-            this.btnModificar.UseVisualStyleBackColor = true;
-            this.btnModificar.Click += new System.EventHandler(this.btnModificar_Click);
-            // 
             // btnNuevo
             // 
-            this.btnNuevo.Location = new System.Drawing.Point(17, 323);
+            this.btnNuevo.Location = new System.Drawing.Point(28, 14);
             this.btnNuevo.Name = "btnNuevo";
-            this.btnNuevo.Size = new System.Drawing.Size(102, 34);
+            this.btnNuevo.Size = new System.Drawing.Size(63, 21);
             this.btnNuevo.TabIndex = 10;
             this.btnNuevo.Text = "Nuevo";
             this.btnNuevo.UseVisualStyleBackColor = true;
             this.btnNuevo.Click += new System.EventHandler(this.btnNuevo_Click);
             // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.btnNuevo);
+            this.groupBox1.Controls.Add(this.btnContinuar);
+            this.groupBox1.Controls.Add(this.btnBuscar);
+            this.groupBox1.Controls.Add(this.btnLimpiar);
+            this.groupBox1.Controls.Add(this.btnSalir);
+            this.groupBox1.Location = new System.Drawing.Point(17, 151);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(678, 48);
+            this.groupBox1.TabIndex = 11;
+            this.groupBox1.TabStop = false;
+            // 
+            // groupBox2
+            // 
+            this.groupBox2.Controls.Add(this.label1);
+            this.groupBox2.Controls.Add(this.txtUsuario);
+            this.groupBox2.Location = new System.Drawing.Point(184, 3);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(335, 41);
+            this.groupBox2.TabIndex = 12;
+            this.groupBox2.TabStop = false;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(17, 16);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(43, 13);
+            this.label1.TabIndex = 7;
+            this.label1.Text = "Usuario";
+            // 
+            // txtUsuario
+            // 
+            this.txtUsuario.Location = new System.Drawing.Point(71, 14);
+            this.txtUsuario.Name = "txtUsuario";
+            this.txtUsuario.Size = new System.Drawing.Size(258, 20);
+            this.txtUsuario.TabIndex = 7;
+            // 
             // AltaCuenta
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(836, 376);
-            this.Controls.Add(this.btnNuevo);
-            this.Controls.Add(this.btnModificar);
-            this.Controls.Add(this.btnSalir);
-            this.Controls.Add(this.btnContinuar);
-            this.Controls.Add(this.btnBuscar);
-            this.Controls.Add(this.gbDatosCliente);
-            this.Controls.Add(this.btnLimpiar);
-            this.Controls.Add(this.btnEliminar);
+            this.ClientSize = new System.Drawing.Size(703, 211);
+            this.Controls.Add(this.groupBox2);
+            this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.gbTipoCuenta);
             this.Controls.Add(this.gbDatosCuenta);
+            this.MaximizeBox = false;
             this.Name = "AltaCuenta";
-            this.Text = "PagoElectronico";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.Text = "ABM Cuenta";
             this.gbDatosCuenta.ResumeLayout(false);
             this.gbDatosCuenta.PerformLayout();
             this.gbTipoCuenta.ResumeLayout(false);
             this.gbTipoCuenta.PerformLayout();
-            this.gbDatosCliente.ResumeLayout(false);
-            this.gbDatosCliente.PerformLayout();
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -306,25 +263,21 @@
         private System.Windows.Forms.GroupBox gbDatosCuenta;
         private System.Windows.Forms.Label lblMoneda;
         private System.Windows.Forms.Label lblPais;
-        private System.Windows.Forms.Label lblFechaApertura;
-        private System.Windows.Forms.DateTimePicker dtpFechaApertura;
         private System.Windows.Forms.ComboBox cmbMoneda;
-        private System.Windows.Forms.TextBox txtPais;
         private System.Windows.Forms.GroupBox gbTipoCuenta;
-        private System.Windows.Forms.Button btnEliminar;
         private System.Windows.Forms.Button btnLimpiar;
         private System.Windows.Forms.ComboBox cmbTipoCuenta;
-        private System.Windows.Forms.GroupBox gbDatosCliente;
-        private System.Windows.Forms.Label lblUsuario;
-        private System.Windows.Forms.TextBox txtUsuario;
-        private System.Windows.Forms.Label lblFechaCierre;
-        private System.Windows.Forms.DateTimePicker dtpFechaCierre;
         private System.Windows.Forms.Label lblTipo;
         private System.Windows.Forms.Button btnBuscar;
-        private System.Windows.Forms.CheckBox ckbHabilitado;
         private System.Windows.Forms.Button btnContinuar;
         private System.Windows.Forms.Button btnSalir;
-        private System.Windows.Forms.Button btnModificar;
         private System.Windows.Forms.Button btnNuevo;
+        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.TextBox txtUsuario;
+        private System.Windows.Forms.ComboBox cmbPaises;
+        private System.Windows.Forms.TextBox txtCuenta;
+        private System.Windows.Forms.Label lblCuenta;
     }
 }
