@@ -292,6 +292,7 @@ namespace PagoElectronico
             
 
             int temp;
+            decimal temp2;
 
             DateTime fecha = DateTime.ParseExact(readConfiguracion.Configuracion.fechaSystem(), "yyyy-dd-MM", System.Globalization.CultureInfo.InvariantCulture);
 
@@ -303,8 +304,6 @@ namespace PagoElectronico
             }
             else
             {
-
-                
                 if (cbID.Text!="")
                 {
                     string query = "SELECT 1 FROM LPP.TIPO_DOCS WHERE tipo_descr = '" + cbID.Text + "'";
@@ -326,10 +325,12 @@ namespace PagoElectronico
                     {
                          if (txtNumeroID.Text != "")
                             temp = Convert.ToInt32(txtNumeroID.Text);
+                         if (txtPiso.Text != "")
+                             temp2 = Convert.ToDecimal(txtPiso.Text);
                     }
                     catch (Exception h)
                     {
-                        MessageBox.Show("Numero de ID y Telefono solo pueden contener numeros",h.ToString());
+                        MessageBox.Show("Numero de ID y Piso solo pueden contener numeros",h.ToString());
                         return;
                     }
 
@@ -381,9 +382,6 @@ namespace PagoElectronico
                         }
 
                         //Inserto en la Tabla Domicilio
-
-
-
                         int id_domicilio = abm.insertarDomicilio(txtDomicilio.Text, Convert.ToInt32(txtNumeroCalle.Text), Convert.ToInt32(txtPiso.Text), txtDepto.Text, txtLocalidad.Text);
                         string salida = abm.insertarCliente(txtNombre.Text, txtApellido.Text, cbID.Text, Convert.ToInt32(txtNumeroID.Text), txtMail.Text,fechaNacimiento.Value, cb2.Text, id_domicilio,txtUsuario.Text);
                         MessageBox.Show("" + salida);
