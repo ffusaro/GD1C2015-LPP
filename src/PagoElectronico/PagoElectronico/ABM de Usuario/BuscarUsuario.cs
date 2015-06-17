@@ -16,6 +16,7 @@ namespace PagoElectronico.ABM_de_Usuario
         ABMUsuario FormUsuario;
         ABMCliente FormCliente;
         ABM_Cliente.AsignarUsuario FormAsignar;
+        ABM_Cuenta.AsignarUsuarioCuenta ac;
         public MenuPrincipal mp;
         public DataTable dt;
         public int ev;
@@ -30,7 +31,8 @@ namespace PagoElectronico.ABM_de_Usuario
                 label6.Text = "Doble click en el Usuario que quiera Modificar/Eliminar";
             
             }
-            else{
+            else
+            {
 
                 label6.Text = "Doble click en el Usuario que quiera Asociar";
             }
@@ -78,15 +80,22 @@ namespace PagoElectronico.ABM_de_Usuario
                 FormUsuario.padre_buscarUsuario = this;
                 this.Close();
             }
-            else
+            if (ev == 0)
             {
 
                 FormAsignar = new ABM_Cliente.AsignarUsuario("B", Usuario);
                 FormAsignar.Show();
                 this.Close();
-            
-            
+
+
             }
+            else
+            {
+                ac = new ABM_Cuenta.AsignarUsuarioCuenta("A", Usuario);
+                ac.Show();
+                this.Close();
+            }
+
         }
 
         private void btnSalir_Click(object sender, EventArgs e)
@@ -108,6 +117,8 @@ namespace PagoElectronico.ABM_de_Usuario
         {
             btnBusca.Enabled = true;
         }
+
+     
 
        
 

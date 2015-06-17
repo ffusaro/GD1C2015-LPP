@@ -50,6 +50,7 @@
             this.dgvUsuario.Size = new System.Drawing.Size(715, 146);
             this.dgvUsuario.TabIndex = 1;
             this.dgvUsuario.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvUsuario_CellDoubleClick);
+            //this.dgvUsuario.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvUsuario_CellContentClick);
             // 
             // btnSalir
             // 

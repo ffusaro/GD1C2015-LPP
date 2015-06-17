@@ -79,11 +79,12 @@ namespace PagoElectronico.ABM_Cuenta
            if(evento!= "A")
             {
 
-                string query2 = "SELECT C.num_cuenta,C.id_cliente, M.descripcion, TC.descripcion,P.pais " +
+            string query2 = "SELECT C.num_cuenta,C.id_cliente, M.descripcion, TC.descripcion,P.pais,L.username " +
                             "FROM  LPP.MONEDAS M JOIN LPP.CUENTAS C  ON C.id_moneda = M.id_moneda  " +
                             "JOIN LPP.ESTADOS_CUENTA E ON C.id_estado = E.id_estadocuenta  " +
                             "JOIN LPP.TIPOS_CUENTA TC ON C.id_tipo = TC.id_tipocuenta " +
                             "JOIN LPP.PAISES P ON P.id_pais = C.id_pais " +
+                            "JOIN LPP.CLIENTES L ON L.id_cliente=c.id_cliente  "+
                             "WHERE C.num_cuenta = " + cuenta + " ";
                               
 
@@ -99,6 +100,7 @@ namespace PagoElectronico.ABM_Cuenta
                     cmbTipoCuenta.Text = lector2.GetString(3);
                     cuentaCambio = lector2.GetString(3);
                     cmbPaises.Text = lector2.GetString(4);
+                    usuario = lector2.GetString(5);
                 }
                 con.cnn.Close();
                 lblCuenta.Visible = true;
@@ -126,10 +128,19 @@ namespace PagoElectronico.ABM_Cuenta
 
        private void btnBuscar_Click(object sender, EventArgs e)
         {
-            
-            ABM_Cuenta.Buscar bc = new ABM_Cuenta.Buscar(getIdCliente(),usuario);
-            this.Close();
-            bc.Show();
+
+            if (getRolUser() == "Administrador")
+            {
+                ABM_Cuenta.Buscar buCuenta = new ABM_Cuenta.Buscar(0, usuario);
+                this.Close();
+                buCuenta.Show();
+            }
+            else
+            {
+                ABM_Cuenta.Buscar bc = new ABM_Cuenta.Buscar(getIdCliente(), usuario);
+                this.Close();
+                bc.Show();
+            }
         }
 
         private void btnSalir_Click(object sender, EventArgs e)
@@ -294,6 +305,19 @@ namespace PagoElectronico.ABM_Cuenta
             command.ExecuteNonQuery();
             con.cnn.Close();
          }
+        private string getRolUser()
+        {
+            Conexion con = new Conexion();
+            //OBTENGO ID DE CLIENTE
+            con.cnn.Open();
+            string query = "SELECT R.nombre FROM LPP.ROLESXUSUARIO U JOIN LPP.ROLES R ON R.id_rol=U.rol WHERE U.username = '" + usuario + "'";
+            SqlCommand command = new SqlCommand(query, con.cnn);
+            SqlDataReader lector = command.ExecuteReader();
+            lector.Read();
+            string rol = lector.GetString(0);
+            con.cnn.Close();
+            return rol;
+        }
 
 
         

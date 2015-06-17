@@ -285,8 +285,16 @@ namespace PagoElectronico
 
         private void aBMCuentaToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            ABM_Cuenta.AltaCuenta altacuenta = new ABM_Cuenta.AltaCuenta("A", user, 0);
-            altacuenta.Show();
+            if (rol == "Administrador")
+            {
+                ABM_Cuenta.AsignarUsuarioCuenta ac = new ABM_Cuenta.AsignarUsuarioCuenta("2", user);
+                ac.Show();
+            }
+            else
+            {
+                ABM_Cuenta.AltaCuenta altacuenta = new ABM_Cuenta.AltaCuenta("A", user, 0);
+                altacuenta.Show();
+            }
         }
 
         private void buscarCuentaToolStripMenuItem_Click(object sender, EventArgs e)

@@ -67,7 +67,7 @@ namespace PagoElectronico.ABM_Cuenta
             Conexion con = new Conexion();
             //OBTENGO ID DE CLIENTE
             con.cnn.Open();
-            string query = "SELECT id_cliente FROM LPP.CLIENTES WHERE username = '" + usuario + "'";
+            string query = "SELECT id_cliente FROM LPP.CUENTAS WHERE num_cuenta = " + num_cuenta + "";
             SqlCommand command = new SqlCommand(query, con.cnn);
             SqlDataReader lector = command.ExecuteReader();
             lector.Read();

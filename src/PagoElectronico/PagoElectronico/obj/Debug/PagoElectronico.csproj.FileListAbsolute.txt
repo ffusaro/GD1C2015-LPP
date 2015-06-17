@@ -183,3 +183,4 @@ C:\Users\CSOSA\Documents\GitHub\GestionDeDatos\GD1C2015-LPP\src\PagoElectronico\
 C:\Users\CSOSA\Documents\GitHub\GestionDeDatos\GD1C2015-LPP\src\PagoElectronico\PagoElectronico\obj\Debug\PagoElectronico.Transferencias.Transferencias.resources
 C:\Users\CSOSA\Documents\GitHub\GestionDeDatos\GD1C2015-LPP\src\PagoElectronico\PagoElectronico\obj\Debug\PagoElectronico.csproj.GenerateResource.Cache
 C:\Users\CSOSA\Documents\GitHub\GestionDeDatos\GD1C2015-LPP\src\PagoElectronico\PagoElectronico\obj\Debug\PagoElectronico.pdb
+C:\Users\CSOSA\Documents\GitHub\GestionDeDatos\GD1C2015-LPP\src\PagoElectronico\PagoElectronico\obj\Debug\PagoElectronico.ABM_Cuenta.AsignarUsuarioCuenta.resources

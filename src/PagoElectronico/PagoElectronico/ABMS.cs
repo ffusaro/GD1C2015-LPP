@@ -29,7 +29,7 @@ namespace PagoElectronico
             try
             {
                 string query = "INSERT INTO LPP.CLIENTES" +
-                                " (num_doc, apellido, nombre, fecha_nac, mail, id_tipo_Doc, id_pais, id_domicilio) " +
+                                " (num_doc, apellido, nombre, fecha_nac, mail, id_tipo_Doc, id_pais, id_domicilio,username) " +
                                 "VALUES (" + Numero_ID + ", '" + Apellido + "', '" + Nombre + "', '" + Nacimiento.ToString("yyyy-MM-dd HH:MM:ss") + "',"
                                 +" '" + Mail + "', (select tipo_cod FROM LPP.TIPO_DOCS WHERE tipo_descr = '" + Tipo_ID + "')" +
                                 ", (select id_pais from LPP.PAISES WHERE pais like '%" + Nacionalidad + "' )," + id_domicilio + ") ";
