@@ -42,7 +42,6 @@ namespace PagoElectronico.ABM_Cuenta
             }
             else
             {
-                MessageBox.Show(""+usuario);
                 if (cliente == 0)
                     id_cliente = getIdCliente();
                 else
