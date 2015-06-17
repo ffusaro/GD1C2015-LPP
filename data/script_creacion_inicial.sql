@@ -561,23 +561,20 @@ BEGIN TRANSACTION
 INSERT INTO LPP.FUNCIONALIDADXROL (rol, funcionalidad) VALUES (@ID, 1);
 INSERT INTO LPP.FUNCIONALIDADXROL (rol, funcionalidad) VALUES (@ID, 2);
 INSERT INTO LPP.FUNCIONALIDADXROL (rol, funcionalidad) VALUES (@ID, 3);
+INSERT INTO LPP.FUNCIONALIDADXROL (rol, funcionalidad) VALUES (@ID, 5);
+INSERT INTO LPP.FUNCIONALIDADXROL (rol, funcionalidad) VALUES (@ID, 6);
+INSERT INTO LPP.FUNCIONALIDADXROL (rol, funcionalidad) VALUES (@ID, 9);
+INSERT INTO LPP.FUNCIONALIDADXROL (rol, funcionalidad) VALUES (@ID, 10);
+
+SET @ID = (SELECT id_rol FROM LPP.ROLES WHERE nombre='Cliente');
+
+INSERT INTO LPP.FUNCIONALIDADXROL (rol, funcionalidad) VALUES (@ID, 1);
+INSERT INTO LPP.FUNCIONALIDADXROL (rol, funcionalidad) VALUES (@ID, 3);
 INSERT INTO LPP.FUNCIONALIDADXROL (rol, funcionalidad) VALUES (@ID, 4);
 INSERT INTO LPP.FUNCIONALIDADXROL (rol, funcionalidad) VALUES (@ID, 5);
 INSERT INTO LPP.FUNCIONALIDADXROL (rol, funcionalidad) VALUES (@ID, 6);
 INSERT INTO LPP.FUNCIONALIDADXROL (rol, funcionalidad) VALUES (@ID, 7);
 INSERT INTO LPP.FUNCIONALIDADXROL (rol, funcionalidad) VALUES (@ID, 8);
-INSERT INTO LPP.FUNCIONALIDADXROL (rol, funcionalidad) VALUES (@ID, 9);
-INSERT INTO LPP.FUNCIONALIDADXROL (rol, funcionalidad) VALUES (@ID, 10);
-INSERT INTO LPP.FUNCIONALIDADXROL (rol, funcionalidad) VALUES (@ID, 11);
-
-SET @ID = (SELECT id_rol FROM LPP.ROLES WHERE nombre='Cliente');
-
-INSERT INTO LPP.FUNCIONALIDADXROL (rol, funcionalidad) VALUES (@ID, 3);
-INSERT INTO LPP.FUNCIONALIDADXROL (rol, funcionalidad) VALUES (@ID, 4);
-INSERT INTO LPP.FUNCIONALIDADXROL (rol, funcionalidad) VALUES (@ID, 5);
-INSERT INTO LPP.FUNCIONALIDADXROL (rol, funcionalidad) VALUES (@ID, 7);
-INSERT INTO LPP.FUNCIONALIDADXROL (rol, funcionalidad) VALUES (@ID, 8);
-INSERT INTO LPP.FUNCIONALIDADXROL (rol, funcionalidad) VALUES (@ID, 10);
 INSERT INTO LPP.FUNCIONALIDADXROL (rol, funcionalidad) VALUES (@ID, 11);
 COMMIT
 
@@ -678,7 +675,7 @@ COMMIT;
 --TODO: el enunciado pide generar los nombres de usuarios y pass de los usuarios que ya existen en la maestra
 BEGIN TRANSACTION
 	INSERT INTO LPP.USUARIOS (username, pass, fecha_creacion) 
-		SELECT DISTINCT REPLACE(Cli_Nombre+Cli_Apellido,' ',''), 'd74ff0ee8da3b9806b18c877dbf29bbde50b5bd8e4dad7a3a725000feb82e8f1' , GETDATE() FROM gd_esquema.Maestra; --HASH sha56: pass
+		SELECT DISTINCT REPLACE(Cli_Nombre+Cli_Apellido,' ',''), 'e6b87050bfcb8143fcb8db0170a4dc9ed00d904ddd3e2a4ad1b1e8dc0fdc9be7' , GETDATE() FROM gd_esquema.Maestra; --HASH sha56: pass
 	INSERT INTO LPP.CLIENTES (username, nombre, apellido, fecha_nac, id_pais, id_tipo_doc, num_doc, id_domicilio, mail) 
 		SELECT DISTINCT REPLACE(Cli_Nombre+Cli_Apellido,' ',''), Cli_Nombre, Cli_Apellido, CONVERT(DATETIME, Cli_Fecha_Nac, 103), Cli_Pais_Codigo, Cli_Tipo_Doc_Cod, Cli_Nro_Doc,
 				(SELECT id_domicilio FROM LPP.DOMICILIOS WHERE num= Cli_Dom_Nro AND calle = Cli_Dom_Calle AND depto = Cli_Dom_Depto ), Cli_Mail
@@ -689,10 +686,6 @@ BEGIN TRANSACTION
 	INSERT INTO LPP.ROLESXUSUARIO (username, rol)
 		SELECT username, 2 FROM LPP.USUARIOS
 COMMIT;		
-
---TODO: BORRARLO PARA LA ENTREGA
---para pruebas se le asigna el cliente id_cliente= 3 que posee tres cuentas, el usuario admin 
-UPDATE LPP.CLIENTES SET username = 'admin' WHERE id_cliente = 3
 
 
 BEGIN TRANSACTION
@@ -705,9 +698,6 @@ SET IDENTITY_INSERT [LPP].CUENTAS OFF;
 --RR: Asumí que las cuentas son gratuitas, ya que el tipo de cuenta no está definida en la tabla maestra
 COMMIT; 
 
---TODO: BORRARLO PARA LA ENTREGA
---para pruebas se le carga saldo a las cuentas del cliente con id_cliente= 3 
-UPDATE LPP.CUENTAS SET saldo = 1000 WHERE id_cliente = 3 
 
 BEGIN TRANSACTION
 INSERT INTO [LPP].TARJETAS (num_tarjeta, id_emisor, cod_seguridad, fecha_emision, fecha_vencimiento, id_cliente)
@@ -776,7 +766,7 @@ AFTER INSERT
 AS
 BEGIN
 	INSERT INTO LPP.ITEMS_FACTURA (id_item, num_cuenta, monto, facturado, fecha)
-	 VALUES (1, (SELECT num_cuenta FROM inserted), (SELECT costo_apertura FROM LPP.TIPOS_CUENTA WHERE id_tipocuenta =(SELECT id_tipo FROM inserted)), 0, GETDATE())
+	 VALUES (1, (SELECT num_cuenta FROM inserted), (SELECT costo_apertura FROM LPP.TIPOS_CUENTA WHERE id_tipocuenta =(SELECT id_tipo FROM inserted)), 0, (SELECT fecha_apertura FROM inserted))
 END 
 GO	
 /*Test TRG_ItemFactura_x_AperturaCuenta*/
@@ -784,7 +774,6 @@ GO
 --SELECT * FROM LPP.ITEMS_FACTURA WHERE num_cuenta = (SELECT num_cuenta FROM LPP.CUENTAS WHERE id_cliente = 1 and saldo = 500 and id_tipo =1)
 
 --cada vez que hay un cambio en el tipo de cuenta insertar item de factura
-
 CREATE TRIGGER TRG_CambioCuenta 
 ON LPP.CAMBIOS_CUENTA
 AFTER INSERT
@@ -794,7 +783,7 @@ BEGIN
 		UPDATE LPP.CUENTAS SET id_tipo = (SELECT tipocuenta_final FROM inserted) WHERE num_cuenta = (SELECT num_cuenta FROM inserted)
 	
 		INSERT INTO LPP.ITEMS_FACTURA (id_item, num_cuenta, monto, facturado, fecha)
-			VALUES (2, (SELECT num_cuenta FROM inserted), (SELECT costo_apertura FROM LPP.TIPOS_CUENTA WHERE id_tipocuenta=(SELECT tipocuenta_final FROM inserted)), 0, GETDATE())
+			VALUES (2, (SELECT num_cuenta FROM inserted), (SELECT costo_apertura FROM LPP.TIPOS_CUENTA WHERE id_tipocuenta=(SELECT tipocuenta_final FROM inserted)), 0, (SELECT fecha FROM inserted))
 	
 			IF( (SELECT COUNT(id_item_factura) FROM LPP.ITEMS_FACTURA WHERE facturado= 0) > 5 )
 		UPDATE LPP.CUENTAS SET id_estado = 4 WHERE num_cuenta = (SELECT num_cuenta FROM inserted)
@@ -808,8 +797,6 @@ GO
 --SELECT * FROM LPP.ITEMS_FACTURA WHERE num_cuenta = (SELECT num_cuenta FROM LPP.CUENTAS WHERE num_cuenta =1111111111111111 and id_tipo = 2) and id_item = 2
 
 -- cada vez que hay una transferencia insertar item de factura con descripcion costo por transferencia
-
-
 CREATE TRIGGER TRG_ItemFactura_x_Transferencia 
 ON LPP.TRANSFERENCIAS
 AFTER INSERT 
