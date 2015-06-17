@@ -690,8 +690,7 @@ COMMIT;
 BEGIN TRANSACTION
 	INSERT INTO LPP.ROLESXUSUARIO (username, rol)
 		SELECT DISTINCT REPLACE(Cli_Nombre+Cli_Apellido,' ',''), 2 FROM gd_esquema.Maestra;
-COMMIT;		
-
+COMMIT;	
 
 BEGIN TRANSACTION
 SET IDENTITY_INSERT [LPP].CUENTAS ON;
@@ -774,7 +773,6 @@ BEGIN
 		DECLARE @id_cliente INTEGER
 		DECLARE @fecha DATETIME
 		SET @id_cliente = (SELECT i.username FROM inserted i JOIN LPP.CLIENTES c ON c.username = i.username)
-		SET @fecha = (SELECT fecha FROM inserted)
 		
 		DECLARE @num_cuenta NUMERIC(18,0), @id_estado NUMERIC(18, 0), @id_tipo INTEGER, @fecha_apertura DATETIME
 		 
