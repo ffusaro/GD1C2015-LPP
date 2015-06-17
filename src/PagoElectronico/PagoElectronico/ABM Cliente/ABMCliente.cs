@@ -93,7 +93,7 @@ namespace PagoElectronico
                 string query1 = "SELECT d.tipo_descr, num_doc, nombre, apellido, " + 
                                 " p.pais, fecha_nac,id_domicilio, mail "+
                                 " FROM LPP.CLIENTES cl LEFT JOIN LPP.PAISES p ON cl.id_pais=p.id_pais "+
-                                " LEFT JOIN LPP.TIPO_DOCS d ON cl.id_tipo_doc = d.tipo_cod WHERE mail = '" + evento + "'";
+                                " LEFT JOIN LPP.TIPO_DOCS d ON cl.id_tipo_doc = d.tipo_cod WHERE username = '" + evento + "'";
                 con1.cnn.Open();
                 SqlCommand command1 = new SqlCommand(query1, con1.cnn);
                 SqlDataReader lector = command1.ExecuteReader();
@@ -106,8 +106,8 @@ namespace PagoElectronico
                 cb2.Text = lector.GetString(4); 
                 fechaNacimiento.Value = Convert.ToDateTime(lector.GetDateTime(5));
                 int id_domicilio = lector.GetInt32(6);
-                txtMail.Text = evento;
-                txtUsuario.Text = lector.GetString(7);
+                txtMail.Text = lector.GetString(7);
+                txtUsuario.Text = evento;
                 txtUsuario.Enabled = false;
                 con1.cnn.Close();
 

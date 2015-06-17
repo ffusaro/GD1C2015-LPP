@@ -62,7 +62,7 @@ namespace PagoElectronico.ABM_Cliente
 
             //HACER CONSULTA
             //string query = "SELECT id_cliente, nombre, apellido, mail, id_tipo_doc, num_doc FROM LPP.CLIENTES WHERE ";
-            string query = String.Format("SELECT nombre, apellido, d.tipo_descr, num_doc, " + 
+            string query = String.Format("SELECT username,nombre, apellido, d.tipo_descr, num_doc, " + 
                                 " p.pais, fecha_nac,id_domicilio, mail "+
                                 " FROM LPP.CLIENTES cl LEFT JOIN LPP.PAISES p ON cl.id_pais=p.id_pais "+
                                 " LEFT JOIN LPP.TIPO_DOCS d ON cl.id_tipo_doc = d.tipo_cod WHERE habilitado = 1");
@@ -108,8 +108,8 @@ namespace PagoElectronico.ABM_Cliente
             int indice = e.RowIndex;
 
            
-                string mail = dgvCliente.Rows[indice].Cells["mail"].Value.ToString();
-                _formcliente = new ABMCliente(mail,"U");
+                string user = dgvCliente.Rows[indice].Cells["username"].Value.ToString();
+                _formcliente = new ABMCliente(user,"U");
                 _formcliente.Show();
                 _formcliente.padre_buscar = this;
                 this.Close();
