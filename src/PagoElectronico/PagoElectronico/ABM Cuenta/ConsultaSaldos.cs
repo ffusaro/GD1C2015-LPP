@@ -40,16 +40,14 @@ namespace PagoElectronico.ABM_Cuenta
             con.cnn.Close();
         }
 
-        private int getIdCliente()
+        private Int32 getIdCliente()
         {
             Conexion con = new Conexion();
             con.cnn.Open();
             //OBTENGO ID CLIENTE
             string query = "SELECT id_cliente FROM LPP.CLIENTES WHERE username = '" + usuario + "'";
             SqlCommand command = new SqlCommand(query, con.cnn);
-            SqlDataReader lector = command.ExecuteReader();
-            lector.Read();
-            int id_cliente = lector.GetInt32(0);
+            Int32 id_cliente = Convert.ToInt32(command.ExecuteScalar());
             con.cnn.Close();
             return id_cliente;
 
