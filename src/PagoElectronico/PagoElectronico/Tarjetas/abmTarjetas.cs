@@ -88,7 +88,7 @@ namespace PagoElectronico.Tarjetas
         {
             Conexion con = new Conexion();
             con.cnn.Open();
-            string query = "PRC_desasociar_tarjeta";
+            string query = "LPP.PRC_desasociar_tarjeta";
             SqlCommand command = new SqlCommand(query, con.cnn);
             command.CommandType = CommandType.StoredProcedure;
             command.Parameters.Add(new SqlParameter("@num_tarjeta", txtNumTarjeta.Text));
@@ -205,7 +205,7 @@ namespace PagoElectronico.Tarjetas
         {
             Conexion con = new Conexion();
             con.cnn.Open();
-            string query = "PRC_insertar_nueva_tarjeta";
+            string query = "LPP.PRC_insertar_nueva_tarjeta";
             SqlCommand command = new SqlCommand(query, con.cnn);
             command.CommandType = CommandType.StoredProcedure;
             command.Parameters.Add(new SqlParameter("@num_tarjeta", txtNumTarjeta.Text));
@@ -301,7 +301,7 @@ namespace PagoElectronico.Tarjetas
         {
             Conexion con = new Conexion();
             con.cnn.Open();
-            string query = "PRC_modificar_tarjeta";
+            string query = "LPP.PRC_modificar_tarjeta";
             SqlCommand command = new SqlCommand(query, con.cnn);
             command.CommandType = CommandType.StoredProcedure;
             command.Parameters.Add(new SqlParameter("@num_tarjeta", txtNumTarjeta.Text));

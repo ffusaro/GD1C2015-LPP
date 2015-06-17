@@ -35,7 +35,7 @@ namespace PagoElectronico.Transferencias
             }
             //CARGA DE NUMEROS DE CUENTA DE ORIGEN
             Conexion con = new Conexion();
-            string query = "PRC_cuentas_de_un_cliente";
+            string query = "LPP.PRC_cuentas_de_un_cliente";
             con.cnn.Open();
             SqlCommand command = new SqlCommand(query, con.cnn);
             command.CommandType = CommandType.StoredProcedure;
@@ -156,7 +156,7 @@ namespace PagoElectronico.Transferencias
         {
             Conexion con = new Conexion();
             con.cnn.Open();
-            string query = "PRC_realizar_transferencia";
+            string query = "LPP.PRC_realizar_transferencia";
             SqlCommand command = new SqlCommand(query, con.cnn);
             command.CommandType = CommandType.StoredProcedure;
             command.Parameters.Add(new SqlParameter("@num_cuenta_origen", origen));

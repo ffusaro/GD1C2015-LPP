@@ -107,7 +107,7 @@ namespace PagoElectronico.Facturacion
 
             try
             {
-                string query = "PRC_facturar_item_factura";
+                string query = "LPP.PRC_facturar_item_factura";
                 con.cnn.Open();
                 SqlCommand command = new SqlCommand(query, con.cnn);
                 command.CommandType = CommandType.StoredProcedure;
@@ -132,7 +132,7 @@ namespace PagoElectronico.Facturacion
         private decimal getIdFactura()
         {
             Conexion con = new Conexion();
-            string query = "PRC_obtener_factura";
+            string query = "LPP.PRC_obtener_factura";
             con.cnn.Open();
             SqlCommand command = new SqlCommand(query, con.cnn);
             command.CommandType = CommandType.StoredProcedure;

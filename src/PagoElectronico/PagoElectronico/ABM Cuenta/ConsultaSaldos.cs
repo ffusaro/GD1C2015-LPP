@@ -24,20 +24,36 @@ namespace PagoElectronico.ABM_Cuenta
 
             usuario = user;
             ban = true;
-
             Conexion con = new Conexion();
-            string query = "PRC_cuentas_de_un_cliente";
-            con.cnn.Open();
-            SqlCommand command = new SqlCommand(query, con.cnn);
-            command.CommandType = CommandType.StoredProcedure;
-            command.Parameters.Add(new SqlParameter("@id_cliente", getIdCliente()));
-            SqlDataReader lector = command.ExecuteReader();
-            while (lector.Read())
-            {
-                cmbNroCuenta.Items.Add(lector.GetDecimal(0));
-            }
+            if (getRolUser() == "Administrador") {
+                string query = "SELECT num_cuenta FROM LPP.CUENTAS WHERE id_estado = 1 OR id_estado = 4";
+                con.cnn.Open();
+                SqlCommand command = new SqlCommand(query, con.cnn);
 
-            con.cnn.Close();
+                SqlDataReader lector = command.ExecuteReader();
+                while (lector.Read())
+                {
+                    cmbNroCuenta.Items.Add(lector.GetDecimal(0));
+                }
+
+                con.cnn.Close();
+            }
+            else
+            {
+                
+                string query = "LPP.PRC_cuentas_de_un_cliente";
+                con.cnn.Open();
+                SqlCommand command = new SqlCommand(query, con.cnn);
+                command.CommandType = CommandType.StoredProcedure;
+                command.Parameters.Add(new SqlParameter("@id_cliente", getIdCliente()));
+                SqlDataReader lector = command.ExecuteReader();
+                while (lector.Read())
+                {
+                    cmbNroCuenta.Items.Add(lector.GetDecimal(0));
+                }
+
+                con.cnn.Close();
+            }
         }
 
         private Int32 getIdCliente()
@@ -99,6 +115,19 @@ namespace PagoElectronico.ABM_Cuenta
             cmbNroCuenta.SelectedItem = null;
         }
 
+        private string getRolUser()
+        {
+            Conexion con = new Conexion();
+            //OBTENGO ID DE CLIENTE
+            con.cnn.Open();
+            string query = "SELECT R.nombre FROM LPP.ROLESXUSUARIO U JOIN LPP.ROLES R ON R.id_rol=U.rol WHERE U.username = '" + usuario + "'";
+            SqlCommand command = new SqlCommand(query, con.cnn);
+            SqlDataReader lector = command.ExecuteReader();
+            lector.Read();
+            string rol = lector.GetString(0);
+            con.cnn.Close();
+            return rol;
+        }
         private void validarNroCuenta() {
             if (cmbNroCuenta.SelectedItem == null)
             {

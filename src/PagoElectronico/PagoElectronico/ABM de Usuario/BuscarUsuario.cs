@@ -16,7 +16,6 @@ namespace PagoElectronico.ABM_de_Usuario
         ABMUsuario FormUsuario;
         ABMCliente FormCliente;
         ABM_Cliente.AsignarUsuario FormAsignar;
-        ABM_Cuenta.AsignarUsuarioCuenta ac;
         public MenuPrincipal mp;
         public DataTable dt;
         public int ev;
@@ -91,9 +90,9 @@ namespace PagoElectronico.ABM_de_Usuario
             }
             else
             {
-                ac = new ABM_Cuenta.AsignarUsuarioCuenta("A", Usuario);
+                /*ac = new ABM_Cuenta.AsignarUsuario("A", Usuario);
                 ac.Show();
-                this.Close();
+                this.Close();*/
             }
 
         }

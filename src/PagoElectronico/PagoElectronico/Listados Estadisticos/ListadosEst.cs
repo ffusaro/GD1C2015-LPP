@@ -157,7 +157,7 @@ namespace PagoElectronico.Listados_Estadisticos
             }
             if (cmbListado.Text == "Clientes con cuentas inhabilitadas por no pagar costos de transaccion")
             {
-                string query = "dbo.PRC_estadistico_cuentas_inhabilitadas";
+                string query = "LPP.PRC_estadistico_cuentas_inhabilitadas";
 
                 con.cnn.Open();
                 SqlCommand command = new SqlCommand(query, con.cnn);
@@ -183,7 +183,7 @@ namespace PagoElectronico.Listados_Estadisticos
 
             if (cmbListado.Text == "Cliente con mayor cantidad de comisiones facturadas en sus cuentas")
             {
-                string query = "dbo.PRC_estadistico_comisiones_facturadas";
+                string query = "LPP.PRC_estadistico_comisiones_facturadas";
 
                 con.cnn.Open();
                 SqlCommand command = new SqlCommand(query, con.cnn);
@@ -208,7 +208,7 @@ namespace PagoElectronico.Listados_Estadisticos
             }
             if (cmbListado.Text == "Clientes con mayor cantidad de transacciones realizadas entre cuentas propias")
             {
-                string query = "dbo.PRC_estadistico_transacciones_cuentas_propias";
+                string query = "LPP.PRC_estadistico_transacciones_cuentas_propias";
 
                 con.cnn.Open();
                 SqlCommand command = new SqlCommand(query, con.cnn);
@@ -233,7 +233,7 @@ namespace PagoElectronico.Listados_Estadisticos
             if (cmbListado.Text == "Paises con mayor cantidad de movimientos")
             {
 
-                string query2 = "dbo.PRC_estadistico_pais_mas_movimientos";
+                string query2 = "LPP.PRC_estadistico_pais_mas_movimientos";
 
                 con.cnn.Open();
                 SqlCommand command = new SqlCommand(query2, con.cnn);
@@ -259,7 +259,7 @@ namespace PagoElectronico.Listados_Estadisticos
             if (cmbListado.Text == "Total facturado para los distintos tipos de cuentas")
             {
                 //int anio = Convert.ToInt32(cmbAño.Text);
-                string query2 = "dbo.PRC_estadistico_facturado_tipo_cuentas";
+                string query2 = "LPP.PRC_estadistico_facturado_tipo_cuentas";
 
                 con.cnn.Open();
                 SqlCommand command = new SqlCommand(query2, con.cnn);

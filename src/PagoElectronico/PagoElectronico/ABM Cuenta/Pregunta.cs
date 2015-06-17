@@ -81,7 +81,7 @@ namespace PagoElectronico.ABM_Cuenta
             Conexion con = new Conexion();
             con.cnn.Open();
             bool debe;
-            string query = "PRC_items_factura_pendientes_de_un_cliente";
+            string query = "LPP.PRC_items_factura_pendientes_de_un_cliente";
             SqlCommand command = new SqlCommand(query, con.cnn);
             command.CommandType = CommandType.StoredProcedure;
             command.Parameters.Add(new SqlParameter("@id_cliente",getIdCliente()));

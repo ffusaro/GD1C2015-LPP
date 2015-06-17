@@ -55,3 +55,7 @@ C:\Users\ffusaro\Desktop\GD1C2015-LPP\src\PagoElectronico\PagoElectronico\obj\Re
 C:\Users\ffusaro\Desktop\GD1C2015-LPP\src\PagoElectronico\PagoElectronico\obj\Release\PagoElectronico.Facturacion.Facturacion.resources
 C:\Users\ffusaro\Desktop\GD1C2015-LPP\src\PagoElectronico\PagoElectronico\obj\Release\PagoElectronico.Tarjetas.abmTarjetas.resources
 C:\Users\ffusaro\Desktop\GD1C2015-LPP\src\PagoElectronico\PagoElectronico\obj\Release\PagoElectronico.Tarjetas.BuscarTarjetas.resources
+C:\Users\ffusaro\Desktop\GD1C2015-LPP\src\PagoElectronico\PagoElectronico\obj\Release\PagoElectronico.ABM_Cuenta.Buscar.resources
+C:\Users\ffusaro\Desktop\GD1C2015-LPP\src\PagoElectronico\PagoElectronico\obj\Release\PagoElectronico.ABM_Cuenta.ConsultaSaldos.resources
+C:\Users\ffusaro\Desktop\GD1C2015-LPP\src\PagoElectronico\PagoElectronico\obj\Release\PagoElectronico.ABM_Cuenta.Pregunta.resources
+C:\Users\ffusaro\Desktop\GD1C2015-LPP\src\PagoElectronico\PagoElectronico\obj\Release\PagoElectronico.ABM_Cuenta.ResultadosConsulta.resources

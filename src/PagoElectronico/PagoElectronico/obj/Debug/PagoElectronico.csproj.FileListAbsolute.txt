@@ -111,7 +111,6 @@ C:\Users\LORENA\Documents\GitHub\GD1C2015-LPP\src\PagoElectronico\PagoElectronic
 C:\Users\LORENA\Documents\GitHub\GD1C2015-LPP\src\PagoElectronico\PagoElectronico\obj\Debug\PagoElectronico.Transferencias.Transferencias.resources
 C:\Users\LORENA\Documents\GitHub\GD1C2015-LPP\src\PagoElectronico\PagoElectronico\obj\Debug\PagoElectronico.csproj.GenerateResource.Cache
 C:\Users\ffusaro\Desktop\GD1C2015-LPP\src\PagoElectronico\PagoElectronico\obj\Debug\PagoElectronico.ABM_Cuenta.AltaCuenta.resources
-C:\Users\ffusaro\Desktop\GD1C2015-LPP\src\PagoElectronico\PagoElectronico\obj\Debug\PagoElectronico.ABM_Cuenta.BuscarCuenta.resources
 C:\Users\ffusaro\Desktop\GD1C2015-LPP\src\PagoElectronico\PagoElectronico\obj\Debug\PagoElectronico.ABM_Cuenta.BuscarCuentas.resources
 C:\Users\ffusaro\Desktop\GD1C2015-LPP\src\PagoElectronico\PagoElectronico\obj\Debug\PagoElectronico.ABM_Cliente.AsignarUsuario.resources
 C:\Users\LORENA\Documents\GitHub\GD1C2015-LPP\src\PagoElectronico\PagoElectronico\bin\Debug\PagoElectronico.exe
@@ -184,3 +183,6 @@ C:\Users\CSOSA\Documents\GitHub\GestionDeDatos\GD1C2015-LPP\src\PagoElectronico\
 C:\Users\CSOSA\Documents\GitHub\GestionDeDatos\GD1C2015-LPP\src\PagoElectronico\PagoElectronico\obj\Debug\PagoElectronico.csproj.GenerateResource.Cache
 C:\Users\CSOSA\Documents\GitHub\GestionDeDatos\GD1C2015-LPP\src\PagoElectronico\PagoElectronico\obj\Debug\PagoElectronico.pdb
 C:\Users\CSOSA\Documents\GitHub\GestionDeDatos\GD1C2015-LPP\src\PagoElectronico\PagoElectronico\obj\Debug\PagoElectronico.ABM_Cuenta.AsignarUsuarioCuenta.resources
+C:\Users\ffusaro\Desktop\GD1C2015-LPP\src\PagoElectronico\PagoElectronico\obj\Debug\PagoElectronico.ABM_Cuenta.Buscar.resources
+C:\Users\ffusaro\Desktop\GD1C2015-LPP\src\PagoElectronico\PagoElectronico\obj\Debug\PagoElectronico.ABM_Cuenta.Pregunta.resources
+C:\Users\ffusaro\Desktop\GD1C2015-LPP\src\PagoElectronico\PagoElectronico\obj\Debug\PagoElectronico.ABM_Cuenta.AsignarUsuarioCuenta.resources
