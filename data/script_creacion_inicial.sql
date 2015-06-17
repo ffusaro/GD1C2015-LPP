@@ -685,7 +685,7 @@ COMMIT;
 
 BEGIN TRANSACTION
 	INSERT INTO LPP.ROLESXUSUARIO (username, rol)
-		SELECT username, 2 FROM LPP.USUARIOS
+		SELECT DISTINCT REPLACE(Cli_Nombre+Cli_Apellido,' ',''), 2 FROM gd_esquema.Maestra;
 COMMIT;		
 
 
