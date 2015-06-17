@@ -18,6 +18,7 @@ namespace PagoElectronico.Facturacion
         private string usuario;
         private string salida;
         private decimal id_item_factura;
+        private decimal num_cuenta;
 
         public Facturacion(decimal id_item,string user)
         {
@@ -26,55 +27,118 @@ namespace PagoElectronico.Facturacion
             idItem = id_item;
             //CARGO EL DATAGRIDVIEW CON LOS DATOS A FACTURAR
             Conexion con = new Conexion();
-            if (id_item == 0)
+            if (getRolUser() == "Administrador")
             {
-                string query = "SELECT i.id_item_factura, i.num_cuenta, i.monto, it.descripcion, i.fecha FROM LPP.ITEMS_FACTURA i"
-                            + " JOIN LPP.ITEMS it ON it.id_item = i.id_item"
-                            + " WHERE i.id_factura is NULL AND i.facturado = 0  AND fecha IS NOT NULL ORDER BY i.num_cuenta";
-                con.cnn.Open();
-                dtDatos = new DataTable();
-                SqlDataAdapter da = new SqlDataAdapter(query, con.cnn);
-                da.Fill(dtDatos);
-                dt = dtDatos;
+                if (id_item == 0)
+                {
+                    string query = "SELECT i.id_item_factura, i.num_cuenta, i.monto, it.descripcion, i.fecha FROM LPP.ITEMS_FACTURA i"
+                                + " JOIN LPP.ITEMS it ON it.id_item = i.id_item"
+                                + " WHERE i.id_factura is NULL AND i.facturado = 0  AND fecha IS NOT NULL ORDER BY i.num_cuenta";
+                    con.cnn.Open();
+                    dtDatos = new DataTable();
+                    SqlDataAdapter da = new SqlDataAdapter(query, con.cnn);
+                    da.Fill(dtDatos);
+                    dt = dtDatos;
+                }
+                else
+                {
+
+                    string query = "SELECT i.id_item_factura, i.num_cuenta, i.monto, it.descripcion, i.fecha FROM LPP.ITEMS_FACTURA i"
+                                + " JOIN LPP.ITEMS it ON it.id_item = i.id_item"
+                                + " WHERE i.id_item = " + id_item + " AND  i.id_factura is NULL AND i.facturado = 0  AND fecha IS NOT NULL ORDER BY i.num_cuenta";
+
+                    con.cnn.Open();
+                    dtDatos = new DataTable();
+                    SqlDataAdapter da = new SqlDataAdapter(query, con.cnn);
+                    da.Fill(dtDatos);
+                    dt = dtDatos;
+                }
             }
             else
             {
+                if (id_item == 0)
+                {
+                    string query = "SELECT i.id_item_factura, i.num_cuenta, i.monto, it.descripcion, i.fecha FROM LPP.ITEMS_FACTURA i"
+                                + " JOIN LPP.ITEMS it ON it.id_item = i.id_item"
+                                + " JOIN LPP.CUENTAS c ON c.num_cuenta = i.num_cuenta "
+                                + " JOIN LPP.CLIENTES cl ON cl.id_cliente = c.id_cliente"
+                                + " WHERE cl.username = " + usuario + " AND  i.id_factura is NULL AND i.facturado = 0  AND fecha IS NOT NULL ORDER BY i.num_cuenta";
+                    con.cnn.Open();
+                    dtDatos = new DataTable();
+                    SqlDataAdapter da = new SqlDataAdapter(query, con.cnn);
+                    da.Fill(dtDatos);
+                    dt = dtDatos;
+                }
+                else
+                {
 
-                string query = "SELECT i.id_item_factura, i.num_cuenta, i.monto, it.descripcion, i.fecha FROM LPP.ITEMS_FACTURA i"
-                            + " JOIN LPP.ITEMS it ON it.id_item = i.id_item"
-                            + " WHERE i.id_item = " + id_item + " AND  i.id_factura is NULL AND i.facturado = 0  AND fecha IS NOT NULL ORDER BY i.num_cuenta";
+                    string query = "SELECT i.id_item_factura, i.num_cuenta, i.monto, it.descripcion, i.fecha FROM LPP.ITEMS_FACTURA i"
+                                + " JOIN LPP.ITEMS it ON it.id_item = i.id_item"
+                                +" JOIN LPP.CUENTAS c ON c.num_cuenta = i.num_cuenta "
+                                +" JOIN LPP.CLIENTES cl ON cl.id_cliente = c.id_cliente"
+                                + " WHERE i.id_item = " + id_item + " AND cl.username = "+usuario+" AND  i.id_factura is NULL AND i.facturado = 0  AND fecha IS NOT NULL ORDER BY i.num_cuenta";
 
-                con.cnn.Open();
-                dtDatos = new DataTable();
-                SqlDataAdapter da = new SqlDataAdapter(query, con.cnn);
-                da.Fill(dtDatos);
-                dt = dtDatos;
-            }
+                    con.cnn.Open();
+                    dtDatos = new DataTable();
+                    SqlDataAdapter da = new SqlDataAdapter(query, con.cnn);
+                    da.Fill(dtDatos);
+                    dt = dtDatos;
+                }
+                
+             }
+                dgvFactura.DataSource = dtDatos;
+                con.cnn.Close();
 
-            dgvFactura.DataSource = dtDatos;
-            con.cnn.Close();
-
-            DataGridViewCheckBoxColumn chk = new DataGridViewCheckBoxColumn();
-            dgvFactura.Columns.Add(chk);
-            chk.HeaderText = "Facturar";
-            chk.Name = "chk";
+                DataGridViewCheckBoxColumn chk = new DataGridViewCheckBoxColumn();
+                dgvFactura.Columns.Add(chk);
+                chk.HeaderText = "Facturar";
+                chk.Name = "chk";
+            
         }
 
         private int getIdCliente()
         {
             Conexion con = new Conexion();
-            con.cnn.Open();
-            //OBTENGO ID CLIENTE
-            string query = "SELECT id_cliente FROM LPP.CLIENTES WHERE username = '" + usuario + "'";
-            SqlCommand command = new SqlCommand(query, con.cnn);
-            SqlDataReader lector = command.ExecuteReader();
-            lector.Read();
-            int id_cliente = lector.GetInt32(0);
-            con.cnn.Close();
-            return id_cliente;
+            if (getRolUser() == "Administrador")
+            {
+                con.cnn.Open();
+                string query = "SELECT id_cliente FROM LPP.CUENTAS WHERE num_cuenta = '" + num_cuenta + "'";
+                SqlCommand command = new SqlCommand(query, con.cnn);
+                SqlDataReader lector = command.ExecuteReader();
+                lector.Read();
+                int id_cliente = lector.GetInt32(0);
+                con.cnn.Close();
+                return id_cliente;
+
+            }
+            else
+            {
+                con.cnn.Open();
+                string query = "SELECT id_cliente FROM LPP.CLIENTES WHERE username = '" + usuario + "'";
+                SqlCommand command = new SqlCommand(query, con.cnn);
+                SqlDataReader lector = command.ExecuteReader();
+                lector.Read();
+                int id_cliente = lector.GetInt32(0);
+                con.cnn.Close();
+                return id_cliente;
+
+            }
 
         }
 
+        private string getRolUser()
+        {
+            Conexion con = new Conexion();
+            //OBTENGO ID DE CLIENTE
+            con.cnn.Open();
+            string query = "SELECT R.nombre FROM LPP.ROLESXUSUARIO U JOIN LPP.ROLES R ON R.id_rol=U.rol WHERE U.username = '" + usuario + "'";
+            SqlCommand command = new SqlCommand(query, con.cnn);
+            SqlDataReader lector = command.ExecuteReader();
+            lector.Read();
+            string rol = lector.GetString(0);
+            con.cnn.Close();
+            return rol;
+        }
         private void btnSalir_Click(object sender, EventArgs e)
         {
             this.Close();
@@ -88,9 +152,20 @@ namespace PagoElectronico.Facturacion
                 int ind = dgvFactura.Columns["chk"].Index;
                 if (Convert.ToBoolean(row.Cells[ind].Value))
                 {
-                    int i = dgvFactura.Columns["id_item_factura"].Index;
-                    id_item_factura = Convert.ToDecimal(row.Cells[i].Value);
-                    salida = facturar(id_item_factura);
+                    if (getRolUser() == "Administrador") {
+                        int i = dgvFactura.Columns["id_item_factura"].Index;
+                        id_item_factura = Convert.ToDecimal(row.Cells[i].Value);
+                        int j = dgvFactura.Columns["num_cuenta"].Index;
+                        num_cuenta = Convert.ToDecimal(row.Cells[j].Value);
+                        salida = facturar(id_item_factura);
+                    
+                    }
+                    else
+                    {
+                        int i = dgvFactura.Columns["id_item_factura"].Index;
+                        id_item_factura = Convert.ToDecimal(row.Cells[i].Value);
+                        salida = facturar(id_item_factura);
+                    }
                 }
             }
 
@@ -115,8 +190,6 @@ namespace PagoElectronico.Facturacion
                 command.Parameters.Add(new SqlParameter("@id_item_factura",id_item_factura));
                 decimal id_factura = getIdFactura();
                 command.Parameters.Add(new SqlParameter("@id_factura", id_factura));
-                command.ExecuteNonQuery();
-
                 command.ExecuteNonQuery();
                 
                 salida = "Se facturo correctamente";
