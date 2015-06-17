@@ -78,14 +78,21 @@ namespace PagoElectronico
             return 0;
         }
 
-        public string modificarCliente(string Nombre, string Apellido, string Tipo_ID, int Numero_ID, string Mail, DateTime Nacimiento,string Nacionalidad)
+        public string modificarCliente(string Nombre, string Apellido, string Tipo_ID, int Numero_ID, string Mail, DateTime Nacimiento,string Nacionalidad,string Username)
         {
             con1.cnn.Open();
             string salida = "Se modificó el Cliente correctamente";
 
             try
             {
-                string query = "UPDATE LPP.CLIENTES SET fecha_nac = CONVERT(DATETIME, '" + Nacimiento.ToString("yyyy-MM-dd HH:MM:ss")+ "', 103)"+", mail = '" + Mail + "', apellido = '" + Apellido + "', nombre = '" + Nombre + "',  id_pais=(select id_pais from LPP.PAISES where pais like '%" + Nacionalidad +  "') WHERE id_tipo_doc = ( select tipo_cod from LPP.TIPO_DOCS where tipo_descr='"+Tipo_ID+"') AND num_doc = "+ Numero_ID+"";
+                string query = "UPDATE LPP.CLIENTES SET fecha_nac = CONVERT(DATETIME, '" + Nacimiento.ToString("yyyy-MM-dd HH:MM:ss")+ "', 103)"
+                    +", mail = '" + Mail 
+                    + "', apellido = '" + Apellido 
+                    + "', nombre = '" + Nombre 
+                    + "',  id_pais=(select id_pais from LPP.PAISES where pais like '%" + Nacionalidad +"')"
+                    +", id_tipo_doc = ( select tipo_cod from LPP.TIPO_DOCS where tipo_descr='"+Tipo_ID +"'"
+                    + "), num_doc = "+ Numero_ID
+                    +" WHERE username = '"+Username +"'";
                 SqlCommand command = new SqlCommand(query, con1.cnn);
                 command.ExecuteNonQuery();
 
@@ -167,9 +174,9 @@ namespace PagoElectronico
             con1.cnn.Open();
             try
             {
-                string query = "UPDATE LPP.DOMICILIOS SET calle = '" + calle +"',  numero = " + numero + ""+
-                               "piso = " +Piso + ", depto = '"+ depto+"', localidad = '" +localidad+"'" +
-                               "WHERE id_domicilio = "+id_domicilio+"";
+                string query = "UPDATE LPP.DOMICILIOS SET calle = '" + calle +"',  num = " + numero + ","+
+                               " piso = " +Piso + ", depto = '"+ depto+"', localidad = '" +localidad+"'" +
+                               " WHERE id_domicilio = "+id_domicilio+"";
                 
                 SqlCommand command = new SqlCommand(query, con1.cnn);
                 command.ExecuteNonQuery();

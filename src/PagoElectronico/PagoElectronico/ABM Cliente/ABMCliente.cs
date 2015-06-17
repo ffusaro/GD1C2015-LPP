@@ -347,7 +347,7 @@ namespace PagoElectronico
 
 
             // Inserto Cliente
-            if (txtNombre.Text != "" && txtApellido.Text != "" && cbID.Text != "" && txtNumeroID.Text != "" && txtMail.Text != "" && cb2.Text != "" && txtLocalidad.Text != "" && fechaNacimiento.Value != null)
+            if (txtNombre.Text != "" && txtApellido.Text != "" && cbID.Text != "" && txtNumeroID.Text != "" && txtMail.Text != "" && cb2.Text != "" && fechaNacimiento.Value != null)
             {
                 if (ban == 1)
                 {
@@ -417,9 +417,7 @@ namespace PagoElectronico
                         string query3 = "SELECT id_domicilio FROM LPP.CLIENTES WHERE id_tipo_doc = (select tipo_cod from LPP.TIPO_DOCS WHERE tipo_descr = '" + cbID.Text + "') AND num_doc= " + Convert.ToInt32(txtNumeroID.Text) + " ";
                         con3.cnn.Open();
                         SqlCommand command3 = new SqlCommand(query3, con3.cnn);
-                        SqlDataReader lector3 = command3.ExecuteReader();
-                        lector3.Read();
-                        int id_domicilio = lector3.GetInt32(0);
+                        Int32 id_domicilio = Convert.ToInt32(command3.ExecuteScalar());
                         con3.cnn.Close();
 
                         if (chkMail.Checked == true)
@@ -444,7 +442,7 @@ namespace PagoElectronico
 
                             //Modifico en la Tabla Domicilio y CLiente
                             abm.modificarDomicilio(txtDomicilio.Text,Convert.ToInt32(txtNumeroCalle.Text),Convert.ToInt32(txtPiso.Text), txtDepto.Text, txtLocalidad.Text,id_domicilio);
-                            string salida = abm.modificarCliente(txtNombre.Text, txtApellido.Text, cbID.Text, Convert.ToInt32(txtNumeroID.Text), txtMail.Text, fechaNacimiento.Value , cb2.Text);
+                            string salida = abm.modificarCliente(txtNombre.Text, txtApellido.Text, cbID.Text, Convert.ToInt32(txtNumeroID.Text), txtMail.Text, fechaNacimiento.Value , cb2.Text, txtUsuario.Text);
                             MessageBox.Show("" + salida);
                         }
 
@@ -452,7 +450,7 @@ namespace PagoElectronico
                         {
                             //Modifico en la Tabla Domicilio y Cliente
                             abm.modificarDomicilio(txtDomicilio.Text, Convert.ToInt32(txtNumeroCalle.Text), Convert.ToInt32(txtPiso.Text), txtDepto.Text, txtLocalidad.Text, id_domicilio);
-                            string salida = abm.modificarCliente(txtNombre.Text, txtApellido.Text, cbID.Text, Convert.ToInt32(txtNumeroID.Text), txtMail.Text, fechaNacimiento.Value, cb2.Text);
+                            string salida = abm.modificarCliente(txtNombre.Text, txtApellido.Text, cbID.Text, Convert.ToInt32(txtNumeroID.Text), txtMail.Text, fechaNacimiento.Value, cb2.Text, txtUsuario.Text);
                             MessageBox.Show("" + salida);
 
                         }
@@ -472,13 +470,9 @@ namespace PagoElectronico
                     btnSalir.Enabled = true;
                     txtNombre.Text = "";
                     txtApellido.Text = "";
-                    txtLocalidad.Text = "";
                     cb2.Text = "";
                     txtNumeroID.Text = "";
                     txtMail.Text = "";
-                    txtDomicilio.Text = "";
-                    txtNumeroCalle.Text = "";
-                    txtPiso.Text = "";
                 }
                 else
                 {
@@ -598,15 +592,7 @@ namespace PagoElectronico
             }
         }
 
-      private void cbID_SelectedIndexChanged(object sender, EventArgs e)
-      {
-
-      }
-
-      private void lblTipo_Click(object sender, EventArgs e)
-      {
-
-      }
+  
 
     }
 }

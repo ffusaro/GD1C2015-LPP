@@ -207,7 +207,6 @@
             this.cbID.Name = "cbID";
             this.cbID.Size = new System.Drawing.Size(185, 21);
             this.cbID.TabIndex = 18;
-            this.cbID.SelectedIndexChanged += new System.EventHandler(this.cbID_SelectedIndexChanged);
             // 
             // txtMail
             // 
@@ -317,7 +316,6 @@
             this.lblTipo.Size = new System.Drawing.Size(94, 13);
             this.lblTipo.TabIndex = 2;
             this.lblTipo.Text = "Tipo Identificación";
-            this.lblTipo.Click += new System.EventHandler(this.lblTipo_Click);
             // 
             // lblApellido
             // 
