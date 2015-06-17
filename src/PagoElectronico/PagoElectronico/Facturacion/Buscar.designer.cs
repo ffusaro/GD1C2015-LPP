@@ -29,10 +29,10 @@
         private void InitializeComponent()
         {
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.btnSalir = new System.Windows.Forms.Button();
-            this.btnContinuar = new System.Windows.Forms.Button();
             this.cbItems = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
+            this.btnSalir = new System.Windows.Forms.Button();
+            this.btnContinuar = new System.Windows.Forms.Button();
             this.btTodosPendientes = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
@@ -47,6 +47,23 @@
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Seleccione el tipo de comision que desea facturar";
+            // 
+            // cbItems
+            // 
+            this.cbItems.FormattingEnabled = true;
+            this.cbItems.Location = new System.Drawing.Point(172, 40);
+            this.cbItems.Name = "cbItems";
+            this.cbItems.Size = new System.Drawing.Size(209, 21);
+            this.cbItems.TabIndex = 1;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(16, 43);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(115, 13);
+            this.label1.TabIndex = 0;
+            this.label1.Text = "Tipo de item pendiente";
             // 
             // btnSalir
             // 
@@ -68,23 +85,6 @@
             this.btnContinuar.UseVisualStyleBackColor = true;
             this.btnContinuar.Click += new System.EventHandler(this.btnContinuar_Click);
             // 
-            // cbItems
-            // 
-            this.cbItems.FormattingEnabled = true;
-            this.cbItems.Location = new System.Drawing.Point(172, 40);
-            this.cbItems.Name = "cbItems";
-            this.cbItems.Size = new System.Drawing.Size(209, 21);
-            this.cbItems.TabIndex = 1;
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(16, 43);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(115, 13);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "Tipo de item pendiente";
-            // 
             // btTodosPendientes
             // 
             this.btTodosPendientes.Location = new System.Drawing.Point(127, 92);
@@ -104,7 +104,9 @@
             this.Controls.Add(this.btnSalir);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.btnContinuar);
+            this.MaximizeBox = false;
             this.Name = "Buscar";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Inicio de Facturacion";
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();

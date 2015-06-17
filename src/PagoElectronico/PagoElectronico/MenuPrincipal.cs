@@ -326,7 +326,7 @@ namespace PagoElectronico
         {
             ABM_Cuenta.ConsultaSaldos cs = new ABM_Cuenta.ConsultaSaldos(user);
             cs.Show();
-            this.Close();
+           
         }
 
                  
