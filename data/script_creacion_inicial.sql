@@ -136,6 +136,10 @@ IF OBJECT_ID('TRG_inserta_tarjeta_encriptada') IS NOT NULL
 DROP TRIGGER TRG_inserta_tarjeta_encriptada
 GO
 
+IF OBJECT_ID('TRG_inhabilita_cuentas_vencidas') IS NOT NULL
+DROP TRIGGER TRG_inhabilita_cuentas_vencidas
+GO
+
 /*---------Limpieza de Views--------------*/
 
 /*---------Limpieza de Tablas-------------*/
@@ -758,9 +762,42 @@ BEGIN TRANSACTION
 COMMIT;
 GO
 /*---------Definiciones de Triggers---------*/
+
+--cada vez que ingresa el usuario se inhabilitan las cuentas vencidas
+CREATE TRIGGER TRG_inhabilita_cuentas_vencidas
+ON LPP.LOGSXUSUARIO
+AFTER INSERT
+AS
+BEGIN
+	IF((SELECT logueo FROM inserted) = 1)
+		BEGIN
+		DECLARE @id_cliente INTEGER
+		DECLARE @fecha DATETIME
+		SET @id_cliente = (SELECT i.username FROM inserted i JOIN LPP.CLIENTES c ON c.username = i.username)
+		SET @fecha = (SELECT fecha FROM inserted)
+		
+		DECLARE @num_cuenta NUMERIC(18,0), @id_estado NUMERIC(18, 0), @id_tipo INTEGER, @fecha_apertura DATETIME
+		 
+		DECLARE cuentas CURSOR FOR
+		SELECT num_cuenta, id_estado, id_tipo, fecha_apertura FROM LPP.CUENTAS WHERE id_cliente = @id_cliente	
+		OPEN cuentas
+		FETCH NEXT FROM cuentas INTO @num_cuenta, @id_estado, @id_tipo, @fecha_apertura
+		WHILE @@FETCH_STATUS = 0
+		BEGIN
+			IF((SELECT @fecha - (@fecha_apertura + duracion) FROM LPP.TIPOS_CUENTA WHERE id_tipocuenta = @id_tipo) >= 0 )
+				BEGIN
+					UPDATE LPP.CUENTAS SET id_estado = 4 WHERE num_cuenta = @num_cuenta AND id_estado <> 2 AND id_estado <>3	
+				END
+			FETCH NEXT FROM cuentas INTO @num_cuenta, @id_estado, @id_tipo, @fecha_apertura
+		END
+		CLOSE cuentas
+		DEALLOCATE cuentas 
+		
+		END
+END
+GO
+
 --cada vez que hay una apartura de una cuenta insertar item de factura
-
-
 CREATE TRIGGER TRG_ItemFactura_x_AperturaCuenta 
 ON LPP.CUENTAS
 AFTER INSERT 
@@ -1138,14 +1175,14 @@ CREATE PROCEDURE PRC_estadistico_pais_mas_movimientos
 @anio INTEGER
 AS
 BEGIN
-	SELECT TOP 5 pais, COUNT(d.num_deposito)+COUNT(r.id_retiro)+COUNT(t1.id_transferencia)+COUNT(t2.id_transferencia)
+	SELECT TOP 5 pais, COUNT(d.num_deposito)+COUNT(r.id_retiro)+sum(t1.cant_or)+COUNT(t2.cant_dest)
 	FROM LPP.PAISES p
 		JOIN LPP.CUENTAS c ON c.id_pais = p.id_pais
 		JOIN LPP.DEPOSITOS d ON d.num_cuenta = c.num_cuenta
 		JOIN LPP.RETIROS r ON r.num_cuenta = c.num_cuenta
-		JOIN LPP.TRANSFERENCIAS t1 ON t1.num_cuenta_origen = c.num_cuenta
-		JOIN LPP.TRANSFERENCIAS t2 ON t2.num_cuenta_destino = c.num_cuenta
-	WHERE t1.id_transferencia <> t2.id_transferencia
+		JOIN (select num_cuenta_origen, COUNT(*) as cant_or from LPP.TRANSFERENCIAS group by num_cuenta_origen) t1 ON t1.num_cuenta_origen = c.num_cuenta
+		JOIN (select num_cuenta_destino, COUNT(*) as cant_dest from LPP.TRANSFERENCIAS group by num_cuenta_destino) t2 ON t2.num_cuenta_destino = c.num_cuenta
+	--WHERE t1.id_transferencia <> t2.id_transferencia
 	--AND (MONTH(d.fecha_deposito) BETWEEN @desde AND @hasta AND YEAR(d.fecha_deposito)=@anio)
 	--AND(MONTH(r.fecha) BETWEEN @desde AND @hasta AND YEAR(r.fecha)=@anio)
 	--AND (MONTH(t1.fecha) BETWEEN @desde AND @hasta AND YEAR(t1.fecha)=@anio)
