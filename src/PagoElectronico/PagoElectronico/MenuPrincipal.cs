@@ -45,15 +45,16 @@ namespace PagoElectronico
             Conexion con = new Conexion();
             string query;
 
+            
+           
+            query = "SELECT  F.descripcion FROM LPP.FUNCIONALIDADXROL FR " 
+                    +" JOIN LPP.FUNCIONALIDAD F ON F.id_funcionalidad = FR.funcionalidad "
+                    +" JOIN LPP.ROLES R ON R.id_rol = FR.rol "  
+                    +" JOIN LPP.ROLESXUSUARIO RU ON RU.rol = R.id_rol "
+                    +" WHERE R.habilitado = 1 and RU.username = '"+ user +"' AND r.nombre = '"+rol+"' "
+                    +" ORDER BY F.id_funcionalidad";
 
-            query = "SELECT  F.descripcion FROM LPP.FUNCIONALIDADXROL FR" 
-                    +" JOIN LPP.FUNCIONALIDAD F ON F.id_funcionalidad = FR.funcionalidad"
-                    +" JOIN LPP.ROLES R ON R.id_rol = FR.rol"  
-                    +" JOIN LPP.ROLESXUSUARIO RU ON RU.rol = R.id_rol"
-                    +" WHERE R.habilitado = 1 and RU.username = '"+ user +"' AND r.nombre = '"+rol+"'"
-                    +"ORDER BY F.id_funcionalidad";
-
-
+            
             con.cnn.Open();
             SqlCommand command = new SqlCommand(query, con.cnn);
             SqlDataReader lector1 = command.ExecuteReader();
@@ -159,16 +160,16 @@ namespace PagoElectronico
                      
                     }
                 }
-                if (!entro)
-                {
-                    if (lector1.GetString(0) == "Retiros")
-                    {
+                   if (!entro)
+                   {
+                        if (lector1.GetString(0) == "Retiros")
+                        {
 
-                        entro = true;
-                        retiroToolStripMenuItem1.Visible = true;
+                            entro = true;
+                            retiroToolStripMenuItem1.Visible = true;
 
-                    }
-                }
+                        }
+                   }
                 
                
             }
@@ -228,7 +229,7 @@ namespace PagoElectronico
         private void cerrarSesionToolStripMenuItem_Click(object sender, EventArgs e)
         {
             log.Show();
-            this.Close();
+            this.Hide();
            
         }
 

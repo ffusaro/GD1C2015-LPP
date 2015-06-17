@@ -104,7 +104,9 @@
             this.Controls.Add(this.btLimpiar);
             this.Controls.Add(this.btCliente);
             this.Controls.Add(this.groupBox1);
+            this.MaximizeBox = false;
             this.Name = "AsignarUsuario";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "AsignarUsuario";
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
