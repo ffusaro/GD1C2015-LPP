@@ -11,133 +11,133 @@ END
 
 /**********Limpieza************************/
 /*---------Limpieza de Funciones----------*/
-IF OBJECT_ID('FUNC_encriptar_tarjeta') IS NOT NULL
-DROP FUNCTION FUNC_encriptar_tarjeta
+IF OBJECT_ID('LPP.FUNC_encriptar_tarjeta') IS NOT NULL
+DROP FUNCTION LPP.FUNC_encriptar_tarjeta
 GO
 
 
 /*---------Limpieza de Procedures---------*/
 
-IF OBJECT_ID('PRC_inhabilitar_cuentas') IS NOT NULL
-DROP PROCEDURE PRC_inhabilitar_cuentas
+IF OBJECT_ID('LPP.PRC_inhabilitar_cuentas') IS NOT NULL
+DROP PROCEDURE LPP.PRC_inhabilitar_cuentas
 GO
 
-IF OBJECT_ID('PRC_estadistico_cuentas_inhabilitadas') IS NOT NULL
-DROP PROCEDURE PRC_estadistico_cuentas_inhabilitadas
+IF OBJECT_ID('LPP.PRC_estadistico_cuentas_inhabilitadas') IS NOT NULL
+DROP PROCEDURE LPP.PRC_estadistico_cuentas_inhabilitadas
 GO
 
-IF OBJECT_ID('PRC_estadistico_comisiones_facturadas') IS NOT NULL
-DROP PROCEDURE PRC_estadistico_comisiones_facturadas
+IF OBJECT_ID('LPP.PRC_estadistico_comisiones_facturadas') IS NOT NULL
+DROP PROCEDURE LPP.PRC_estadistico_comisiones_facturadas
 GO
 
-IF OBJECT_ID('PRC_estadistico_transacciones_cuentas_propias') IS NOT NULL
-DROP PROCEDURE PRC_estadistico_transacciones_cuentas_propias
+IF OBJECT_ID('LPP.PRC_estadistico_transacciones_cuentas_propias') IS NOT NULL
+DROP PROCEDURE LPP.PRC_estadistico_transacciones_cuentas_propias
 GO
 
-IF OBJECT_ID('PRC_estadistico_pais_mas_movimientos') IS NOT NULL
-DROP PROCEDURE PRC_estadistico_pais_mas_movimientos
+IF OBJECT_ID('LPP.PRC_estadistico_pais_mas_movimientos') IS NOT NULL
+DROP PROCEDURE LPP.PRC_estadistico_pais_mas_movimientos
 GO
 
-IF OBJECT_ID('PRC_estadistico_facturado_tipo_cuentas') IS NOT NULL
-DROP PROCEDURE PRC_estadistico_facturado_tipo_cuentas
+IF OBJECT_ID('LPP.PRC_estadistico_facturado_tipo_cuentas') IS NOT NULL
+DROP PROCEDURE LPP.PRC_estadistico_facturado_tipo_cuentas
 GO
 
-IF OBJECT_ID('PRC_realizar_transferencia') IS NOT NULL
-DROP PROCEDURE PRC_realizar_transferencia
+IF OBJECT_ID('LPP.PRC_realizar_transferencia') IS NOT NULL
+DROP PROCEDURE LPP.PRC_realizar_transferencia
 GO
 
-IF OBJECT_ID('PRC_cuentas_habilitadas_e_inhabilitadas') IS NOT NULL
-DROP PROCEDURE PRC_cuentas_habilitadas_e_inhabilitadas
+IF OBJECT_ID('LPP.PRC_cuentas_habilitadas_e_inhabilitadas') IS NOT NULL
+DROP PROCEDURE LPP.PRC_cuentas_habilitadas_e_inhabilitadas
 GO
 
-IF OBJECT_ID('PRC_cuentas_de_un_cliente') IS NOT NULL
-DROP PROCEDURE PRC_cuentas_de_un_cliente
+IF OBJECT_ID('LPP.PRC_cuentas_de_un_cliente') IS NOT NULL
+DROP PROCEDURE LPP.PRC_cuentas_de_un_cliente
 GO
 
-IF OBJECT_ID('PRC_items_factura_pendientes_de_un_cliente') IS NOT NULL
-DROP PROCEDURE PRC_items_factura_pendientes_de_un_cliente
+IF OBJECT_ID('LPP.PRC_items_factura_pendientes_de_un_cliente') IS NOT NULL
+DROP PROCEDURE LPP.PRC_items_factura_pendientes_de_un_cliente
 GO
 
-IF OBJECT_ID('PRC_cuentas_deudoras') IS NOT NULL
-DROP PROCEDURE PRC_cuentas_deudoras
+IF OBJECT_ID('LPP.PRC_cuentas_deudoras') IS NOT NULL
+DROP PROCEDURE LPP.PRC_cuentas_deudoras
 GO
 
-IF OBJECT_ID('PRC_inhabilitar_cuenta_por_deudor') IS NOT NULL
-DROP PROCEDURE PRC_inhabilitar_cuenta_por_deudor
+IF OBJECT_ID('LPP.PRC_inhabilitar_cuenta_por_deudor') IS NOT NULL
+DROP PROCEDURE LPP.PRC_inhabilitar_cuenta_por_deudor
 GO
 
-IF OBJECT_ID('PRC_obtener_factura') IS NOT NULL
-DROP PROCEDURE PRC_obtener_factura
+IF OBJECT_ID('LPP.PRC_obtener_factura') IS NOT NULL
+DROP PROCEDURE LPP.PRC_obtener_factura
 GO
 
-IF OBJECT_ID('PRC_facturar_item_factura') IS NOT NULL
-DROP PROCEDURE PRC_facturar_item_factura
+IF OBJECT_ID('LPP.PRC_facturar_item_factura') IS NOT NULL
+DROP PROCEDURE LPP.PRC_facturar_item_factura
 GO
 
-IF OBJECT_ID('PRC_items_de_una_factura') IS NOT NULL
-DROP PROCEDURE PRC_items_de_una_factura
+IF OBJECT_ID('LPP.PRC_items_de_una_factura') IS NOT NULL
+DROP PROCEDURE LPP.PRC_items_de_una_factura
 GO
 
-IF OBJECT_ID('PRC_insertar_nueva_tarjeta') IS NOT NULL
-DROP PROCEDURE PRC_insertar_nueva_tarjeta
+IF OBJECT_ID('LPP.PRC_insertar_nueva_tarjeta') IS NOT NULL
+DROP PROCEDURE LPP.PRC_insertar_nueva_tarjeta
 GO
 
-IF OBJECT_ID('PRC_modificar_tarjeta') IS NOT NULL
-DROP PROCEDURE PRC_modificar_tarjeta
+IF OBJECT_ID('LPP.PRC_modificar_tarjeta') IS NOT NULL
+DROP PROCEDURE LPP.PRC_modificar_tarjeta
 GO
 
-IF OBJECT_ID('PRC_desasociar_tarjeta') IS NOT NULL
-DROP PROCEDURE PRC_desasociar_tarjeta
+IF OBJECT_ID('LPP.PRC_desasociar_tarjeta') IS NOT NULL
+DROP PROCEDURE LPP.PRC_desasociar_tarjeta
 GO
 
-IF OBJECT_ID('PRC_obtener_saldo_de_una_cuenta') IS NOT NULL
-DROP PROCEDURE PRC_obtener_saldo_de_una_cuenta
+IF OBJECT_ID('LPP.PRC_obtener_saldo_de_una_cuenta') IS NOT NULL
+DROP PROCEDURE LPP.PRC_obtener_saldo_de_una_cuenta
 GO
 
-IF OBJECT_ID('PRC_ultimos_5_depositos_de_una_cuenta') IS NOT NULL
-DROP PROCEDURE PRC_ultimos_5_depositos_de_una_cuenta
+IF OBJECT_ID('LPP.PRC_ultimos_5_depositos_de_una_cuenta') IS NOT NULL
+DROP PROCEDURE LPP.PRC_ultimos_5_depositos_de_una_cuenta
 GO
 
-IF OBJECT_ID('PRC_ultimos_5_retiros_de_una_cuenta') IS NOT NULL
-DROP PROCEDURE PRC_ultimos_5_retiros_de_una_cuenta
+IF OBJECT_ID('LPP.PRC_ultimos_5_retiros_de_una_cuenta') IS NOT NULL
+DROP PROCEDURE LPP.PRC_ultimos_5_retiros_de_una_cuenta
 GO
 
-IF OBJECT_ID('PRC_ultimas_10_transferencias_de_una_cuenta') IS NOT NULL
-DROP PROCEDURE PRC_ultimas_10_transferencias_de_una_cuenta
+IF OBJECT_ID('LPP.PRC_ultimas_10_transferencias_de_una_cuenta') IS NOT NULL
+DROP PROCEDURE LPP.PRC_ultimas_10_transferencias_de_una_cuenta
 GO
 
-IF OBJECT_ID ('PRC_cuenta_es_deudora') IS NOT NULL
-DROP PROCEDURE PRC_cuenta_es_deudora
+IF OBJECT_ID ('LPP.PRC_cuenta_es_deudora') IS NOT NULL
+DROP PROCEDURE LPP.PRC_cuenta_es_deudora
 GO
 
-IF OBJECT_ID('PRC_cambiar_costo_apertura_cuenta') IS NOT NULL
-DROP PROCEDURE PRC_cambiar_costo_apertura_cuenta
+IF OBJECT_ID('LPP.PRC_cambiar_costo_apertura_cuenta') IS NOT NULL
+DROP PROCEDURE LPP.PRC_cambiar_costo_apertura_cuenta
 GO
 
 
 /*---------Limpieza de Triggers-----------*/
-IF OBJECT_ID('TRG_ItemFactura_x_AperturaCuenta') IS NOT NULL
-DROP TRIGGER TRG_ItemFactura_x_AperturaCuenta
+IF OBJECT_ID('LPP.TRG_ItemFactura_x_AperturaCuenta') IS NOT NULL
+DROP TRIGGER LPP.TRG_ItemFactura_x_AperturaCuenta
 GO
 
-IF OBJECT_ID('TRG_CambioCuenta') IS NOT NULL
-DROP TRIGGER TRG_CambioCuenta
+IF OBJECT_ID('LPP.TRG_CambioCuenta') IS NOT NULL
+DROP TRIGGER LPP.TRG_CambioCuenta
 GO
 
-IF OBJECT_ID('TRG_ItemFactura_x_Transferencia') IS NOT NULL
-DROP TRIGGER TRG_ItemFactura_x_Transferencia
+IF OBJECT_ID('LPP.TRG_ItemFactura_x_Transferencia') IS NOT NULL
+DROP TRIGGER LPP.TRG_ItemFactura_x_Transferencia
 GO
 
-IF OBJECT_ID('TRG_cuenta_pendientedeactivacion_a_activada') IS NOT NULL
-DROP TRIGGER TRG_cuenta_pendientedeactivacion_a_activada
+IF OBJECT_ID('LPP.TRG_cuenta_pendientedeactivacion_a_activada') IS NOT NULL
+DROP TRIGGER LPP.TRG_cuenta_pendientedeactivacion_a_activada
 GO
 
-IF OBJECT_ID('TRG_inserta_tarjeta_encriptada') IS NOT NULL
-DROP TRIGGER TRG_inserta_tarjeta_encriptada
+IF OBJECT_ID('LPP.TRG_inserta_tarjeta_encriptada') IS NOT NULL
+DROP TRIGGER LPP.TRG_inserta_tarjeta_encriptada
 GO
 
-IF OBJECT_ID('TRG_inhabilita_cuentas_vencidas') IS NOT NULL
-DROP TRIGGER TRG_inhabilita_cuentas_vencidas
+IF OBJECT_ID('LPP.TRG_inhabilita_cuentas_vencidas') IS NOT NULL
+DROP TRIGGER LPP.TRG_inhabilita_cuentas_vencidas
 GO
 
 /*---------Limpieza de Views--------------*/
@@ -625,7 +625,7 @@ COMMIT
 
 /*---------Definiciones de Funciones--------*/
 GO
-CREATE FUNCTION FUNC_encriptar_tarjeta (@num_tarjeta VARCHAR(16))
+CREATE FUNCTION LPP.FUNC_encriptar_tarjeta (@num_tarjeta VARCHAR(16))
 RETURNS VARCHAR(16)
 WITH SCHEMABINDING
 AS
@@ -764,7 +764,7 @@ GO
 /*---------Definiciones de Triggers---------*/
 
 --cada vez que ingresa el usuario se inhabilitan las cuentas vencidas
-CREATE TRIGGER TRG_inhabilita_cuentas_vencidas
+CREATE TRIGGER LPP.TRG_inhabilita_cuentas_vencidas
 ON LPP.LOGSXUSUARIO
 AFTER INSERT
 AS
@@ -798,7 +798,7 @@ END
 GO
 
 --cada vez que hay una apartura de una cuenta insertar item de factura
-CREATE TRIGGER TRG_ItemFactura_x_AperturaCuenta 
+CREATE TRIGGER LPP.TRG_ItemFactura_x_AperturaCuenta 
 ON LPP.CUENTAS
 AFTER INSERT 
 AS
@@ -812,7 +812,7 @@ GO
 --SELECT * FROM LPP.ITEMS_FACTURA WHERE num_cuenta = (SELECT num_cuenta FROM LPP.CUENTAS WHERE id_cliente = 1 and saldo = 500 and id_tipo =1)
 
 --cada vez que hay un cambio en el tipo de cuenta insertar item de factura
-CREATE TRIGGER TRG_CambioCuenta 
+CREATE TRIGGER LPP.TRG_CambioCuenta 
 ON LPP.CAMBIOS_CUENTA
 AFTER INSERT
 AS
@@ -835,7 +835,7 @@ GO
 --SELECT * FROM LPP.ITEMS_FACTURA WHERE num_cuenta = (SELECT num_cuenta FROM LPP.CUENTAS WHERE num_cuenta =1111111111111111 and id_tipo = 2) and id_item = 2
 
 -- cada vez que hay una transferencia insertar item de factura con descripcion costo por transferencia
-CREATE TRIGGER TRG_ItemFactura_x_Transferencia 
+CREATE TRIGGER LPP.TRG_ItemFactura_x_Transferencia 
 ON LPP.TRANSFERENCIAS
 AFTER INSERT 
 AS
@@ -854,7 +854,7 @@ GO
 --SELECT * FROM LPP.ITEMS_FACTURA WHERE num_cuenta = 1111111111111111 AND monto = 1111
 
 --cuando se factura los costos de apertura de cuenta cambiar el tipo de cuenta de pendiente de activacion a activada
-CREATE TRIGGER TRG_cuenta_pendientedeactivacion_a_activada
+CREATE TRIGGER LPP.TRG_cuenta_pendientedeactivacion_a_activada
 ON LPP.ITEMS_FACTURA
 INSTEAD OF UPDATE
 AS
@@ -878,7 +878,7 @@ SELECT * FROM LPP.ITEMS_FACTURA WHERE id_item = 1
 UPDATE LPP.ITEMS_FACTURA SET facturado = 1, id_factura = 1
 */
 
-CREATE TRIGGER TRG_inserta_tarjeta_encriptada 
+CREATE TRIGGER LPP.TRG_inserta_tarjeta_encriptada 
 ON LPP.TARJETAS
 INSTEAD OF INSERT
 AS
@@ -896,7 +896,7 @@ GO
 
 --inhabilitar cuentas por vencimiento de la duracion de la cuenta
 --scheduled stored procedure: se ejecutara una vez por dia
-CREATE PROCEDURE PRC_inhabilitar_cuentas
+CREATE PROCEDURE LPP.PRC_inhabilitar_cuentas
 as
 begin
 	while 1 = 1
@@ -919,7 +919,7 @@ go
 -- sp_procoption 'PRC_inhabilitar_cuentas','startup', 'on'
 -- GO
 
-CREATE PROCEDURE PRC_cambiar_costo_apertura_cuenta
+CREATE PROCEDURE LPP.PRC_cambiar_costo_apertura_cuenta
 @costonuevo NUMERIC(18, 2),
 @id_tipo NUMERIC(18, 0)
 AS
@@ -928,7 +928,7 @@ BEGIN
 END
 GO
 --alta tarjeta
-CREATE PROCEDURE PRC_insertar_nueva_tarjeta
+CREATE PROCEDURE LPP.PRC_insertar_nueva_tarjeta
 @num_tarjeta VARCHAR(16),
 @id_emisor NUMERIC(18,0),
 @cod_seguridad VARCHAR(3),
@@ -942,7 +942,7 @@ END
 GO
 
 --modif tarjeta
-CREATE PROCEDURE PRC_modificar_tarjeta
+CREATE PROCEDURE LPP.PRC_modificar_tarjeta
 @num_tarjeta VARCHAR(16),
 @cod_seguridad VARCHAR(3),
 @fecha_emision DATETIME,
@@ -954,7 +954,7 @@ END
 GO
 
 --desasociar tarjeta de cuenta
-CREATE PROCEDURE PRC_desasociar_tarjeta
+CREATE PROCEDURE LPP.PRC_desasociar_tarjeta
 @num_tarjeta VARCHAR(16),
 @id_cliente INTEGER
 AS
@@ -965,7 +965,7 @@ GO
 
 --procedures transferencias
 --sp que obtiene las cuentas de un cliente, que se puede usar como cuenta origen de una trasnferencia
-CREATE PROCEDURE PRC_cuentas_de_un_cliente
+CREATE PROCEDURE LPP.PRC_cuentas_de_un_cliente
 @id_cliente INTEGER
 AS
 BEGIN
@@ -974,7 +974,7 @@ END
 GO
 
 --sp que obtiene las cuentas habilitadas e inhabilitadas a las cuales se le puede trasnferir dinero(cuenta destino de una trasnferencia)
-CREATE PROCEDURE PRC_cuentas_habilitadas_e_inhabilitadas
+CREATE PROCEDURE LPP.PRC_cuentas_habilitadas_e_inhabilitadas
 AS
 BEGIN
 	SELECT * FROM LPP.CUENTAS c JOIN LPP.ESTADOS_CUENTA e ON c.id_estado = e.id_estadocuenta WHERE (e.id_estadocuenta = 1 or e.id_estadocuenta = 4)
@@ -982,7 +982,7 @@ END
 GO
 
 --sp que realiza la transferencia de un importe entre dos cuentas, ya sean del mismo usuario o de diferentes.
-CREATE PROCEDURE PRC_realizar_transferencia
+CREATE PROCEDURE LPP.PRC_realizar_transferencia
 @num_cuenta_origen NUMERIC(18,0),
 @num_cuenta_destino NUMERIC(18,0),
 @importe NUMERIC(18,2),
@@ -1007,7 +1007,7 @@ GO
 
 --procedures facturacion
 --obtener items de factura pendientes de un usuario
-CREATE PROCEDURE PRC_items_factura_pendientes_de_un_cliente
+CREATE PROCEDURE LPP.PRC_items_factura_pendientes_de_un_cliente
 @id_cliente INTEGER
 AS
 BEGIN
@@ -1017,7 +1017,7 @@ END
 GO
 
 --obtener cuentas que deben mas de 5 transacciones
-CREATE PROCEDURE PRC_cuentas_deudoras
+CREATE PROCEDURE LPP.PRC_cuentas_deudoras
 @id_cliente INTEGER
 AS
 BEGIN
@@ -1029,7 +1029,7 @@ END
 GO
 
 --inhabilitar cuenta si debe mas 5 transacciones
-CREATE PROCEDURE PRC_inhabilitar_cuenta_por_deudor
+CREATE PROCEDURE LPP.PRC_inhabilitar_cuenta_por_deudor
 @num_cuenta NUMERIC(18, 0)
 AS
 BEGIN 
@@ -1038,7 +1038,7 @@ END
 GO
 
 --generar factura
-CREATE PROCEDURE PRC_obtener_factura
+CREATE PROCEDURE LPP.PRC_obtener_factura
 @fecha DATETIME,
 @id_cliente INTEGER,
 @id_factura NUMERIC(18, 0) OUTPUT
@@ -1050,7 +1050,7 @@ END
 GO
 
 --facturar items de factura
-CREATE PROCEDURE PRC_facturar_item_factura
+CREATE PROCEDURE LPP.PRC_facturar_item_factura
 @id_item_factura NUMERIC(18,0),
 @id_factura NUMERIC(18,0)
 AS
@@ -1060,7 +1060,7 @@ END
 GO
 
 --obtener items de una factura
-CREATE PROCEDURE PRC_items_de_una_factura
+CREATE PROCEDURE LPP.PRC_items_de_una_factura
 @id_factura NUMERIC(18, 0)
 AS
 BEGIN
@@ -1070,7 +1070,7 @@ GO
 
 --procedures de consultas de saldos
 --obtener saldo de una cuenta
-CREATE PROCEDURE PRC_obtener_saldo_de_una_cuenta
+CREATE PROCEDURE LPP.PRC_obtener_saldo_de_una_cuenta
 @num_cuenta NUMERIC(18, 0),
 @saldo NUMERIC(18, 2) OUTPUT
 AS
@@ -1080,7 +1080,7 @@ END
 GO
 
 --listado ultimos 5 depositos de una cuenta
-CREATE PROCEDURE PRC_ultimos_5_depositos_de_una_cuenta
+CREATE PROCEDURE LPP.PRC_ultimos_5_depositos_de_una_cuenta
 @num_cuenta NUMERIC(18, 0)
 AS
 BEGIN
@@ -1089,7 +1089,7 @@ END
 GO
 
 --listado ultimos 5 retiros de una cuenta
-CREATE PROCEDURE PRC_ultimos_5_retiros_de_una_cuenta
+CREATE PROCEDURE LPP.PRC_ultimos_5_retiros_de_una_cuenta
 @num_cuenta NUMERIC(18, 0)
 AS
 BEGIN
@@ -1098,7 +1098,7 @@ END
 GO
 
 --listados ultimas 1o transferencias
-CREATE PROCEDURE PRC_ultimas_10_transferencias_de_una_cuenta
+CREATE PROCEDURE LPP.PRC_ultimas_10_transferencias_de_una_cuenta
 @num_cuenta NUMERIC(18, 0)
 AS
 BEGIN
@@ -1107,7 +1107,7 @@ END
 GO
 
 --listado estadistico 1
-CREATE PROCEDURE PRC_estadistico_cuentas_inhabilitadas
+CREATE PROCEDURE LPP.PRC_estadistico_cuentas_inhabilitadas
 @desde INTEGER,
 @hasta INTEGER,
 @anio INTEGER
@@ -1127,7 +1127,7 @@ END
 GO	
 
 --listado estadistico 2
-CREATE PROCEDURE PRC_estadistico_comisiones_facturadas
+CREATE PROCEDURE LPP.PRC_estadistico_comisiones_facturadas
 @desde INTEGER,
 @hasta INTEGER,
 @anio INTEGER
@@ -1146,7 +1146,7 @@ END
 GO
 
 --listado estadistico 3
-CREATE PROCEDURE PRC_estadistico_transacciones_cuentas_propias
+CREATE PROCEDURE LPP.PRC_estadistico_transacciones_cuentas_propias
 @desde INTEGER,
 @hasta INTEGER,
 @anio INTEGER
@@ -1169,7 +1169,7 @@ GO
 
 --listado estadistico 4
 --tarda mucho la consulta, luego lo reviso
-CREATE PROCEDURE PRC_estadistico_pais_mas_movimientos
+CREATE PROCEDURE LPP.PRC_estadistico_pais_mas_movimientos
 @desde INTEGER,
 @hasta INTEGER,
 @anio INTEGER
@@ -1193,7 +1193,7 @@ END
 GO
 
 --listado estadistico 5
-CREATE PROCEDURE PRC_estadistico_facturado_tipo_cuentas
+CREATE PROCEDURE LPP.PRC_estadistico_facturado_tipo_cuentas
 @desde INTEGER,
 @hasta INTEGER,
 @anio INTEGER
