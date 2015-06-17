@@ -66,7 +66,6 @@ C:\Documents and Settings\UsuarioAdmin\Escritorio\GD1C2015-LPP\src\PagoElectroni
 C:\Documents and Settings\UsuarioAdmin\Escritorio\GD1C2015-LPP\src\PagoElectronico\PagoElectronico\obj\Debug\ResolveAssemblyReference.cache
 C:\Documents and Settings\UsuarioAdmin\Escritorio\GD1C2015-LPP\src\PagoElectronico\PagoElectronico\obj\Debug\PagoElectronico.ABMCliente.resources
 C:\Documents and Settings\UsuarioAdmin\Escritorio\GD1C2015-LPP\src\PagoElectronico\PagoElectronico\obj\Debug\PagoElectronico.ABM_Cliente.BuscarCliente.resources
-C:\Documents and Settings\UsuarioAdmin\Escritorio\GD1C2015-LPP\src\PagoElectronico\PagoElectronico\obj\Debug\PagoElectronico.ABM_Cuenta.Form1.resources
 C:\Documents and Settings\UsuarioAdmin\Escritorio\GD1C2015-LPP\src\PagoElectronico\PagoElectronico\obj\Debug\PagoElectronico.ABM_de_Usuario.ABMUsuario.resources
 C:\Documents and Settings\UsuarioAdmin\Escritorio\GD1C2015-LPP\src\PagoElectronico\PagoElectronico\obj\Debug\PagoElectronico.ABM_de_Usuario.BuscarUsuario.resources
 C:\Documents and Settings\UsuarioAdmin\Escritorio\GD1C2015-LPP\src\PagoElectronico\PagoElectronico\obj\Debug\PagoElectronico.ABM_Rol.ABMRol.resources
@@ -135,3 +134,16 @@ C:\Users\ffusaro\Desktop\GD1C2015-LPP\src\PagoElectronico\PagoElectronico\obj\De
 C:\Users\ffusaro\Desktop\GD1C2015-LPP\src\PagoElectronico\PagoElectronico\obj\Debug\PagoElectronico.Tarjetas.BuscarTarjetas.resources
 C:\Users\ffusaro\Desktop\GD1C2015-LPP\src\PagoElectronico\PagoElectronico\obj\Debug\PagoElectronico.ABM_Cuenta.ConsultaSaldos.resources
 C:\Users\ffusaro\Desktop\GD1C2015-LPP\src\PagoElectronico\PagoElectronico\obj\Debug\PagoElectronico.ABM_Cuenta.ResultadosConsulta.resources
+C:\Documents and Settings\UsuarioAdmin\Escritorio\GD1C2015-LPP\src\PagoElectronico\PagoElectronico\obj\Debug\PagoElectronico.ABM_Cliente.AsignarUsuario.resources
+C:\Documents and Settings\UsuarioAdmin\Escritorio\GD1C2015-LPP\src\PagoElectronico\PagoElectronico\obj\Debug\PagoElectronico.ABM_Cuenta.AltaCuenta.resources
+C:\Documents and Settings\UsuarioAdmin\Escritorio\GD1C2015-LPP\src\PagoElectronico\PagoElectronico\obj\Debug\PagoElectronico.ABM_Cuenta.BuscarCuenta.resources
+C:\Documents and Settings\UsuarioAdmin\Escritorio\GD1C2015-LPP\src\PagoElectronico\PagoElectronico\obj\Debug\PagoElectronico.ABM_Cuenta.ConsultaSaldos.resources
+C:\Documents and Settings\UsuarioAdmin\Escritorio\GD1C2015-LPP\src\PagoElectronico\PagoElectronico\obj\Debug\PagoElectronico.ABM_Cuenta.ResultadosConsulta.resources
+C:\Documents and Settings\UsuarioAdmin\Escritorio\GD1C2015-LPP\src\PagoElectronico\PagoElectronico\obj\Debug\PagoElectronico.ABM_Cuenta.BuscarCuentas.resources
+C:\Documents and Settings\UsuarioAdmin\Escritorio\GD1C2015-LPP\src\PagoElectronico\PagoElectronico\obj\Debug\PagoElectronico.Facturacion.Buscar.resources
+C:\Documents and Settings\UsuarioAdmin\Escritorio\GD1C2015-LPP\src\PagoElectronico\PagoElectronico\obj\Debug\PagoElectronico.Facturacion.Facturacion.resources
+C:\Documents and Settings\UsuarioAdmin\Escritorio\GD1C2015-LPP\src\PagoElectronico\PagoElectronico\obj\Debug\PagoElectronico.Tarjetas.abmTarjetas.resources
+C:\Documents and Settings\UsuarioAdmin\Escritorio\GD1C2015-LPP\src\PagoElectronico\PagoElectronico\obj\Debug\PagoElectronico.Tarjetas.BuscarTarjetas.resources
+C:\Documents and Settings\UsuarioAdmin\Escritorio\GD1C2015-LPP\src\PagoElectronico\PagoElectronico\obj\Debug\PagoElectronico.Transferencias.BuscarCuentas.resources
+C:\Documents and Settings\UsuarioAdmin\Escritorio\GD1C2015-LPP\src\PagoElectronico\PagoElectronico\obj\Debug\PagoElectronico.Transferencias.ListaTransferencias.resources
+C:\Documents and Settings\UsuarioAdmin\Escritorio\GD1C2015-LPP\src\PagoElectronico\PagoElectronico\obj\Debug\PagoElectronico.Transferencias.Transferencias.resources

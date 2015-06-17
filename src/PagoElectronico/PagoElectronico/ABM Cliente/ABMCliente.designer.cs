@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.boxDatosCliente = new System.Windows.Forms.GroupBox();
+            this.label4 = new System.Windows.Forms.Label();
             this.txtUsuario = new System.Windows.Forms.TextBox();
             this.chkMail = new System.Windows.Forms.CheckBox();
             this.lblMailExistente = new System.Windows.Forms.Label();
@@ -42,7 +43,6 @@
             this.cbID = new System.Windows.Forms.ComboBox();
             this.txtMail = new System.Windows.Forms.TextBox();
             this.txtLocalidad = new System.Windows.Forms.TextBox();
-            this.txtNacionalidad = new System.Windows.Forms.TextBox();
             this.txtNumeroID = new System.Windows.Forms.TextBox();
             this.txtApellido = new System.Windows.Forms.TextBox();
             this.txtDomicilio = new System.Windows.Forms.TextBox();
@@ -64,13 +64,14 @@
             this.btnGrabar = new System.Windows.Forms.Button();
             this.btnModificar = new System.Windows.Forms.Button();
             this.btnNuevo = new System.Windows.Forms.Button();
-            this.label4 = new System.Windows.Forms.Label();
+            this.cb2 = new System.Windows.Forms.ComboBox();
             this.boxDatosCliente.SuspendLayout();
             this.boxBotones.SuspendLayout();
             this.SuspendLayout();
             // 
             // boxDatosCliente
             // 
+            this.boxDatosCliente.Controls.Add(this.cb2);
             this.boxDatosCliente.Controls.Add(this.label4);
             this.boxDatosCliente.Controls.Add(this.txtUsuario);
             this.boxDatosCliente.Controls.Add(this.chkMail);
@@ -85,7 +86,6 @@
             this.boxDatosCliente.Controls.Add(this.cbID);
             this.boxDatosCliente.Controls.Add(this.txtMail);
             this.boxDatosCliente.Controls.Add(this.txtLocalidad);
-            this.boxDatosCliente.Controls.Add(this.txtNacionalidad);
             this.boxDatosCliente.Controls.Add(this.txtNumeroID);
             this.boxDatosCliente.Controls.Add(this.txtApellido);
             this.boxDatosCliente.Controls.Add(this.txtDomicilio);
@@ -106,6 +106,15 @@
             this.boxDatosCliente.TabStop = false;
             this.boxDatosCliente.Text = "Datos Personales";
             // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(41, 245);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(90, 13);
+            this.label4.TabIndex = 31;
+            this.label4.Text = "Usuario Asignado";
+            // 
             // txtUsuario
             // 
             this.txtUsuario.Location = new System.Drawing.Point(183, 242);
@@ -118,7 +127,7 @@
             this.chkMail.AutoSize = true;
             this.chkMail.Location = new System.Drawing.Point(720, 168);
             this.chkMail.Name = "chkMail";
-            this.chkMail.Size = new System.Drawing.Size(22, 21);
+            this.chkMail.Size = new System.Drawing.Size(15, 14);
             this.chkMail.TabIndex = 28;
             this.chkMail.UseVisualStyleBackColor = true;
             this.chkMail.CheckedChanged += new System.EventHandler(this.chkMail_CheckedChanged);
@@ -198,6 +207,7 @@
             this.cbID.Name = "cbID";
             this.cbID.Size = new System.Drawing.Size(185, 21);
             this.cbID.TabIndex = 18;
+            this.cbID.SelectedIndexChanged += new System.EventHandler(this.cbID_SelectedIndexChanged);
             // 
             // txtMail
             // 
@@ -213,14 +223,6 @@
             this.txtLocalidad.Name = "txtLocalidad";
             this.txtLocalidad.Size = new System.Drawing.Size(185, 20);
             this.txtLocalidad.TabIndex = 16;
-            // 
-            // txtNacionalidad
-            // 
-            this.txtNacionalidad.Location = new System.Drawing.Point(527, 97);
-            this.txtNacionalidad.Name = "txtNacionalidad";
-            this.txtNacionalidad.Size = new System.Drawing.Size(185, 20);
-            this.txtNacionalidad.TabIndex = 15;
-            this.txtNacionalidad.Validating += new System.ComponentModel.CancelEventHandler(this.txtNacionalidad_Validating);
             // 
             // txtNumeroID
             // 
@@ -312,9 +314,10 @@
             this.lblTipo.AutoSize = true;
             this.lblTipo.Location = new System.Drawing.Point(41, 66);
             this.lblTipo.Name = "lblTipo";
-            this.lblTipo.Size = new System.Drawing.Size(88, 13);
+            this.lblTipo.Size = new System.Drawing.Size(94, 13);
             this.lblTipo.TabIndex = 2;
-            this.lblTipo.Text = "Tipo Identifiacion";
+            this.lblTipo.Text = "Tipo Identificación";
+            this.lblTipo.Click += new System.EventHandler(this.lblTipo_Click);
             // 
             // lblApellido
             // 
@@ -419,14 +422,13 @@
             this.btnNuevo.UseVisualStyleBackColor = true;
             this.btnNuevo.Click += new System.EventHandler(this.btnNuevo_Click);
             // 
-            // label4
+            // cb2
             // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(41, 245);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(90, 13);
-            this.label4.TabIndex = 31;
-            this.label4.Text = "Usuario Asignado";
+            this.cb2.FormattingEnabled = true;
+            this.cb2.Location = new System.Drawing.Point(527, 100);
+            this.cb2.Name = "cb2";
+            this.cb2.Size = new System.Drawing.Size(185, 21);
+            this.cb2.TabIndex = 32;
             // 
             // ABMCliente
             // 
@@ -463,7 +465,6 @@
         private System.Windows.Forms.ComboBox cbID;
         private System.Windows.Forms.TextBox txtMail;
         private System.Windows.Forms.TextBox txtLocalidad;
-        private System.Windows.Forms.TextBox txtNacionalidad;
         private System.Windows.Forms.TextBox txtNumeroID;
         private System.Windows.Forms.TextBox txtApellido;
         private System.Windows.Forms.TextBox txtDomicilio;
@@ -485,5 +486,6 @@
         private System.Windows.Forms.CheckBox chkMail;
         private System.Windows.Forms.TextBox txtUsuario;
         private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.ComboBox cb2;
     }
 }

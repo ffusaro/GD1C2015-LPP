@@ -72,6 +72,22 @@ namespace PagoElectronico
 
             con1.cnn.Close();
 
+            con1.cnn.Open();
+
+            // Pregunto todos los TipoDoc de la DB
+            cb2.Items.Add("");
+            string query2 = "SELECT pais FROM LPP.PAISES";
+
+            SqlCommand command2 = new SqlCommand(query2, con1.cnn);
+            SqlDataReader lector2 = command2.ExecuteReader();
+            while (lector2.Read())
+            {
+                // Cargo la descripciones en la lista
+                cb2.Items.Add(lector2.GetString(0));
+            }
+
+            con1.cnn.Close();
+
             if(evento != "A")
             {
                 string query1 = "SELECT d.tipo_descr, num_doc, nombre, apellido, " + 
@@ -87,7 +103,7 @@ namespace PagoElectronico
                 txtNumeroID.Text = lector.GetDecimal(1).ToString();
                 txtNombre.Text = lector.GetString(2);
                 txtApellido.Text = lector.GetString(3);
-                txtNacionalidad.Text = lector.GetString(4); 
+                cb2.Text = lector.GetString(4); 
                 fechaNacimiento.Value = Convert.ToDateTime(lector.GetDateTime(5));
                 int id_domicilio = lector.GetInt32(6);
                 txtMail.Text = evento;
@@ -225,9 +241,9 @@ namespace PagoElectronico
 
         private void txtNacionalidad_Validating(object sender, CancelEventArgs e)
         {
-            if (txtNacionalidad.Text == "")
+            if (cb2.Text == "")
             {
-                errorProvider1.SetError(txtNacionalidad, "No ingreso Pais");
+                errorProvider1.SetError(cb2, "No ingreso Pais");
                 e.Cancel = true;
             }
             else
@@ -330,7 +346,7 @@ namespace PagoElectronico
 
 
             // Inserto Cliente
-            if (txtNombre.Text != "" && txtApellido.Text != "" && cbID.Text != "" && txtNumeroID.Text != "" && txtMail.Text != "" && txtNacionalidad.Text != "" && txtLocalidad.Text != "" && fechaNacimiento.Value != null)
+            if (txtNombre.Text != "" && txtApellido.Text != "" && cbID.Text != "" && txtNumeroID.Text != "" && txtMail.Text != "" && cb2.Text != "" && txtLocalidad.Text != "" && fechaNacimiento.Value != null)
             {
                 if (ban == 1)
                 {
@@ -369,7 +385,7 @@ namespace PagoElectronico
 
 
                         int id_domicilio = abm.insertarDomicilio(txtDomicilio.Text, Convert.ToInt32(txtNumeroCalle.Text), Convert.ToInt32(txtPiso.Text), txtDepto.Text, txtLocalidad.Text);
-                        string salida = abm.insertarCliente(txtNombre.Text, txtApellido.Text, cbID.Text, Convert.ToInt32(txtNumeroID.Text), txtMail.Text,fechaNacimiento.Value, txtNacionalidad.Text, id_domicilio,txtUsuario.Text);
+                        string salida = abm.insertarCliente(txtNombre.Text, txtApellido.Text, cbID.Text, Convert.ToInt32(txtNumeroID.Text), txtMail.Text,fechaNacimiento.Value, cb2.Text, id_domicilio,txtUsuario.Text);
                         MessageBox.Show("" + salida);
                         tipoDoc = cbID.Text;
                         nroDoc = Convert.ToInt32(txtNumeroID.Text);
@@ -386,7 +402,7 @@ namespace PagoElectronico
                         txtNombre.Text = "";
                         txtApellido.Text = "";
                         txtLocalidad.Text = "";
-                        txtNacionalidad.Text = "";
+                        cb2.Text = "";
                         txtNumeroID.Text = "";
                         txtMail.Text = "";
                         txtDomicilio.Text = "";
@@ -430,7 +446,7 @@ namespace PagoElectronico
 
                             //Modifico en la Tabla Domicilio y CLiente
                             abm.modificarDomicilio(txtDomicilio.Text,Convert.ToInt32(txtNumeroCalle.Text),Convert.ToInt32(txtPiso.Text), txtDepto.Text, txtLocalidad.Text,id_domicilio);
-                            string salida = abm.modificarCliente(txtNombre.Text, txtApellido.Text, cbID.Text, Convert.ToInt32(txtNumeroID.Text), txtMail.Text, fechaNacimiento.Value , txtNacionalidad.Text);
+                            string salida = abm.modificarCliente(txtNombre.Text, txtApellido.Text, cbID.Text, Convert.ToInt32(txtNumeroID.Text), txtMail.Text, fechaNacimiento.Value , cb2.Text);
                             MessageBox.Show("" + salida);
                         }
 
@@ -438,7 +454,7 @@ namespace PagoElectronico
                         {
                             //Modifico en la Tabla Domicilio y Cliente
                             abm.modificarDomicilio(txtDomicilio.Text, Convert.ToInt32(txtNumeroCalle.Text), Convert.ToInt32(txtPiso.Text), txtDepto.Text, txtLocalidad.Text, id_domicilio);
-                            string salida = abm.modificarCliente(txtNombre.Text, txtApellido.Text, cbID.Text, Convert.ToInt32(txtNumeroID.Text), txtMail.Text, fechaNacimiento.Value, txtNacionalidad.Text);
+                            string salida = abm.modificarCliente(txtNombre.Text, txtApellido.Text, cbID.Text, Convert.ToInt32(txtNumeroID.Text), txtMail.Text, fechaNacimiento.Value, cb2.Text);
                             MessageBox.Show("" + salida);
 
                         }
@@ -459,7 +475,7 @@ namespace PagoElectronico
                     txtNombre.Text = "";
                     txtApellido.Text = "";
                     txtLocalidad.Text = "";
-                    txtNacionalidad.Text = "";
+                    cb2.Text = "";
                     txtNumeroID.Text = "";
                     txtMail.Text = "";
                     txtDomicilio.Text = "";
@@ -506,7 +522,7 @@ namespace PagoElectronico
             txtNombre.Text = "";
             txtApellido.Text = "";
             txtLocalidad.Text = "";
-            txtNacionalidad.Text = "";
+            cb2.Text = "";
             txtNumeroID.Text = "";
             txtMail.Text = "";
             txtDomicilio.Text = "";
@@ -530,7 +546,7 @@ namespace PagoElectronico
            txtNombre.Text = "";
            txtApellido.Text = "";
            txtLocalidad.Text = "";
-           txtNacionalidad.Text = "";
+           cb2.Text = "";
            txtNumeroID.Text = "";
            txtMail.Text = "";
            txtDomicilio.Text = "";
@@ -584,7 +600,15 @@ namespace PagoElectronico
             }
         }
 
+      private void cbID_SelectedIndexChanged(object sender, EventArgs e)
+      {
 
-          
+      }
+
+      private void lblTipo_Click(object sender, EventArgs e)
+      {
+
+      }
+
     }
 }
