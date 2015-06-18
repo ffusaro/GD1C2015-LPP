@@ -5,6 +5,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Data.SqlClient;
 using System.Windows.Forms;
 
 namespace PagoElectronico.ABM_Cliente
@@ -23,7 +24,8 @@ namespace PagoElectronico.ABM_Cliente
             {
                 btCliente.Enabled = false;
             }
-            else {
+            else 
+            {
                 btCliente.Enabled = true;
                 txtUsuario.Text = username;
                 txtUsuario.Enabled = false;
@@ -44,9 +46,20 @@ namespace PagoElectronico.ABM_Cliente
 
         private void btCliente_Click(object sender, EventArgs e)
         {
-            FormCliente = new ABMCliente("A", txtUsuario.Text);
-            FormCliente.Show();
-            this.Close();
+            if(verificoUsuario())
+            {
+                MessageBox.Show("El usuario ya se encuentra relacionado con un Cliente");
+                txtUsuario.Text = "";
+                btnAsociar.Enabled = true;
+                btCliente.Enabled = false;
+                return;
+            }
+            else
+            {
+                FormCliente = new ABMCliente("A", txtUsuario.Text);
+                FormCliente.Show();
+                this.Close();
+            }
         }
 
         private void btnAsociar_Click(object sender, EventArgs e)
@@ -62,7 +75,21 @@ namespace PagoElectronico.ABM_Cliente
             abmCliente.Show();
             abmCliente.padre_mp = padre_mp;
         }
-
+        private bool verificoUsuario()
+        {
+            Conexion con = new Conexion();
+            con.cnn.Open();
+            //VERIFICO SI EL USUARIO ESTA UNIDO A UN CLIENTE
+            string query = "SELECT 1 FROM LPP.CLIENTES WHERE username = '" +txtUsuario.Text + "'";
+            SqlCommand command = new SqlCommand(query, con.cnn);
+            SqlDataReader lector = command.ExecuteReader();
+            if (lector.Read())
+                return true;
+            else
+                return false;
+            con.cnn.Close();
+            
+        }
      
 
        

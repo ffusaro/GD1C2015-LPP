@@ -1,4 +1,4 @@
-﻿Fecha= 26-12-2017
+﻿Fecha= 01-01-2017
 Data Source= localhost\SQLSERVER2008
 Initial Catalog= GD1C2015
 User ID= gd

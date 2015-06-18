@@ -49,8 +49,7 @@ namespace PagoElectronico
             btnBuscar.Enabled = true;
             btnNuevo.Enabled = true;
             txtUsuario.Enabled = false;
-
-
+            fechaNacimiento.Value = DateTime.ParseExact(readConfiguracion.Configuracion.fechaSystem(), "yyyy-dd-MM", System.Globalization.CultureInfo.InvariantCulture);
             lblMailExistente.Visible = false;
             txtUsuario.Text = usuario;
             // Conectar a DB
