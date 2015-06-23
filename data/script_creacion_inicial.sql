@@ -702,7 +702,7 @@ COMMIT;
 
 BEGIN TRANSACTION
 INSERT INTO [LPP].TARJETAS (num_tarjeta, id_emisor, cod_seguridad, fecha_emision, fecha_vencimiento, id_cliente)
-	SELECT DISTINCT (dbo.FUNC_encriptar_tarjeta([Tarjeta_Numero])),(SELECT DISTINCT [id_emisor] FROM [LPP].EMISORES WHERE [emisor_descr] = m.[Tarjeta_Emisor_Descripcion])'id_emisor',
+	SELECT DISTINCT (LPP.FUNC_encriptar_tarjeta([Tarjeta_Numero])),(SELECT DISTINCT [id_emisor] FROM [LPP].EMISORES WHERE [emisor_descr] = m.[Tarjeta_Emisor_Descripcion])'id_emisor',
 		[Tarjeta_Codigo_Seg],CONVERT(DATETIME,[Tarjeta_Fecha_Emision], 103), CONVERT(DATETIME,[Tarjeta_Fecha_Vencimiento], 103),(SELECT id_cliente FROM LPP.CLIENTES WHERE nombre=Cli_Nombre and apellido=Cli_Apellido) 'id_cliente'
         FROM [GD1C2015].[gd_esquema].[Maestra] m WHERE [Tarjeta_Numero] IS NOT NULL;  
 COMMIT
@@ -710,7 +710,7 @@ COMMIT
 BEGIN TRANSACTION
 SET IDENTITY_INSERT [LPP].DEPOSITOS ON;
 	INSERT INTO [LPP].DEPOSITOS (num_deposito, num_cuenta, importe, id_moneda,num_tarjeta, fecha_deposito)
-		SELECT [Deposito_Codigo],[Cuenta_Numero],[Deposito_Importe], 1, (dbo.FUNC_encriptar_tarjeta([Tarjeta_Numero])),CONVERT(DATETIME, [Deposito_Fecha], 103)
+		SELECT [Deposito_Codigo],[Cuenta_Numero],[Deposito_Importe], 1, (LPP.FUNC_encriptar_tarjeta([Tarjeta_Numero])),CONVERT(DATETIME, [Deposito_Fecha], 103)
 	    FROM [GD1C2015].[gd_esquema].[Maestra] WHERE Deposito_Codigo IS NOT NULL 
 SET IDENTITY_INSERT [LPP].DEPOSITOS OFF; 
 COMMIT;      
@@ -847,7 +847,7 @@ INSTEAD OF INSERT
 AS
 BEGIN
 	INSERT INTO LPP.TARJETAS (num_tarjeta, id_cliente, cod_seguridad, fecha_emision, fecha_vencimiento, id_emisor) VALUES 
-		((SELECT dbo.FUNC_encriptar_tarjeta(num_tarjeta) FROM inserted), (SELECT id_cliente FROM inserted), (SELECT cod_seguridad FROM inserted),
+		((SELECT LPP.FUNC_encriptar_tarjeta(num_tarjeta) FROM inserted), (SELECT id_cliente FROM inserted), (SELECT cod_seguridad FROM inserted),
 		 (SELECT fecha_emision FROM inserted),  (SELECT fecha_vencimiento FROM inserted),  (SELECT  id_emisor FROM inserted) );
 END
 GO
@@ -900,7 +900,7 @@ CREATE PROCEDURE LPP.PRC_insertar_nueva_tarjeta
 @fecha_vencimiento DATETIME
 AS
 BEGIN
-	INSERT INTO LPP.TARJETAS (num_tarjeta, id_emisor,cod_seguridad,id_cliente, fecha_emision, fecha_vencimiento) VALUES (dbo.FUNC_encriptar_tarjeta(@num_tarjeta), @id_emisor,@cod_seguridad,@id_cliente, @fecha_emision, @fecha_vencimiento)
+	INSERT INTO LPP.TARJETAS (num_tarjeta, id_emisor,cod_seguridad,id_cliente, fecha_emision, fecha_vencimiento) VALUES (LPP.FUNC_encriptar_tarjeta(@num_tarjeta), @id_emisor,@cod_seguridad,@id_cliente, @fecha_emision, @fecha_vencimiento)
 END
 GO
 
