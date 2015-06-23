@@ -33,7 +33,6 @@
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.btCliente = new System.Windows.Forms.Button();
             this.btLimpiar = new System.Windows.Forms.Button();
-            this.btClisinU = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -67,7 +66,7 @@
             // 
             // btCliente
             // 
-            this.btCliente.Location = new System.Drawing.Point(286, 104);
+            this.btCliente.Location = new System.Drawing.Point(216, 104);
             this.btCliente.Name = "btCliente";
             this.btCliente.Size = new System.Drawing.Size(101, 23);
             this.btCliente.TabIndex = 34;
@@ -77,7 +76,7 @@
             // 
             // btLimpiar
             // 
-            this.btLimpiar.Location = new System.Drawing.Point(12, 104);
+            this.btLimpiar.Location = new System.Drawing.Point(86, 104);
             this.btLimpiar.Name = "btLimpiar";
             this.btLimpiar.Size = new System.Drawing.Size(75, 23);
             this.btLimpiar.TabIndex = 35;
@@ -85,22 +84,11 @@
             this.btLimpiar.UseVisualStyleBackColor = true;
             this.btLimpiar.Click += new System.EventHandler(this.btLimpiar_Click);
             // 
-            // btClisinU
-            // 
-            this.btClisinU.Location = new System.Drawing.Point(106, 104);
-            this.btClisinU.Name = "btClisinU";
-            this.btClisinU.Size = new System.Drawing.Size(174, 23);
-            this.btClisinU.TabIndex = 36;
-            this.btClisinU.Text = "Nuevo Cliente sin Usuario";
-            this.btClisinU.UseVisualStyleBackColor = true;
-            this.btClisinU.Click += new System.EventHandler(this.button1_Click);
-            // 
             // AsignarUsuario
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(402, 135);
-            this.Controls.Add(this.btClisinU);
             this.Controls.Add(this.btLimpiar);
             this.Controls.Add(this.btCliente);
             this.Controls.Add(this.groupBox1);
@@ -121,6 +109,5 @@
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Button btCliente;
         private System.Windows.Forms.Button btLimpiar;
-        private System.Windows.Forms.Button btClisinU;
     }
 }

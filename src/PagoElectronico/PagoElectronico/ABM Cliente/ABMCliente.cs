@@ -25,6 +25,7 @@ namespace PagoElectronico
         public string tipoDoc = "";
         public int nroDoc = 0;
         public int id = 0;
+        private DateTime fechaNac;
         int ban;
         string user;
         ABMS abm = new ABMS();
@@ -49,7 +50,7 @@ namespace PagoElectronico
             btnBuscar.Enabled = true;
             btnNuevo.Enabled = true;
             txtUsuario.Enabled = false;
-            fechaNacimiento.Value = DateTime.ParseExact(readConfiguracion.Configuracion.fechaSystem(), "yyyy-dd-MM", System.Globalization.CultureInfo.InvariantCulture);
+            fechaNacimiento.Value = fecha;
             lblMailExistente.Visible = false;
             txtUsuario.Text = usuario;
             // Conectar a DB
@@ -288,8 +289,6 @@ namespace PagoElectronico
         private void btnGrabar_Click(object sender, EventArgs e)
         {
             Conexion con1 = new Conexion();
-            
-
             int temp;
             decimal temp2;
 
@@ -346,8 +345,9 @@ namespace PagoElectronico
 
 
             // Inserto Cliente
-            if (txtNombre.Text != "" && txtApellido.Text != "" && cbID.Text != "" && txtNumeroID.Text != "" && txtMail.Text != "" && cb2.Text != "" && fechaNacimiento.Value != null)
+            if (txtNombre.Text != "" && txtApellido.Text != "" && cbID.Text != "" && txtNumeroID.Text != "" && txtMail.Text != "" && cb2.Text != "" && fechaNacimiento.Value != null && txtDomicilio.Text != "" && txtNumeroCalle.Text !="")
             {
+                fechaNac = DateTime.Parse(fechaNacimiento.Value.ToString("yyyy-MM-dd"));
                 if (ban == 1)
                 {
                     if (abm.clienteRegistrado(cbID.Text, Convert.ToInt32(txtNumeroID.Text)) == 0)
@@ -382,13 +382,13 @@ namespace PagoElectronico
 
                         //Inserto en la Tabla Domicilio
                         int id_domicilio = abm.insertarDomicilio(txtDomicilio.Text, Convert.ToInt32(txtNumeroCalle.Text), Convert.ToInt32(txtPiso.Text), txtDepto.Text, txtLocalidad.Text);
-                        string salida = abm.insertarCliente(txtNombre.Text, txtApellido.Text, cbID.Text, Convert.ToInt32(txtNumeroID.Text), txtMail.Text,fechaNacimiento.Value, cb2.Text, id_domicilio,txtUsuario.Text);
+                        string salida = abm.insertarCliente(txtNombre.Text, txtApellido.Text, cbID.Text, Convert.ToInt32(txtNumeroID.Text), txtMail.Text,fechaNac, cb2.Text, id_domicilio,txtUsuario.Text);
                         MessageBox.Show("" + salida);
                         tipoDoc = cbID.Text;
                         nroDoc = Convert.ToInt32(txtNumeroID.Text);
                         boxDatosCliente.Enabled = false;
                         cbID.Text = "Elija una opcion";
-                        fechaNacimiento.Value = DateTime.Today;
+                        fechaNacimiento.Value = fecha;
                         lblNombre.Enabled = false;
                         txtNombre.Enabled = false;
                         btnLimpiar.Enabled = true;
@@ -441,7 +441,7 @@ namespace PagoElectronico
 
                             //Modifico en la Tabla Domicilio y CLiente
                             abm.modificarDomicilio(txtDomicilio.Text,Convert.ToInt32(txtNumeroCalle.Text),Convert.ToInt32(txtPiso.Text), txtDepto.Text, txtLocalidad.Text,id_domicilio);
-                            string salida = abm.modificarCliente(txtNombre.Text, txtApellido.Text, cbID.Text, Convert.ToInt32(txtNumeroID.Text), txtMail.Text, fechaNacimiento.Value , cb2.Text, txtUsuario.Text);
+                            string salida = abm.modificarCliente(txtNombre.Text, txtApellido.Text, cbID.Text, Convert.ToInt32(txtNumeroID.Text), txtMail.Text, fechaNac , cb2.Text, txtUsuario.Text);
                             MessageBox.Show("" + salida);
                         }
 
@@ -449,7 +449,7 @@ namespace PagoElectronico
                         {
                             //Modifico en la Tabla Domicilio y Cliente
                             abm.modificarDomicilio(txtDomicilio.Text, Convert.ToInt32(txtNumeroCalle.Text), Convert.ToInt32(txtPiso.Text), txtDepto.Text, txtLocalidad.Text, id_domicilio);
-                            string salida = abm.modificarCliente(txtNombre.Text, txtApellido.Text, cbID.Text, Convert.ToInt32(txtNumeroID.Text), txtMail.Text, fechaNacimiento.Value, cb2.Text, txtUsuario.Text);
+                            string salida = abm.modificarCliente(txtNombre.Text, txtApellido.Text, cbID.Text, Convert.ToInt32(txtNumeroID.Text), txtMail.Text, fechaNac, cb2.Text, txtUsuario.Text);
                             MessageBox.Show("" + salida);
 
                         }

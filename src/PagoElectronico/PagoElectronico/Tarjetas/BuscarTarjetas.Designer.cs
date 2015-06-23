@@ -39,9 +39,9 @@
             // 
             this.groupBox1.Controls.Add(this.dgvTarjetas);
             this.groupBox1.Controls.Add(this.btnSalir);
-            this.groupBox1.Location = new System.Drawing.Point(11, 4);
+            this.groupBox1.Location = new System.Drawing.Point(12, 4);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(572, 214);
+            this.groupBox1.Size = new System.Drawing.Size(703, 265);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Datos Tarjetas Asociadas";
@@ -51,13 +51,13 @@
             this.dgvTarjetas.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvTarjetas.Location = new System.Drawing.Point(18, 18);
             this.dgvTarjetas.Name = "dgvTarjetas";
-            this.dgvTarjetas.Size = new System.Drawing.Size(536, 150);
+            this.dgvTarjetas.Size = new System.Drawing.Size(667, 200);
             this.dgvTarjetas.TabIndex = 4;
             this.dgvTarjetas.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvTarjetas_CellDoubleClick);
             // 
             // btnSalir
             // 
-            this.btnSalir.Location = new System.Drawing.Point(249, 181);
+            this.btnSalir.Location = new System.Drawing.Point(314, 224);
             this.btnSalir.Name = "btnSalir";
             this.btnSalir.Size = new System.Drawing.Size(75, 23);
             this.btnSalir.TabIndex = 3;
@@ -69,7 +69,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(595, 230);
+            this.ClientSize = new System.Drawing.Size(726, 281);
             this.Controls.Add(this.groupBox1);
             this.MaximizeBox = false;
             this.Name = "BuscarTarjetas";

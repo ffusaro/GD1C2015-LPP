@@ -32,6 +32,16 @@ namespace PagoElectronico.Tarjetas
             da.Fill(dtDatos);
             dt = dtDatos;
             dgvTarjetas.DataSource = dtDatos;
+
+            //CAMBIO COLUMNA DE NUM_TARJETA
+            SqlCommand command = new SqlCommand(query, con.cnn);
+            SqlDataReader lector = command.ExecuteReader();
+            lector.Read();
+            foreach (DataGridViewRow row in dgvTarjetas.Rows)
+            {
+                string ultimosCuatro = lector.GetString(1);
+                row.Cells["num_tarjeta"].Value = "XXXX-XXXX-XXXX-" + ultimosCuatro.Remove(0, 12);
+            }
             con.cnn.Close();
         }
 

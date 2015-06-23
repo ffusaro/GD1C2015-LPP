@@ -274,7 +274,8 @@ namespace PagoElectronico.Tarjetas
             SqlCommand command = new SqlCommand(query, con.cnn);
             SqlDataReader lector = command.ExecuteReader();
             lector.Read();
-            txtNumTarjeta.Text = lector.GetString(0);
+            string ultimosCuatro = lector.GetString(0);
+            txtNumTarjeta.Text = "XXXX-XXXX-XXXX-" + ultimosCuatro.Remove(0, 12);
             cmbEmisor.Text = getDescrEmisor(lector.GetDecimal(1));
             cmbEmisor.Enabled = false;
             txtCodigo.Text = lector.GetString(2);

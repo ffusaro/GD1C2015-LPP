@@ -30,7 +30,7 @@ namespace PagoElectronico.ABM_Cliente
                 txtUsuario.Text = username;
                 txtUsuario.Enabled = false;
                 btnAsociar.Enabled = false;
-                btClisinU.Enabled = false;
+                //btClisinU.Enabled = false;
             }
             
         }
@@ -41,7 +41,7 @@ namespace PagoElectronico.ABM_Cliente
             btnAsociar.Enabled = true;
             btCliente.Enabled = false;
             txtUsuario.Enabled = true;
-            btClisinU.Enabled = true;
+            //btClisinU.Enabled = true;
         }
 
         private void btCliente_Click(object sender, EventArgs e)
@@ -69,12 +69,12 @@ namespace PagoElectronico.ABM_Cliente
             this.Close();
         }
 
-        private void button1_Click(object sender, EventArgs e)
+     /*   private void button1_Click(object sender, EventArgs e)
         {
             ABMCliente abmCliente = new ABMCliente("A", "U");
             abmCliente.Show();
             abmCliente.padre_mp = padre_mp;
-        }
+        }*/
         private bool verificoUsuario()
         {
             Conexion con = new Conexion();
@@ -84,10 +84,16 @@ namespace PagoElectronico.ABM_Cliente
             SqlCommand command = new SqlCommand(query, con.cnn);
             SqlDataReader lector = command.ExecuteReader();
             if (lector.Read())
+            {
+                con.cnn.Close();
                 return true;
+            }
             else
+            {
+                con.cnn.Close();
                 return false;
-            con.cnn.Close();
+            }
+         
             
         }
      
