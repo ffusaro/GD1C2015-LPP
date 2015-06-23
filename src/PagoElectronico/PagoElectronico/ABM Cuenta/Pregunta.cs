@@ -81,19 +81,19 @@ namespace PagoElectronico.ABM_Cuenta
             Conexion con = new Conexion();
             con.cnn.Open();
             bool debe;
-            string query = "LPP.PRC_items_factura_pendientes_de_un_cliente";
+            string query = "SELECT COUNT(*) FROM LPP.ITEMS_FACTURA WHERE num_cuenta ="+num_cuenta
+                           + " AND facturado = 0";
             SqlCommand command = new SqlCommand(query, con.cnn);
-            command.CommandType = CommandType.StoredProcedure;
-            command.Parameters.Add(new SqlParameter("@id_cliente",getIdCliente()));
-            SqlDataReader lector = command.ExecuteReader();
-            if (lector.Read())
+            Int32 impagos = Convert.ToInt32(command.ExecuteScalar());
+            con.cnn.Close();
+            if (impagos != 0 )
             {
                 MessageBox.Show("Tiene items sin facturar");
                 debe = true;
             }
-            else
+            else{
                 debe = false;
-            con.cnn.Close();
+            }
             return debe;
         }
     }

@@ -216,6 +216,19 @@ namespace PagoElectronico.Login
                command6.ExecuteNonQuery();
                con.cnn.Close();
 
+               if (getRolUser() == "Administrador") {
+                   string query0 = "LPP.PRC_deshabilitacion_x_vencimiento_administrador";
+                   con.cnn.Open();
+                   SqlCommand command = new SqlCommand(query0, con.cnn);
+                   command.CommandType = CommandType.StoredProcedure;
+                   DateTime fechaConfiguracion = DateTime.ParseExact(readConfiguracion.Configuracion.fechaSystem(), "yyyy-dd-MM", System.Globalization.CultureInfo.InvariantCulture);
+                   command.Parameters.Add(new SqlParameter("@fecha_sist", fechaConfiguracion));
+                   
+                   command.ExecuteNonQuery();
+                   con.cnn.Close();
+               
+               }
+
            }
            else
            {
@@ -227,9 +240,20 @@ namespace PagoElectronico.Login
                con.cnn.Close();
            }
        }
-       
 
-       
+        private string getRolUser()
+        {
+            Conexion con = new Conexion();
+            //OBTENGO ID DE CLIENTE
+            con.cnn.Open();
+            string query = "SELECT R.nombre FROM LPP.ROLESXUSUARIO U JOIN LPP.ROLES R ON R.id_rol=U.rol WHERE U.username = '" + txtUsuario.Text + "'";
+            SqlCommand command = new SqlCommand(query, con.cnn);
+            SqlDataReader lector = command.ExecuteReader();
+            lector.Read();
+            string rol = lector.GetString(0);
+            con.cnn.Close();
+            return rol;
+        } 
 
      
 

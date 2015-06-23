@@ -43,6 +43,7 @@ namespace PagoElectronico.ABM_Cuenta
             btnNuevo.Enabled = true;
             btnSalir.Enabled = true;
             btnContinuar.Enabled = false;
+
             // Busca y carga los tipos de moneda 
             Conexion con = new Conexion();
             string query1 = "SELECT descripcion FROM LPP.MONEDAS ";
@@ -189,7 +190,7 @@ namespace PagoElectronico.ABM_Cuenta
                  con1.cnn.Close();
 
                  string query2 = "INSERT INTO LPP.SUSCRIPCIONES (num_cuenta, fecha_vencimiento)"
-                                + " VALUES (" + getNumCuenta() + ", DATEADD(day, " + Convert.ToInt32(numUpDown.Value) + " , " + readConfiguracion.Configuracion.fechaSystem() + " )";
+                                + " VALUES (" + getNumCuenta() + ", DATEADD(day, " + Convert.ToInt32(numericUpDown1.Value) + " , " + readConfiguracion.Configuracion.fechaSystem() + " )";
                  con1.cnn.Open();
                  SqlCommand command2 = new SqlCommand(query2, con1.cnn);
                  command.ExecuteNonQuery();
@@ -208,7 +209,8 @@ namespace PagoElectronico.ABM_Cuenta
                  cmbPaises.SelectedItem = null;
                  cmbTipoCuenta.SelectedItem = null;
                  cmbMoneda.SelectedItem = null;
-                 numUpDown.Enabled = false;
+                 numericUpDown1.Enabled = false;
+                 
                  this.Close();
              }
              if (ban == 2)
@@ -235,7 +237,7 @@ namespace PagoElectronico.ABM_Cuenta
                  cmbPaises.SelectedItem = null;
                  cmbTipoCuenta.SelectedItem = null;
                  cmbMoneda.SelectedItem = null;
-                 numUpDown.Enabled = false;
+                 numericUpDown1.Enabled = false;
                 
              }
         }
@@ -315,12 +317,12 @@ namespace PagoElectronico.ABM_Cuenta
             string query = "LPP.PRC_CambioCuenta";
             SqlCommand command = new SqlCommand(query, con.cnn);
             command.CommandType = CommandType.StoredProcedure;
-            command.Parameters.Add(new SqlParameter("@num_cuenta", Convert.ToDecimal(txtCuenta.Text)));
+            command.Parameters.Add(new SqlParameter("@num_cuenta", num_cuenta));
             command.Parameters.Add(new SqlParameter("@tipocuenta_origen",getIdTipoCuenta(cuentaCambio)));
             command.Parameters.Add(new SqlParameter("@tipocuenta_final", getIdTipoCuenta(cmbTipoCuenta.Text)));
             DateTime fechaConfiguracion = DateTime.ParseExact(readConfiguracion.Configuracion.fechaSystem(), "yyyy-dd-MM", System.Globalization.CultureInfo.InvariantCulture);
             command.Parameters.Add(new SqlParameter("@fecha", fechaConfiguracion));
-            command.Parameters.Add(new SqlParameter("@cantsuscripciones", Convert.ToInt32(numUpDown.Value)));
+            command.Parameters.Add(new SqlParameter("@cantsuscripciones", Convert.ToInt32(numericUpDown1.Value)));
 
             command.ExecuteNonQuery();
             con.cnn.Close();
@@ -337,7 +339,7 @@ namespace PagoElectronico.ABM_Cuenta
             command.Parameters.Add(new SqlParameter("@id_tipo", getIdTipoCuenta(cmbTipoCuenta.Text)));
             DateTime fechaConfiguracion = DateTime.ParseExact(readConfiguracion.Configuracion.fechaSystem(), "yyyy-dd-MM", System.Globalization.CultureInfo.InvariantCulture);
             command.Parameters.Add(new SqlParameter("@fecha", fechaConfiguracion));
-            command.Parameters.Add(new SqlParameter("@cantsuscripciones", Convert.ToInt32(numUpDown.Value)));
+            command.Parameters.Add(new SqlParameter("@cantsuscripciones", Convert.ToInt32(numericUpDown1.Value)));
 
             command.ExecuteNonQuery();
             con.cnn.Close();
@@ -356,8 +358,7 @@ namespace PagoElectronico.ABM_Cuenta
             return rol;
         }
 
-
-        
+                
 }
 
 }  

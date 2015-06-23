@@ -122,6 +122,10 @@ IF OBJECT_ID('LPP.PRC_ItemFactura_x_AperturaCuenta') IS NOT NULL
 DROP PROCEDURE LPP.PRC_ItemFactura_x_AperturaCuenta
 GO
 
+IF OBJECT_ID('LPP.PRC_deshabilitacion_x_vencimiento_administrador') IS NOT NULL
+DROP PROCEDURE LPP.PRC_deshabilitacion_x_vencimiento_administrador
+GO
+
  
 /*---------Limpieza de Triggers-----------*/
 IF OBJECT_ID ('LPP.TRG_deshabilitacion_x_duracion_cuenta') IS NOT NULL
@@ -802,7 +806,7 @@ ON LPP.LOGSXUSUARIO
 AFTER INSERT
 AS
 BEGIN
-	DECLARE cuentas_usuario CURSOR FOR SELECT num_cuenta FROM LPP.CUENTAS WHERE id_cliente = (SELECT id_cliente FROM LPP.CLIENTES WHERE username = (SELECT username FROM inserted))
+	DECLARE cuentas_usuario CURSOR FOR SELECT num_cuenta FROM LPP.CUENTAS WHERE id_estado = 1 AND id_cliente = (SELECT id_cliente FROM LPP.CLIENTES WHERE username = (SELECT username FROM inserted))
 	DECLARE @num_cuenta NUMERIC(18, 0), @fecha_vencimiento DATETIME, @fecha_log DATETIME
 	
 	SET @fecha_log = (SELECT fecha FROM inserted)
@@ -861,13 +865,21 @@ AS
 BEGIN
 	IF ((SELECT DISTINCT id_item FROM inserted) = 1)
 		BEGIN
-			UPDATE LPP.CUENTAS SET id_estado =1 WHERE (SELECT DISTINCT num_cuenta FROM inserted) = num_cuenta AND (SELECT DISTINCT id_item FROM inserted) = 1
+			UPDATE LPP.CUENTAS SET id_estado =1 WHERE (SELECT DISTINCT num_cuenta FROM inserted) = num_cuenta
 			UPDATE LPP.ITEMS_FACTURA  SET facturado = (SELECT facturado FROM inserted), id_factura = (SELECT id_factura FROM inserted) WHERE id_item_factura = (SELECT id_item_factura FROM inserted)
 		END
 	ELSE
 		BEGIN
-			UPDATE LPP.ITEMS_FACTURA  SET facturado = (SELECT facturado FROM inserted), id_factura = (SELECT id_factura FROM inserted) WHERE id_item_factura = (SELECT id_item_factura FROM inserted)
-		END 
+			IF ((SELECT DISTINCT id_item FROM inserted) = 2)
+				BEGIN
+					UPDATE LPP.CUENTAS SET id_estado = 1 WHERE (SELECT DISTINCT num_cuenta FROM inserted) = num_cuenta  
+					UPDATE LPP.ITEMS_FACTURA  SET facturado = (SELECT facturado FROM inserted), id_factura = (SELECT id_factura FROM inserted) WHERE id_item_factura = (SELECT id_item_factura FROM inserted)
+				END
+			ELSE
+				BEGIN 
+					UPDATE LPP.ITEMS_FACTURA  SET facturado = (SELECT facturado FROM inserted), id_factura = (SELECT id_factura FROM inserted) WHERE id_item_factura = (SELECT id_item_factura FROM inserted)
+				END
+			END 
 	
 END
 GO
@@ -893,6 +905,35 @@ GO
 --SELECT * FROM LPP.TARJETAS WHERE id_cliente = 1 AND cod_seguridad = 222
 
 /*---------Definiciones de Procedures-------*/
+CREATE PROCEDURE LPP.PRC_deshabilitacion_x_vencimiento_administrador
+@fecha_sist DATETIME
+AS
+BEGIN
+	DECLARE cuentas_usuario CURSOR FOR SELECT num_cuenta FROM LPP.CUENTAS WHERE id_estado = 1
+	DECLARE @num_cuenta NUMERIC(18, 0), @fecha_vencimiento DATETIME
+		
+	OPEN cuentas_usuario
+	FETCH NEXT FROM cuentas_usuario INTO @num_cuenta
+	
+	WHILE @@FETCH_STATUS = 0
+		BEGIN
+			SELECT @fecha_vencimiento = fecha_vencimiento FROM LPP.SUSCRIPCIONES WHERE num_cuenta = @num_cuenta
+			
+			IF(@fecha_vencimiento < @fecha_sist)
+				BEGIN
+					INSERT INTO LPP.CUENTAS_DESHABILITADAS (num_cuenta, fecha_deshabilitacion, motivo) 
+						VALUES(@num_cuenta, @fecha_sist, 'Por vencimiento de suscripcion')
+						
+					UPDATE LPP.CUENTAS SET id_estado = 4 WHERE num_cuenta = @num_cuenta	
+		
+				END	
+			FETCH NEXT FROM cuentas_usuario INTO @num_cuenta			
+		END
+	CLOSE cuentas_usuario;
+	DEALLOCATE cuentas_usuario;	
+END
+GO
+
 CREATE PROCEDURE LPP.PRC_ItemFactura_x_AperturaCuenta 
 @num_cuenta NUMERIC(18, 0),
 @id_tipo INTEGER,
