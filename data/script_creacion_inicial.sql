@@ -588,6 +588,7 @@ INSERT INTO LPP.FUNCIONALIDAD (id_funcionalidad, descripcion) VALUES (8, 'Transf
 INSERT INTO LPP.FUNCIONALIDAD (id_funcionalidad, descripcion) VALUES (9, 'Listados');
 INSERT INTO LPP.FUNCIONALIDAD (id_funcionalidad, descripcion) VALUES (10, 'ABM Usuarios');
 INSERT INTO LPP.FUNCIONALIDAD (id_funcionalidad, descripcion) VALUES (11, 'Asociar/Desasociar Tarjetas');
+INSERT INTO LPP.FUNCIONALIDAD (id_funcionalidad, descripcion) VALUES (12, 'ABM Tipo de Cuenta');
 COMMIT
 
 /*Asignacion de Funcionalidades por Rol*/
@@ -604,6 +605,7 @@ INSERT INTO LPP.FUNCIONALIDADXROL (rol, funcionalidad) VALUES (@ID, 5);
 INSERT INTO LPP.FUNCIONALIDADXROL (rol, funcionalidad) VALUES (@ID, 6);
 INSERT INTO LPP.FUNCIONALIDADXROL (rol, funcionalidad) VALUES (@ID, 9);
 INSERT INTO LPP.FUNCIONALIDADXROL (rol, funcionalidad) VALUES (@ID, 10);
+INSERT INTO LPP.FUNCIONALIDADXROL (rol, funcionalidad) VALUES (@ID, 12);
 
 SET @ID = (SELECT id_rol FROM LPP.ROLES WHERE nombre='Cliente');
 
