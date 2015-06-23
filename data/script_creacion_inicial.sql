@@ -966,7 +966,7 @@ BEGIN
 		DECLARE @dias INTEGER
 		SELECT @dias = (SELECT duracion FROM LPP.TIPOS_CUENTA WHERE id_tipocuenta = @tipocuenta_final)
 		
-		UPDATE LPP.SUSCRIPCIONES SET num_cuenta = @num_cuenta, fecha_vencimiento = DATEADD(day, @dias * @cantsuscripciones, @fecha) WHERE num_cuenta = @num_cuenta
+		UPDATE LPP.SUSCRIPCIONES SET num_cuenta = @num_cuenta, fecha_vencimiento = CONVERT(DATETIME, DATEADD(day, @dias * @cantsuscripciones, @fecha), 103) WHERE num_cuenta = @num_cuenta
 		
 		INSERT INTO LPP.ITEMS_FACTURA (id_item, num_cuenta, monto, facturado, fecha)
 			VALUES (2, @num_cuenta, @cantsuscripciones *(SELECT costo_apertura FROM LPP.TIPOS_CUENTA WHERE id_tipocuenta= @tipocuenta_final), 0, @fecha)

@@ -189,11 +189,12 @@ namespace PagoElectronico.ABM_Cuenta
                  command.ExecuteNonQuery();
                  con1.cnn.Close();
 
+                 Int32 duracion = getDuracionCuenta(getIdTipoCuenta(cmbTipoCuenta.Text));
                  string query2 = "INSERT INTO LPP.SUSCRIPCIONES (num_cuenta, fecha_vencimiento)"
-                                + " VALUES (" + getNumCuenta() + ", DATEADD(day, " + Convert.ToInt32(numericUpDown1.Value) + " , " + readConfiguracion.Configuracion.fechaSystem() + " )";
+                                + " VALUES (" + getNumCuenta() + ", DATEADD(day, " + duracion * Convert.ToInt32(numericUpDown1.Value) + " , " + readConfiguracion.Configuracion.fechaSystem() + " ))";
                  con1.cnn.Open();
                  SqlCommand command2 = new SqlCommand(query2, con1.cnn);
-                 command.ExecuteNonQuery();
+                 command2.ExecuteNonQuery();
                  con1.cnn.Close();
 
                  this.insertarItemFacturaPorApertura();
@@ -267,6 +268,18 @@ namespace PagoElectronico.ABM_Cuenta
             con.cnn.Close();
             return id_cliente;
 
+        }
+
+        private Int32 getDuracionCuenta(Int32 id_tipo) {
+            Conexion con = new Conexion();
+            con.cnn.Open();
+            string query = "SELECT duracion FROM LPP.TIPOS_CUENTA WHERE id_tipocuenta = " + id_tipo  + "";
+            SqlCommand command = new SqlCommand(query, con.cnn);
+            SqlDataReader lector = command.ExecuteReader();
+            lector.Read();
+            Int32 duracion = lector.GetInt32(0);
+            con.cnn.Close();
+            return duracion;        
         }
         private decimal getIdMoneda()
         {
