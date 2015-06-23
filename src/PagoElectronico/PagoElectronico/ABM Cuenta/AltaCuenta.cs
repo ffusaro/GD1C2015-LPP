@@ -191,7 +191,7 @@ namespace PagoElectronico.ABM_Cuenta
 
                  Int32 duracion = getDuracionCuenta(getIdTipoCuenta(cmbTipoCuenta.Text));
                  string query2 = "INSERT INTO LPP.SUSCRIPCIONES (num_cuenta, fecha_vencimiento)"
-                                + " VALUES (" + getNumCuenta() + ", DATEADD(day, " + duracion * Convert.ToInt32(numericUpDown1.Value) + " , " + readConfiguracion.Configuracion.fechaSystem() + " ))";
+                                + " VALUES (" + getNumCuenta() + ", DATEADD(day," + duracion * Convert.ToInt32(numericUpDown1.Value) + " ,  CONVERT(DATETIME, '" + readConfiguracion.Configuracion.fechaSystem() + "', 103 )))";
                  con1.cnn.Open();
                  SqlCommand command2 = new SqlCommand(query2, con1.cnn);
                  command2.ExecuteNonQuery();
