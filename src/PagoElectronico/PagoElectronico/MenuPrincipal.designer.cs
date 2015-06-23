@@ -80,7 +80,7 @@
             this.listadosEstadisticosToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(923, 29);
+            this.menuStrip1.Size = new System.Drawing.Size(1041, 29);
             this.menuStrip1.TabIndex = 6;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -227,14 +227,14 @@
             // aBMCuentaToolStripMenuItem
             // 
             this.aBMCuentaToolStripMenuItem.Name = "aBMCuentaToolStripMenuItem";
-            this.aBMCuentaToolStripMenuItem.Size = new System.Drawing.Size(212, 26);
+            this.aBMCuentaToolStripMenuItem.Size = new System.Drawing.Size(179, 26);
             this.aBMCuentaToolStripMenuItem.Text = "ABM Cuenta";
             this.aBMCuentaToolStripMenuItem.Click += new System.EventHandler(this.aBMCuentaToolStripMenuItem_Click);
             // 
             // buscarCuentaToolStripMenuItem
             // 
             this.buscarCuentaToolStripMenuItem.Name = "buscarCuentaToolStripMenuItem";
-            this.buscarCuentaToolStripMenuItem.Size = new System.Drawing.Size(212, 26);
+            this.buscarCuentaToolStripMenuItem.Size = new System.Drawing.Size(179, 26);
             this.buscarCuentaToolStripMenuItem.Text = "Buscar Cuenta";
             this.buscarCuentaToolStripMenuItem.Click += new System.EventHandler(this.buscarCuentaToolStripMenuItem_Click);
             // 
@@ -324,7 +324,8 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(923, 430);
+            this.AutoSize = true;
+            this.ClientSize = new System.Drawing.Size(1041, 430);
             this.ControlBox = false;
             this.Controls.Add(this.menuStrip1);
             this.IsMdiContainer = true;

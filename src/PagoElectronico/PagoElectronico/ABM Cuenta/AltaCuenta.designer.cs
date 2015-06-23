@@ -29,13 +29,13 @@
         private void InitializeComponent()
         {
             this.gbDatosCuenta = new System.Windows.Forms.GroupBox();
+            this.txtCuenta = new System.Windows.Forms.TextBox();
             this.cmbPaises = new System.Windows.Forms.ComboBox();
+            this.lblPais = new System.Windows.Forms.Label();
+            this.lblCuenta = new System.Windows.Forms.Label();
             this.cmbMoneda = new System.Windows.Forms.ComboBox();
             this.lblMoneda = new System.Windows.Forms.Label();
-            this.lblPais = new System.Windows.Forms.Label();
             this.gbTipoCuenta = new System.Windows.Forms.GroupBox();
-            this.txtCuenta = new System.Windows.Forms.TextBox();
-            this.lblCuenta = new System.Windows.Forms.Label();
             this.lblTipo = new System.Windows.Forms.Label();
             this.cmbTipoCuenta = new System.Windows.Forms.ComboBox();
             this.btnLimpiar = new System.Windows.Forms.Button();
@@ -47,10 +47,15 @@
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.label1 = new System.Windows.Forms.Label();
             this.txtUsuario = new System.Windows.Forms.TextBox();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.numUpDown = new System.Windows.Forms.NumericUpDown();
             this.gbDatosCuenta.SuspendLayout();
             this.gbTipoCuenta.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
+            this.groupBox3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numUpDown)).BeginInit();
             this.SuspendLayout();
             // 
             // gbDatosCuenta
@@ -66,6 +71,13 @@
             this.gbDatosCuenta.TabStop = false;
             this.gbDatosCuenta.Text = "Datos De Cuenta";
             // 
+            // txtCuenta
+            // 
+            this.txtCuenta.Location = new System.Drawing.Point(118, 64);
+            this.txtCuenta.Name = "txtCuenta";
+            this.txtCuenta.Size = new System.Drawing.Size(208, 20);
+            this.txtCuenta.TabIndex = 8;
+            // 
             // cmbPaises
             // 
             this.cmbPaises.FormattingEnabled = true;
@@ -73,6 +85,24 @@
             this.cmbPaises.Name = "cmbPaises";
             this.cmbPaises.Size = new System.Drawing.Size(258, 21);
             this.cmbPaises.TabIndex = 6;
+            // 
+            // lblPais
+            // 
+            this.lblPais.AutoSize = true;
+            this.lblPais.Location = new System.Drawing.Point(17, 30);
+            this.lblPais.Name = "lblPais";
+            this.lblPais.Size = new System.Drawing.Size(27, 13);
+            this.lblPais.TabIndex = 1;
+            this.lblPais.Text = "Pais";
+            // 
+            // lblCuenta
+            // 
+            this.lblCuenta.AutoSize = true;
+            this.lblCuenta.Location = new System.Drawing.Point(17, 68);
+            this.lblCuenta.Name = "lblCuenta";
+            this.lblCuenta.Size = new System.Drawing.Size(96, 13);
+            this.lblCuenta.TabIndex = 8;
+            this.lblCuenta.Text = "Numero de Cuenta";
             // 
             // cmbMoneda
             // 
@@ -91,15 +121,6 @@
             this.lblMoneda.TabIndex = 2;
             this.lblMoneda.Text = "Moneda";
             // 
-            // lblPais
-            // 
-            this.lblPais.AutoSize = true;
-            this.lblPais.Location = new System.Drawing.Point(17, 30);
-            this.lblPais.Name = "lblPais";
-            this.lblPais.Size = new System.Drawing.Size(27, 13);
-            this.lblPais.TabIndex = 1;
-            this.lblPais.Text = "Pais";
-            // 
             // gbTipoCuenta
             // 
             this.gbTipoCuenta.Controls.Add(this.cmbMoneda);
@@ -111,22 +132,6 @@
             this.gbTipoCuenta.Size = new System.Drawing.Size(337, 95);
             this.gbTipoCuenta.TabIndex = 1;
             this.gbTipoCuenta.TabStop = false;
-            // 
-            // txtCuenta
-            // 
-            this.txtCuenta.Location = new System.Drawing.Point(118, 64);
-            this.txtCuenta.Name = "txtCuenta";
-            this.txtCuenta.Size = new System.Drawing.Size(208, 20);
-            this.txtCuenta.TabIndex = 8;
-            // 
-            // lblCuenta
-            // 
-            this.lblCuenta.AutoSize = true;
-            this.lblCuenta.Location = new System.Drawing.Point(17, 68);
-            this.lblCuenta.Name = "lblCuenta";
-            this.lblCuenta.Size = new System.Drawing.Size(96, 13);
-            this.lblCuenta.TabIndex = 8;
-            this.lblCuenta.Text = "Numero de Cuenta";
             // 
             // lblTipo
             // 
@@ -202,7 +207,7 @@
             this.groupBox1.Controls.Add(this.btnBuscar);
             this.groupBox1.Controls.Add(this.btnLimpiar);
             this.groupBox1.Controls.Add(this.btnSalir);
-            this.groupBox1.Location = new System.Drawing.Point(17, 151);
+            this.groupBox1.Location = new System.Drawing.Point(17, 191);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(678, 48);
             this.groupBox1.TabIndex = 11;
@@ -234,11 +239,49 @@
             this.txtUsuario.Size = new System.Drawing.Size(258, 20);
             this.txtUsuario.TabIndex = 7;
             // 
+            // groupBox3
+            // 
+            this.groupBox3.Controls.Add(this.numUpDown);
+            this.groupBox3.Controls.Add(this.label2);
+            this.groupBox3.Location = new System.Drawing.Point(17, 152);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Size = new System.Drawing.Size(674, 33);
+            this.groupBox3.TabIndex = 13;
+            this.groupBox3.TabStop = false;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(6, 16);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(437, 13);
+            this.label2.TabIndex = 0;
+            this.label2.Text = "Seleccione la cantidad de suscripciones  que desea comprar del tipo de cueta dete" +
+                "rminado";
+            // 
+            // numUpDown
+            // 
+            this.numUpDown.Location = new System.Drawing.Point(500, 13);
+            this.numUpDown.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.numUpDown.Name = "numUpDown";
+            this.numUpDown.Size = new System.Drawing.Size(120, 20);
+            this.numUpDown.TabIndex = 1;
+            this.numUpDown.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            // 
             // AltaCuenta
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(703, 211);
+            this.ClientSize = new System.Drawing.Size(703, 251);
+            this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.gbTipoCuenta);
@@ -254,6 +297,9 @@
             this.groupBox1.ResumeLayout(false);
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
+            this.groupBox3.ResumeLayout(false);
+            this.groupBox3.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numUpDown)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -279,5 +325,8 @@
         private System.Windows.Forms.ComboBox cmbPaises;
         private System.Windows.Forms.TextBox txtCuenta;
         private System.Windows.Forms.Label lblCuenta;
+        private System.Windows.Forms.GroupBox groupBox3;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.NumericUpDown numUpDown;
     }
 }

@@ -24,6 +24,7 @@ namespace PagoElectronico.ABM_Cuenta
         public DateTime fechaConfiguracion = DateTime.ParseExact(readConfiguracion.Configuracion.fechaSystem(), "yyyy-dd-MM", System.Globalization.CultureInfo.InvariantCulture);
         public decimal num_cuenta;
         private string cuentaCambio;
+        
         public AltaCuenta(string evnto,string user,decimal cuenta)
         {
             InitializeComponent();
@@ -186,6 +187,16 @@ namespace PagoElectronico.ABM_Cuenta
                  SqlCommand command = new SqlCommand(query1, con1.cnn);
                  command.ExecuteNonQuery();
                  con1.cnn.Close();
+
+                 string query2 = "INSERT INTO LPP.SUSCRIPCIONES (num_cuenta, fecha_vencimiento)"
+                                + " VALUES (" + getNumCuenta() + ", DATEADD(day, " + Convert.ToInt32(numUpDown.Value) + " , " + readConfiguracion.Configuracion.fechaSystem() + " )";
+                 con1.cnn.Open();
+                 SqlCommand command2 = new SqlCommand(query2, con1.cnn);
+                 command.ExecuteNonQuery();
+                 con1.cnn.Close();
+
+                 this.insertarItemFacturaPorApertura();
+
                  MessageBox.Show("Alta de Cuenta Exitosa, su Numero de cuenta es:  "+getNumCuenta());
                  btnLimpiar.Enabled = true;
                  btnContinuar.Enabled = false;
@@ -197,7 +208,7 @@ namespace PagoElectronico.ABM_Cuenta
                  cmbPaises.SelectedItem = null;
                  cmbTipoCuenta.SelectedItem = null;
                  cmbMoneda.SelectedItem = null;
-                 
+                 numUpDown.Enabled = false;
                  this.Close();
              }
              if (ban == 2)
@@ -224,7 +235,7 @@ namespace PagoElectronico.ABM_Cuenta
                  cmbPaises.SelectedItem = null;
                  cmbTipoCuenta.SelectedItem = null;
                  cmbMoneda.SelectedItem = null;
-                 
+                 numUpDown.Enabled = false;
                 
              }
         }
@@ -273,6 +284,7 @@ namespace PagoElectronico.ABM_Cuenta
             Conexion con = new Conexion();
             //OBTENGO ID DE TIPO_CUENTA
             con.cnn.Open();
+
             string query = "SELECT id_tipocuenta FROM LPP.TIPOS_CUENTA WHERE descripcion = '" +tipo  + "'";
             SqlCommand command = new SqlCommand(query, con.cnn);
             SqlDataReader lector = command.ExecuteReader();
@@ -298,13 +310,38 @@ namespace PagoElectronico.ABM_Cuenta
         private void insertarCambio_Cuenta()
         {
             Conexion con = new Conexion();
-            //INSERTO EL CAMBIO DE CUENTA
+
             con.cnn.Open();
-            string query = "INSERT INTO LPP.CAMBIOS_CUENTA (num_cuenta,tipocuenta_origen,tipocuenta_final,fecha) VALUES (" + getNumCuenta() + "," + getIdTipoCuenta(cuentaCambio) + "," + getIdTipoCuenta(cmbTipoCuenta.Text) + ",CONVERT(datetime,'" + readConfiguracion.Configuracion.fechaSystem() + " 00:00:00.000', 103))";
+            string query = "LPP.PRC_CambioCuenta";
             SqlCommand command = new SqlCommand(query, con.cnn);
+            command.CommandType = CommandType.StoredProcedure;
+            command.Parameters.Add(new SqlParameter("@num_cuenta", Convert.ToDecimal(txtCuenta.Text)));
+            command.Parameters.Add(new SqlParameter("@tipocuenta_origen",getIdTipoCuenta(cuentaCambio)));
+            command.Parameters.Add(new SqlParameter("@tipocuenta_final", getIdTipoCuenta(cmbTipoCuenta.Text)));
+            DateTime fechaConfiguracion = DateTime.ParseExact(readConfiguracion.Configuracion.fechaSystem(), "yyyy-dd-MM", System.Globalization.CultureInfo.InvariantCulture);
+            command.Parameters.Add(new SqlParameter("@fecha", fechaConfiguracion));
+            command.Parameters.Add(new SqlParameter("@cantsuscripciones", Convert.ToInt32(numUpDown.Value)));
+
             command.ExecuteNonQuery();
             con.cnn.Close();
          }
+
+        private void insertarItemFacturaPorApertura() {
+            Conexion con = new Conexion();
+
+            con.cnn.Open();
+            string query = "LPP.PRC_ItemFactura_x_AperturaCuenta";
+            SqlCommand command = new SqlCommand(query, con.cnn);
+            command.CommandType = CommandType.StoredProcedure;
+            command.Parameters.Add(new SqlParameter("@num_cuenta", getNumCuenta()));
+            command.Parameters.Add(new SqlParameter("@id_tipo", getIdTipoCuenta(cmbTipoCuenta.Text)));
+            DateTime fechaConfiguracion = DateTime.ParseExact(readConfiguracion.Configuracion.fechaSystem(), "yyyy-dd-MM", System.Globalization.CultureInfo.InvariantCulture);
+            command.Parameters.Add(new SqlParameter("@fecha", fechaConfiguracion));
+            command.Parameters.Add(new SqlParameter("@cantsuscripciones", Convert.ToInt32(numUpDown.Value)));
+
+            command.ExecuteNonQuery();
+            con.cnn.Close();
+        }
         private string getRolUser()
         {
             Conexion con = new Conexion();

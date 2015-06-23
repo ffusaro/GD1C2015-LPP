@@ -40,6 +40,8 @@ namespace PagoElectronico
             rolToolStripMenuItem.Visible = false;
             usuarioToolStripMenuItem.Visible = false;
             facturarToolStripMenuItem.Visible = false;
+            retiroToolStripMenuItem1.Visible = false;
+            consultarSaldoToolStripMenuItem.Visible = false;
 
 
             Conexion con = new Conexion();

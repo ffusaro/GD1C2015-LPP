@@ -62,7 +62,7 @@ namespace PagoElectronico.Facturacion
                                 + " JOIN LPP.ITEMS it ON it.id_item = i.id_item"
                                 + " JOIN LPP.CUENTAS c ON c.num_cuenta = i.num_cuenta "
                                 + " JOIN LPP.CLIENTES cl ON cl.id_cliente = c.id_cliente"
-                                + " WHERE cl.username = " + usuario + " AND  i.id_factura is NULL AND i.facturado = 0  AND fecha IS NOT NULL ORDER BY i.num_cuenta";
+                                + " WHERE cl.username = '" + usuario + "' AND  i.id_factura is NULL AND i.facturado = 0  AND fecha IS NOT NULL ORDER BY i.num_cuenta";
                     con.cnn.Open();
                     dtDatos = new DataTable();
                     SqlDataAdapter da = new SqlDataAdapter(query, con.cnn);

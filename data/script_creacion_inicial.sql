@@ -114,14 +114,18 @@ IF OBJECT_ID('LPP.PRC_cambiar_costo_apertura_cuenta') IS NOT NULL
 DROP PROCEDURE LPP.PRC_cambiar_costo_apertura_cuenta
 GO
 
-
-/*---------Limpieza de Triggers-----------*/
-IF OBJECT_ID('LPP.TRG_ItemFactura_x_AperturaCuenta') IS NOT NULL
-DROP TRIGGER LPP.TRG_ItemFactura_x_AperturaCuenta
+IF OBJECT_ID('LPP.PRC_CambioCuenta ') IS NOT NULL
+DROP PROCEDURE LPP.PRC_CambioCuenta 
 GO
 
-IF OBJECT_ID('LPP.TRG_CambioCuenta') IS NOT NULL
-DROP TRIGGER LPP.TRG_CambioCuenta
+IF OBJECT_ID('LPP.PRC_ItemFactura_x_AperturaCuenta') IS NOT NULL
+DROP PROCEDURE LPP.PRC_ItemFactura_x_AperturaCuenta
+GO
+
+ 
+/*---------Limpieza de Triggers-----------*/
+IF OBJECT_ID ('LPP.TRG_deshabilitacion_x_duracion_cuenta') IS NOT NULL
+DROP TRIGGER LPP.TRG_deshabilitacion_x_duracion_cuenta
 GO
 
 IF OBJECT_ID('LPP.TRG_ItemFactura_x_Transferencia') IS NOT NULL
@@ -211,10 +215,20 @@ BEGIN
 	DROP TABLE LPP.EMISORES ;
 END;
 
+IF OBJECT_ID('LPP.SUSCRIPCIONES')IS NOT NULL
+BEGIN
+	DROP TABLE LPP.SUSCRIPCIONES ;
+END;
+	
 IF OBJECT_ID('LPP.CAMBIOS_CUENTA') IS NOT NULL
 BEGIN
 	DROP TABLE LPP.CAMBIOS_CUENTA ;
 END;
+
+IF OBJECT_ID('LPP.CUENTAS_DESHABILITADAS') IS NOT NULL
+BEGIN
+	DROP TABLE LPP.CUENTAS_DESHABILITADAS ;
+END;	
 
 IF OBJECT_ID('LPP.CUENTAS ') IS NOT NULL
 BEGIN
@@ -387,6 +401,19 @@ id_estado NUMERIC(18, 0),
 id_pais NUMERIC(18, 0), 
 PRIMARY KEY(num_cuenta));
 
+CREATE TABLE [LPP].CUENTAS_DESHABILITADAS(
+id_deshabilitada NUMERIC(18,0) NOT NULL IDENTITY(1,1),
+num_cuenta NUMERIC(18,0),
+fecha_deshabilitacion DATETIME,
+motivo VARCHAR(255),
+PRIMARY KEY(id_deshabilitada));
+
+CREATE TABLE [LPP].SUSCRIPCIONES(
+id_suscripcion NUMERIC(18, 0) NOT NULL IDENTITY (1,1),
+num_cuenta NUMERIC(18, 0),
+fecha_vencimiento DATETIME, 
+PRIMARY KEY(id_suscripcion));
+
 CREATE TABLE [LPP].BANCOS(
 id_banco NUMERIC(18, 0) NOT NULL IDENTITY(1,1),
 nombre VARCHAR(255),
@@ -492,6 +519,12 @@ ALTER TABLE LPP.CUENTAS ADD
 							FOREIGN KEY (id_estado) references LPP.ESTADOS_CUENTA,
 							FOREIGN KEY (id_pais) references LPP.PAISES;
 
+ALTER TABLE LPP.CUENTAS_DESHABILITADAS ADD
+							FOREIGN KEY(num_cuenta) references LPP.CUENTAS;
+
+ALTER TABLE LPP.SUSCRIPCIONES ADD
+							FOREIGN KEY(num_cuenta) references LPP.CUENTAS;	
+													
 ALTER TABLE LPP.CAMBIOS_CUENTA ADD 
 							FOREIGN KEY(num_cuenta) references LPP.CUENTAS,
 							FOREIGN KEY(tipocuenta_origen) references LPP.TIPOS_CUENTA,
@@ -599,10 +632,10 @@ COMMIT
 
 /*Creacion de los tipos de cuenta*/
 BEGIN TRANSACTION
-INSERT INTO LPP.TIPOS_CUENTA (descripcion, duracion, costo_apertura, costo_transaccion, estado) VALUES('Oro', 66, 200, 200, 1);
-INSERT INTO LPP.TIPOS_CUENTA (descripcion, duracion, costo_apertura, costo_transaccion, estado) VALUES('Plata', 55, 100, 100,1);
-INSERT INTO LPP.TIPOS_CUENTA (descripcion, duracion, costo_apertura, costo_transaccion, estado) VALUES('Bronce', 33, 50, 50, 1);
-INSERT INTO LPP.TIPOS_CUENTA (descripcion, duracion, costo_apertura, costo_transaccion, estado) VALUES('Gratuita', 20, 0, 1, 1);
+INSERT INTO LPP.TIPOS_CUENTA (descripcion, duracion, costo_apertura, costo_transaccion, estado) VALUES('Oro', 730, 200, 200, 1); --duracion de dos anios
+INSERT INTO LPP.TIPOS_CUENTA (descripcion, duracion, costo_apertura, costo_transaccion, estado) VALUES('Plata', 365, 100, 100,1); -- duracion de un anio
+INSERT INTO LPP.TIPOS_CUENTA (descripcion, duracion, costo_apertura, costo_transaccion, estado) VALUES('Bronce', 183, 50, 50, 1); --duracion de medio anio
+INSERT INTO LPP.TIPOS_CUENTA (descripcion, duracion, costo_apertura, costo_transaccion, estado) VALUES('Gratuita', 92, 0, 1, 1); --duracion de tres meses
 COMMIT
 
 /*Creacion de estados de cuenta*/
@@ -699,13 +732,18 @@ SET IDENTITY_INSERT [LPP].CUENTAS OFF;
 --RR: Asumí que las cuentas son gratuitas, ya que el tipo de cuenta no está definida en la tabla maestra
 COMMIT; 
 
+BEGIN TRANSACTION 
+INSERT INTO [LPP].SUSCRIPCIONES (num_cuenta, fecha_vencimiento)
+			SELECT DISTINCT Cuenta_Numero, DATEADD(day, 92, CONVERT(DATETIME, Cuenta_Fecha_Creacion, 103)) -- se agregan 92 dias ya que las cuentas migradas son gratuitas
+				FROM gd_esquema.Maestra
+COMMIT;				
 
 BEGIN TRANSACTION
 INSERT INTO [LPP].TARJETAS (num_tarjeta, id_emisor, cod_seguridad, fecha_emision, fecha_vencimiento, id_cliente)
 	SELECT DISTINCT (LPP.FUNC_encriptar_tarjeta([Tarjeta_Numero])),(SELECT DISTINCT [id_emisor] FROM [LPP].EMISORES WHERE [emisor_descr] = m.[Tarjeta_Emisor_Descripcion])'id_emisor',
 		[Tarjeta_Codigo_Seg],CONVERT(DATETIME,[Tarjeta_Fecha_Emision], 103), CONVERT(DATETIME,[Tarjeta_Fecha_Vencimiento], 103),(SELECT id_cliente FROM LPP.CLIENTES WHERE nombre=Cli_Nombre and apellido=Cli_Apellido) 'id_cliente'
         FROM [GD1C2015].[gd_esquema].[Maestra] m WHERE [Tarjeta_Numero] IS NOT NULL;  
-COMMIT
+COMMIT;
 
 BEGIN TRANSACTION
 SET IDENTITY_INSERT [LPP].DEPOSITOS ON;
@@ -758,44 +796,38 @@ BEGIN TRANSACTION
 COMMIT;
 GO
 /*---------Definiciones de Triggers---------*/
-
-
---cada vez que hay una apartura de una cuenta insertar item de factura
-CREATE TRIGGER LPP.TRG_ItemFactura_x_AperturaCuenta 
-ON LPP.CUENTAS
-AFTER INSERT 
-AS
-BEGIN
-	INSERT INTO LPP.ITEMS_FACTURA (id_item, num_cuenta, monto, facturado, fecha)
-	 VALUES (1, (SELECT num_cuenta FROM inserted), (SELECT costo_apertura FROM LPP.TIPOS_CUENTA WHERE id_tipocuenta =(SELECT id_tipo FROM inserted)), 0, (SELECT fecha_apertura FROM inserted))
-END 
-GO	
-/*Test TRG_ItemFactura_x_AperturaCuenta*/
---INSERT INTO LPP.CUENTAS (id_cliente, saldo, id_moneda,fecha_apertura, id_tipo, id_estado, id_pais) VALUES (1, 500, 1, GETDATE(), 1, 2, 8) 
---SELECT * FROM LPP.ITEMS_FACTURA WHERE num_cuenta = (SELECT num_cuenta FROM LPP.CUENTAS WHERE id_cliente = 1 and saldo = 500 and id_tipo =1)
-
---cada vez que hay un cambio en el tipo de cuenta insertar item de factura
-CREATE TRIGGER LPP.TRG_CambioCuenta 
-ON LPP.CAMBIOS_CUENTA
+--cada vez que se loguea un usuario se verifica las cuentas que se le hayan vencido y deshabilita las vencidas
+CREATE TRIGGER LPP.TRG_deshabilitacion_x_duracion_cuenta
+ON LPP.LOGSXUSUARIO
 AFTER INSERT
 AS
 BEGIN
-	BEGIN TRANSACTION 
-		UPDATE LPP.CUENTAS SET id_tipo = (SELECT tipocuenta_final FROM inserted) WHERE num_cuenta = (SELECT num_cuenta FROM inserted)
+	DECLARE cuentas_usuario CURSOR FOR SELECT num_cuenta FROM LPP.CUENTAS WHERE id_cliente = (SELECT id_cliente FROM LPP.CLIENTES WHERE username = (SELECT username FROM inserted))
+	DECLARE @num_cuenta NUMERIC(18, 0), @fecha_vencimiento DATETIME, @fecha_log DATETIME
 	
-		INSERT INTO LPP.ITEMS_FACTURA (id_item, num_cuenta, monto, facturado, fecha)
-			VALUES (2, (SELECT num_cuenta FROM inserted), (SELECT costo_apertura FROM LPP.TIPOS_CUENTA WHERE id_tipocuenta=(SELECT tipocuenta_final FROM inserted)), 0, (SELECT fecha FROM inserted))
+	SET @fecha_log = (SELECT fecha FROM inserted)
 	
-			IF( (SELECT COUNT(id_item_factura) FROM LPP.ITEMS_FACTURA WHERE facturado= 0) > 5 )
-		UPDATE LPP.CUENTAS SET id_estado = 4 WHERE num_cuenta = (SELECT num_cuenta FROM inserted)
-	COMMIT 
-END 
-GO	
-/*Test TRG_CambioCuenta*/
---SELECT num_cuenta, id_tipo FROM LPP.CUENTAS WHERE num_cuenta =1111111111111111 
---INSERT INTO LPP.CAMBIOS_CUENTA (num_cuenta, tipocuenta_origen, tipocuenta_final, fecha) VALUES (1111111111111111, 4, 2, GETDATE())
---SELECT num_cuenta, id_tipo FROM LPP.CUENTAS WHERE num_cuenta =1111111111111111
---SELECT * FROM LPP.ITEMS_FACTURA WHERE num_cuenta = (SELECT num_cuenta FROM LPP.CUENTAS WHERE num_cuenta =1111111111111111 and id_tipo = 2) and id_item = 2
+	OPEN cuentas_usuario
+	FETCH NEXT FROM cuentas_usuario INTO @num_cuenta
+	
+	WHILE @@FETCH_STATUS = 0
+		BEGIN
+			SELECT @fecha_vencimiento = fecha_vencimiento FROM LPP.SUSCRIPCIONES WHERE num_cuenta = @num_cuenta
+			
+			IF(@fecha_vencimiento < @fecha_log)
+				BEGIN
+					INSERT INTO LPP.CUENTAS_DESHABILITADAS (num_cuenta, fecha_deshabilitacion, motivo) 
+						VALUES(@num_cuenta, @fecha_log, 'Por vencimiento de suscripcion')
+						
+					UPDATE LPP.CUENTAS SET id_estado = 4 WHERE num_cuenta = @num_cuenta	
+		
+				END	
+			FETCH NEXT FROM cuentas_usuario INTO @num_cuenta			
+		END
+	CLOSE cuentas_usuario;
+	DEALLOCATE cuentas_usuario;	
+END
+GO
 
 -- cada vez que hay una transferencia insertar item de factura con descripcion costo por transferencia
 CREATE TRIGGER LPP.TRG_ItemFactura_x_Transferencia 
@@ -807,7 +839,12 @@ BEGIN
 		VALUES (3, (SELECT num_cuenta_origen FROM inserted), (SELECT costo_trans FROM inserted), 0, (SELECT fecha FROM inserted))
 	IF EXISTS(SELECT DISTINCT num_cuenta FROM LPP.ITEMS_FACTURA WHERE facturado = 0 AND num_cuenta = (SELECT num_cuenta_origen FROM inserted)
 			  GROUP BY num_cuenta HAVING COUNT(DISTINCT id_item_factura) >5)
-		UPDATE LPP.CUENTAS SET id_estado = 4 WHERE num_cuenta = (SELECT num_cuenta_origen FROM inserted)
+		BEGIN
+			UPDATE LPP.CUENTAS SET id_estado = 4 WHERE num_cuenta = (SELECT num_cuenta_origen FROM inserted)
+			INSERT INTO LPP.CUENTAS_DESHABILITADAS (num_cuenta, fecha_deshabilitacion, motivo) 
+						VALUES((SELECT num_cuenta_origen FROM inserted), (SELECT fecha FROM inserted), 'Por deber mas de 5 transacciones')
+						
+		END	
 END 
 GO
 
@@ -856,31 +893,55 @@ GO
 --SELECT * FROM LPP.TARJETAS WHERE id_cliente = 1 AND cod_seguridad = 222
 
 /*---------Definiciones de Procedures-------*/
+CREATE PROCEDURE LPP.PRC_ItemFactura_x_AperturaCuenta 
+@num_cuenta NUMERIC(18, 0),
+@id_tipo INTEGER,
+@fecha DATETIME,
+@cantsuscripciones INTEGER
+AS
+BEGIN
+	INSERT INTO LPP.ITEMS_FACTURA (id_item, num_cuenta, monto, facturado, fecha)
+	 VALUES (1, @num_cuenta, @cantsuscripciones * (SELECT costo_apertura FROM LPP.TIPOS_CUENTA WHERE id_tipocuenta = @id_tipo), 0, @fecha)
+END 
+GO	
+/*Test TRG_ItemFactura_x_AperturaCuenta*/
+--INSERT INTO LPP.CUENTAS (id_cliente, saldo, id_moneda,fecha_apertura, id_tipo, id_estado, id_pais) VALUES (1, 500, 1, GETDATE(), 1, 2, 8) 
+--SELECT * FROM LPP.ITEMS_FACTURA WHERE num_cuenta = (SELECT num_cuenta FROM LPP.CUENTAS WHERE id_cliente = 1 and saldo = 500 and id_tipo =1)
 
---inhabilitar cuentas por vencimiento de la duracion de la cuenta
---scheduled stored procedure: se ejecutara una vez por dia
-CREATE PROCEDURE LPP.PRC_inhabilitar_cuentas
-as
-begin
-	while 1 = 1
-	begin 
-		waitfor time '09:00:00'
-		begin
-			update LPP.CUENTAS set id_estado = 
-			 (select id_estadocuenta from LPP.ESTADOS_CUENTA WHERE descripcion = 'Inhabilitada') 
-			where num_cuenta IN (
-			select num_cuenta from lPP.CUENTAS c
-			WHERE 
-			 (GETDATE() - fecha_apertura) > (select duracion from lPP.TIPOS_CUENTA T WHERE id_tipo = t.id_tipocuenta)) 
-		end
-	end
-end
-go
+CREATE PROCEDURE LPP.PRC_CambioCuenta 
+@num_cuenta NUMERIC(18, 0),
+@tipocuenta_origen INTEGER,
+@tipocuenta_final INTEGER, 
+@fecha DATETIME,
+@cantsuscripciones INTEGER
+AS
+BEGIN
+	BEGIN TRANSACTION 
+		INSERT INTO LPP.CAMBIOS_CUENTA (num_cuenta, tipocuenta_origen,tipocuenta_final, fecha) 
+			VALUES (@num_cuenta, @tipocuenta_origen, @tipocuenta_final, @fecha)
+			
+		UPDATE LPP.CUENTAS SET id_tipo = @tipocuenta_final WHERE num_cuenta = @num_cuenta
+		
+		DECLARE @dias INTEGER
+		SELECT @dias = (SELECT duracion FROM LPP.TIPOS_CUENTA WHERE id_tipocuenta = @tipocuenta_final)
+		
+		UPDATE LPP.SUSCRIPCIONES SET num_cuenta = @num_cuenta, fecha_vencimiento = DATEADD(day, @dias * @cantsuscripciones, @fecha) WHERE num_cuenta = @num_cuenta
+		
+		INSERT INTO LPP.ITEMS_FACTURA (id_item, num_cuenta, monto, facturado, fecha)
+			VALUES (2, @num_cuenta, @cantsuscripciones *(SELECT costo_apertura FROM LPP.TIPOS_CUENTA WHERE id_tipocuenta= @tipocuenta_final), 0, @fecha)
+	
+		IF( (SELECT COUNT(id_item_factura) FROM LPP.ITEMS_FACTURA WHERE facturado= 0) > 5 )
+			BEGIN
+				UPDATE LPP.CUENTAS SET id_estado = 4 WHERE num_cuenta = @num_cuenta
+				
+				INSERT INTO LPP.CUENTAS_DESHABILITADAS (num_cuenta, fecha_deshabilitacion, motivo) 
+						VALUES(@num_cuenta, @fecha, 'Por deber mas de 5 transacciones')
+			END
+		
+	COMMIT 
+END 
+GO	
 
--- chequear tambien la fecha de cambio de cuenta
---ver si esta es una opcion para que se corra diariamente, yo no tengo el sql server agent para administrar jobs
--- sp_procoption 'PRC_inhabilitar_cuentas','startup', 'on'
--- GO
 
 CREATE PROCEDURE LPP.PRC_cambiar_costo_apertura_cuenta
 @costonuevo NUMERIC(18, 2),
@@ -890,6 +951,7 @@ BEGIN
 	UPDATE LPP.TIPOS_CUENTA SET costo_apertura = @costonuevo WHERE id_tipocuenta = @id_tipo
 END
 GO
+
 --alta tarjeta
 CREATE PROCEDURE LPP.PRC_insertar_nueva_tarjeta
 @num_tarjeta VARCHAR(16),
