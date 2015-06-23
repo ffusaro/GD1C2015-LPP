@@ -30,9 +30,9 @@
         {
             this.label1 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.button1 = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
+            this.button2 = new System.Windows.Forms.Button();
+            this.button1 = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -56,26 +56,6 @@
             this.groupBox1.TabIndex = 1;
             this.groupBox1.TabStop = false;
             // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(23, 69);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(95, 27);
-            this.button1.TabIndex = 0;
-            this.button1.Text = "Modificar";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
-            // 
-            // button2
-            // 
-            this.button2.Location = new System.Drawing.Point(135, 69);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(95, 27);
-            this.button2.TabIndex = 1;
-            this.button2.Text = "Eliminar";
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
-            // 
             // button3
             // 
             this.button3.Location = new System.Drawing.Point(247, 69);
@@ -85,6 +65,26 @@
             this.button3.Text = "Cancelar";
             this.button3.UseVisualStyleBackColor = true;
             this.button3.Click += new System.EventHandler(this.button3_Click);
+            // 
+            // button2
+            // 
+            this.button2.Location = new System.Drawing.Point(135, 69);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(95, 27);
+            this.button2.TabIndex = 1;
+            this.button2.Text = "Cerrar Cuenta";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(23, 69);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(95, 27);
+            this.button1.TabIndex = 0;
+            this.button1.Text = "Modificar";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // Pregunta
             // 

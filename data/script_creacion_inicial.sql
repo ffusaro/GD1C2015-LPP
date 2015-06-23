@@ -665,7 +665,7 @@ WITH SCHEMABINDING
 AS
 BEGIN
 	DECLARE @ret VARCHAR(16);
-	SET @ret = CONVERT(VARCHAR(12), HASHBYTES('SHA1', SUBSTRING(@num_tarjeta, 1, (LEN(@num_tarjeta)-4 ))), 2)+ SUBSTRING(@num_tarjeta, (LEN(@num_tarjeta)-4 ), LEN(@num_tarjeta));
+	SET @ret = CONVERT(VARCHAR(12), HASHBYTES('SHA1', SUBSTRING(@num_tarjeta, 0, (LEN(@num_tarjeta)-4 ))), 2)+ SUBSTRING(@num_tarjeta, (LEN(@num_tarjeta)-3 ), 4);
 	RETURN @ret;	
 END;
 GO
