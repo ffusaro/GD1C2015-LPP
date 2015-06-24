@@ -91,7 +91,8 @@ namespace PagoElectronico.ABM_Cuenta
                 MessageBox.Show("Tiene items sin facturar");
                 debe = true;
             }
-            else{
+            else
+            {
                 debe = false;
             }
             return debe;

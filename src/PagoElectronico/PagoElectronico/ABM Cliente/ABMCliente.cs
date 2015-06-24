@@ -59,7 +59,7 @@ namespace PagoElectronico
             con1.cnn.Open();
 
             // Pregunto todos los TipoDoc de la DB
-            cbID.Items.Add("");
+            
             string query = "SELECT tipo_descr FROM LPP.TIPO_DOCS";
 
             SqlCommand command = new SqlCommand(query, con1.cnn);
@@ -76,7 +76,7 @@ namespace PagoElectronico
 
             // Pregunto todos los TipoDoc de la DB
             cb2.Items.Add("");
-            string query2 = "SELECT pais FROM LPP.PAISES";
+            string query2 = "SELECT pais FROM LPP.PAISES ORDER BY pais";
 
             SqlCommand command2 = new SqlCommand(query2, con1.cnn);
             SqlDataReader lector2 = command2.ExecuteReader();
@@ -107,10 +107,11 @@ namespace PagoElectronico
                 fechaNacimiento.Value = Convert.ToDateTime(lector.GetDateTime(5));
                 int id_domicilio = lector.GetInt32(6);
                 txtMail.Text = lector.GetString(7);
+                txtMail.Enabled = false;
                 txtUsuario.Text = evento;
                 txtUsuario.Enabled = false;
                 con1.cnn.Close();
-                txtMail.Enabled = false;
+                
 
                 //Consulto Domicilio
                 string queryDomicilio = "SELECT DISTINCT calle,num,depto,piso,localidad " +
@@ -150,7 +151,7 @@ namespace PagoElectronico
                 }
                 
                 
-                txtMail.Enabled = true;
+                
                 btnModificar.Enabled = true;
                 btnNuevo.Enabled = false;
                 btnEliminar.Enabled = true;
@@ -396,6 +397,7 @@ namespace PagoElectronico
                         btnGrabar.Enabled = false;
                         btnBuscar.Enabled = true;
                         btnNuevo.Enabled = true;
+                        txtUsuario.Text = "";
                         btnSalir.Enabled = true;
                         txtNombre.Text = "";
                         txtApellido.Text = "";

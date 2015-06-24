@@ -137,6 +137,7 @@ namespace PagoElectronico.Retiros
                 form_cheque.importe = importe;
                 form_cheque.id_moneda = id_moneda;
                 form_cheque.Show();
+                this.Close();
 
             }
             else
@@ -171,7 +172,16 @@ namespace PagoElectronico.Retiros
                 
             con.cnn.Open();
             SqlCommand command = new SqlCommand(query, con.cnn);
-            SqlDataReader lector = command.ExecuteReader();
+            command.ExecuteNonQuery();
+            con.cnn.Close();
+
+            //ACTUALIZO SALDO EN CUENTA
+            string query4 = "UPDATE LPP.CUENTAS SET saldo = saldo - "+importe+" " +
+                            "WHERE num_cuenta = "+num_cuenta+" ";
+            MessageBox.Show(""+query4);
+            con.cnn.Open();
+            SqlCommand command4 = new SqlCommand(query4, con.cnn);
+            command4.ExecuteNonQuery();
             con.cnn.Close();
 
             //OBTENGO ID DE RETIRO
@@ -200,8 +210,9 @@ namespace PagoElectronico.Retiros
             {
                 
                 ListaRetiros lr = new ListaRetiros(id_retiro);
-                lr.Show();
                 this.Close();
+                lr.Show();
+                
             }
             else
             {

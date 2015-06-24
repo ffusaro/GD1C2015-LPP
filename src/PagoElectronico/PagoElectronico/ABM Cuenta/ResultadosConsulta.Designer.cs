@@ -38,9 +38,9 @@
             // dgvResults
             // 
             this.dgvResults.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvResults.Location = new System.Drawing.Point(20, 21);
+            this.dgvResults.Location = new System.Drawing.Point(19, 21);
             this.dgvResults.Name = "dgvResults";
-            this.dgvResults.Size = new System.Drawing.Size(434, 150);
+            this.dgvResults.Size = new System.Drawing.Size(434, 191);
             this.dgvResults.TabIndex = 0;
             // 
             // groupBox1
@@ -48,14 +48,14 @@
             this.groupBox1.Controls.Add(this.dgvResults);
             this.groupBox1.Location = new System.Drawing.Point(13, 13);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(471, 189);
+            this.groupBox1.Size = new System.Drawing.Size(473, 229);
             this.groupBox1.TabIndex = 1;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Resultados para la cuenta elegida";
             // 
             // btSalir
             // 
-            this.btSalir.Location = new System.Drawing.Point(409, 208);
+            this.btSalir.Location = new System.Drawing.Point(212, 248);
             this.btSalir.Name = "btSalir";
             this.btSalir.Size = new System.Drawing.Size(75, 23);
             this.btSalir.TabIndex = 2;
@@ -67,10 +67,11 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(502, 243);
+            this.ClientSize = new System.Drawing.Size(499, 283);
             this.Controls.Add(this.btSalir);
             this.Controls.Add(this.groupBox1);
             this.Name = "ResultadosConsulta";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Resultado Consulta";
             ((System.ComponentModel.ISupportInitialize)(this.dgvResults)).EndInit();
             this.groupBox1.ResumeLayout(false);

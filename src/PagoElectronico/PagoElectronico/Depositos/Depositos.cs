@@ -19,6 +19,7 @@ namespace PagoElectronico.Depositos
         public DateTime fechaConfiguracion = DateTime.ParseExact(readConfiguracion.Configuracion.fechaSystem(), "yyyy-dd-MM", System.Globalization.CultureInfo.InvariantCulture);
         private decimal id_emisor;
         private decimal id_moneda;
+        private string num_tarjeta;
 
         public Depositos(string user)
         {
@@ -63,14 +64,15 @@ namespace PagoElectronico.Depositos
             string query3 = "SELECT DISTINCT T.num_tarjeta FROM LPP.TARJETAS T "
                             +" JOIN LPP.CLIENTES C ON C.id_cliente = T.id_cliente"
                             +" WHERE C.username = '"+usuario+"'"
-                            +" AND T.fecha_vencimiento > convert(datetime,'" + readConfiguracion.Configuracion.fechaSystem() + " 00:00:00.000', 103)";
+                            +" AND T.fecha_vencimiento >= convert(datetime,'" + readConfiguracion.Configuracion.fechaSystem() + " 00:00:00.000', 103)";
 
             con.cnn.Open();
             SqlCommand command3 = new SqlCommand(query3, con.cnn);
             SqlDataReader lector3 = command3.ExecuteReader();
             while (lector3.Read())
             {
-                cmbTarjeta.Items.Add(lector3.GetString(0));
+                num_tarjeta = lector3.GetString(0);
+                cmbTarjeta.Items.Add("XXXX-XXXX-XXXX-" + num_tarjeta.Remove(0, 12));
             }
             con.cnn.Close();
        }
@@ -133,7 +135,7 @@ namespace PagoElectronico.Depositos
 
             Conexion con = new Conexion();
             //CONSIGO ID DE EMISOR TARJETA (?)
-            string query1 = "SELECT id_emisor FROM LPP.TARJETAS WHERE num_tarjeta = '" + cmbTarjeta.Text + "'";
+            string query1 = "SELECT id_emisor FROM LPP.TARJETAS WHERE num_tarjeta = '" + num_tarjeta+ "'";
             con.cnn.Open();
             SqlCommand command1 = new SqlCommand(query1, con.cnn);
             SqlDataReader lector1 = command1.ExecuteReader();
@@ -158,7 +160,7 @@ namespace PagoElectronico.Depositos
 
             //INSERTO DATOS EN DEPOSITOS
             string query4 = "INSERT INTO LPP.DEPOSITOS (num_cuenta, importe, id_moneda, num_tarjeta, id_emisor, fecha_deposito)"
-                            +" VALUES (" + Convert.ToDecimal(cmbNroCuenta.Text) + ", "+Convert.ToDecimal(txtImporte.Text) +", "+ id_moneda +", '"+ cmbTarjeta.Text +"', "+ id_emisor +", CONVERT(datetime,'" + readConfiguracion.Configuracion.fechaSystem() + " 00:00:00.000', 103))";
+                            +" VALUES (" + Convert.ToDecimal(cmbNroCuenta.Text) + ", "+Convert.ToDecimal(txtImporte.Text) +", "+ id_moneda +", '"+ num_tarjeta +"', "+ id_emisor +", CONVERT(datetime,'" + readConfiguracion.Configuracion.fechaSystem() + " 00:00:00.000', 103))";
             con.cnn.Open();
             SqlCommand command4 = new SqlCommand(query4, con.cnn);
             command4.ExecuteNonQuery();
@@ -181,7 +183,7 @@ namespace PagoElectronico.Depositos
                              +" num_cuenta = " + Convert.ToDecimal(cmbNroCuenta.Text) 
                              +" AND importe = "+Convert.ToDecimal(txtImporte.Text) 
                              +" AND id_moneda = "+ id_moneda 
-                             +" AND num_tarjeta = '"+ cmbTarjeta.Text +"'"
+                             +" AND num_tarjeta = '"+ num_tarjeta +"'"
                              +" AND id_emisor = "+ id_emisor 
                              +" AND fecha_deposito = CONVERT(datetime,'" + readConfiguracion.Configuracion.fechaSystem() + " 00:00:00.000', 103)";
                 con.cnn.Open();

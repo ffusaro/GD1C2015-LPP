@@ -60,7 +60,7 @@ namespace PagoElectronico.ABM_Cuenta
             string query3 = "SELECT pais FROM LPP.PAISES ORDER BY pais ";
             con.cnn.Open();
             SqlCommand command3 = new SqlCommand(query3, con.cnn);
-            SqlDataReader lector3 = command3.ExecuteReader(); ;
+            SqlDataReader lector3 = command3.ExecuteReader();
             while (lector3.Read())
             {
                 cmbPaises.Items.Add(lector3.GetString(0));
@@ -196,7 +196,7 @@ namespace PagoElectronico.ABM_Cuenta
                  SqlCommand command2 = new SqlCommand(query2, con1.cnn);
                  command2.ExecuteNonQuery();
                  con1.cnn.Close();
-
+                 
                  this.insertarItemFacturaPorApertura();
 
                  MessageBox.Show("Alta de Cuenta Exitosa, su Numero de cuenta es:  "+getNumCuenta());
@@ -336,12 +336,14 @@ namespace PagoElectronico.ABM_Cuenta
             DateTime fechaConfiguracion = DateTime.ParseExact(readConfiguracion.Configuracion.fechaSystem(), "yyyy-dd-MM", System.Globalization.CultureInfo.InvariantCulture);
             command.Parameters.Add(new SqlParameter("@fecha", fechaConfiguracion));
             command.Parameters.Add(new SqlParameter("@cantsuscripciones", Convert.ToInt32(numericUpDown1.Value)));
-
             command.ExecuteNonQuery();
             con.cnn.Close();
+            if (Helper.Help.VerificadorDeDeudas(getIdCliente()))
+                MessageBox.Show("Al tener mas de 5 transacciones sin facturar su cuenta se encuentra inhabilitada");
          }
 
-        private void insertarItemFacturaPorApertura() {
+        private void insertarItemFacturaPorApertura() 
+        {
             Conexion con = new Conexion();
 
             con.cnn.Open();
@@ -353,7 +355,6 @@ namespace PagoElectronico.ABM_Cuenta
             DateTime fechaConfiguracion = DateTime.ParseExact(readConfiguracion.Configuracion.fechaSystem(), "yyyy-dd-MM", System.Globalization.CultureInfo.InvariantCulture);
             command.Parameters.Add(new SqlParameter("@fecha", fechaConfiguracion));
             command.Parameters.Add(new SqlParameter("@cantsuscripciones", Convert.ToInt32(numericUpDown1.Value)));
-
             command.ExecuteNonQuery();
             con.cnn.Close();
         }

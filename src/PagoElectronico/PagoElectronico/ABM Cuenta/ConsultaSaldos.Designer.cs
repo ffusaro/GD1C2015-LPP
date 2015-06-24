@@ -31,11 +31,11 @@
             this.cmbNroCuenta = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.btLimpiar = new System.Windows.Forms.Button();
-            this.btSaldo = new System.Windows.Forms.Button();
-            this.btDepositos = new System.Windows.Forms.Button();
-            this.btRetiros = new System.Windows.Forms.Button();
             this.btTransf = new System.Windows.Forms.Button();
+            this.btRetiros = new System.Windows.Forms.Button();
+            this.btDepositos = new System.Windows.Forms.Button();
+            this.btSaldo = new System.Windows.Forms.Button();
+            this.btLimpiar = new System.Windows.Forms.Button();
             this.btSalir = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
@@ -72,35 +72,15 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Seleccione la cuenta y la consulta que desea hacer de la cuenta";
             // 
-            // btLimpiar
+            // btTransf
             // 
-            this.btLimpiar.Location = new System.Drawing.Point(12, 139);
-            this.btLimpiar.Name = "btLimpiar";
-            this.btLimpiar.Size = new System.Drawing.Size(75, 23);
-            this.btLimpiar.TabIndex = 17;
-            this.btLimpiar.Text = "Limpiar";
-            this.btLimpiar.UseVisualStyleBackColor = true;
-            this.btLimpiar.Click += new System.EventHandler(this.btLimpiar_Click);
-            // 
-            // btSaldo
-            // 
-            this.btSaldo.Location = new System.Drawing.Point(30, 80);
-            this.btSaldo.Name = "btSaldo";
-            this.btSaldo.Size = new System.Drawing.Size(75, 23);
-            this.btSaldo.TabIndex = 18;
-            this.btSaldo.Text = "Ver Saldo";
-            this.btSaldo.UseVisualStyleBackColor = true;
-            this.btSaldo.Click += new System.EventHandler(this.btSaldo_Click);
-            // 
-            // btDepositos
-            // 
-            this.btDepositos.Location = new System.Drawing.Point(121, 80);
-            this.btDepositos.Name = "btDepositos";
-            this.btDepositos.Size = new System.Drawing.Size(90, 23);
-            this.btDepositos.TabIndex = 19;
-            this.btDepositos.Text = "Ver Depositos";
-            this.btDepositos.UseVisualStyleBackColor = true;
-            this.btDepositos.Click += new System.EventHandler(this.btDepositos_Click);
+            this.btTransf.Location = new System.Drawing.Point(316, 80);
+            this.btTransf.Name = "btTransf";
+            this.btTransf.Size = new System.Drawing.Size(105, 23);
+            this.btTransf.TabIndex = 21;
+            this.btTransf.Text = "Ver Transferencias";
+            this.btTransf.UseVisualStyleBackColor = true;
+            this.btTransf.Click += new System.EventHandler(this.btTransf_Click);
             // 
             // btRetiros
             // 
@@ -112,15 +92,35 @@
             this.btRetiros.UseVisualStyleBackColor = true;
             this.btRetiros.Click += new System.EventHandler(this.btRetiros_Click);
             // 
-            // btTransf
+            // btDepositos
             // 
-            this.btTransf.Location = new System.Drawing.Point(316, 80);
-            this.btTransf.Name = "btTransf";
-            this.btTransf.Size = new System.Drawing.Size(105, 23);
-            this.btTransf.TabIndex = 21;
-            this.btTransf.Text = "Ver Transferencias";
-            this.btTransf.UseVisualStyleBackColor = true;
-            this.btTransf.Click += new System.EventHandler(this.btTransf_Click);
+            this.btDepositos.Location = new System.Drawing.Point(121, 80);
+            this.btDepositos.Name = "btDepositos";
+            this.btDepositos.Size = new System.Drawing.Size(90, 23);
+            this.btDepositos.TabIndex = 19;
+            this.btDepositos.Text = "Ver Depositos";
+            this.btDepositos.UseVisualStyleBackColor = true;
+            this.btDepositos.Click += new System.EventHandler(this.btDepositos_Click);
+            // 
+            // btSaldo
+            // 
+            this.btSaldo.Location = new System.Drawing.Point(30, 80);
+            this.btSaldo.Name = "btSaldo";
+            this.btSaldo.Size = new System.Drawing.Size(75, 23);
+            this.btSaldo.TabIndex = 18;
+            this.btSaldo.Text = "Ver Saldo";
+            this.btSaldo.UseVisualStyleBackColor = true;
+            this.btSaldo.Click += new System.EventHandler(this.btSaldo_Click);
+            // 
+            // btLimpiar
+            // 
+            this.btLimpiar.Location = new System.Drawing.Point(12, 139);
+            this.btLimpiar.Name = "btLimpiar";
+            this.btLimpiar.Size = new System.Drawing.Size(75, 23);
+            this.btLimpiar.TabIndex = 17;
+            this.btLimpiar.Text = "Limpiar";
+            this.btLimpiar.UseVisualStyleBackColor = true;
+            this.btLimpiar.Click += new System.EventHandler(this.btLimpiar_Click);
             // 
             // btSalir
             // 
@@ -141,6 +141,7 @@
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.btLimpiar);
             this.Name = "ConsultaSaldos";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Consultas acerca de una cuenta";
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();

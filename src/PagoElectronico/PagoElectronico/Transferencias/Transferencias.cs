@@ -173,11 +173,14 @@ namespace PagoElectronico.Transferencias
                             +" WHERE num_cuenta_origen = " + origen 
                             +" AND num_cuenta_destino = " + destino
                             +" AND importe = " + importe
-                            +" AND fecha = CONVERT(DATETIME, '"+readConfiguracion.Configuracion.fechaSystem()+"', 103)";
+                            + " AND fecha = CONVERT(DATETIME, '" + readConfiguracion.Configuracion.fechaSystem() + " 00:00:00.000', 103)";
             con.cnn.Open();
             SqlCommand command2 = new SqlCommand(query2, con.cnn);
             Int32 id_transferencia = Convert.ToInt32(command2.ExecuteScalar());
             con.cnn.Close();
+
+            if (Helper.Help.VerificadorDeDeudas(getIdCliente()))
+                MessageBox.Show("Al tener mas de 5 transacciones sin facturar su cuenta se encuentra inhabilitada");
 
             return id_transferencia;
         }

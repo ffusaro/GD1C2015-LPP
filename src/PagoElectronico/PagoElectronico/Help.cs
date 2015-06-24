@@ -1,10 +1,17 @@
-﻿using System;
+﻿using System.Security.Cryptography;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
 using System.Linq;
 using System.Text;
-using PagoElectronico;
-using System.Security.Cryptography;
 using System.Windows.Forms;
+using System.Text.RegularExpressions;
+using System.Data.SqlClient;
+using Helper;
+using readConfiguracion;
+using PagoElectronico;
 
 namespace Helper
 {
@@ -45,6 +52,40 @@ namespace Helper
             }
 
             return Convert.ToInt32(fecha.Replace('-', '0')) < fechaLimite;
+        }
+        public static bool VerificadorDeDeudas(int id_cliente)
+        {
+            Conexion con = new Conexion();
+            string query = "SELECT i.num_cuenta FROM LPP.ITEMS_FACTURA i JOIN LPP.CUENTAS c ON c.num_cuenta = i.num_cuenta  "+
+		                    "WHERE c.id_cliente = "+id_cliente+" AND i.facturado = 0  "+
+		                    "GROUP BY i.num_cuenta "+
+		                    "HAVING COUNT(i.id_item_factura) > 5";
+            con.cnn.Open();
+            SqlCommand command = new SqlCommand(query, con.cnn);
+            SqlDataReader lector = command.ExecuteReader();
+            if (lector.Read())
+            {
+                decimal num_cuenta = lector.GetDecimal(0);
+                con.cnn.Close();
+                Helper.Help.inhabilitarCuenta(num_cuenta);
+                return true;
+            }
+            else
+            {
+                con.cnn.Close();
+                return false;
+            }
+        }
+        public static void inhabilitarCuenta(decimal cuenta)
+        {
+            Conexion con = new Conexion();
+            con.cnn.Open();
+            string query = "LPP.PRC_inhabilitar_cuenta_por_deudor";
+            SqlCommand command = new SqlCommand(query, con.cnn);
+            command.CommandType = CommandType.StoredProcedure;
+            command.Parameters.Add(new SqlParameter("@num_cuenta",cuenta));
+            command.ExecuteNonQuery();
+            con.cnn.Close();
         }
 
     }

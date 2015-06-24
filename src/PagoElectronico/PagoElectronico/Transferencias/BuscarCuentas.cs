@@ -13,7 +13,6 @@ namespace PagoElectronico.Transferencias
     public partial class BuscarCuentas : Form
     {
         private DataTable dt;
-        private int nroDoc;
         private string tipoDoc;
         private Transferencias tr;
         public string usuario;

@@ -14,7 +14,6 @@ namespace PagoElectronico.ABM_de_Usuario
          
     {
         ABMUsuario FormUsuario;
-        ABMCliente FormCliente;
         ABM_Cliente.AsignarUsuario FormAsignar;
         ABM_Cuenta.AsignarUsuarioCuenta ac;
         public MenuPrincipal mp;
