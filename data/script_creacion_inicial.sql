@@ -907,6 +907,36 @@ GO
 --SELECT * FROM LPP.TARJETAS WHERE id_cliente = 1 AND cod_seguridad = 222
 
 /*---------Definiciones de Procedures-------*/
+CREATE PROCEDURE LPP.PRC_deshabilitacion_x_vencimiento_clientes @fecha_sist DATETIME, @user VARCHAR(255)
+AS
+BEGIN
+	DECLARE @id_cliente INTEGER;
+    SELECT @id_cliente= id_cliente FROM LPP.CLIENTES  WHERE username = @user
+	DECLARE cuentas_usuario CURSOR FOR SELECT num_cuenta FROM LPP.CUENTAS WHERE id_estado = 1 AND id_cliente=@id_cliente
+	DECLARE @num_cuenta NUMERIC(18, 0), @fecha_vencimiento DATETIME
+	
+	OPEN cuentas_usuario
+	FETCH NEXT FROM cuentas_usuario INTO @num_cuenta
+	
+	WHILE @@FETCH_STATUS = 0
+		BEGIN
+			SELECT @fecha_vencimiento = fecha_vencimiento FROM LPP.SUSCRIPCIONES WHERE num_cuenta = @num_cuenta
+			
+			IF(@fecha_vencimiento < @fecha_sist)
+				BEGIN
+					INSERT INTO LPP.CUENTAS_DESHABILITADAS (num_cuenta, fecha_deshabilitacion, motivo) 
+						VALUES(@num_cuenta, @fecha_sist, 'Por vencimiento de suscripcion')
+						
+					UPDATE LPP.CUENTAS SET id_estado = 4 WHERE num_cuenta = @num_cuenta	
+		
+				END	
+			FETCH NEXT FROM cuentas_usuario INTO @num_cuenta			
+		END
+	CLOSE cuentas_usuario;
+	DEALLOCATE cuentas_usuario;	
+END
+GO 
+
 CREATE PROCEDURE LPP.PRC_deshabilitacion_x_vencimiento_administrador
 @fecha_sist DATETIME
 AS
