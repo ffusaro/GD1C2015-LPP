@@ -112,10 +112,21 @@ namespace PagoElectronico.Login
             }
             this.insertarEnLog();
             MessageBox.Show("Bienvenido/a  "+txtUsuario.Text,""+cmbRol.Text);
-            if (verificoSiDebe())
-            {
-                DialogResult dialogResult = MessageBox.Show("¿Desea renovar su suscripcion? ", "Cuentas", MessageBoxButtons.YesNo);
-                if (dialogResult == DialogResult.Yes)
+            if (getRolUser() == "Administrador") {
+                mp.Show();
+                mp.cargarUsuario(txtUsuario.Text, cmbRol.Text, this);
+                txtPass.Text = "";
+                txtUsuario.Text = "";
+                txtPass.Enabled = false;
+                txtUsuario.Focus();
+                cmbRol.Items.Clear();
+                btnIngresar.Enabled = false;
+                this.Hide();
+            } else {
+                if (verificoSiDebe())
+                {
+                    DialogResult dialogResult = MessageBox.Show("¿Desea renovar su suscripcion? ", "Cuentas", MessageBoxButtons.YesNo);
+                    if (dialogResult == DialogResult.Yes)
                 {
                     ABM_Cuenta.Buscar bc = new ABM_Cuenta.Buscar(0, txtUsuario.Text);
                     mp.Show();
@@ -123,16 +134,7 @@ namespace PagoElectronico.Login
                     con.cnn.Close();
                 }
             }
-            else
-               mp.Show();
-            mp.cargarUsuario(txtUsuario.Text, cmbRol.Text, this);
-            txtPass.Text = "";
-            txtUsuario.Text = "";
-            txtPass.Enabled = false;
-            txtUsuario.Focus();
-            cmbRol.Items.Clear();
-            btnIngresar.Enabled = false;
-            this.Hide();
+            }
             
         }
 
@@ -282,6 +284,7 @@ namespace PagoElectronico.Login
 
         private bool verificoSiDebe()
         {
+           
             Conexion con = new Conexion();
             con.cnn.Open();
             string query = "SELECT num_cuenta FROM LPP.CUENTAS WHERE id_cliente= "+getIdCliente()+" AND id_estado = 4";
