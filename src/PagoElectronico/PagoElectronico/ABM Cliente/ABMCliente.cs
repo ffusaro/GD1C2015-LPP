@@ -110,6 +110,7 @@ namespace PagoElectronico
                 txtUsuario.Text = evento;
                 txtUsuario.Enabled = false;
                 con1.cnn.Close();
+                txtMail.Enabled = false;
 
                 //Consulto Domicilio
                 string queryDomicilio = "SELECT DISTINCT calle,num,depto,piso,localidad " +
@@ -469,6 +470,11 @@ namespace PagoElectronico
                     btnSalir.Enabled = true;
                     txtNombre.Text = "";
                     txtApellido.Text = "";
+                    txtDomicilio.Text = "";
+                    txtNumeroCalle.Text = "";
+                    txtLocalidad.Text = "";
+                    txtPiso.Text = "";
+                    txtDepto.Text = "";
                     cb2.Text = "";
                     txtNumeroID.Text = "";
                     txtMail.Text = "";
@@ -520,6 +526,7 @@ namespace PagoElectronico
             txtNumeroCalle.Text = "";
             fechaNacimiento.Value = fecha;
             txtPiso.Text = "";
+            txtDepto.Text = "";
             txtNombre.Focus();
         }
 

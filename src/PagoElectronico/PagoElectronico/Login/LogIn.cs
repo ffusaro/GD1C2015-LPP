@@ -78,7 +78,6 @@ namespace PagoElectronico.Login
                     string query2;
                     query2 = "UPDATE LPP.USUARIOS SET intentos = " + (intFallidos + 1) + " WHERE username = '" + txtUsuario.Text + "'";
                     con.cnn.Open();
-                    MessageBox.Show("" + query2);
                     SqlCommand command1 = new SqlCommand(query2, con.cnn);
                     command1.ExecuteNonQuery();
                     con.cnn.Close();

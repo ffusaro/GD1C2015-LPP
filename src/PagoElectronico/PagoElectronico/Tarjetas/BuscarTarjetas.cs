@@ -16,6 +16,7 @@ namespace PagoElectronico.Tarjetas
         public DataTable dt;
         public Tarjetas.abmTarjetas abmt;
         private string usuario;
+        private string ultimosCuatro;
         public BuscarTarjetas(string user)
         {
             InitializeComponent();
@@ -37,9 +38,10 @@ namespace PagoElectronico.Tarjetas
             SqlCommand command = new SqlCommand(query, con.cnn);
             SqlDataReader lector = command.ExecuteReader();
             lector.Read();
+            
             foreach (DataGridViewRow row in dgvTarjetas.Rows)
             {
-                string ultimosCuatro = lector.GetString(1);
+                ultimosCuatro = lector.GetString(1);
                 row.Cells["num_tarjeta"].Value = "XXXX-XXXX-XXXX-" + ultimosCuatro.Remove(0, 12);
             }
             con.cnn.Close();
@@ -53,9 +55,9 @@ namespace PagoElectronico.Tarjetas
         private void dgvTarjetas_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
             //int id;
-            int indice = e.RowIndex;
-            string num_tarjeta = dgvTarjetas.Rows[indice].Cells["num_tarjeta"].Value.ToString();
-            abmt = new Tarjetas.abmTarjetas(usuario,num_tarjeta);
+            //int indice = e.RowIndex;
+            //string num_tarjeta = dgvTarjetas.Rows[indice].Cells["num_tarjeta"].Value.ToString();
+            abmt = new Tarjetas.abmTarjetas(usuario,ultimosCuatro);
             abmt.txtNumTarjeta.Enabled = false;
             abmt.Show();
             this.Close();

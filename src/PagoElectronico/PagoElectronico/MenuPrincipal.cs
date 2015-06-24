@@ -17,10 +17,12 @@ namespace PagoElectronico
         DataGridView dgvejemplo = new DataGridView();
         public Login.LogIn log;
         public string rol;
+       
 
         public MenuPrincipal()
         {
             InitializeComponent();
+            
         }
       
         public void cargarUsuario(string usuario, string roluser, Login.LogIn form)
@@ -31,6 +33,7 @@ namespace PagoElectronico
 
             /*PREPARAR BOTONERA*/
 
+            this.Text = "Menu Principal:  "+usuario;
             depositosToolStripMenuItem.Visible = false;
             tarjetasToolStripMenuItem.Visible = false;
             transferenciaToolStripMenuItem.Visible = false;
@@ -85,6 +88,16 @@ namespace PagoElectronico
                     {
                         entro = true;
                         consultarSaldoToolStripMenuItem.Visible = true;
+
+                    }
+                }
+                if (!entro)
+                {
+
+                    if (lector1.GetString(0) == "ABM Tipo de Cuenta")
+                    {
+                        entro = true;
+                        aBMTipoDeCuentaToolStripMenuItem.Visible = true;
 
                     }
                 }

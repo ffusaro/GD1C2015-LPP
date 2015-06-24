@@ -118,7 +118,6 @@ C:\Users\LORENA\Documents\GitHub\GD1C2015-LPP\src\PagoElectronico\PagoElectronic
 C:\Users\LORENA\Documents\GitHub\GD1C2015-LPP\src\PagoElectronico\PagoElectronico\obj\Debug\PagoElectronico.ABM_Cliente.AsignarUsuario.resources
 C:\Users\CSOSA\Documents\GitHub\GD1C2015-LPP\src\PagoElectronico\PagoElectronico\obj\Debug\PagoElectronico.ABM_Cliente.AsignarUsuario.resources
 C:\Users\CSOSA\Documents\GitHub\GD1C2015-LPP\src\PagoElectronico\PagoElectronico\obj\Debug\PagoElectronico.ABM_Cuenta.AltaCuenta.resources
-C:\Users\CSOSA\Documents\GitHub\GD1C2015-LPP\src\PagoElectronico\PagoElectronico\obj\Debug\PagoElectronico.ABM_Cuenta.BuscarCuenta.resources
 C:\Users\CSOSA\Documents\GitHub\GD1C2015-LPP\src\PagoElectronico\PagoElectronico\obj\Debug\PagoElectronico.ABM_Cuenta.BuscarCuentas.resources
 C:\Users\CSOSA\Documents\GitHub\GD1C2015-LPP\src\PagoElectronico\PagoElectronico\obj\Debug\PagoElectronico.Facturacion.Buscar.resources
 C:\Users\CSOSA\Documents\GitHub\GD1C2015-LPP\src\PagoElectronico\PagoElectronico\obj\Debug\PagoElectronico.Facturacion.Facturacion.resources
@@ -223,3 +222,8 @@ C:\Users\CSOSA\Desktop\TP1C2015 K3013 LPP 25\src\PagoElectronico\PagoElectronico
 C:\Users\CSOSA\Desktop\TP1C2015 K3013 LPP 25\src\PagoElectronico\PagoElectronico\obj\Debug\PagoElectronico.Transferencias.Transferencias.resources
 C:\Users\CSOSA\Desktop\TP1C2015 K3013 LPP 25\src\PagoElectronico\PagoElectronico\obj\Debug\PagoElectronico.csproj.GenerateResource.Cache
 C:\Users\CSOSA\Desktop\TP1C2015 K3013 LPP 25\src\PagoElectronico\PagoElectronico\obj\Debug\PagoElectronico.pdb
+C:\Users\CSOSA\Documents\GitHub\GD1C2015-LPP\src\PagoElectronico\PagoElectronico\obj\Debug\PagoElectronico.ABM_Cuenta.AsignarUsuarioCuenta.resources
+C:\Users\CSOSA\Documents\GitHub\GD1C2015-LPP\src\PagoElectronico\PagoElectronico\obj\Debug\PagoElectronico.ABM_Cuenta.Buscar.resources
+C:\Users\CSOSA\Documents\GitHub\GD1C2015-LPP\src\PagoElectronico\PagoElectronico\obj\Debug\PagoElectronico.ABM_Cuenta.ConsultaSaldos.resources
+C:\Users\CSOSA\Documents\GitHub\GD1C2015-LPP\src\PagoElectronico\PagoElectronico\obj\Debug\PagoElectronico.ABM_Cuenta.Pregunta.resources
+C:\Users\CSOSA\Documents\GitHub\GD1C2015-LPP\src\PagoElectronico\PagoElectronico\obj\Debug\PagoElectronico.ABM_Cuenta.ResultadosConsulta.resources
