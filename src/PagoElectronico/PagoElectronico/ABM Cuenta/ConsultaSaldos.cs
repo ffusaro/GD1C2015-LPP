@@ -128,7 +128,8 @@ namespace PagoElectronico.ABM_Cuenta
             con.cnn.Close();
             return rol;
         }
-        private void validarNroCuenta() {
+        private void validarNroCuenta()
+        {
             if (cmbNroCuenta.SelectedItem == null)
             {
                 MessageBox.Show("Elija Número de Cuenta Origen por favor");
@@ -137,7 +138,8 @@ namespace PagoElectronico.ABM_Cuenta
             }
         }
 
-        private void abrirResultados(string evento) {
+        private void abrirResultados(string evento) 
+        {
             ABM_Cuenta.ResultadosConsulta re = new ABM_Cuenta.ResultadosConsulta(evento, Convert.ToDecimal(cmbNroCuenta.Text));
             re.Show();        
         }

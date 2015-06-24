@@ -34,6 +34,7 @@
             this.txtDNI = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.btLimpiar = new System.Windows.Forms.Button();
             this.btnCancelar = new System.Windows.Forms.Button();
             this.btnContinuar = new System.Windows.Forms.Button();
             this.grpBanco = new System.Windows.Forms.GroupBox();
@@ -45,7 +46,6 @@
             this.label4 = new System.Windows.Forms.Label();
             this.txtDoc = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
-            this.btLimpiar = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.grpBanco.SuspendLayout();
@@ -107,6 +107,16 @@
             this.groupBox2.Size = new System.Drawing.Size(558, 43);
             this.groupBox2.TabIndex = 1;
             this.groupBox2.TabStop = false;
+            // 
+            // btLimpiar
+            // 
+            this.btLimpiar.Location = new System.Drawing.Point(30, 14);
+            this.btLimpiar.Name = "btLimpiar";
+            this.btLimpiar.Size = new System.Drawing.Size(75, 23);
+            this.btLimpiar.TabIndex = 2;
+            this.btLimpiar.Text = "Limpiar";
+            this.btLimpiar.UseVisualStyleBackColor = true;
+            this.btLimpiar.Click += new System.EventHandler(this.btLimpiar_Click);
             // 
             // btnCancelar
             // 
@@ -214,16 +224,6 @@
             this.label5.TabIndex = 0;
             this.label5.Text = "Numero de Documento";
             // 
-            // btLimpiar
-            // 
-            this.btLimpiar.Location = new System.Drawing.Point(30, 14);
-            this.btLimpiar.Name = "btLimpiar";
-            this.btLimpiar.Size = new System.Drawing.Size(75, 23);
-            this.btLimpiar.TabIndex = 2;
-            this.btLimpiar.Text = "Limpiar";
-            this.btLimpiar.UseVisualStyleBackColor = true;
-            this.btLimpiar.Click += new System.EventHandler(this.btLimpiar_Click);
-            // 
             // Cheque
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -234,6 +234,7 @@
             this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.groupBox1);
             this.Name = "Cheque";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Cheque";
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();

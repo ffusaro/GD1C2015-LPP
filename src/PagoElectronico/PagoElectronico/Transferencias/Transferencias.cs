@@ -154,6 +154,7 @@ namespace PagoElectronico.Transferencias
 
         private Int32 grabarTransferencia(decimal origen, decimal destino, decimal importe)
         {
+            
             Conexion con = new Conexion();
             con.cnn.Open();
             string query = "LPP.PRC_realizar_transferencia";
@@ -209,6 +210,9 @@ namespace PagoElectronico.Transferencias
             txtCuentaDestino.Enabled = false;
         
         }
+      
+
+
 
     }
 }

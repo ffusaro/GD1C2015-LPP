@@ -112,7 +112,19 @@ namespace PagoElectronico.Login
             }
             this.insertarEnLog();
             MessageBox.Show("Bienvenido/a  "+txtUsuario.Text,""+cmbRol.Text);
-            mp.Show();
+            if (verificoSiDebe())
+            {
+                DialogResult dialogResult = MessageBox.Show("¿Desea renovar su suscripcion? ", "Cuentas", MessageBoxButtons.YesNo);
+                if (dialogResult == DialogResult.Yes)
+                {
+                    ABM_Cuenta.Buscar bc = new ABM_Cuenta.Buscar(0, txtUsuario.Text);
+                    mp.Show();
+                    bc.Show();
+                    con.cnn.Close();
+                }
+            }
+            else
+               mp.Show();
             mp.cargarUsuario(txtUsuario.Text, cmbRol.Text, this);
             txtPass.Text = "";
             txtUsuario.Text = "";
@@ -206,6 +218,7 @@ namespace PagoElectronico.Login
         public void insertarEnLog()
         {
            Conexion con = new Conexion();
+           DateTime fechaConfiguracion = DateTime.ParseExact(readConfiguracion.Configuracion.fechaSystem(), "yyyy-dd-MM", System.Globalization.CultureInfo.InvariantCulture);
            if (entro)
            {
                //CARGO DATOS EN LOGUXSUARIO (Usuario correcto)
@@ -215,18 +228,30 @@ namespace PagoElectronico.Login
                command6.ExecuteNonQuery();
                con.cnn.Close();
 
-               if (getRolUser() == "Administrador") {
+               if (getRolUser() == "Administrador")
+               {
                    string query0 = "LPP.PRC_deshabilitacion_x_vencimiento_administrador";
                    con.cnn.Open();
                    SqlCommand command = new SqlCommand(query0, con.cnn);
                    command.CommandType = CommandType.StoredProcedure;
-                   DateTime fechaConfiguracion = DateTime.ParseExact(readConfiguracion.Configuracion.fechaSystem(), "yyyy-dd-MM", System.Globalization.CultureInfo.InvariantCulture);
                    command.Parameters.Add(new SqlParameter("@fecha_sist", fechaConfiguracion));
-                   
                    command.ExecuteNonQuery();
                    con.cnn.Close();
-               
+
                }
+               else
+               {
+                   string query0 = "LPP.PRC_deshabilitacion_x_vencimiento_clientes";
+                   con.cnn.Open();
+                   SqlCommand command = new SqlCommand(query0, con.cnn);
+                   command.CommandType = CommandType.StoredProcedure;
+                  // DateTime fechaConfiguracion = DateTime.ParseExact(readConfiguracion.Configuracion.fechaSystem(), "yyyy-dd-MM", System.Globalization.CultureInfo.InvariantCulture);
+                   command.Parameters.Add(new SqlParameter("@fecha_sist", fechaConfiguracion));
+                   command.Parameters.Add(new SqlParameter("@user", txtUsuario.Text));
+                   command.ExecuteNonQuery();
+                   con.cnn.Close();
+               }
+
 
            }
            else
@@ -237,13 +262,14 @@ namespace PagoElectronico.Login
                SqlCommand command4 = new SqlCommand(query4, con.cnn);
                command4.ExecuteNonQuery();
                con.cnn.Close();
+               
            }
        }
 
         private string getRolUser()
         {
             Conexion con = new Conexion();
-            //OBTENGO ID DE CLIENTE
+            //OBTENGO USUARIO DEL ROL
             con.cnn.Open();
             string query = "SELECT R.nombre FROM LPP.ROLESXUSUARIO U JOIN LPP.ROLES R ON R.id_rol=U.rol WHERE U.username = '" + txtUsuario.Text + "'";
             SqlCommand command = new SqlCommand(query, con.cnn);
@@ -254,7 +280,40 @@ namespace PagoElectronico.Login
             return rol;
         } 
 
-     
+        private bool verificoSiDebe()
+        {
+            Conexion con = new Conexion();
+            con.cnn.Open();
+            string query = "SELECT num_cuenta FROM LPP.CUENTAS WHERE id_cliente= "+getIdCliente()+" AND id_estado = 4";
+            bool debe = false;
+            SqlCommand command = new SqlCommand(query, con.cnn);
+            SqlDataReader lector = command.ExecuteReader();
+            
+            if (lector.Read())
+            {
+                MessageBox.Show("Alguna de sus cuentas se encuentra deshabilitada");
+                
+                debe = true;
+                con.cnn.Close();
+                
+            }
+            con.cnn.Close();
+            return debe;
+        }
+        private int getIdCliente()
+        {
+            Conexion con = new Conexion();
+            //OBTENGO ID DE CLIENTE
+            con.cnn.Open();
+            string query = "SELECT id_cliente FROM LPP.CLIENTES WHERE username = '" + txtUsuario.Text + "'";
+            SqlCommand command = new SqlCommand(query, con.cnn);
+            SqlDataReader lector = command.ExecuteReader();
+            lector.Read();
+            int id_cliente = lector.GetInt32(0);
+            con.cnn.Close();
+            return id_cliente;
+
+        }
 
        
     }

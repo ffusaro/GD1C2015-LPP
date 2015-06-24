@@ -180,6 +180,7 @@
             this.Controls.Add(this.boxBotones);
             this.Controls.Add(this.grpDatos);
             this.Name = "Transferencias";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Transferencis";
             this.boxBotones.ResumeLayout(false);
             this.grpDatos.ResumeLayout(false);

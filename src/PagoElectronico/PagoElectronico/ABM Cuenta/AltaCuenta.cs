@@ -43,6 +43,7 @@ namespace PagoElectronico.ABM_Cuenta
             btnNuevo.Enabled = true;
             btnSalir.Enabled = true;
             btnContinuar.Enabled = false;
+            checkBox1.Enabled = false;
 
             // Busca y carga los tipos de moneda 
             Conexion con = new Conexion();
@@ -103,6 +104,8 @@ namespace PagoElectronico.ABM_Cuenta
                     cuentaCambio = lector2.GetString(3);
                     cmbPaises.Text = lector2.GetString(4);
                     usuario = lector2.GetString(5);
+                    groupBox3.Enabled = false;
+
                 }
                 con.cnn.Close();
                 lblCuenta.Visible = true;
@@ -111,6 +114,7 @@ namespace PagoElectronico.ABM_Cuenta
                 btnNuevo.Enabled = false;
                 btnLimpiar.Enabled = true;
                 btnContinuar.Enabled = true;
+                checkBox1.Enabled = true;
                 ban = 2;
             }
         }
@@ -125,6 +129,7 @@ namespace PagoElectronico.ABM_Cuenta
             btnContinuar.Enabled = true;
             btnNuevo.Enabled = false;
             btnBuscar.Enabled = false;
+            groupBox3.Enabled = true;
             ban = 1;
         }
 
@@ -200,6 +205,8 @@ namespace PagoElectronico.ABM_Cuenta
                  this.insertarItemFacturaPorApertura();
 
                  MessageBox.Show("Alta de Cuenta Exitosa, su Numero de cuenta es:  "+getNumCuenta());
+                 txtCuenta.Visible = false;
+                 lblCuenta.Visible = false;
                  btnLimpiar.Enabled = true;
                  btnContinuar.Enabled = false;
                  btnBuscar.Enabled = true;
@@ -216,29 +223,60 @@ namespace PagoElectronico.ABM_Cuenta
              }
              if (ban == 2)
              {
-                 string query9 = "UPDATE LPP.CUENTAS SET " +
-                                 " id_moneda = " + getIdMoneda() + ","+
-                                 " id_tipo = " +getIdTipoCuenta(cmbTipoCuenta.Text) + "  " +
-                                 "WHERE num_cuenta = " + Convert.ToDecimal(txtCuenta.Text)+ "";
-                
-                 con1.cnn.Open();
-                 SqlCommand command = new SqlCommand(query9, con1.cnn);
-                 command.ExecuteNonQuery();
-                 con1.cnn.Close();
-                 if (cuentaCambio != cmbTipoCuenta.Text)
-                     insertarCambio_Cuenta();
+                 if (checkBox1.Checked == true)
+                 {
+                     string query9 = "UPDATE LPP.CUENTAS SET " +
+                                 " id_moneda = " + getIdMoneda() + "," +
+                                 " id_tipo = " + getIdTipoCuenta(cmbTipoCuenta.Text) + ", id_estado = 1 " +
+                                 "WHERE num_cuenta = " + Convert.ToDecimal(txtCuenta.Text) + "";
+
+                     con1.cnn.Open();
+                     SqlCommand command = new SqlCommand(query9, con1.cnn);
+                     command.ExecuteNonQuery();
+                     con1.cnn.Close();
+                     if (cuentaCambio != cmbTipoCuenta.Text)
+                         insertarCambio_Cuenta();
+
+                     Int32 duracion = getDuracionCuenta(getIdTipoCuenta(cmbTipoCuenta.Text));
+                     string query2 = "INSERT INTO LPP.SUSCRIPCIONES (num_cuenta, fecha_vencimiento)"
+                                    + " VALUES (" + getNumCuenta() + ", DATEADD(day," + duracion * Convert.ToInt32(numericUpDown1.Value) + " ,  CONVERT(DATETIME, '" + readConfiguracion.Configuracion.fechaSystem() + "', 103 )))";
+                     con1.cnn.Open();
+                     SqlCommand command2 = new SqlCommand(query2, con1.cnn);
+                     command2.ExecuteNonQuery();
+                     con1.cnn.Close();
+                 }
+                 else
+                 {
+                     string query9 = "UPDATE LPP.CUENTAS SET " +
+                               " id_moneda = " + getIdMoneda() + "," +
+                               " id_tipo = " + getIdTipoCuenta(cmbTipoCuenta.Text) + "  " +
+                               "WHERE num_cuenta = " + Convert.ToDecimal(txtCuenta.Text) + "";
+
+                     con1.cnn.Open();
+                     SqlCommand command = new SqlCommand(query9, con1.cnn);
+                     command.ExecuteNonQuery();
+                     con1.cnn.Close();
+                     if (cuentaCambio != cmbTipoCuenta.Text)
+                         insertarCambio_Cuenta();
+
+                 }
+
                  MessageBox.Show("La cuenta fue modificada con éxito");
                  btnLimpiar.Enabled = true;
                  btnContinuar.Enabled = false;
                  btnBuscar.Enabled = true;
                  btnNuevo.Enabled = true;
                  btnSalir.Enabled = true;
+                 txtCuenta.Text = "";
+                 numericUpDown1.Value = 1;
                  gbDatosCuenta.Enabled = false;
                  gbTipoCuenta.Enabled = false;
                  cmbPaises.SelectedItem = null;
                  cmbTipoCuenta.SelectedItem = null;
                  cmbMoneda.SelectedItem = null;
                  numericUpDown1.Enabled = false;
+                 checkBox1.Enabled = false;
+                 checkBox1.Checked = false;
                 
              }
         }
@@ -370,6 +408,14 @@ namespace PagoElectronico.ABM_Cuenta
             string rol = lector.GetString(0);
             con.cnn.Close();
             return rol;
+        }
+
+        private void checkBox1_CheckedChanged(object sender, EventArgs e)
+        {
+            if (checkBox1.Checked == true)
+                groupBox3.Enabled = true;
+            else
+                groupBox3.Enabled = false;
         }
 
                 

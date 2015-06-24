@@ -26,26 +26,28 @@ namespace PagoElectronico.ABM_Cuenta
             numcuenta = num_cuenta;
             consulta = evento;
 
-            
-            if (evento == "S")
+
+            if (consulta == "S")
             {
 
                 string query = "SELECT saldo FROM LPP.CUENTAS WHERE num_cuenta = " + numcuenta + " ";
                 this.ejecutarQuery(query);
             }
-            
-            if (evento == "D")
+
+            if (consulta == "D")
             {
                 string query = "SELECT TOP 5 * FROM LPP.DEPOSITOS WHERE num_cuenta = "+numcuenta+" ORDER BY fecha_deposito DESC ";
                 this.ejecutarQuery(query);
             }
-            
-            if(evento == "R"){
+
+            if (consulta == "R")
+            {
                 string query = "SELECT TOP 5 * FROM LPP.RETIROS WHERE num_cuenta = "+numcuenta+" ORDER BY fecha DESC ";
                 this.ejecutarQuery(query);
             }
 
-            if(evento == "T"){
+            if (consulta == "T")
+            {
                 string query = "SELECT TOP 10 * FROM LPP.TRANSFERENCIAS WHERE num_cuenta_origen = "+numcuenta+" ORDER BY fecha DESC ";
                 this.ejecutarQuery(query);
             }

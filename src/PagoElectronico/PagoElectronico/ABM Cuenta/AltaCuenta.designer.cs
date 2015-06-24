@@ -50,6 +50,7 @@
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
             this.label2 = new System.Windows.Forms.Label();
+            this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.gbDatosCuenta.SuspendLayout();
             this.gbTipoCuenta.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -64,7 +65,7 @@
             this.gbDatosCuenta.Controls.Add(this.cmbPaises);
             this.gbDatosCuenta.Controls.Add(this.lblPais);
             this.gbDatosCuenta.Controls.Add(this.lblCuenta);
-            this.gbDatosCuenta.Location = new System.Drawing.Point(17, 50);
+            this.gbDatosCuenta.Location = new System.Drawing.Point(17, 46);
             this.gbDatosCuenta.Name = "gbDatosCuenta";
             this.gbDatosCuenta.Size = new System.Drawing.Size(335, 95);
             this.gbDatosCuenta.TabIndex = 0;
@@ -127,7 +128,7 @@
             this.gbTipoCuenta.Controls.Add(this.lblMoneda);
             this.gbTipoCuenta.Controls.Add(this.lblTipo);
             this.gbTipoCuenta.Controls.Add(this.cmbTipoCuenta);
-            this.gbTipoCuenta.Location = new System.Drawing.Point(358, 50);
+            this.gbTipoCuenta.Location = new System.Drawing.Point(358, 46);
             this.gbTipoCuenta.Name = "gbTipoCuenta";
             this.gbTipoCuenta.Size = new System.Drawing.Size(337, 95);
             this.gbTipoCuenta.TabIndex = 1;
@@ -243,9 +244,9 @@
             // 
             this.groupBox3.Controls.Add(this.numericUpDown1);
             this.groupBox3.Controls.Add(this.label2);
-            this.groupBox3.Location = new System.Drawing.Point(17, 152);
+            this.groupBox3.Location = new System.Drawing.Point(17, 143);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(674, 33);
+            this.groupBox3.Size = new System.Drawing.Size(639, 46);
             this.groupBox3.TabIndex = 13;
             this.groupBox3.TabStop = false;
             // 
@@ -276,11 +277,22 @@
             this.label2.Text = "Seleccione la cantidad de suscripciones  que desea comprar del tipo de cueta dete" +
                 "rminado";
             // 
+            // checkBox1
+            // 
+            this.checkBox1.AutoSize = true;
+            this.checkBox1.Location = new System.Drawing.Point(667, 162);
+            this.checkBox1.Name = "checkBox1";
+            this.checkBox1.Size = new System.Drawing.Size(15, 14);
+            this.checkBox1.TabIndex = 14;
+            this.checkBox1.UseVisualStyleBackColor = true;
+            this.checkBox1.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
+            // 
             // AltaCuenta
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(703, 251);
+            this.Controls.Add(this.checkBox1);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
@@ -301,6 +313,7 @@
             this.groupBox3.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -328,5 +341,6 @@
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.NumericUpDown numericUpDown1;
+        private System.Windows.Forms.CheckBox checkBox1;
     }
 }
