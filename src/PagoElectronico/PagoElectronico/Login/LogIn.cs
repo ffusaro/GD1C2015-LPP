@@ -127,13 +127,43 @@ namespace PagoElectronico.Login
                 {
                     DialogResult dialogResult = MessageBox.Show("¿Desea renovar su suscripcion? ", "Cuentas", MessageBoxButtons.YesNo);
                     if (dialogResult == DialogResult.Yes)
-                {
-                    ABM_Cuenta.Buscar bc = new ABM_Cuenta.Buscar(0, txtUsuario.Text);
+                    {
+                        ABM_Cuenta.Buscar bc = new ABM_Cuenta.Buscar(0, txtUsuario.Text);
+                        mp.Show();
+                        mp.cargarUsuario(txtUsuario.Text, cmbRol.Text, this);
+                        txtPass.Text = "";
+                        txtUsuario.Text = "";
+                        txtPass.Enabled = false;
+                        txtUsuario.Focus();
+                        cmbRol.Items.Clear();
+                        btnIngresar.Enabled = false;
+                        bc.Show();
+                        con.cnn.Close();
+                    }
+                    if (dialogResult == DialogResult.No)
+                    {
+                        mp.cargarUsuario(txtUsuario.Text, cmbRol.Text, this);
+                        txtPass.Text = "";
+                        txtUsuario.Text = "";
+                        txtPass.Enabled = false;
+                        txtUsuario.Focus();
+                        cmbRol.Items.Clear();
+                        btnIngresar.Enabled = false;
+                        mp.Show();
+                        con.cnn.Close();
+                    }
+                }
+                else {
+                    mp.cargarUsuario(txtUsuario.Text, cmbRol.Text, this);
+                    txtPass.Text = "";
+                    txtUsuario.Text = "";
+                    txtPass.Enabled = false;
+                    txtUsuario.Focus();
+                    cmbRol.Items.Clear();
+                    btnIngresar.Enabled = false;
                     mp.Show();
-                    bc.Show();
                     con.cnn.Close();
                 }
-            }
             }
             
         }

@@ -126,6 +126,10 @@ IF OBJECT_ID('LPP.PRC_deshabilitacion_x_vencimiento_administrador') IS NOT NULL
 DROP PROCEDURE LPP.PRC_deshabilitacion_x_vencimiento_administrador
 GO
 
+IF OBJECT_ID('LPP.PRC_deshabilitacion_x_vencimiento_clientes') IS NOT NULL
+DROP PROCEDURE LPP.PRC_deshabilitacion_x_vencimiento_clientes
+GO
+
  
 /*---------Limpieza de Triggers-----------*/
 IF OBJECT_ID ('LPP.TRG_deshabilitacion_x_duracion_cuenta') IS NOT NULL
@@ -907,7 +911,9 @@ GO
 --SELECT * FROM LPP.TARJETAS WHERE id_cliente = 1 AND cod_seguridad = 222
 
 /*---------Definiciones de Procedures-------*/
-CREATE PROCEDURE LPP.PRC_deshabilitacion_x_vencimiento_clientes @fecha_sist DATETIME, @user VARCHAR(255)
+CREATE PROCEDURE LPP.PRC_deshabilitacion_x_vencimiento_clientes 
+@fecha_sist DATETIME, 
+@user VARCHAR(255)
 AS
 BEGIN
 	DECLARE @id_cliente INTEGER;
@@ -1087,7 +1093,7 @@ CREATE PROCEDURE LPP.PRC_realizar_transferencia
 @fecha DATETIME
 AS
 BEGIN
-	IF(@num_cuenta_origen = @num_cuenta_destino)
+	IF((SELECT id_cliente FROM LPP.CUENTAS WHERE num_cuenta = @num_cuenta_origen )= (SELECT id_cliente FROM LPP.CUENTAS WHERE num_cuenta = @num_cuenta_destino))
 		BEGIN
 			INSERT INTO LPP.TRANSFERENCIAS (num_cuenta_origen, num_cuenta_destino, importe, fecha, costo_trans) VALUES (@num_cuenta_origen, @num_cuenta_destino, @importe, CONVERT(datetime, @fecha, 103), 0);
 		END	

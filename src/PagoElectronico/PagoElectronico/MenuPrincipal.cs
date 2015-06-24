@@ -92,17 +92,7 @@ namespace PagoElectronico
 
                     }
                 }
-                if (!entro)
-                {
-
-                    if (lector1.GetString(0) == "ABM Tipo de Cuenta")
-                    {
-                        entro = true;
-                        aBMTipoDeCuentaToolStripMenuItem.Visible = true;
-
-                    }
-                }
-              
+                              
                 if (!entro)
                 {
                     if (lector1.GetString(0) == "Listados")

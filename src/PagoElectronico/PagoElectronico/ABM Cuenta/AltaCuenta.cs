@@ -43,7 +43,6 @@ namespace PagoElectronico.ABM_Cuenta
             btnNuevo.Enabled = true;
             btnSalir.Enabled = true;
             btnContinuar.Enabled = false;
-            checkBox1.Enabled = false;
 
             // Busca y carga los tipos de moneda 
             Conexion con = new Conexion();
@@ -104,7 +103,7 @@ namespace PagoElectronico.ABM_Cuenta
                     cuentaCambio = lector2.GetString(3);
                     cmbPaises.Text = lector2.GetString(4);
                     usuario = lector2.GetString(5);
-                    groupBox3.Enabled = false;
+                    groupBox3.Enabled = true;
 
                 }
                 con.cnn.Close();
@@ -114,7 +113,6 @@ namespace PagoElectronico.ABM_Cuenta
                 btnNuevo.Enabled = false;
                 btnLimpiar.Enabled = true;
                 btnContinuar.Enabled = true;
-                checkBox1.Enabled = true;
                 ban = 2;
             }
         }
@@ -176,13 +174,17 @@ namespace PagoElectronico.ABM_Cuenta
             if (cmbTipoCuenta.SelectedItem == null)
             {
                 MessageBox.Show("Elija un tipo de cuenta");
-            }
-            
-             if (cmbPaises.SelectedItem == null)
-            {
-                MessageBox.Show("Elija un Pais");
+                return;
             }
 
+            if (ban == 1)
+            {
+                if (cmbPaises.SelectedItem == null)
+                {
+                    MessageBox.Show("Elija un Pais");
+                    return;
+                }
+            }
              if (ban == 1)
              {
                  //INSERTO LA CUENTA
@@ -223,7 +225,7 @@ namespace PagoElectronico.ABM_Cuenta
              }
              if (ban == 2)
              {
-                 if (checkBox1.Checked == true)
+                 if (cuentaCambio != cmbTipoCuenta.Text)
                  {
                      string query9 = "UPDATE LPP.CUENTAS SET " +
                                  " id_moneda = " + getIdMoneda() + "," +
@@ -244,21 +246,20 @@ namespace PagoElectronico.ABM_Cuenta
                      SqlCommand command2 = new SqlCommand(query2, con1.cnn);
                      command2.ExecuteNonQuery();
                      con1.cnn.Close();
+                     
+                     insertarCambio_Cuenta();
                  }
                  else
                  {
                      string query9 = "UPDATE LPP.CUENTAS SET " +
-                               " id_moneda = " + getIdMoneda() + "," +
-                               " id_tipo = " + getIdTipoCuenta(cmbTipoCuenta.Text) + "  " +
-                               "WHERE num_cuenta = " + Convert.ToDecimal(txtCuenta.Text) + "";
+                               " id_moneda = " + getIdMoneda() + 
+                               " WHERE num_cuenta = " + Convert.ToDecimal(txtCuenta.Text) + "";
 
                      con1.cnn.Open();
                      SqlCommand command = new SqlCommand(query9, con1.cnn);
                      command.ExecuteNonQuery();
                      con1.cnn.Close();
-                     if (cuentaCambio != cmbTipoCuenta.Text)
-                         insertarCambio_Cuenta();
-
+                     
                  }
 
                  MessageBox.Show("La cuenta fue modificada con éxito");
@@ -275,8 +276,6 @@ namespace PagoElectronico.ABM_Cuenta
                  cmbTipoCuenta.SelectedItem = null;
                  cmbMoneda.SelectedItem = null;
                  numericUpDown1.Enabled = false;
-                 checkBox1.Enabled = false;
-                 checkBox1.Checked = false;
                 
              }
         }
@@ -408,14 +407,6 @@ namespace PagoElectronico.ABM_Cuenta
             string rol = lector.GetString(0);
             con.cnn.Close();
             return rol;
-        }
-
-        private void checkBox1_CheckedChanged(object sender, EventArgs e)
-        {
-            if (checkBox1.Checked == true)
-                groupBox3.Enabled = true;
-            else
-                groupBox3.Enabled = false;
         }
 
                 
