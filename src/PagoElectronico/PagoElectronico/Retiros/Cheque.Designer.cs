@@ -100,6 +100,7 @@
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.btnBanco);
             this.groupBox2.Controls.Add(this.btLimpiar);
             this.groupBox2.Controls.Add(this.btnCancelar);
             this.groupBox2.Location = new System.Drawing.Point(13, 159);
@@ -140,7 +141,6 @@
             // 
             // grpBanco
             // 
-            this.grpBanco.Controls.Add(this.btnBanco);
             this.grpBanco.Controls.Add(this.cmbBanco);
             this.grpBanco.Controls.Add(this.label3);
             this.grpBanco.Location = new System.Drawing.Point(13, 106);
@@ -152,11 +152,11 @@
             // 
             // btnBanco
             // 
-            this.btnBanco.Location = new System.Drawing.Point(437, 15);
+            this.btnBanco.Location = new System.Drawing.Point(244, 14);
             this.btnBanco.Name = "btnBanco";
-            this.btnBanco.Size = new System.Drawing.Size(75, 23);
+            this.btnBanco.Size = new System.Drawing.Size(92, 23);
             this.btnBanco.TabIndex = 4;
-            this.btnBanco.Text = "Elegir Banco";
+            this.btnBanco.Text = "Emitir Cheque";
             this.btnBanco.UseVisualStyleBackColor = true;
             this.btnBanco.Click += new System.EventHandler(this.btnBanco_Click);
             // 

@@ -117,6 +117,12 @@ namespace PagoElectronico.Retiros
                 return;
             }
             con.cnn.Close();
+            txtDNI.Enabled = false;
+            txtDoc.Enabled = false;
+            cbID.Enabled = false;
+            btnContinuar.Enabled = false;
+            btLimpiar.Enabled = false;
+            btnBanco.Enabled = true;
 
 
         }

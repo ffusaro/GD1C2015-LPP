@@ -131,7 +131,7 @@ namespace PagoElectronico.Login
             } else {
                 if (verificoSiDebe())
                 {
-                    DialogResult dialogResult = MessageBox.Show("¿Desea renovar su suscripcion? ", "Cuentas", MessageBoxButtons.YesNo);
+                    DialogResult dialogResult = MessageBox.Show("Alguna de sus cuentas se encuentra deshabilitada ¿Desea renovar su suscripcion? ", "Cuentas", MessageBoxButtons.YesNo);
                     if (dialogResult == DialogResult.Yes)
                     {
                         ABM_Cuenta.Buscar bc = new ABM_Cuenta.Buscar(0, txtUsuario.Text);
@@ -338,8 +338,6 @@ namespace PagoElectronico.Login
             
             if (lector.Read())
             {
-                MessageBox.Show("Alguna de sus cuentas se encuentra deshabilitada");
-                
                 debe = true;
                 con.cnn.Close();
                 

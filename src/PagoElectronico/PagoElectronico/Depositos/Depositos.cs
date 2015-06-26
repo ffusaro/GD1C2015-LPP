@@ -120,12 +120,18 @@ namespace PagoElectronico.Depositos
                 MessageBox.Show("Ingrese un Importe, por favor");
                 return;
             }
-            int temp;
+            decimal temp;
             try
             {
-                if (txtImporte.Text != "")
-                temp = Convert.ToInt32(txtImporte.Text);
-
+                if (txtImporte.Text != "") {
+                    temp = Convert.ToDecimal(txtImporte.Text);
+                    if (temp < 0)
+                    {
+                        MessageBox.Show("El importe debe ser positivo.");
+                        return;
+                    }
+                }
+   
             }
             catch (Exception h)
             {
@@ -135,7 +141,7 @@ namespace PagoElectronico.Depositos
 
             Conexion con = new Conexion();
             //CONSIGO ID DE EMISOR TARJETA (?)
-            string query1 = "SELECT id_emisor FROM LPP.TARJETAS WHERE num_tarjeta = '" + num_tarjeta+ "'";
+            string query1 = "SELECT id_emisor FROM LPP.TARJETAS WHERE num_tarjeta = '" + num_tarjeta + "'";
             con.cnn.Open();
             SqlCommand command1 = new SqlCommand(query1, con.cnn);
             SqlDataReader lector1 = command1.ExecuteReader();

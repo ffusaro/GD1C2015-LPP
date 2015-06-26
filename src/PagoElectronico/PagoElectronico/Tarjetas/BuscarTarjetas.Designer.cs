@@ -48,6 +48,7 @@
             // 
             // dgvTarjetas
             // 
+            this.dgvTarjetas.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
             this.dgvTarjetas.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvTarjetas.Location = new System.Drawing.Point(18, 18);
             this.dgvTarjetas.Name = "dgvTarjetas";

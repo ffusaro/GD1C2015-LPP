@@ -16,7 +16,8 @@ namespace PagoElectronico.Tarjetas
         public DataTable dt;
         public Tarjetas.abmTarjetas abmt;
         private string usuario;
-        private string ultimosCuatro;
+        private string numTarjeta;
+
         public BuscarTarjetas(string user)
         {
             InitializeComponent();
@@ -28,7 +29,7 @@ namespace PagoElectronico.Tarjetas
 
             //CARGO DGV CON LAS TARJETAS ASOCIADAS AL CLIENTE ASOCIADO AL USUARIO
             Conexion con = new Conexion();
-            string query = " SELECT C.apellido +' '+ C.nombre, T.num_tarjeta,E.emisor_descr,T.fecha_emision,T.fecha_vencimiento  "+
+            string query = " SELECT C.apellido +', '+ C.nombre as 'Apellido, Nombre', T.num_tarjeta,E.emisor_descr,T.fecha_emision,T.fecha_vencimiento  "+
                             " FROM LPP.CLIENTES C JOIN LPP.TARJETAS T ON T.id_cliente=C.id_cliente  "+
 					                             "JOIN LPP.EMISORES E ON E.id_emisor = T.id_emisor  "+
                              "WHERE C.username = '"+usuario+"'";
@@ -38,18 +39,9 @@ namespace PagoElectronico.Tarjetas
             da.Fill(dtDatos);
             dt = dtDatos;
             dgvTarjetas.DataSource = dtDatos;
-
-            //CAMBIO COLUMNA DE NUM_TARJETA
-            SqlCommand command = new SqlCommand(query, con.cnn);
-            SqlDataReader lector = command.ExecuteReader();
-            lector.Read();
-            
-            foreach (DataGridViewRow row in dgvTarjetas.Rows)
-            {
-                ultimosCuatro = lector.GetString(1);
-                row.Cells["num_tarjeta"].Value = "XXXX-XXXX-XXXX-" + ultimosCuatro.Remove(0, 12);
-            }
             con.cnn.Close();
+
+
         }
 
         private void btnSalir_Click(object sender, EventArgs e)
@@ -59,17 +51,14 @@ namespace PagoElectronico.Tarjetas
 
         private void dgvTarjetas_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
-            //int id;
-            //int indice = e.RowIndex;
-            //string num_tarjeta = dgvTarjetas.Rows[indice].Cells["num_tarjeta"].Value.ToString();
-            abmt = new Tarjetas.abmTarjetas(usuario,ultimosCuatro);
+            int indice = e.RowIndex;
+            string num_tarjeta = dgvTarjetas.Rows[indice].Cells["num_tarjeta"].Value.ToString();
+
+            abmt = new Tarjetas.abmTarjetas(usuario,num_tarjeta);
             abmt.txtNumTarjeta.Enabled = false;
             abmt.Show();
             this.Close();
         }
-
-        
-
         
     }
 }

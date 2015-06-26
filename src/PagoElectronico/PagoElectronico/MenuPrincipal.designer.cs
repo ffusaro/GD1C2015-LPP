@@ -81,7 +81,7 @@
             this.aBMTipoDeCuentaToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(986, 29);
+            this.menuStrip1.Size = new System.Drawing.Size(1014, 29);
             this.menuStrip1.TabIndex = 6;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -191,8 +191,8 @@
             this.asociarTarjetaToolStripMenuItem,
             this.desasociarToolStripMenuItem});
             this.tarjetasToolStripMenuItem.Name = "tarjetasToolStripMenuItem";
-            this.tarjetasToolStripMenuItem.Size = new System.Drawing.Size(212, 25);
-            this.tarjetasToolStripMenuItem.Text = "Asociar/Desasociar Tarjetas";
+            this.tarjetasToolStripMenuItem.Size = new System.Drawing.Size(76, 25);
+            this.tarjetasToolStripMenuItem.Text = "Tarjetas";
             // 
             // asociarTarjetaToolStripMenuItem
             // 
@@ -324,7 +324,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
-            this.ClientSize = new System.Drawing.Size(986, 430);
+            this.ClientSize = new System.Drawing.Size(1014, 430);
             this.ControlBox = false;
             this.Controls.Add(this.menuStrip1);
             this.IsMdiContainer = true;

@@ -18,6 +18,8 @@ namespace PagoElectronico.Tarjetas
         private string usuario;
         private DateTime fecha = DateTime.ParseExact(readConfiguracion.Configuracion.fechaSystem(), "yyyy-dd-MM", System.Globalization.CultureInfo.InvariantCulture);
         private int ban;
+        private string numtarjeta;
+
         public abmTarjetas(string user, string numTarjeta)
         {
             InitializeComponent();
@@ -29,6 +31,7 @@ namespace PagoElectronico.Tarjetas
             btnLimpiar.Enabled = false;
             btnModificar.Enabled = false;
             btnSalir.Enabled = true;
+            numtarjeta = numTarjeta;
 
             //CARGA DE EMISORES
             Conexion con = new Conexion();
@@ -91,7 +94,7 @@ namespace PagoElectronico.Tarjetas
             string query = "LPP.PRC_desasociar_tarjeta";
             SqlCommand command = new SqlCommand(query, con.cnn);
             command.CommandType = CommandType.StoredProcedure;
-            command.Parameters.Add(new SqlParameter("@num_tarjeta", txtNumTarjeta.Text));
+            command.Parameters.Add(new SqlParameter("@num_tarjeta", numtarjeta));
             command.Parameters.Add(new SqlParameter("@id_cliente", getIdCliente()));
             command.ExecuteNonQuery();
             con.cnn.Close();
@@ -208,7 +211,7 @@ namespace PagoElectronico.Tarjetas
             string query = "LPP.PRC_insertar_nueva_tarjeta";
             SqlCommand command = new SqlCommand(query, con.cnn);
             command.CommandType = CommandType.StoredProcedure;
-            command.Parameters.Add(new SqlParameter("@num_tarjeta", txtNumTarjeta.Text));
+            command.Parameters.Add(new SqlParameter("@num_tarjeta", numtarjeta));
             command.Parameters.Add(new SqlParameter("@id_emisor", getIdEmisor()));
             command.Parameters.Add(new SqlParameter("@cod_seguridad", txtCodigo.Text));
             command.Parameters.Add(new SqlParameter("@id_cliente", getIdCliente()));
@@ -250,7 +253,7 @@ namespace PagoElectronico.Tarjetas
             Conexion con = new Conexion();
             con.cnn.Open();
             //CHEKEO SI EL NUM DE TARJETA YA EXISTE
-            string query = "SELECT 1 FROM LPP.TARJETAS WHERE num_tarjeta = '" + txtNumTarjeta.Text + "' AND id_emisor = "+getIdEmisor()+"";
+            string query = "SELECT 1 FROM LPP.TARJETAS WHERE num_tarjeta = '" + numtarjeta + "' AND id_emisor = "+getIdEmisor()+"";
             SqlCommand command = new SqlCommand(query, con.cnn);
             SqlDataReader lector = command.ExecuteReader();
             if (lector.Read())
@@ -274,8 +277,8 @@ namespace PagoElectronico.Tarjetas
             SqlCommand command = new SqlCommand(query, con.cnn);
             SqlDataReader lector = command.ExecuteReader();
             lector.Read();
-            string ultimosCuatro = lector.GetString(0);
-            txtNumTarjeta.Text = "XXXX-XXXX-XXXX-" + ultimosCuatro.Remove(0, 12);
+            numtarjeta = lector.GetString(0);
+            txtNumTarjeta.Text = ("XXXX-XXXX-XXXX-" + numtarjeta.Remove(0, 12));
             cmbEmisor.Text = getDescrEmisor(lector.GetDecimal(1));
             cmbEmisor.Enabled = false;
             txtCodigo.Text = lector.GetString(2);
@@ -305,7 +308,7 @@ namespace PagoElectronico.Tarjetas
             string query = "LPP.PRC_modificar_tarjeta";
             SqlCommand command = new SqlCommand(query, con.cnn);
             command.CommandType = CommandType.StoredProcedure;
-            command.Parameters.Add(new SqlParameter("@num_tarjeta", txtNumTarjeta.Text));
+            command.Parameters.Add(new SqlParameter("@num_tarjeta", numtarjeta));
             //command.Parameters.Add(new SqlParameter("@id_emisor", getIdEmisor()));
             command.Parameters.Add(new SqlParameter("@cod_seguridad", txtCodigo.Text));
             DateTime fechaEmision = DateTime.Parse(dtpEmision.Value.ToString("yyyy-MM-dd"));

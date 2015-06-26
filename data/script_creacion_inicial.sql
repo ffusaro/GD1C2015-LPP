@@ -412,7 +412,7 @@ PRIMARY KEY(num_cuenta));
 CREATE TABLE [LPP].CUENTAS_DESHABILITADAS(
 id_deshabilitada NUMERIC(18,0) NOT NULL IDENTITY(1,1),
 num_cuenta NUMERIC(18,0),
-fecha_deshabilitacion DATETIME,
+fecha_deshabilitacion DATETIME, 
 motivo VARCHAR(255),
 PRIMARY KEY(id_deshabilitada));
 
@@ -851,6 +851,7 @@ BEGIN
 			  GROUP BY num_cuenta HAVING COUNT(DISTINCT id_item_factura) >5)
 		BEGIN
 			UPDATE LPP.CUENTAS SET id_estado = 4 WHERE num_cuenta = (SELECT num_cuenta_origen FROM inserted)
+						
 			INSERT INTO LPP.CUENTAS_DESHABILITADAS (num_cuenta, fecha_deshabilitacion, motivo) 
 						VALUES((SELECT num_cuenta_origen FROM inserted), (SELECT fecha FROM inserted), 'Por deber mas de 5 transacciones')
 						
@@ -959,6 +960,7 @@ BEGIN
 			
 			IF(@fecha_vencimiento < @fecha_sist)
 				BEGIN
+					DECLARE @veces INTEGER
 					INSERT INTO LPP.CUENTAS_DESHABILITADAS (num_cuenta, fecha_deshabilitacion, motivo) 
 						VALUES(@num_cuenta, @fecha_sist, 'Por vencimiento de suscripcion')
 						
@@ -1012,7 +1014,6 @@ BEGIN
 		IF( (SELECT COUNT(id_item_factura) FROM LPP.ITEMS_FACTURA WHERE facturado= 0) > 5 )
 			BEGIN
 				UPDATE LPP.CUENTAS SET id_estado = 4 WHERE num_cuenta = @num_cuenta
-				
 				INSERT INTO LPP.CUENTAS_DESHABILITADAS (num_cuenta, fecha_deshabilitacion, motivo) 
 						VALUES(@num_cuenta, @fecha, 'Por deber mas de 5 transacciones')
 			END
@@ -1217,16 +1218,14 @@ CREATE PROCEDURE LPP.PRC_estadistico_cuentas_inhabilitadas
 @anio INTEGER
 AS
 BEGIN
-	SELECT TOP 5 c.id_cliente, username, nombre, apellido, t.tipo_descr, num_doc, fecha_nac, mail, COUNT(i.id_item_factura) AS items_adeudados
+	SELECT TOP 5 c.id_cliente, username, nombre, apellido, t.tipo_descr, num_doc, fecha_nac, mail, COUNT(id_deshabilitada) AS cant_veces_inhabilitado
 	FROM LPP.CLIENTES c
-		JOIN LPP.CUENTAS cu ON cu.id_cliente = c.id_cliente
-		JOIN LPP.ESTADOS_CUENTA e ON e.id_estadocuenta = cu.id_estado
 		JOIN LPP.TIPO_DOCS t ON t.tipo_cod = c.id_tipo_doc
-		JOIN LPP.ITEMS_FACTURA i ON i.num_cuenta= cu.num_cuenta
-		JOIN LPP.ITEMS it ON it.id_item = i.id_item
-	WHERE e.id_estadocuenta = 4 AND MONTH(i.fecha) BETWEEN @desde AND @hasta AND YEAR(i.fecha) = @anio
+		JOIN CUENTAS cu ON cu.id_cliente = c.id_cliente
+		JOIN CUENTAS_DESHABILITADAS cd ON cd.num_cuenta = cu.num_cuenta
+	WHERE MONTH(cd.fecha_deshabilitacion) BETWEEN @desde AND @hasta AND YEAR(cd.fecha_deshabilitacion) = @anio AND cd.motivo = 'Por deber mas de 5 transacciones'
 	GROUP BY c.id_cliente, username, nombre, apellido, t.tipo_descr, num_doc,  fecha_nac, mail
-	ORDER BY COUNT(i.id_item_factura) DESC
+	ORDER BY COUNT(id_deshabilitada) DESC
 END
 GO	
 
@@ -1237,7 +1236,7 @@ CREATE PROCEDURE LPP.PRC_estadistico_comisiones_facturadas
 @anio INTEGER
 AS
 BEGIN
-	SELECT TOP 5 c.id_cliente, username, nombre, apellido, t.tipo_descr, num_doc,  fecha_nac, mail, COUNT(i.id_item_factura)
+	SELECT TOP 5 c.id_cliente, username, nombre, apellido, t.tipo_descr, num_doc,  fecha_nac, mail, COUNT(i.id_item_factura) as 'comisiones_facturas'
 	FROM LPP.CLIENTES c
 		JOIN LPP.CUENTAS cu ON cu.id_cliente = c.id_cliente
 		JOIN LPP.ITEMS_FACTURA i ON i.num_cuenta= cu.num_cuenta
@@ -1261,7 +1260,7 @@ BEGIN
 		JOIN LPP.CUENTAS c1 ON c1.id_cliente = c.id_cliente
 		JOIN LPP.CUENTAS c2 ON c2.id_cliente = c.id_cliente
 		JOIN LPP.TIPO_DOCS t ON t.tipo_cod = c.id_tipo_doc
-		JOIN LPP.TRANSFERENCIAS tr ON tr.num_cuenta_origen = c1.num_cuenta AND tr.num_cuenta_destino = c2.num_cuenta
+		JOIN LPP.TRANSFERENCIAS tr ON tr.num_cuenta_origen = c1.num_cuenta AND tr.num_cuenta_destino= c2.num_cuenta
 		WHERE c1.num_cuenta <> c2.num_cuenta
 			AND MONTH(tr.fecha) BETWEEN @desde AND @hasta AND YEAR(tr.costo_trans) = @anio
 		GROUP BY c.id_cliente, username, nombre, apellido, t.tipo_descr, num_doc,  fecha_nac, mail
@@ -1279,7 +1278,7 @@ CREATE PROCEDURE LPP.PRC_estadistico_pais_mas_movimientos
 @anio INTEGER
 AS
 BEGIN
-	SELECT TOP 5 pais, COUNT(d.num_deposito)+COUNT(r.id_retiro)+sum(t1.cant_or)+COUNT(t2.cant_dest)
+	SELECT TOP 5 pais, COUNT(d.num_deposito)+COUNT(r.id_retiro)+sum(t1.cant_or)+COUNT(t2.cant_dest) as 'cant_movimientos'
 	FROM LPP.PAISES p
 		JOIN LPP.CUENTAS c ON c.id_pais = p.id_pais
 		JOIN LPP.DEPOSITOS d ON d.num_cuenta = c.num_cuenta
@@ -1302,11 +1301,12 @@ CREATE PROCEDURE LPP.PRC_estadistico_facturado_tipo_cuentas
 @anio INTEGER
 AS
 BEGIN
-	SELECT TOP 5 id_tipocuenta, descripcion, SUM(monto) AS 'totalFacturado'
+	SELECT TOP 5 t.id_tipocuenta, t.descripcion, SUM(i.monto) AS 'totalFacturado'
 	FROM LPP.TIPOS_CUENTA t
 		JOIN LPP.CUENTAS c ON c.id_tipo = t.id_tipocuenta
 		JOIN LPP.ITEMS_FACTURA i ON i.num_cuenta = c.num_cuenta
-	WHERE i.facturado = 1 AND MONTH(i.fecha) BETWEEN @desde AND @hasta AND YEAR(i.fecha) = @anio	
+	WHERE i.facturado = 1 
+	--AND MONTH(i.fecha) BETWEEN @desde AND @hasta AND YEAR(i.fecha) = @anio	
 	GROUP BY id_tipocuenta, descripcion
 	ORDER BY SUM(monto) DESC	
 END

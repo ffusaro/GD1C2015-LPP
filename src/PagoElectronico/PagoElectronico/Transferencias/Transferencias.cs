@@ -98,7 +98,14 @@ namespace PagoElectronico.Transferencias
             try
             {
                 if (txtImporte.Text != "")
+                {
                     temp = Convert.ToDecimal(txtImporte.Text);
+                    if (temp < 0)
+                    {
+                        MessageBox.Show("El importe debe ser positivo.");
+                        return;
+                    }
+                }
 
             }
             catch (Exception h)

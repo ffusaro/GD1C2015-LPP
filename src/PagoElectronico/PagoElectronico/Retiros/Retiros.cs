@@ -24,7 +24,9 @@ namespace PagoElectronico.Retiros
         public RetiroDeEfectivo(string user)
         {
             InitializeComponent();
+
             usuario = user;
+
             grpRetiros.Enabled = false;
             btnNuevo.Enabled = true;
             btnSalir.Enabled = true;
@@ -91,6 +93,11 @@ namespace PagoElectronico.Retiros
                 MessageBox.Show("Seleccione un Número de Cuenta, por favor");
                 return;
             }
+            if (cmbNroCuenta.Text == " ") 
+            {
+                MessageBox.Show("Seleccione un Número de Cuenta, por favor");
+                return;
+            }
             if (cmbMoneda.SelectedItem == null)
             {
                 MessageBox.Show("Seleccione un tipo de moneda, por favor");
@@ -110,11 +117,18 @@ namespace PagoElectronico.Retiros
                 MessageBox.Show("Ingrese un Importe, por favor");
                 return;
             }
-            int temp;
+            decimal temp;
             try
             {
                 if (txtImporte.Text != "")
-                    temp = Convert.ToInt32(txtImporte.Text);
+                {
+                    temp = Convert.ToDecimal(txtImporte.Text);
+                    if (temp < 0)
+                    {
+                        MessageBox.Show("El importe debe ser positivo.");
+                        return;
+                    }
+                }
 
             }
             catch (Exception h)
@@ -125,7 +139,7 @@ namespace PagoElectronico.Retiros
 
             Conexion con = new Conexion();
             //CORROBORO SALDO
-            string query = "SELECT saldo FROM LPP.CUENTAS WHERE num_cuenta = "+Convert.ToDecimal(cmbNroCuenta.Text)+" AND saldo >= "+Convert.ToDecimal(txtImporte.Text)+"";
+            string query = "SELECT saldo FROM LPP.CUENTAS WHERE num_cuenta = "+ Convert.ToDecimal(cmbNroCuenta.Text)+" AND saldo >= "+Convert.ToDecimal(txtImporte.Text)+"";
             importe = Convert.ToDecimal(txtImporte.Text);
             id_moneda = this.getIdMoneda();
             con.cnn.Open();
@@ -178,7 +192,6 @@ namespace PagoElectronico.Retiros
             //ACTUALIZO SALDO EN CUENTA
             string query4 = "UPDATE LPP.CUENTAS SET saldo = saldo - "+importe+" " +
                             "WHERE num_cuenta = "+num_cuenta+" ";
-            MessageBox.Show(""+query4);
             con.cnn.Open();
             SqlCommand command4 = new SqlCommand(query4, con.cnn);
             command4.ExecuteNonQuery();
