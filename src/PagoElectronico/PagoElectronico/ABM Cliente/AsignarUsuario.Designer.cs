@@ -38,6 +38,7 @@
             // 
             // txtUsuario
             // 
+            this.txtUsuario.Enabled = false;
             this.txtUsuario.Location = new System.Drawing.Point(15, 39);
             this.txtUsuario.Name = "txtUsuario";
             this.txtUsuario.Size = new System.Drawing.Size(185, 20);
@@ -49,7 +50,7 @@
             this.btnAsociar.Name = "btnAsociar";
             this.btnAsociar.Size = new System.Drawing.Size(123, 23);
             this.btnAsociar.TabIndex = 31;
-            this.btnAsociar.Text = "Asociar a Usuario";
+            this.btnAsociar.Text = "Usuario a Asociar";
             this.btnAsociar.UseVisualStyleBackColor = true;
             this.btnAsociar.Click += new System.EventHandler(this.btnAsociar_Click);
             // 
@@ -66,7 +67,7 @@
             // 
             // btCliente
             // 
-            this.btCliente.Location = new System.Drawing.Point(216, 104);
+            this.btCliente.Location = new System.Drawing.Point(289, 104);
             this.btCliente.Name = "btCliente";
             this.btCliente.Size = new System.Drawing.Size(101, 23);
             this.btCliente.TabIndex = 34;
@@ -76,11 +77,11 @@
             // 
             // btLimpiar
             // 
-            this.btLimpiar.Location = new System.Drawing.Point(86, 104);
+            this.btLimpiar.Location = new System.Drawing.Point(12, 104);
             this.btLimpiar.Name = "btLimpiar";
-            this.btLimpiar.Size = new System.Drawing.Size(75, 23);
+            this.btLimpiar.Size = new System.Drawing.Size(84, 23);
             this.btLimpiar.TabIndex = 35;
-            this.btLimpiar.Text = "Limpiar";
+            this.btLimpiar.Text = "Reestablecer";
             this.btLimpiar.UseVisualStyleBackColor = true;
             this.btLimpiar.Click += new System.EventHandler(this.btLimpiar_Click);
             // 
@@ -95,7 +96,7 @@
             this.MaximizeBox = false;
             this.Name = "AsignarUsuario";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "AsignarUsuario";
+            this.Text = "Asignar Usuario";
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.ResumeLayout(false);

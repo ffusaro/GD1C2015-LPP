@@ -41,9 +41,9 @@
             // 
             this.btLimpiar.Location = new System.Drawing.Point(32, 107);
             this.btLimpiar.Name = "btLimpiar";
-            this.btLimpiar.Size = new System.Drawing.Size(75, 23);
+            this.btLimpiar.Size = new System.Drawing.Size(81, 23);
             this.btLimpiar.TabIndex = 39;
-            this.btLimpiar.Text = "Limpiar";
+            this.btLimpiar.Text = "Reestablecer";
             this.btLimpiar.UseVisualStyleBackColor = true;
             this.btLimpiar.Click += new System.EventHandler(this.btLimpiar_Click);
             // 
@@ -60,18 +60,19 @@
             // 
             // txtUsuario
             // 
+            this.txtUsuario.Enabled = false;
             this.txtUsuario.Location = new System.Drawing.Point(15, 39);
             this.txtUsuario.Name = "txtUsuario";
-            this.txtUsuario.Size = new System.Drawing.Size(185, 20);
+            this.txtUsuario.Size = new System.Drawing.Size(173, 20);
             this.txtUsuario.TabIndex = 32;
             // 
             // btnAsociar
             // 
-            this.btnAsociar.Location = new System.Drawing.Point(226, 37);
+            this.btnAsociar.Location = new System.Drawing.Point(206, 37);
             this.btnAsociar.Name = "btnAsociar";
-            this.btnAsociar.Size = new System.Drawing.Size(123, 23);
+            this.btnAsociar.Size = new System.Drawing.Size(143, 23);
             this.btnAsociar.TabIndex = 31;
-            this.btnAsociar.Text = "Asociar a Cuenta";
+            this.btnAsociar.Text = "Buscar Usuario a Asignar";
             this.btnAsociar.UseVisualStyleBackColor = true;
             this.btnAsociar.Click += new System.EventHandler(this.btnAsociar_Click);
             // 
@@ -118,8 +119,8 @@
         private System.Windows.Forms.Button btLimpiar;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.TextBox txtUsuario;
-        private System.Windows.Forms.Button btnAsociar;
         private System.Windows.Forms.Button txtCancelar;
         private System.Windows.Forms.Button btnCuenta;
+        public System.Windows.Forms.Button btnAsociar;
     }
 }

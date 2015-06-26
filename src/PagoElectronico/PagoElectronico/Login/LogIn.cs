@@ -27,6 +27,7 @@ namespace PagoElectronico.Login
             btnIngresar.Enabled = false;
             txtPass.Enabled = false;
             cmbRol.Items.Clear();
+            cmbRol.Enabled = false;
             //intFallidos = 1;
                        
         }

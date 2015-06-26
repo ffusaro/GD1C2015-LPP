@@ -28,7 +28,7 @@ namespace PagoElectronico.Facturacion
 
             dgvFactura.AllowUserToAddRows = false;
             dgvFactura.AllowUserToDeleteRows = false;
-            dgvFactura.ReadOnly = true;
+            
 
             //CARGO EL DATAGRIDVIEW CON LOS DATOS A FACTURAR
             Conexion con = new Conexion();

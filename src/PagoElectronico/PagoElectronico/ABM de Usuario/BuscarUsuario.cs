@@ -51,22 +51,38 @@ namespace PagoElectronico.ABM_de_Usuario
         private void btnBuscar_Click(object sender, EventArgs e)
         {
 
-            Conexion con = new Conexion();
-           
-
-            string query = "SELECT username FROM LPP.USUARIOS ";
-
-            if (txtUsuarios.Text != "")
+            if(ev != 0)
             {
-                query += "WHERE username LIKE '%" + txtUsuarios.Text + "%'";
-            }
+                Conexion con = new Conexion();
+                string query = "SELECT username FROM LPP.USUARIOS ";
+                if (txtUsuarios.Text != "")
+                {
+                    query += "WHERE username LIKE '%" + txtUsuarios.Text + "%'";
+                }
 
-            con.cnn.Open();
-            DataTable dtDatos = new DataTable();
-            SqlDataAdapter da = new SqlDataAdapter(query, con.cnn);
-            da.Fill(dtDatos);
-            dgvUsuario.DataSource = dtDatos;
-            con.cnn.Close();
+                con.cnn.Open();
+                DataTable dtDatos = new DataTable();
+                SqlDataAdapter da = new SqlDataAdapter(query, con.cnn);
+                da.Fill(dtDatos);
+                dgvUsuario.DataSource = dtDatos;
+                con.cnn.Close();
+            }else
+            {
+                Conexion con = new Conexion();
+                string query = "SELECT username FROM LPP.USUARIOS u WHERE username NOT IN (SELECT username FROM LPP.CLIENTES)";
+                
+                if (txtUsuarios.Text != "")
+                {
+                    query += " AND username LIKE '%" + txtUsuarios.Text + "%'";
+                }
+
+                con.cnn.Open();
+                DataTable dtDatos = new DataTable();
+                SqlDataAdapter da = new SqlDataAdapter(query, con.cnn);
+                da.Fill(dtDatos);
+                dgvUsuario.DataSource = dtDatos;
+                con.cnn.Close();
+            }
        }
 
         private void dgvUsuario_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
@@ -95,6 +111,7 @@ namespace PagoElectronico.ABM_de_Usuario
                 else
                 {
                     ac = new ABM_Cuenta.AsignarUsuarioCuenta("A", Usuario);
+                    ac.btnAsociar.Enabled = false;
                     ac.Show();
                     this.Close();
                 }

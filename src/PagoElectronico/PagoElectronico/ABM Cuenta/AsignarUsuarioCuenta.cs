@@ -31,6 +31,7 @@ namespace PagoElectronico.ABM_Cuenta
         private void btLimpiar_Click(object sender, EventArgs e)
         {
             txtUsuario.Text = "";
+            btnAsociar.Enabled = true;
         }
 
         private void txtCancelar_Click(object sender, EventArgs e)
@@ -50,6 +51,7 @@ namespace PagoElectronico.ABM_Cuenta
         {
             ABM_Cuenta.AltaCuenta abmC = new ABM_Cuenta.AltaCuenta("A",usuario,0);
             abmC.Show();
+            this.Close();
         }
 
         

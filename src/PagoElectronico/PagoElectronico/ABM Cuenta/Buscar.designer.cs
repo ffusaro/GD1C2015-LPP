@@ -39,9 +39,9 @@
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(12, 9);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(218, 13);
+            this.label1.Size = new System.Drawing.Size(227, 13);
             this.label1.TabIndex = 10;
-            this.label1.Text = "Elija su cuenta a Modificar/Cerrar (DobleClik)";
+            this.label1.Text = "Elija su cuenta a Modificar/Cerrar (Doble Click)";
             // 
             // btnSalir
             // 

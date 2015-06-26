@@ -192,7 +192,14 @@ namespace PagoElectronico
 
         private void btnSalir_Click(object sender, EventArgs e)
         {
-            this.Close();
+            if (ban == 2) {
+                padre_buscar = new ABM_Cliente.BuscarCliente();
+                padre_buscar.Show();
+                this.Close();
+
+            } else {
+                this.Close(); 
+            }
         }
 
         private void txtNombre_Validating(object sender, CancelEventArgs e)
