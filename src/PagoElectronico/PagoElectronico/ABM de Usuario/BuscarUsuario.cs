@@ -24,7 +24,10 @@ namespace PagoElectronico.ABM_de_Usuario
         {
             InitializeComponent();
             ev = evento;
-            btnBusca.Enabled = false;
+            dgvUsuario.AllowUserToAddRows = false;
+            dgvUsuario.AllowUserToDeleteRows = false;
+            dgvUsuario.ReadOnly = true;
+
             if (ev==1)
             {
                 label6.Text = "Doble click en el Usuario que quiera Modificar/Eliminar";
@@ -51,11 +54,11 @@ namespace PagoElectronico.ABM_de_Usuario
             Conexion con = new Conexion();
            
 
-            string query = "SELECT username  FROM LPP.USUARIOS WHERE habilitado = 1";
+            string query = "SELECT username FROM LPP.USUARIOS ";
 
             if (txtUsuarios.Text != "")
             {
-                query += "AND username LIKE '%" + txtUsuarios.Text + "%'";
+                query += "WHERE username LIKE '%" + txtUsuarios.Text + "%'";
             }
 
             con.cnn.Open();
@@ -79,22 +82,23 @@ namespace PagoElectronico.ABM_de_Usuario
                 FormUsuario.padre_buscarUsuario = this;
                 this.Close();
             }
-            if (ev == 0)
-            {
+            else {
+                if (ev == 0)
+                {
 
-                FormAsignar = new ABM_Cliente.AsignarUsuario("B", Usuario);
-                FormAsignar.Show();
-                this.Close();
+                    FormAsignar = new ABM_Cliente.AsignarUsuario("B", Usuario);
+                    FormAsignar.Show();
+                    this.Close();
 
 
+                }
+                else
+                {
+                    ac = new ABM_Cuenta.AsignarUsuarioCuenta("A", Usuario);
+                    ac.Show();
+                    this.Close();
+                }
             }
-            else
-            {
-                ac = new ABM_Cuenta.AsignarUsuarioCuenta("A", Usuario);
-                ac.Show();
-                this.Close();
-            }
-
         }
 
         private void btnSalir_Click(object sender, EventArgs e)

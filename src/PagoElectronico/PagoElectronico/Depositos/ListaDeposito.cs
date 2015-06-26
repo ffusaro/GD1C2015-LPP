@@ -22,6 +22,10 @@ namespace PagoElectronico.Depositos
             InitializeComponent();
             num_deposito = id_deposito;
 
+            dgvDepositos.AllowUserToAddRows = false;
+            dgvDepositos.AllowUserToDeleteRows = false;
+            dgvDepositos.ReadOnly = true;
+
             //CARGO EL DATAGRIDVIEW CON LOS DATOS DEL DEPOSITO
             Conexion con = new Conexion();
             con.cnn.Open();

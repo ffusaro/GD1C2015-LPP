@@ -23,6 +23,14 @@ namespace PagoElectronico.Retiros
             InitializeComponent();
             id_retiro = retiro;
 
+            dgvRetiro.AllowUserToAddRows = false;
+            dgvRetiro.AllowUserToDeleteRows = false;
+            dgvRetiro.ReadOnly = true;
+
+            dgvCheque.AllowUserToAddRows = false;
+            dgvCheque.AllowUserToDeleteRows = false;
+            dgvCheque.ReadOnly = true;
+
             Conexion con = new Conexion();
             
             string query = "SELECT * FROM LPP.RETIROS WHERE id_retiro = " + id_retiro + " ";                          

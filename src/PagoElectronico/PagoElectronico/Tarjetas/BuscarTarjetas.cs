@@ -21,6 +21,11 @@ namespace PagoElectronico.Tarjetas
         {
             InitializeComponent();
             usuario = user;
+
+            dgvTarjetas.AllowUserToAddRows = false;
+            dgvTarjetas.AllowUserToDeleteRows = false;
+            dgvTarjetas.ReadOnly = true;
+
             //CARGO DGV CON LAS TARJETAS ASOCIADAS AL CLIENTE ASOCIADO AL USUARIO
             Conexion con = new Conexion();
             string query = " SELECT C.apellido +' '+ C.nombre, T.num_tarjeta,E.emisor_descr,T.fecha_emision,T.fecha_vencimiento  "+

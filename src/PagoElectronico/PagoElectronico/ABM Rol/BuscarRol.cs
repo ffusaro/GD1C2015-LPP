@@ -26,13 +26,10 @@ namespace PagoElectronico.ABM_Rol
             {
                 btnContinuar.Text = "Modificar";
             }
-            else
-            {
-                btnContinuar.Text = "Eliminar";
-            }
+            
             /*CARGA LOS ROLES EN EL COMBOBOX*/
             Conexion con = new Conexion();
-            string query = "SELECT nombre FROM LPP.ROLES WHERE habilitado = 1 ";
+            string query = "SELECT nombre FROM LPP.ROLES ";
 
             con.cnn.Open();
             SqlCommand command = new SqlCommand(query, con.cnn);
@@ -54,25 +51,10 @@ namespace PagoElectronico.ABM_Rol
 
         private void btnContinuar_Click(object sender, EventArgs e)
         {
-            if (evento == "B")
-            {
-                Conexion con = new Conexion();
-                string query = "UPDATE LPP.ROLES SET habilitado = 0 WHERE nombre = '" + cmbRoles.Text + "'";
-                con.cnn.Open();
-                SqlCommand command = new SqlCommand(query, con.cnn);
-                command.ExecuteNonQuery();
-                con.cnn.Close();
-
-                MessageBox.Show("Rol Eliminado Correctamente");
-                this.Close();
-            }
-            else
-            {
                 ABMRol abmRol = new ABMRol(cmbRoles.Text);
                 abmRol.Show();
                 abmRol.bc = this;
                 this.Close();
-            }
         }
 
         private void cmbRoles_SelectedIndexChanged(object sender, EventArgs e)

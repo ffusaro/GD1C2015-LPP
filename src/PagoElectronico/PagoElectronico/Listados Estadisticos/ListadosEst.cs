@@ -19,6 +19,10 @@ namespace PagoElectronico.Listados_Estadisticos
         {
             InitializeComponent();
 
+            dgvDatos.AllowUserToAddRows = false;
+            dgvDatos.AllowUserToDeleteRows = false;
+            dgvDatos.ReadOnly = true;
+
             //CARGANDO DATOS INICIALES
             cmbListado.Items.Add("");
             cmbListado.Items.Add("Clientes con cuentas inhabilitadas por no pagar costos de transaccion");

@@ -220,13 +220,6 @@ namespace PagoElectronico
            
         }
 
-        private void eliminarRolToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            ABM_Rol.BuscarRol eliminarRol = new ABM_Rol.BuscarRol("B");
-            eliminarRol.Show();
-            eliminarRol.mp = this;
-        }
-
        
         private void cerrarSesionToolStripMenuItem_Click(object sender, EventArgs e)
         {

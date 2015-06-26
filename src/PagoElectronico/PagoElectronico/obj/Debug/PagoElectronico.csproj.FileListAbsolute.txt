@@ -244,7 +244,6 @@ C:\Users\ffusaro\Documents\GD1C2015-LPP\src\PagoElectronico\PagoElectronico\obj\
 C:\Users\ffusaro\Documents\GD1C2015-LPP\src\PagoElectronico\PagoElectronico\obj\Debug\PagoElectronico.ABM_de_Usuario.BuscarUsuario.resources
 C:\Users\ffusaro\Documents\GD1C2015-LPP\src\PagoElectronico\PagoElectronico\obj\Debug\PagoElectronico.ABM_Rol.ABMRol.resources
 C:\Users\ffusaro\Documents\GD1C2015-LPP\src\PagoElectronico\PagoElectronico\obj\Debug\PagoElectronico.ABM_Rol.BuscarRol.resources
-C:\Users\ffusaro\Documents\GD1C2015-LPP\src\PagoElectronico\PagoElectronico\obj\Debug\PagoElectronico.ABM_Cuenta.BuscarCuentas.resources
 C:\Users\ffusaro\Documents\GD1C2015-LPP\src\PagoElectronico\PagoElectronico\obj\Debug\PagoElectronico.Depositos.Depositos.resources
 C:\Users\ffusaro\Documents\GD1C2015-LPP\src\PagoElectronico\PagoElectronico\obj\Debug\PagoElectronico.Depositos.ListaDeposito.resources
 C:\Users\ffusaro\Documents\GD1C2015-LPP\src\PagoElectronico\PagoElectronico\obj\Debug\PagoElectronico.Facturacion.Buscar.resources

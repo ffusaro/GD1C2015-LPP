@@ -20,6 +20,11 @@ namespace PagoElectronico.Transferencias
         public ListaTransferencias(decimal trans)
         {
             InitializeComponent();
+
+            dgvTrans.AllowUserToAddRows = false;
+            dgvTrans.AllowUserToDeleteRows = false;
+            dgvTrans.ReadOnly = true;
+
             id_transferencia = trans;
             Conexion con = new Conexion();
             string query = "SELECT * FROM LPP.TRANSFERENCIAS WHERE id_transferencia = " + id_transferencia + " ";

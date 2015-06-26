@@ -18,6 +18,7 @@ namespace PagoElectronico.ABM_Cuenta
         private decimal numcuenta;
         public DataTable dt;
         private string consulta;
+        public string user;
  
         public ResultadosConsulta(string evento, decimal num_cuenta)
         {
@@ -26,6 +27,9 @@ namespace PagoElectronico.ABM_Cuenta
             numcuenta = num_cuenta;
             consulta = evento;
 
+            dgvResults.AllowUserToAddRows = false;
+            dgvResults.AllowUserToDeleteRows = false;
+            dgvResults.ReadOnly = true;
 
             if (consulta == "S")
             {
@@ -86,6 +90,8 @@ namespace PagoElectronico.ABM_Cuenta
      
         private void btSalir_Click_1(object sender, EventArgs e)
         {
+            ABM_Cuenta.ConsultaSaldos cs = new ConsultaSaldos(user);
+            cs.Show();
             this.Close();
         }
     }

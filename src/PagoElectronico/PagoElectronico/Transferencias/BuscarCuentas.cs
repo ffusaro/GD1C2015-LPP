@@ -24,6 +24,11 @@ namespace PagoElectronico.Transferencias
         {
             InitializeComponent();
             usuario = user;
+
+            dgvCuentas.AllowUserToAddRows = false;
+            dgvCuentas.AllowUserToDeleteRows = false;
+            dgvCuentas.ReadOnly = true;
+
             Conexion con1 = new Conexion();
             con1.cnn.Open();
             //Pregunto todos los TipoDoc de la DB

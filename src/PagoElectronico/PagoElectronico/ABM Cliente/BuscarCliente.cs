@@ -22,6 +22,9 @@ namespace PagoElectronico.ABM_Cliente
         public BuscarCliente()
         {
             InitializeComponent();
+            dgvCliente.AllowUserToAddRows = false;
+            dgvCliente.AllowUserToDeleteRows = false;
+            dgvCliente.ReadOnly = true;
            
             // Conectar a DB
             Conexion con1 = new Conexion();

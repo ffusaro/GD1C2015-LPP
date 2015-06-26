@@ -22,7 +22,9 @@ namespace PagoElectronico.ABM_Cuenta
         {
             InitializeComponent();
             usuario = user;
-
+            dgvCuentas.AllowUserToAddRows = false;
+            dgvCuentas.AllowUserToDeleteRows = false;
+            dgvCuentas.ReadOnly = true;
 
             if (getRolUser() == "Administrador")
             {
@@ -31,7 +33,7 @@ namespace PagoElectronico.ABM_Cuenta
                             "FROM LPP.TIPOS_CUENTA T JOIN LPP.CUENTAS C ON C.id_tipo=T.id_tipocuenta " +
                                                     "JOIN LPP.ESTADOS_CUENTA E  ON E.id_estadocuenta=C.id_estado " +
                                                     "JOIN LPP.CLIENTES L ON L.id_cliente=c.id_cliente  "+
-                            "WHERE E.descripcion <> 'Cerrada'";
+                            "WHERE E.descripcion <> 'Cerrada' AND E.descripcion <> 'Pendiente de activacion'";
                 con.cnn.Open();
                 DataTable dtDatos = new DataTable();
                 SqlDataAdapter da = new SqlDataAdapter(query, con.cnn);
@@ -51,7 +53,7 @@ namespace PagoElectronico.ABM_Cuenta
                 string query = "SELECT C.id_cliente,C.num_cuenta,C.saldo,T.descripcion as TipoCuenta,E.descripcion as EstadoCuenta,C.fecha_apertura " +
                             "FROM LPP.TIPOS_CUENTA T JOIN LPP.CUENTAS C ON C.id_tipo=T.id_tipocuenta " +
                                                     "JOIN LPP.ESTADOS_CUENTA E  ON E.id_estadocuenta=C.id_estado " +
-                            "WHERE C.id_cliente = " + id_cliente + " AND E.descripcion <> 'Cerrada'";
+                            "WHERE C.id_cliente = " + id_cliente + " AND E.descripcion <> 'Cerrada' AND E.descripcion <> 'Pendiente de activacion'";
                 con.cnn.Open();
                 DataTable dtDatos = new DataTable();
                 SqlDataAdapter da = new SqlDataAdapter(query, con.cnn);

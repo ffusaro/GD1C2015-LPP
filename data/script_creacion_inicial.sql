@@ -1073,7 +1073,7 @@ CREATE PROCEDURE LPP.PRC_cuentas_de_un_cliente
 @id_cliente INTEGER
 AS
 BEGIN
-	SELECT * FROM LPP.CUENTAS c WHERE c.id_cliente = @id_cliente AND id_estado = 1	
+	SELECT * FROM LPP.CUENTAS c WHERE c.id_cliente = @id_cliente AND (id_estado = 1	OR id_estado = 4)
 END
 GO
 

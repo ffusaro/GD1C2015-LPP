@@ -132,16 +132,21 @@ namespace PagoElectronico.ABM_Cuenta
         {
             if (cmbNroCuenta.SelectedItem == null)
             {
-                MessageBox.Show("Elija Número de Cuenta Origen por favor");
+                MessageBox.Show("Elija Número de Cuenta por favor");
                 ban = false;
                 return;
+            }
+            else {
+                ban = true;
             }
         }
 
         private void abrirResultados(string evento) 
         {
             ABM_Cuenta.ResultadosConsulta re = new ABM_Cuenta.ResultadosConsulta(evento, Convert.ToDecimal(cmbNroCuenta.Text));
-            re.Show();        
+            re.user = usuario;
+            re.Show();
+            this.Hide();
         }
     }
 }

@@ -43,13 +43,14 @@ namespace PagoElectronico.ABM_de_Usuario
             cmbpregunta_secreta.Items.Add("¿Nombre de la primera mascota?");
             cmbpregunta_secreta.Items.Add("¿Lugar de nacimiento?");
 
-            this.cargarRoles();
+            
 
             Conexion con = new Conexion();
 
             if (usuario == "A")
             {
                 ckbHabilitado.Visible = false;
+                this.cargarRoles();
             }
             else
             {
@@ -71,14 +72,19 @@ namespace PagoElectronico.ABM_de_Usuario
                     txtConfirmarPass.Text = "++++++++";
                     txtConfirmarPass.Enabled = false;
                     ckbHabilitado.Checked = lector2.GetBoolean(2);
-                    cmbpregunta_secreta.Text = lector2.GetString(3);
-                    txtrespuesta_secreta.Text = lector2.GetString(4);
+                    if (!lector2.IsDBNull(3)) {
+                        cmbpregunta_secreta.Text = lector2.GetString(3);
+                    }
+                    if (!lector2.IsDBNull(4)) {
+                        txtrespuesta_secreta.Text = lector2.GetString(4);
+                    }
+                    
                 }
                 con.cnn.Close();
                 btnEliminar.Enabled = true;
                 btnModificar.Enabled = true;
                 btnNuevo.Enabled = false;
-                btnLimpiar.Enabled = true;
+                btnLimpiar.Enabled = false;
                
             }
         }
@@ -226,7 +232,7 @@ namespace PagoElectronico.ABM_de_Usuario
 
             catch (Exception ex)
             {
-                salida = " No se puede deshabilitar el Usuario" + ex.ToString();
+                salida = "No se puede deshabilitar el Usuario" + ex.ToString();
 
             }
             con.cnn.Close();
@@ -285,12 +291,12 @@ namespace PagoElectronico.ABM_de_Usuario
 
           if (cmbpregunta_secreta.Text== "")
             {
-                MessageBox.Show("Elija una pregunta_secreta");
+                MessageBox.Show("Elija una pregunta secreta");
                 return;
             }
           if (txtrespuesta_secreta.Text == "")
           {
-              MessageBox.Show("Escriba una respuesta_secreta");
+              MessageBox.Show("Escriba una respuesta secreta");
               return;
           }
           
@@ -350,7 +356,9 @@ namespace PagoElectronico.ABM_de_Usuario
                                 " pregunta_secreta = '" + cmbpregunta_secreta.Text +
                                 "', respuesta_secreta = '" + txtrespuesta_secreta.Text+ "'" +
                                 ", habilitado = '" + ckbHabilitado.Checked + "' " +
-                                "WHERE username = '" + usuario + "'";
+                                ", fecha_ultimamodif = CONVERT(datetime,'" + readConfiguracion.Configuracion.fechaSystem() + " 00:00:00.000', 103) " +
+                                "  WHERE username = '" + usuario + "'";
+
                 Conexion con = new Conexion();
                 con.cnn.Open();
                 SqlCommand command = new SqlCommand(query10, con.cnn);

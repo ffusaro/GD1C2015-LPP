@@ -271,10 +271,10 @@
             this.label2.AutoSize = true;
             this.label2.Location = new System.Drawing.Point(6, 16);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(437, 13);
+            this.label2.Size = new System.Drawing.Size(443, 13);
             this.label2.TabIndex = 0;
-            this.label2.Text = "Seleccione la cantidad de suscripciones  que desea comprar del tipo de cueta dete" +
-                "rminado";
+            this.label2.Text = "Seleccione la cantidad de suscripciones  que desea comprar del tipo de cuenta det" +
+                "erminado";
             // 
             // AltaCuenta
             // 

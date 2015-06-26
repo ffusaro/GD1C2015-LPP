@@ -35,7 +35,6 @@
             this.rolToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aBMRolToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.modificarRolToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.eliminarRolToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.usuarioToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aBMUsuarioToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.buscarUsuarioToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -113,8 +112,7 @@
             // 
             this.rolToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.aBMRolToolStripMenuItem,
-            this.modificarRolToolStripMenuItem,
-            this.eliminarRolToolStripMenuItem});
+            this.modificarRolToolStripMenuItem});
             this.rolToolStripMenuItem.Name = "rolToolStripMenuItem";
             this.rolToolStripMenuItem.Size = new System.Drawing.Size(45, 25);
             this.rolToolStripMenuItem.Text = "Rol";
@@ -132,13 +130,6 @@
             this.modificarRolToolStripMenuItem.Size = new System.Drawing.Size(173, 26);
             this.modificarRolToolStripMenuItem.Text = "Modificar Rol";
             this.modificarRolToolStripMenuItem.Click += new System.EventHandler(this.buscarRolToolStripMenuItem_Click);
-            // 
-            // eliminarRolToolStripMenuItem
-            // 
-            this.eliminarRolToolStripMenuItem.Name = "eliminarRolToolStripMenuItem";
-            this.eliminarRolToolStripMenuItem.Size = new System.Drawing.Size(173, 26);
-            this.eliminarRolToolStripMenuItem.Text = "Eliminar Rol";
-            this.eliminarRolToolStripMenuItem.Click += new System.EventHandler(this.eliminarRolToolStripMenuItem_Click);
             // 
             // usuarioToolStripMenuItem
             // 
@@ -236,7 +227,7 @@
             // buscarCuentaToolStripMenuItem
             // 
             this.buscarCuentaToolStripMenuItem.Name = "buscarCuentaToolStripMenuItem";
-            this.buscarCuentaToolStripMenuItem.Size = new System.Drawing.Size(179, 26);
+            this.buscarCuentaToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
             this.buscarCuentaToolStripMenuItem.Text = "Buscar Cuenta";
             this.buscarCuentaToolStripMenuItem.Click += new System.EventHandler(this.buscarCuentaToolStripMenuItem_Click);
             // 
@@ -376,7 +367,6 @@
         private System.Windows.Forms.ToolStripMenuItem modificarRolToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem realizarFacturacionToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem retiroToolStripMenuItem1;
-        private System.Windows.Forms.ToolStripMenuItem eliminarRolToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem realizarRetiro;
         private System.Windows.Forms.ToolStripMenuItem consultarSaldoToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem desasociarToolStripMenuItem;

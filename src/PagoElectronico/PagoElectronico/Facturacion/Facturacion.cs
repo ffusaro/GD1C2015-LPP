@@ -25,6 +25,11 @@ namespace PagoElectronico.Facturacion
             InitializeComponent();
             usuario = user;
             idItem = id_item;
+
+            dgvFactura.AllowUserToAddRows = false;
+            dgvFactura.AllowUserToDeleteRows = false;
+            dgvFactura.ReadOnly = true;
+
             //CARGO EL DATAGRIDVIEW CON LOS DATOS A FACTURAR
             Conexion con = new Conexion();
             if (getRolUser() == "Administrador")
