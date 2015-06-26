@@ -136,11 +136,11 @@
             // 
             // btnRol
             // 
-            this.btnRol.Location = new System.Drawing.Point(77, 24);
+            this.btnRol.Location = new System.Drawing.Point(69, 24);
             this.btnRol.Name = "btnRol";
-            this.btnRol.Size = new System.Drawing.Size(108, 23);
+            this.btnRol.Size = new System.Drawing.Size(145, 23);
             this.btnRol.TabIndex = 2;
-            this.btnRol.Text = "Seleccionar Rol";
+            this.btnRol.Text = "Cargar Roles del Usuario";
             this.btnRol.UseVisualStyleBackColor = true;
             this.btnRol.Click += new System.EventHandler(this.btnRol_Click);
             // 

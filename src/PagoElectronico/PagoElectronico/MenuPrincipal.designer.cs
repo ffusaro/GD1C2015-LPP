@@ -154,7 +154,7 @@
             // 
             this.aBMUsuarioToolStripMenuItem.Name = "aBMUsuarioToolStripMenuItem";
             this.aBMUsuarioToolStripMenuItem.Size = new System.Drawing.Size(222, 26);
-            this.aBMUsuarioToolStripMenuItem.Text = "ABM Usuario";
+            this.aBMUsuarioToolStripMenuItem.Text = "Alta de Usuario";
             this.aBMUsuarioToolStripMenuItem.Click += new System.EventHandler(this.aBMUsuarioToolStripMenuItem_Click);
             // 
             // buscarUsuarioToolStripMenuItem
@@ -183,14 +183,14 @@
             // aBMClienteToolStripMenuItem
             // 
             this.aBMClienteToolStripMenuItem.Name = "aBMClienteToolStripMenuItem";
-            this.aBMClienteToolStripMenuItem.Size = new System.Drawing.Size(178, 26);
-            this.aBMClienteToolStripMenuItem.Text = "ABM Cliente";
+            this.aBMClienteToolStripMenuItem.Size = new System.Drawing.Size(180, 26);
+            this.aBMClienteToolStripMenuItem.Text = "Alta de Cliente";
             this.aBMClienteToolStripMenuItem.Click += new System.EventHandler(this.aBMClienteToolStripMenuItem_Click);
             // 
             // buscarUsuarioToolStripMenuItem1
             // 
             this.buscarUsuarioToolStripMenuItem1.Name = "buscarUsuarioToolStripMenuItem1";
-            this.buscarUsuarioToolStripMenuItem1.Size = new System.Drawing.Size(178, 26);
+            this.buscarUsuarioToolStripMenuItem1.Size = new System.Drawing.Size(180, 26);
             this.buscarUsuarioToolStripMenuItem1.Text = "Buscar Cliente";
             this.buscarUsuarioToolStripMenuItem1.Click += new System.EventHandler(this.buscarUsuarioToolStripMenuItem1_Click);
             // 
@@ -229,8 +229,8 @@
             // aBMCuentaToolStripMenuItem
             // 
             this.aBMCuentaToolStripMenuItem.Name = "aBMCuentaToolStripMenuItem";
-            this.aBMCuentaToolStripMenuItem.Size = new System.Drawing.Size(179, 26);
-            this.aBMCuentaToolStripMenuItem.Text = "ABM Cuenta";
+            this.aBMCuentaToolStripMenuItem.Size = new System.Drawing.Size(181, 26);
+            this.aBMCuentaToolStripMenuItem.Text = "Alta de Cuenta";
             this.aBMCuentaToolStripMenuItem.Click += new System.EventHandler(this.aBMCuentaToolStripMenuItem_Click);
             // 
             // buscarCuentaToolStripMenuItem

@@ -31,8 +31,6 @@ namespace PagoElectronico
             log = form;
             rol = roluser;
 
-            /*PREPARAR BOTONERA*/
-
             this.Text = "Menu Principal:  "+usuario;
             depositosToolStripMenuItem.Visible = false;
             tarjetasToolStripMenuItem.Visible = false;
@@ -50,8 +48,6 @@ namespace PagoElectronico
 
             Conexion con = new Conexion();
             string query;
-
-            
            
             query = "SELECT  F.descripcion FROM LPP.FUNCIONALIDADXROL FR " 
                     +" JOIN LPP.FUNCIONALIDAD F ON F.id_funcionalidad = FR.funcionalidad "
@@ -234,7 +230,8 @@ namespace PagoElectronico
        
         private void cerrarSesionToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            log.Show();
+            Login.LogIn li = new Login.LogIn();
+            li.Show();
             this.Hide();
            
         }

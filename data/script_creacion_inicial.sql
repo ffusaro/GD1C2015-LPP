@@ -625,8 +625,8 @@ COMMIT
 
 /*Creacion de Usuarios Admin -HASH del password w23e: 'e6b87050bfcb8143fcb8db0170a4dc9ed00d904ddd3e2a4ad1b1e8dc0dc9be7'*/
 BEGIN TRANSACTION 
-INSERT INTO LPP.USUARIOS (username, pass, fecha_creacion) VALUES('admin', 'e6b87050bfcb8143fcb8db0170a4dc9ed00d904ddd3e2a4ad1b1e8dc0fdc9be7', GETDATE());
-INSERT INTO LPP.USUARIOS (username, pass, fecha_creacion) VALUES('admin2','e6b87050bfcb8143fcb8db0170a4dc9ed00d904ddd3e2a4ad1b1e8dc0fdc9be7', GETDATE());
+INSERT INTO LPP.USUARIOS (username, pass, fecha_creacion, intentos, habilitado) VALUES('admin', 'e6b87050bfcb8143fcb8db0170a4dc9ed00d904ddd3e2a4ad1b1e8dc0fdc9be7', GETDATE(), 0, 1);
+INSERT INTO LPP.USUARIOS (username, pass, fecha_creacion, intentos, habilitado) VALUES('admin2','e6b87050bfcb8143fcb8db0170a4dc9ed00d904ddd3e2a4ad1b1e8dc0fdc9be7', GETDATE(), 0, 1);
 
 SET @ID = (SELECT id_rol FROM LPP.ROLES WHERE nombre='Administrador');
 INSERT INTO LPP.ROLESXUSUARIO (rol, username) VALUES (@ID, 'admin');
