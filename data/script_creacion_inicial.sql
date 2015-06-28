@@ -1279,17 +1279,16 @@ CREATE PROCEDURE LPP.PRC_estadistico_pais_mas_movimientos
 AS
 BEGIN
 	SELECT TOP 5 pais, count_big(d.num_deposito)+count_big(r.id_retiro)+sum(convert(bigint,t1.cant_or))+SUM(convert(bigint,t2.cant_dest)) as 'cant_movimientos'
-	--SELECT pais, d.num_deposito, r.id_retiro, t1.cant_or, t2.cant_dest--TOP 5 pais, SUM(t2.cant_dest) as 'cant_movimientos'
 	FROM LPP.PAISES p
 		JOIN LPP.CUENTAS c ON c.id_pais = p.id_pais
 		JOIN LPP.DEPOSITOS d ON d.num_cuenta = c.num_cuenta
 		JOIN LPP.RETIROS r ON r.num_cuenta = c.num_cuenta
 		JOIN (select num_cuenta_origen, COUNT(*) as cant_or, fecha from LPP.TRANSFERENCIAS group by num_cuenta_origen, fecha) t1 ON t1.num_cuenta_origen = c.num_cuenta
 		JOIN (select num_cuenta_destino, COUNT(*) as cant_dest, fecha from LPP.TRANSFERENCIAS group by num_cuenta_destino, fecha) t2 ON t2.num_cuenta_destino = c.num_cuenta
-	--WHERE (MONTH(d.fecha_deposito) BETWEEN @desde AND @hasta AND YEAR(d.fecha_deposito)=@anio)
-	--AND(MONTH(r.fecha) BETWEEN @desde AND @hasta AND YEAR(r.fecha)=@anio)
-	--AND (MONTH(t1.fecha) BETWEEN @desde AND @hasta AND YEAR(t1.fecha)=@anio)
-	--AND (MONTH(t2.fecha) BETWEEN @desde AND @hasta AND YEAR(t2.fecha)=@anio)
+	WHERE (MONTH(d.fecha_deposito) BETWEEN @desde AND @hasta AND YEAR(d.fecha_deposito)=@anio)
+	AND(MONTH(r.fecha) BETWEEN @desde AND @hasta AND YEAR(r.fecha)=@anio)
+	AND (MONTH(t1.fecha) BETWEEN @desde AND @hasta AND YEAR(t1.fecha)=@anio)
+	AND (MONTH(t2.fecha) BETWEEN @desde AND @hasta AND YEAR(t2.fecha)=@anio)
 	GROUP BY pais
 	ORDER BY 2 DESC
 END
