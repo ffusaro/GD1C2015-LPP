@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.boxDatosCliente = new System.Windows.Forms.GroupBox();
+            this.cb2 = new System.Windows.Forms.ComboBox();
             this.label4 = new System.Windows.Forms.Label();
             this.txtUsuario = new System.Windows.Forms.TextBox();
             this.chkMail = new System.Windows.Forms.CheckBox();
@@ -64,13 +65,14 @@
             this.btnGrabar = new System.Windows.Forms.Button();
             this.btnModificar = new System.Windows.Forms.Button();
             this.btnNuevo = new System.Windows.Forms.Button();
-            this.cb2 = new System.Windows.Forms.ComboBox();
+            this.cbHabilitado = new System.Windows.Forms.CheckBox();
             this.boxDatosCliente.SuspendLayout();
             this.boxBotones.SuspendLayout();
             this.SuspendLayout();
             // 
             // boxDatosCliente
             // 
+            this.boxDatosCliente.Controls.Add(this.cbHabilitado);
             this.boxDatosCliente.Controls.Add(this.cb2);
             this.boxDatosCliente.Controls.Add(this.label4);
             this.boxDatosCliente.Controls.Add(this.txtUsuario);
@@ -105,6 +107,14 @@
             this.boxDatosCliente.TabIndex = 0;
             this.boxDatosCliente.TabStop = false;
             this.boxDatosCliente.Text = "Datos Personales";
+            // 
+            // cb2
+            // 
+            this.cb2.FormattingEnabled = true;
+            this.cb2.Location = new System.Drawing.Point(527, 100);
+            this.cb2.Name = "cb2";
+            this.cb2.Size = new System.Drawing.Size(185, 21);
+            this.cb2.TabIndex = 32;
             // 
             // label4
             // 
@@ -420,13 +430,16 @@
             this.btnNuevo.UseVisualStyleBackColor = true;
             this.btnNuevo.Click += new System.EventHandler(this.btnNuevo_Click);
             // 
-            // cb2
+            // cbHabilitado
             // 
-            this.cb2.FormattingEnabled = true;
-            this.cb2.Location = new System.Drawing.Point(527, 100);
-            this.cb2.Name = "cb2";
-            this.cb2.Size = new System.Drawing.Size(185, 21);
-            this.cb2.TabIndex = 32;
+            this.cbHabilitado.AutoSize = true;
+            this.cbHabilitado.Location = new System.Drawing.Point(453, 241);
+            this.cbHabilitado.Name = "cbHabilitado";
+            this.cbHabilitado.Size = new System.Drawing.Size(73, 17);
+            this.cbHabilitado.TabIndex = 34;
+            this.cbHabilitado.Text = "Habilitado";
+            this.cbHabilitado.TextAlign = System.Drawing.ContentAlignment.TopLeft;
+            this.cbHabilitado.UseVisualStyleBackColor = true;
             // 
             // ABMCliente
             // 
@@ -485,5 +498,6 @@
         private System.Windows.Forms.TextBox txtUsuario;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.ComboBox cb2;
+        private System.Windows.Forms.CheckBox cbHabilitado;
     }
 }

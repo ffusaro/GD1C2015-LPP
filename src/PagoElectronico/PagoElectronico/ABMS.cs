@@ -20,7 +20,7 @@ namespace PagoElectronico
 
 
         //ABM CLIENTE
-        public string insertarCliente(string Nombre, string Apellido, string Tipo_ID, int Numero_ID, string Mail, DateTime Nacimiento, string Nacionalidad,int id_domicilio, string usuario)
+        public string insertarCliente(string Nombre, string Apellido, string Tipo_ID, int Numero_ID, string Mail, DateTime Nacimiento, string Nacionalidad,int id_domicilio, string usuario, int habilitado)
         {
             con1.cnn.Open();
            
@@ -28,11 +28,11 @@ namespace PagoElectronico
 
             try
             {
-                string query = "INSERT INTO LPP.CLIENTES" +
-                                " (num_doc, apellido, nombre, fecha_nac, mail, id_tipo_Doc, id_pais, id_domicilio,username) " +
-                                "VALUES (" + Numero_ID + ", '" + Apellido + "', '" + Nombre + "', '" + Nacimiento+ "',"
-                                +" '" + Mail + "', (select tipo_cod FROM LPP.TIPO_DOCS WHERE tipo_descr = '" + Tipo_ID + "')" +
-                                ", (select id_pais from LPP.PAISES WHERE pais like '%" + Nacionalidad + "' )," + id_domicilio + ",'"+usuario+"') ";
+                string query = "INSERT INTO LPP.CLIENTES" 
+                    +" (num_doc, apellido, nombre, fecha_nac, mail, id_tipo_Doc, id_pais, id_domicilio, username, habilitado) " 
+                    +"VALUES (" + Numero_ID + ", '" + Apellido + "', '" + Nombre + "', CONVERT(DATETIME, '" + Nacimiento.ToString("yyyy-MM-dd HH:MM:ss") + "', 103),"
+                    + " '" + Mail + "', (select tipo_cod FROM LPP.TIPO_DOCS WHERE tipo_descr = '" + Tipo_ID + "')" +
+                    ", (select id_pais from LPP.PAISES WHERE RIGHT(pais, LEN(pais)-1) = '" + Nacionalidad + "' )," + id_domicilio + ", '"+usuario+"', "+ habilitado+") ";
                 
                 SqlCommand command = new SqlCommand(query, con1.cnn);
                 command.ExecuteNonQuery();
@@ -78,7 +78,7 @@ namespace PagoElectronico
             return 0;
         }
 
-        public string modificarCliente(string Nombre, string Apellido, string Tipo_ID, int Numero_ID, string Mail, DateTime Nacimiento,string Nacionalidad,string Username)
+        public string modificarCliente(string Nombre, string Apellido, string Tipo_ID, int Numero_ID, string Mail, DateTime Nacimiento,string Nacionalidad,string Username, int habilitado)
         {
             con1.cnn.Open();
             string salida = "Se modificó el Cliente correctamente";
@@ -92,7 +92,7 @@ namespace PagoElectronico
                     + "',  id_pais=(select id_pais from LPP.PAISES where pais like '%" + Nacionalidad +"')"
                     +", id_tipo_doc = ( select tipo_cod from LPP.TIPO_DOCS where tipo_descr='"+Tipo_ID +"'"
                     + "), num_doc = "+ Numero_ID
-                    +" WHERE username = '"+Username +"'";
+                    +" , habilitado = " + habilitado+" WHERE username = '"+Username +"'";
                 SqlCommand command = new SqlCommand(query, con1.cnn);
                 command.ExecuteNonQuery();
 

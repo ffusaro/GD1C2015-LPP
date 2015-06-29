@@ -25,12 +25,11 @@ namespace PagoElectronico
         public string tipoDoc = "";
         public int nroDoc = 0;
         public int id = 0;
-        private DateTime fechaNac;
         int ban;
         string user;
         ABMS abm = new ABMS();
         public DateTime fecha = DateTime.ParseExact(readConfiguracion.Configuracion.fechaSystem(), "yyyy-dd-MM", System.Globalization.CultureInfo.InvariantCulture);
-        
+        private int habilitado;
         ErrorProvider errorProvider1 = new ErrorProvider();
         public bool crear;
         
@@ -50,7 +49,7 @@ namespace PagoElectronico
             btnBuscar.Enabled = true;
             btnNuevo.Enabled = true;
             txtUsuario.Enabled = false;
-            fechaNacimiento.Value = fecha;
+            fechaNacimiento.Value = DateTime.ParseExact(readConfiguracion.Configuracion.fechaSystem(), "yyyy-dd-MM", System.Globalization.CultureInfo.InvariantCulture);
             lblMailExistente.Visible = false;
             txtUsuario.Text = usuario;
             // Conectar a DB
@@ -91,7 +90,7 @@ namespace PagoElectronico
             if(evento != "A")
             {
                 string query1 = "SELECT d.tipo_descr, num_doc, nombre, apellido, " + 
-                                " p.pais, fecha_nac,id_domicilio, mail "+
+                                " p.pais, fecha_nac,id_domicilio, mail, habilitado "+
                                 " FROM LPP.CLIENTES cl LEFT JOIN LPP.PAISES p ON cl.id_pais=p.id_pais "+
                                 " LEFT JOIN LPP.TIPO_DOCS d ON cl.id_tipo_doc = d.tipo_cod WHERE username = '" + evento + "'";
                 con1.cnn.Open();
@@ -107,6 +106,11 @@ namespace PagoElectronico
                 fechaNacimiento.Value = Convert.ToDateTime(lector.GetDateTime(5));
                 int id_domicilio = lector.GetInt32(6);
                 txtMail.Text = lector.GetString(7);
+                if (lector.GetBoolean(8)) {
+                    cbHabilitado.Checked = true;
+                } else {
+                    cbHabilitado.Checked = false;
+                }
                 txtMail.Enabled = false;
                 txtUsuario.Text = evento;
                 txtUsuario.Enabled = false;
@@ -356,7 +360,14 @@ namespace PagoElectronico
             // Inserto Cliente
             if (txtNombre.Text != "" && txtApellido.Text != "" && cbID.Text != "" && txtNumeroID.Text != "" && txtMail.Text != "" && cb2.Text != "" && fechaNacimiento.Value != null && txtDomicilio.Text != "" && txtNumeroCalle.Text !="")
             {
-                fechaNac = DateTime.Parse(fechaNacimiento.Value.ToString("yyyy-MM-dd"));
+                if (cbHabilitado.Checked)
+                {
+                    habilitado = 1;
+                }
+                else {
+                    habilitado = 0;
+                }
+
                 if (ban == 1)
                 {
                     if (abm.clienteRegistrado(cbID.Text, Convert.ToInt32(txtNumeroID.Text)) == 0)
@@ -391,7 +402,7 @@ namespace PagoElectronico
 
                         //Inserto en la Tabla Domicilio
                         int id_domicilio = abm.insertarDomicilio(txtDomicilio.Text, Convert.ToInt32(txtNumeroCalle.Text), Convert.ToInt32(txtPiso.Text), txtDepto.Text, txtLocalidad.Text);
-                        string salida = abm.insertarCliente(txtNombre.Text, txtApellido.Text, cbID.Text, Convert.ToInt32(txtNumeroID.Text), txtMail.Text,fechaNac, cb2.Text, id_domicilio,txtUsuario.Text);
+                        string salida = abm.insertarCliente(txtNombre.Text, txtApellido.Text, cbID.Text, Convert.ToInt32(txtNumeroID.Text), txtMail.Text,fechaNacimiento.Value, cb2.Text, id_domicilio,txtUsuario.Text, habilitado);
                         MessageBox.Show("" + salida);
                         tipoDoc = cbID.Text;
                         nroDoc = Convert.ToInt32(txtNumeroID.Text);
@@ -451,15 +462,16 @@ namespace PagoElectronico
 
                             //Modifico en la Tabla Domicilio y CLiente
                             abm.modificarDomicilio(txtDomicilio.Text,Convert.ToInt32(txtNumeroCalle.Text),Convert.ToInt32(txtPiso.Text), txtDepto.Text, txtLocalidad.Text,id_domicilio);
-                            string salida = abm.modificarCliente(txtNombre.Text, txtApellido.Text, cbID.Text, Convert.ToInt32(txtNumeroID.Text), txtMail.Text, fechaNac , cb2.Text, txtUsuario.Text);
+                            string salida = abm.modificarCliente(txtNombre.Text, txtApellido.Text, cbID.Text, Convert.ToInt32(txtNumeroID.Text), txtMail.Text, fechaNacimiento.Value , cb2.Text, txtUsuario.Text, habilitado);
                             MessageBox.Show("" + salida);
+                            this.Close();
                         }
 
                         else
                         {
                             //Modifico en la Tabla Domicilio y Cliente
                             abm.modificarDomicilio(txtDomicilio.Text, Convert.ToInt32(txtNumeroCalle.Text), Convert.ToInt32(txtPiso.Text), txtDepto.Text, txtLocalidad.Text, id_domicilio);
-                            string salida = abm.modificarCliente(txtNombre.Text, txtApellido.Text, cbID.Text, Convert.ToInt32(txtNumeroID.Text), txtMail.Text, fechaNac, cb2.Text, txtUsuario.Text);
+                            string salida = abm.modificarCliente(txtNombre.Text, txtApellido.Text, cbID.Text, Convert.ToInt32(txtNumeroID.Text), txtMail.Text, fechaNacimiento.Value, cb2.Text, txtUsuario.Text, habilitado);
                             MessageBox.Show("" + salida);
 
                         }

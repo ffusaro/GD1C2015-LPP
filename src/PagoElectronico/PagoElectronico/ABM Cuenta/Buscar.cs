@@ -46,6 +46,7 @@ namespace PagoElectronico.ABM_Cuenta
             {
                 if (cliente == 0)
                     id_cliente = getIdCliente();
+
                 else
                     id_cliente = cliente;
 

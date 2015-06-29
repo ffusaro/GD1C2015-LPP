@@ -81,7 +81,7 @@
             this.btLimpiar.Name = "btLimpiar";
             this.btLimpiar.Size = new System.Drawing.Size(84, 23);
             this.btLimpiar.TabIndex = 35;
-            this.btLimpiar.Text = "Reestablecer";
+            this.btLimpiar.Text = "Limpiar";
             this.btLimpiar.UseVisualStyleBackColor = true;
             this.btLimpiar.Click += new System.EventHandler(this.btLimpiar_Click);
             // 

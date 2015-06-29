@@ -130,6 +130,10 @@ IF OBJECT_ID('LPP.PRC_deshabilitacion_x_vencimiento_clientes') IS NOT NULL
 DROP PROCEDURE LPP.PRC_deshabilitacion_x_vencimiento_clientes
 GO
 
+IF OBJECT_ID('LPP.PRC_ItemFactura_x_ExtensionCuenta') IS NOT NULL
+DROP PROCEDURE LPP.PRC_ItemFactura_x_ExtensionCuenta
+GO
+
  
 /*---------Limpieza de Triggers-----------*/
 IF OBJECT_ID ('LPP.TRG_deshabilitacion_x_duracion_cuenta') IS NOT NULL
@@ -660,6 +664,7 @@ COMMIT
 BEGIN TRANSACTION
 INSERT INTO LPP.ITEMS (descripcion) VALUES ('Comision por apertura de cuenta.');
 INSERT INTO LPP.ITEMS (descripcion) VALUES ('Comision por cambio de tipo de cuenta.');
+INSERT INTO LPP.ITEMS (descripcion) VALUES ('Comision por extension de la duracion de la cuenta.');
 COMMIT
 
 
@@ -846,7 +851,7 @@ AFTER INSERT
 AS
 BEGIN
 	INSERT INTO LPP.ITEMS_FACTURA (id_item, num_cuenta, monto, facturado, fecha)
-		VALUES (3, (SELECT num_cuenta_origen FROM inserted), (SELECT costo_trans FROM inserted), 0, (SELECT fecha FROM inserted))
+		VALUES (4, (SELECT num_cuenta_origen FROM inserted), (SELECT costo_trans FROM inserted), 0, (SELECT fecha FROM inserted))
 	IF EXISTS(SELECT DISTINCT num_cuenta FROM LPP.ITEMS_FACTURA WHERE facturado = 0 AND num_cuenta = (SELECT num_cuenta_origen FROM inserted)
 			  GROUP BY num_cuenta HAVING COUNT(DISTINCT id_item_factura) >5)
 		BEGIN
@@ -877,19 +882,19 @@ BEGIN
 		END
 	ELSE
 		BEGIN
-			IF ((SELECT DISTINCT id_item FROM inserted) = 2)
+			UPDATE LPP.ITEMS_FACTURA  SET facturado = (SELECT facturado FROM inserted), id_factura = (SELECT id_factura FROM inserted) WHERE id_item_factura = (SELECT id_item_factura FROM inserted)
+			IF exists(SELECT num_cuenta FROM LPP.CUENTAS_DESHABILITADAS WHERE num_cuenta = (SELECT num_cuenta FROM inserted) AND motivo = 'Por deber mas de 5 transacciones')
 				BEGIN
-					UPDATE LPP.CUENTAS SET id_estado = 1 WHERE (SELECT DISTINCT num_cuenta FROM inserted) = num_cuenta  
-					UPDATE LPP.ITEMS_FACTURA  SET facturado = (SELECT facturado FROM inserted), id_factura = (SELECT id_factura FROM inserted) WHERE id_item_factura = (SELECT id_item_factura FROM inserted)
-				END
-			ELSE
-				BEGIN 
-					UPDATE LPP.ITEMS_FACTURA  SET facturado = (SELECT facturado FROM inserted), id_factura = (SELECT id_factura FROM inserted) WHERE id_item_factura = (SELECT id_item_factura FROM inserted)
-				END
-			END 
-	
+					IF((SELECT COUNT(id_item_factura) FROM LPP.ITEMS_FACTURA WHERE facturado= 0 AND num_cuenta = (SELECT num_cuenta from inserted)) <= 5 )
+					BEGIN
+						UPDATE LPP.CUENTAS SET id_estado = 1 WHERE num_cuenta = (SELECT num_cuenta FROM inserted)
+					END
+			END		
+		END
+		
 END
 GO
+
 /*Test TRG_cuenta_pedienteactivacion_a_activada
 SELECT * FROM LPP.ITEMS_FACTURA WHERE id_item = 3
 INSERT INTO LPP.CUENTAS (id_cliente, saldo, id_moneda,fecha_apertura, id_tipo, id_estado, id_pais) VALUES (1, 500, 1, GETDATE(), 1, 2, 8) 
@@ -989,6 +994,39 @@ GO
 --INSERT INTO LPP.CUENTAS (id_cliente, saldo, id_moneda,fecha_apertura, id_tipo, id_estado, id_pais) VALUES (1, 500, 1, GETDATE(), 1, 2, 8) 
 --SELECT * FROM LPP.ITEMS_FACTURA WHERE num_cuenta = (SELECT num_cuenta FROM LPP.CUENTAS WHERE id_cliente = 1 and saldo = 500 and id_tipo =1)
 
+
+CREATE PROCEDURE LPP.PRC_ItemFactura_x_ExtensionCuenta
+@num_cuenta NUMERIC(18, 0),
+@id_tipo INTEGER, 
+@fecha DATETIME,
+@cantsuscripciones INTEGER
+AS 
+BEGIN
+BEGIN TRANSACTION 
+		IF exists(SELECT num_cuenta FROM LPP.CUENTAS_DESHABILITADAS WHERE num_cuenta = @num_cuenta AND motivo= 'Por vencimiento de suscripcion') 
+		BEGIN
+			UPDATE LPP.CUENTAS SET id_estado = 1 WHERE num_cuenta = @num_cuenta
+		END
+		
+		DECLARE @dias INTEGER
+		SELECT @dias = (SELECT duracion FROM LPP.TIPOS_CUENTA WHERE id_tipocuenta = @id_tipo)
+		
+		UPDATE LPP.SUSCRIPCIONES SET num_cuenta = @num_cuenta, fecha_vencimiento = DATEADD(day, @dias * @cantsuscripciones, CONVERT(DATETIME, @fecha, 103)) WHERE num_cuenta = @num_cuenta
+		
+		INSERT INTO LPP.ITEMS_FACTURA (id_item, num_cuenta, monto, facturado, fecha)
+			VALUES (3, @num_cuenta, @cantsuscripciones *(SELECT costo_transaccion FROM LPP.TIPOS_CUENTA WHERE id_tipocuenta= @id_tipo), 0, @fecha)
+	
+		IF( (SELECT COUNT(id_item_factura) FROM LPP.ITEMS_FACTURA WHERE facturado= 0) > 5 )
+			BEGIN
+				UPDATE LPP.CUENTAS SET id_estado = 4 WHERE num_cuenta = @num_cuenta
+				INSERT INTO LPP.CUENTAS_DESHABILITADAS (num_cuenta, fecha_deshabilitacion, motivo) 
+						VALUES(@num_cuenta, @fecha, 'Por deber mas de 5 transacciones')
+			END
+		
+	COMMIT 
+END
+GO
+
 CREATE PROCEDURE LPP.PRC_CambioCuenta 
 @num_cuenta NUMERIC(18, 0),
 @tipocuenta_origen INTEGER,
@@ -1002,6 +1040,11 @@ BEGIN
 			VALUES (@num_cuenta, @tipocuenta_origen, @tipocuenta_final, @fecha)
 			
 		UPDATE LPP.CUENTAS SET id_tipo = @tipocuenta_final WHERE num_cuenta = @num_cuenta
+		
+		IF exists(SELECT num_cuenta FROM LPP.CUENTAS_DESHABILITADAS WHERE num_cuenta = @num_cuenta AND motivo= 'Por vencimiento de suscripcion') 
+		BEGIN
+			UPDATE LPP.CUENTAS SET id_estado = 1 WHERE num_cuenta = @num_cuenta
+		END
 		
 		DECLARE @dias INTEGER
 		SELECT @dias = (SELECT duracion FROM LPP.TIPOS_CUENTA WHERE id_tipocuenta = @tipocuenta_final)
