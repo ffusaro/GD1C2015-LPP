@@ -65,11 +65,6 @@ namespace PagoElectronico.ABM_Rol
             }
         }
 
-        private void BuscarRol_Load(object sender, EventArgs e)
-        {
-
-        }
-
-     
+      
     }
 }

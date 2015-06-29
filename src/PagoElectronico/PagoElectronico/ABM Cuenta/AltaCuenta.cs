@@ -103,7 +103,7 @@ namespace PagoElectronico.ABM_Cuenta
                     cuentaCambio = lector2.GetString(3);
                     cmbPaises.Text = lector2.GetString(4);
                     usuario = lector2.GetString(5);
-                    groupBox3.Enabled = true;
+                    
 
                 }
                 con.cnn.Close();
@@ -127,7 +127,6 @@ namespace PagoElectronico.ABM_Cuenta
             btnContinuar.Enabled = true;
             btnNuevo.Enabled = false;
             btnBuscar.Enabled = false;
-            groupBox3.Enabled = true;
             ban = 1;
         }
 
@@ -163,7 +162,7 @@ namespace PagoElectronico.ABM_Cuenta
 
         private void btnContinuar_Click_1(object sender, EventArgs e)
         {
-            Conexion con1 = new Conexion();
+            
             // Verifica que no haya campos vacios 
             if (cmbMoneda.SelectedItem == null)
             {
@@ -187,96 +186,52 @@ namespace PagoElectronico.ABM_Cuenta
             }
              if (ban == 1)
              {
-                 //INSERTO LA CUENTA
-                 string query1 = "INSERT INTO LPP.CUENTAS (id_pais, " +
-                                 "id_cliente, id_moneda, fecha_apertura, id_tipo,saldo,id_estado) VALUES " +
-                                 "(" + getIdPais() + "," + getIdCliente() + "," + getIdMoneda() + ",CONVERT(datetime,'" + readConfiguracion.Configuracion.fechaSystem() + " 00:00:00.000', 103)," + getIdTipoCuenta(cmbTipoCuenta.Text) + ",0,2)";
-                 con1.cnn.Open();
-                 SqlCommand command = new SqlCommand(query1, con1.cnn);
-                 command.ExecuteNonQuery();
-                 con1.cnn.Close();
-
-                 Int32 duracion = getDuracionCuenta(getIdTipoCuenta(cmbTipoCuenta.Text));
-                 string query2 = "INSERT INTO LPP.SUSCRIPCIONES (num_cuenta, fecha_vencimiento)"
-                                + " VALUES (" + getNumCuenta() + ", DATEADD(day," + duracion * Convert.ToInt32(numericUpDown1.Value) + " ,  CONVERT(DATETIME, '" + readConfiguracion.Configuracion.fechaSystem() + "', 103 )))";
-                 con1.cnn.Open();
-                 SqlCommand command2 = new SqlCommand(query2, con1.cnn);
-                 command2.ExecuteNonQuery();
-                 con1.cnn.Close();
-                 
-                 this.insertarItemFacturaPorApertura();
-
-                 MessageBox.Show("Alta de Cuenta Exitosa, su Numero de cuenta es:  "+getNumCuenta());
-                 txtCuenta.Visible = false;
-                 lblCuenta.Visible = false;
-                 btnLimpiar.Enabled = true;
-                 btnContinuar.Enabled = false;
-                 btnBuscar.Enabled = true;
-                 btnNuevo.Enabled = true;
-                 btnSalir.Enabled = true;
-                 gbDatosCuenta.Enabled = false;
-                 gbTipoCuenta.Enabled = false;
-                 cmbPaises.SelectedItem = null;
-                 cmbTipoCuenta.SelectedItem = null;
-                 cmbMoneda.SelectedItem = null;
-                 numericUpDown1.Enabled = false;
-                 
+                 int cliente = getIdCliente();
+                 decimal moneda = getIdMoneda();
+                 int tipocuenta = getIdTipoCuenta(cmbTipoCuenta.Text);
+                 int bandera = ban;
+                 decimal pais = getIdPais(); 
+                 int dur = getDuracionCuenta(getIdTipoCuenta(cmbTipoCuenta.Text));
+                 ComprarSuscripcion cs = new ComprarSuscripcion(cliente, moneda, tipocuenta , 0, ban, pais, dur, false);
+                 cs.Show();
                  this.Close();
              }
              if (ban == 2)
              {
                  if (cuentaCambio != cmbTipoCuenta.Text)
                  {
-                     string query9 = "UPDATE LPP.CUENTAS SET " +
-                                 " id_moneda = " + getIdMoneda() + "," +
-                                 " id_tipo = " + getIdTipoCuenta(cmbTipoCuenta.Text) + ", id_estado = 1 " +
-                                 "WHERE num_cuenta = " + Convert.ToDecimal(txtCuenta.Text) + "";
-
-                     con1.cnn.Open();
-                     SqlCommand command = new SqlCommand(query9, con1.cnn);
-                     command.ExecuteNonQuery();
-                     con1.cnn.Close();
-                     if (cuentaCambio != cmbTipoCuenta.Text)
-                         insertarCambio_Cuenta();
-
-                     Int32 duracion = getDuracionCuenta(getIdTipoCuenta(cmbTipoCuenta.Text));
-                     string query2 = "INSERT INTO LPP.SUSCRIPCIONES (num_cuenta, fecha_vencimiento)"
-                                    + " VALUES (" + getNumCuenta() + ", DATEADD(day," + duracion * Convert.ToInt32(numericUpDown1.Value) + " ,  CONVERT(DATETIME, '" + readConfiguracion.Configuracion.fechaSystem() + "', 103 )))";
-                     con1.cnn.Open();
-                     SqlCommand command2 = new SqlCommand(query2, con1.cnn);
-                     command2.ExecuteNonQuery();
-                     con1.cnn.Close();
-                     
-                     insertarCambio_Cuenta();
+                     ComprarSuscripcion cs = new ComprarSuscripcion(getIdCliente(), getIdMoneda(), getIdTipoCuenta(cuentaCambio), Convert.ToDecimal(txtCuenta.Text), ban, getIdPais(), getDuracionCuenta(getIdTipoCuenta(cmbTipoCuenta.Text)), true);
+                     cs.tipocuenta_final = getIdTipoCuenta(cmbTipoCuenta.Text);
+                     cs.Show();
+                     this.Close();
                  }
                  else
                  {
-                     string query9 = "UPDATE LPP.CUENTAS SET " +
-                               " id_moneda = " + getIdMoneda() + 
+                     DialogResult dialogResult = MessageBox.Show("Si desea solo modificar la moneda de su cuenta, presione YES. Si desea extender la suscripcion de sus cuenta presione NO", "Opciones", MessageBoxButtons.YesNo);
+                     if (dialogResult == DialogResult.Yes)
+                     {
+                         Conexion con1 = new Conexion();
+                         string query9 = "UPDATE LPP.CUENTAS SET " +
+                               " id_moneda = " + getIdMoneda() +
                                " WHERE num_cuenta = " + Convert.ToDecimal(txtCuenta.Text) + "";
 
-                     con1.cnn.Open();
-                     SqlCommand command = new SqlCommand(query9, con1.cnn);
-                     command.ExecuteNonQuery();
-                     con1.cnn.Close();
+                         con1.cnn.Open();
+                         SqlCommand command = new SqlCommand(query9, con1.cnn);
+                         command.ExecuteNonQuery();
+                         con1.cnn.Close();
+                         MessageBox.Show("La cuenta fue modificada con éxito");
+
+                     }
+                     if (dialogResult == DialogResult.No)
+                     {
+                         ComprarSuscripcion cs = new ComprarSuscripcion(getIdCliente(), getIdMoneda(), getIdTipoCuenta(cmbTipoCuenta.Text), Convert.ToDecimal(txtCuenta.Text), ban, getIdPais(), getDuracionCuenta(getIdTipoCuenta(cmbTipoCuenta.Text)), false);
+                         cs.Show();
+                         this.Close(); 
+                     }
                      
                  }
 
-                 MessageBox.Show("La cuenta fue modificada con éxito");
-                 btnLimpiar.Enabled = true;
-                 btnContinuar.Enabled = false;
-                 btnBuscar.Enabled = true;
-                 btnNuevo.Enabled = true;
-                 btnSalir.Enabled = true;
-                 txtCuenta.Text = "";
-                 numericUpDown1.Value = 1;
-                 gbDatosCuenta.Enabled = false;
-                 gbTipoCuenta.Enabled = false;
-                 cmbPaises.SelectedItem = null;
-                 cmbTipoCuenta.SelectedItem = null;
-                 cmbMoneda.SelectedItem = null;
-                 numericUpDown1.Enabled = false;
-                
+                               
              }
         }
         private decimal getIdPais()
@@ -318,6 +273,7 @@ namespace PagoElectronico.ABM_Cuenta
             con.cnn.Close();
             return duracion;        
         }
+
         private decimal getIdMoneda()
         {
             Conexion con = new Conexion();
@@ -357,44 +313,7 @@ namespace PagoElectronico.ABM_Cuenta
             con.cnn.Close();
             return num_cuenta;
         }
-        
-       
-        private void insertarCambio_Cuenta()
-        {
-            Conexion con = new Conexion();
 
-            con.cnn.Open();
-            string query = "LPP.PRC_CambioCuenta";
-            SqlCommand command = new SqlCommand(query, con.cnn);
-            command.CommandType = CommandType.StoredProcedure;
-            command.Parameters.Add(new SqlParameter("@num_cuenta", num_cuenta));
-            command.Parameters.Add(new SqlParameter("@tipocuenta_origen",getIdTipoCuenta(cuentaCambio)));
-            command.Parameters.Add(new SqlParameter("@tipocuenta_final", getIdTipoCuenta(cmbTipoCuenta.Text)));
-            DateTime fechaConfiguracion = DateTime.ParseExact(readConfiguracion.Configuracion.fechaSystem(), "yyyy-dd-MM", System.Globalization.CultureInfo.InvariantCulture);
-            command.Parameters.Add(new SqlParameter("@fecha", fechaConfiguracion));
-            command.Parameters.Add(new SqlParameter("@cantsuscripciones", Convert.ToInt32(numericUpDown1.Value)));
-            command.ExecuteNonQuery();
-            con.cnn.Close();
-            if (Helper.Help.VerificadorDeDeudas(getIdCliente()))
-                MessageBox.Show("Al tener mas de 5 transacciones sin facturar su cuenta se encuentra inhabilitada");
-         }
-
-        private void insertarItemFacturaPorApertura() 
-        {
-            Conexion con = new Conexion();
-
-            con.cnn.Open();
-            string query = "LPP.PRC_ItemFactura_x_AperturaCuenta";
-            SqlCommand command = new SqlCommand(query, con.cnn);
-            command.CommandType = CommandType.StoredProcedure;
-            command.Parameters.Add(new SqlParameter("@num_cuenta", getNumCuenta()));
-            command.Parameters.Add(new SqlParameter("@id_tipo", getIdTipoCuenta(cmbTipoCuenta.Text)));
-            DateTime fechaConfiguracion = DateTime.ParseExact(readConfiguracion.Configuracion.fechaSystem(), "yyyy-dd-MM", System.Globalization.CultureInfo.InvariantCulture);
-            command.Parameters.Add(new SqlParameter("@fecha", fechaConfiguracion));
-            command.Parameters.Add(new SqlParameter("@cantsuscripciones", Convert.ToInt32(numericUpDown1.Value)));
-            command.ExecuteNonQuery();
-            con.cnn.Close();
-        }
         private string getRolUser()
         {
             Conexion con = new Conexion();

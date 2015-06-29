@@ -58,7 +58,6 @@ namespace PagoElectronico.ABM_Cuenta
                 DataTable dtDatos = new DataTable();
                 SqlDataAdapter da = new SqlDataAdapter(query, con.cnn);
                 da.Fill(dtDatos);
-                //dt = dtDatos;
                 dgvCuentas.DataSource = dtDatos;
                 con.cnn.Close();
             }
@@ -90,7 +89,7 @@ namespace PagoElectronico.ABM_Cuenta
             {
                 string username = dgvCuentas.Rows[indice].Cells["username"].Value.ToString();
                 decimal Cuenta = Convert.ToDecimal(dgvCuentas.Rows[indice].Cells["num_cuenta"].Value.ToString());
-                ABM_Cuenta.Pregunta p = new ABM_Cuenta.Pregunta(usuario, Cuenta);
+                ABM_Cuenta.Pregunta p = new ABM_Cuenta.Pregunta(username, Cuenta);
                 p.Show();
                 this.Close();
             }

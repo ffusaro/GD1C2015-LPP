@@ -65,7 +65,7 @@ namespace PagoElectronico.Login
             /*VERIFICA QUE LAS NUEVAS CONTRASEÑAS COINCIDAN*/
             if (txtNuevaPass.Text != txtConfirmPass.Text)
             {
-                MessageBox.Show("¡Las Nuevas Contraseñas No Coinciden!", "ERROR");
+                MessageBox.Show("Las nuevas contraseñas no coinciden.", "ERROR");
                 txtConfirmPass.Text = "";
                 txtNuevaPass.Text = "";
                 txtPass.Text = "";

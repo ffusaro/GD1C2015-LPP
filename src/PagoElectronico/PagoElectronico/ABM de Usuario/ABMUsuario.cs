@@ -192,14 +192,19 @@ namespace PagoElectronico.ABM_de_Usuario
 
         private void btnLimpiar_Click(object sender, EventArgs e)
         {
-           
-            txtPass.Text = "";
-            txtConfirmarPass.Text = "";
             cmbpregunta_secreta.Text = "";
             txtrespuesta_secreta.Text = "";
-            txtUsuario.Text = "";
             cbRol.SelectedItem = null;
             ckbHabilitado.Checked = false;
+            
+
+            if (evento == "A")
+            {
+                txtUsuario.Text = "";
+                txtPass.Text = "";
+                txtConfirmarPass.Text = "";
+            }
+
             btnNuevo.Enabled=true;
 
        }

@@ -84,6 +84,12 @@
     <Compile Include="ABM Cuenta\Buscar.designer.cs">
       <DependentUpon>Buscar.cs</DependentUpon>
     </Compile>
+    <Compile Include="ABM Cuenta\ComprarSuscripcion.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ABM Cuenta\ComprarSuscripcion.Designer.cs">
+      <DependentUpon>ComprarSuscripcion.cs</DependentUpon>
+    </Compile>
     <Compile Include="ABM Cuenta\ConsultaSaldos.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -215,6 +221,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ABM Cuenta\Buscar.resx">
       <DependentUpon>Buscar.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ABM Cuenta\ComprarSuscripcion.resx">
+      <DependentUpon>ComprarSuscripcion.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ABM Cuenta\ConsultaSaldos.resx">
       <DependentUpon>ConsultaSaldos.cs</DependentUpon>

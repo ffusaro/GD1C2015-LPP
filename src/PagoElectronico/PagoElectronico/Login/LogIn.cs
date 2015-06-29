@@ -28,7 +28,6 @@ namespace PagoElectronico.Login
             txtPass.Enabled = false;
             cmbRol.Items.Clear();
             cmbRol.Enabled = false;
-            //intFallidos = 1;
                        
         }
 
@@ -131,7 +130,7 @@ namespace PagoElectronico.Login
             } else {
                 if (verificoSiDebe())
                 {
-                    DialogResult dialogResult = MessageBox.Show("Alguna de sus cuentas se encuentra deshabilitada ¿Desea renovar su suscripcion? ", "Cuentas", MessageBoxButtons.YesNo);
+                    DialogResult dialogResult = MessageBox.Show("Alguna de sus cuentas se encuentra inhabilitada ¿Desea renovar su suscripcion? ", "Cuentas", MessageBoxButtons.YesNo);
                     if (dialogResult == DialogResult.Yes)
                     {
                         ABM_Cuenta.Buscar bc = new ABM_Cuenta.Buscar(0, txtUsuario.Text);

@@ -75,11 +75,39 @@ namespace PagoElectronico.Transferencias
 
         private void btnBuscar_Click(object sender, EventArgs e)
         {
-            BuscarCuentas bc = new BuscarCuentas(usuario);
-            bc.num_cuenta_origen = Convert.ToDecimal(cmbNroCuenta.Text);
-            bc.importe = Convert.ToDecimal(txtImporte.Text);
-            bc.Show();
-            this.Close();
+            if (txtImporte.Text != "")
+            {
+                decimal temp;
+                try
+                {
+                        temp = Convert.ToDecimal(txtImporte.Text);
+                        if (temp < 0)
+                        {
+                            MessageBox.Show("El importe debe ser positivo.");
+                            return;
+                        }
+                        else {
+                            BuscarCuentas bc = new BuscarCuentas(usuario);
+                            bc.num_cuenta_origen = Convert.ToDecimal(cmbNroCuenta.Text);
+                            bc.importe = Convert.ToDecimal(txtImporte.Text);
+                            bc.Show();
+                            this.Close();
+                        
+                        }
+
+                }
+                catch (Exception h)
+                {
+                    MessageBox.Show("Importe solo puede contener números", h.ToString());
+                    return;
+                }
+
+            }
+            else {
+                MessageBox.Show("Ingrese un Importe por favor");
+                return;
+            }
+            
         }
 
         private void btnGrabar_Click(object sender, EventArgs e)
@@ -100,7 +128,7 @@ namespace PagoElectronico.Transferencias
                 if (txtImporte.Text != "")
                 {
                     temp = Convert.ToDecimal(txtImporte.Text);
-                    if (temp < 0)
+                    if (!(temp > 0 ))
                     {
                         MessageBox.Show("El importe debe ser positivo.");
                         return;
@@ -113,12 +141,7 @@ namespace PagoElectronico.Transferencias
                 MessageBox.Show("Importe solo puede contener números", h.ToString());
                 return;
             }
-            if (Convert.ToInt32(txtImporte.Text) < 0)
-            {
-                MessageBox.Show("El importe ingresado debe ser mayor a cero");
-                txtImporte.Focus();
-                return;
-            }
+            
             if (txtCuentaDestino.Text == "")
             {
                 MessageBox.Show("Elija un Numero de Cuenta Destino por favor");
@@ -136,29 +159,56 @@ namespace PagoElectronico.Transferencias
                 return;
             }
 
-            Int32 id_trans = grabarTransferencia(Convert.ToDecimal(cmbNroCuenta.SelectedItem),Convert.ToDecimal(txtCuentaDestino.Text),Convert.ToDecimal(txtImporte.Text));
+            if (this.tieneSaldo(Convert.ToDecimal(cmbNroCuenta.SelectedItem), Convert.ToDecimal(txtImporte.Text)))
+            {
+                Int32 id_trans = grabarTransferencia(Convert.ToDecimal(cmbNroCuenta.SelectedItem), Convert.ToDecimal(txtCuentaDestino.Text), Convert.ToDecimal(txtImporte.Text));
+
+                DialogResult dialogResult = MessageBox.Show("Su Transferencia se realizo correctamente. ¿Desea ver el comprobante?", "Retiro de Efectivo", MessageBoxButtons.YesNo);
+                if (dialogResult == DialogResult.Yes)
+                {
+                    cmbNroCuenta.SelectedItem = null;
+                    txtImporte.Text = "";
+                    grpDatos.Enabled = false;
+                    btnNuevo.Enabled = true;
+                    btnLimpiar.Enabled = false;
+                    btnSalir.Enabled = true;
+                    btnGrabar.Enabled = false;
+                    ListaTransferencias lt = new ListaTransferencias(id_trans);
+                    lt.Show();
+                    this.Close();
+                }
+                else
+                {
+                    this.Close();
+                }
+
+               // if (Helper.Help.VerificadorDeDeudas(getIdCliente()))
+               //     MessageBox.Show("A partir de este momento, su cuenta se encuentra inhabilitada por tener mas de 5 transacciones sin facturar");
+
+            }
+            else {
+                MessageBox.Show("Saldo insuficiente para esta transferencia.");
+            }
             
-            DialogResult dialogResult = MessageBox.Show("Su Tranferencia se realizo correctamente. ¿Desea ver el comprobante?", "Retiro de Efectivo", MessageBoxButtons.YesNo);
-            if (dialogResult == DialogResult.Yes)
-            {
-                cmbNroCuenta.SelectedItem = null;
-                txtImporte.Text = "";
-                grpDatos.Enabled = false;
-                btnNuevo.Enabled = true;
-                btnLimpiar.Enabled = false;
-                btnSalir.Enabled = true;
-                btnGrabar.Enabled = false;
-                ListaTransferencias lt = new ListaTransferencias(id_trans);
-                lt.Show();
-                this.Close();
-            }
-            else
-            {
-                this.Close();
-            }
 
         }
 
+        private bool tieneSaldo(decimal num_cuenta, decimal importe) {
+            Conexion con = new Conexion();
+            string query = "SELECT saldo FROM LPP.CUENTAS WHERE num_cuenta = " + num_cuenta + "";
+            
+            con.cnn.Open();
+            SqlCommand command2 = new SqlCommand(query, con.cnn);
+            decimal saldo = Convert.ToDecimal(command2.ExecuteScalar());
+            con.cnn.Close();
+
+            if (saldo >= importe) {
+                return true;
+            } else {
+                return false;
+            }
+        
+        }
         private Int32 grabarTransferencia(decimal origen, decimal destino, decimal importe)
         {
             
@@ -187,9 +237,7 @@ namespace PagoElectronico.Transferencias
             Int32 id_transferencia = Convert.ToInt32(command2.ExecuteScalar());
             con.cnn.Close();
 
-            if (Helper.Help.VerificadorDeDeudas(getIdCliente()))
-                MessageBox.Show("Al tener mas de 5 transacciones sin facturar su cuenta se encuentra inhabilitada");
-
+            
             return id_transferencia;
         }
         

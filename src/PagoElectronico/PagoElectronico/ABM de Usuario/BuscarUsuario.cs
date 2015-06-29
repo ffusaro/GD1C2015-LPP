@@ -51,7 +51,7 @@ namespace PagoElectronico.ABM_de_Usuario
         private void btnBuscar_Click(object sender, EventArgs e)
         {
 
-            if(ev != 0)
+            if(ev != 0 && ev != 2)
             {
                 Conexion con = new Conexion();
                 string query = "SELECT username FROM LPP.USUARIOS ";
@@ -68,20 +68,39 @@ namespace PagoElectronico.ABM_de_Usuario
                 con.cnn.Close();
             }else
             {
-                Conexion con = new Conexion();
-                string query = "SELECT username FROM LPP.USUARIOS u WHERE username NOT IN (SELECT username FROM LPP.CLIENTES)";
-                
-                if (txtUsuarios.Text != "")
-                {
-                    query += " AND username LIKE '%" + txtUsuarios.Text + "%'";
-                }
+                if (ev == 2) {
+                    Conexion con = new Conexion();
+                    string query = "SELECT username FROM LPP.CLIENTES";
 
-                con.cnn.Open();
-                DataTable dtDatos = new DataTable();
-                SqlDataAdapter da = new SqlDataAdapter(query, con.cnn);
-                da.Fill(dtDatos);
-                dgvUsuario.DataSource = dtDatos;
-                con.cnn.Close();
+                    if (txtUsuarios.Text != "")
+                    {
+                        query += " WHERE username LIKE '%" + txtUsuarios.Text + "%'";
+                    }
+
+                    con.cnn.Open();
+                    DataTable dtDatos = new DataTable();
+                    SqlDataAdapter da = new SqlDataAdapter(query, con.cnn);
+                    da.Fill(dtDatos);
+                    dgvUsuario.DataSource = dtDatos;
+                    con.cnn.Close();
+                }
+                else
+                {
+                    Conexion con = new Conexion();
+                    string query = "SELECT username FROM LPP.USUARIOS u WHERE username NOT IN (SELECT username FROM LPP.CLIENTES)";
+
+                    if (txtUsuarios.Text != "")
+                    {
+                        query += " AND username LIKE '%" + txtUsuarios.Text + "%'";
+                    }
+
+                    con.cnn.Open();
+                    DataTable dtDatos = new DataTable();
+                    SqlDataAdapter da = new SqlDataAdapter(query, con.cnn);
+                    da.Fill(dtDatos);
+                    dgvUsuario.DataSource = dtDatos;
+                    con.cnn.Close();
+                }
             }
        }
 

@@ -34,7 +34,6 @@ namespace PagoElectronico.ABM_Rol
             else
             {
                 txtNombre.Text = evento;
-                txtNombre.Enabled = false;
             }
 
 
@@ -120,6 +119,7 @@ namespace PagoElectronico.ABM_Rol
             }
             else
             {
+                
                 string query1 = "SELECT 1 FROM LPP.ROLES WHERE nombre = '" + txtNombre.Text + "'";
                 con.cnn.Open();
                 SqlCommand command1 = new SqlCommand(query1, con.cnn);
@@ -127,7 +127,7 @@ namespace PagoElectronico.ABM_Rol
 
                 if (lector1.Read())
                 {
-                    MessageBox.Show("Nombre de Rol Inválido");
+                    MessageBox.Show("Nombre de Rol ya existente.");
                     con.cnn.Close();
                     return;
                 }
