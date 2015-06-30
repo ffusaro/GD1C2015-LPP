@@ -987,7 +987,7 @@ CREATE PROCEDURE LPP.PRC_ItemFactura_x_AperturaCuenta
 AS
 BEGIN
 	INSERT INTO LPP.ITEMS_FACTURA (id_item, num_cuenta, monto, facturado, fecha)
-	 VALUES (1, @num_cuenta, @cantsuscripciones * (SELECT costo_apertura FROM LPP.TIPOS_CUENTA WHERE id_tipocuenta = @id_tipo), 0, @fecha)
+	 VALUES (1, @num_cuenta, (@cantsuscripciones - 1) *(SELECT costo_transaccion FROM LPP.TIPOS_CUENTA WHERE id_tipocuenta = @id_tipo) +(SELECT costo_apertura FROM LPP.TIPOS_CUENTA WHERE id_tipocuenta = @id_tipo), 0, @fecha)
 END 
 GO	
 /*Test TRG_ItemFactura_x_AperturaCuenta*/
@@ -1052,7 +1052,7 @@ BEGIN
 		UPDATE LPP.SUSCRIPCIONES SET num_cuenta = @num_cuenta, fecha_vencimiento = DATEADD(day, @dias * @cantsuscripciones, CONVERT(DATETIME, @fecha, 103)) WHERE num_cuenta = @num_cuenta
 		
 		INSERT INTO LPP.ITEMS_FACTURA (id_item, num_cuenta, monto, facturado, fecha)
-			VALUES (2, @num_cuenta, @cantsuscripciones *(SELECT costo_apertura FROM LPP.TIPOS_CUENTA WHERE id_tipocuenta= @tipocuenta_final), 0, @fecha)
+			VALUES (2, @num_cuenta, (@cantsuscripciones - 1)*(SELECT costo_transaccion FROM LPP.TIPOS_CUENTA WHERE id_tipocuenta= @tipocuenta_final)+(SELECT costo_apertura FROM LPP.TIPOS_CUENTA WHERE id_tipocuenta= @tipocuenta_final), 0, @fecha)
 	
 		IF( (SELECT COUNT(id_item_factura) FROM LPP.ITEMS_FACTURA WHERE facturado= 0) > 5 )
 			BEGIN

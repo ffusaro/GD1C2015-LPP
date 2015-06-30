@@ -194,5 +194,18 @@ namespace PagoElectronico.ABM_Rol
             return id_rol;
         
         }
+
+        private void txtNombre_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if(!(Char.IsLetter(e.KeyChar))){
+                e.Handled = true;  
+            }else{
+                e.Handled = false;
+            }
+        }
+
+
+
+      
     }
 }

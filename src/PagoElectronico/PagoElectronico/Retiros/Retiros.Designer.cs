@@ -34,12 +34,12 @@
             this.btnGrabar = new System.Windows.Forms.Button();
             this.btnNuevo = new System.Windows.Forms.Button();
             this.grpRetiros = new System.Windows.Forms.GroupBox();
+            this.cmbMoneda = new System.Windows.Forms.ComboBox();
+            this.label4 = new System.Windows.Forms.Label();
             this.cmbNroCuenta = new System.Windows.Forms.ComboBox();
             this.txtImporte = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this.cmbMoneda = new System.Windows.Forms.ComboBox();
-            this.label4 = new System.Windows.Forms.Label();
             this.boxBotones.SuspendLayout();
             this.grpRetiros.SuspendLayout();
             this.SuspendLayout();
@@ -111,6 +111,23 @@
             this.grpRetiros.TabStop = false;
             this.grpRetiros.Text = "Datos Retiro";
             // 
+            // cmbMoneda
+            // 
+            this.cmbMoneda.FormattingEnabled = true;
+            this.cmbMoneda.Location = new System.Drawing.Point(147, 130);
+            this.cmbMoneda.Name = "cmbMoneda";
+            this.cmbMoneda.Size = new System.Drawing.Size(210, 21);
+            this.cmbMoneda.TabIndex = 8;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(27, 134);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(85, 13);
+            this.label4.TabIndex = 7;
+            this.label4.Text = "Tipo de Moneda";
+            // 
             // cmbNroCuenta
             // 
             this.cmbNroCuenta.FormattingEnabled = true;
@@ -125,6 +142,7 @@
             this.txtImporte.Name = "txtImporte";
             this.txtImporte.Size = new System.Drawing.Size(210, 20);
             this.txtImporte.TabIndex = 4;
+            this.txtImporte.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtImporte_KeyPress);
             // 
             // label2
             // 
@@ -143,23 +161,6 @@
             this.label1.Size = new System.Drawing.Size(96, 13);
             this.label1.TabIndex = 0;
             this.label1.Text = "Número de Cuenta";
-            // 
-            // cmbMoneda
-            // 
-            this.cmbMoneda.FormattingEnabled = true;
-            this.cmbMoneda.Location = new System.Drawing.Point(147, 130);
-            this.cmbMoneda.Name = "cmbMoneda";
-            this.cmbMoneda.Size = new System.Drawing.Size(210, 21);
-            this.cmbMoneda.TabIndex = 8;
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(27, 134);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(85, 13);
-            this.label4.TabIndex = 7;
-            this.label4.Text = "Tipo de Moneda";
             // 
             // RetiroDeEfectivo
             // 

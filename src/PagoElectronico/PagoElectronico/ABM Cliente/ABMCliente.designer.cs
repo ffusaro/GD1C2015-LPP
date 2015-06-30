@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.boxDatosCliente = new System.Windows.Forms.GroupBox();
+            this.cbHabilitado = new System.Windows.Forms.CheckBox();
             this.cb2 = new System.Windows.Forms.ComboBox();
             this.label4 = new System.Windows.Forms.Label();
             this.txtUsuario = new System.Windows.Forms.TextBox();
@@ -65,7 +66,6 @@
             this.btnGrabar = new System.Windows.Forms.Button();
             this.btnModificar = new System.Windows.Forms.Button();
             this.btnNuevo = new System.Windows.Forms.Button();
-            this.cbHabilitado = new System.Windows.Forms.CheckBox();
             this.boxDatosCliente.SuspendLayout();
             this.boxBotones.SuspendLayout();
             this.SuspendLayout();
@@ -107,6 +107,17 @@
             this.boxDatosCliente.TabIndex = 0;
             this.boxDatosCliente.TabStop = false;
             this.boxDatosCliente.Text = "Datos Personales";
+            // 
+            // cbHabilitado
+            // 
+            this.cbHabilitado.AutoSize = true;
+            this.cbHabilitado.Location = new System.Drawing.Point(453, 241);
+            this.cbHabilitado.Name = "cbHabilitado";
+            this.cbHabilitado.Size = new System.Drawing.Size(73, 17);
+            this.cbHabilitado.TabIndex = 34;
+            this.cbHabilitado.Text = "Habilitado";
+            this.cbHabilitado.TextAlign = System.Drawing.ContentAlignment.TopLeft;
+            this.cbHabilitado.UseVisualStyleBackColor = true;
             // 
             // cb2
             // 
@@ -158,6 +169,7 @@
             this.txtDepto.Name = "txtDepto";
             this.txtDepto.Size = new System.Drawing.Size(42, 20);
             this.txtDepto.TabIndex = 25;
+            this.txtDepto.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtDepto_KeyPress);
             // 
             // label3
             // 
@@ -174,6 +186,7 @@
             this.txtPiso.Name = "txtPiso";
             this.txtPiso.Size = new System.Drawing.Size(74, 20);
             this.txtPiso.TabIndex = 23;
+            this.txtPiso.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtPiso_KeyPress);
             // 
             // label2
             // 
@@ -190,6 +203,7 @@
             this.txtNumeroCalle.Name = "txtNumeroCalle";
             this.txtNumeroCalle.Size = new System.Drawing.Size(74, 20);
             this.txtNumeroCalle.TabIndex = 21;
+            this.txtNumeroCalle.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtNumeroCalle_KeyPress);
             this.txtNumeroCalle.Validating += new System.ComponentModel.CancelEventHandler(this.txtNumeroCalle_Validating);
             // 
             // label1
@@ -232,6 +246,7 @@
             this.txtLocalidad.Name = "txtLocalidad";
             this.txtLocalidad.Size = new System.Drawing.Size(185, 20);
             this.txtLocalidad.TabIndex = 16;
+            this.txtLocalidad.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtLocalidad_KeyPress);
             // 
             // txtNumeroID
             // 
@@ -239,6 +254,7 @@
             this.txtNumeroID.Name = "txtNumeroID";
             this.txtNumeroID.Size = new System.Drawing.Size(185, 20);
             this.txtNumeroID.TabIndex = 14;
+            this.txtNumeroID.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtNumeroID_KeyPress);
             // 
             // txtApellido
             // 
@@ -246,6 +262,7 @@
             this.txtApellido.Name = "txtApellido";
             this.txtApellido.Size = new System.Drawing.Size(185, 20);
             this.txtApellido.TabIndex = 13;
+            this.txtApellido.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtApellido_KeyPress);
             this.txtApellido.Validating += new System.ComponentModel.CancelEventHandler(this.txtApellido_Validating);
             // 
             // txtDomicilio
@@ -254,6 +271,7 @@
             this.txtDomicilio.Name = "txtDomicilio";
             this.txtDomicilio.Size = new System.Drawing.Size(185, 20);
             this.txtDomicilio.TabIndex = 11;
+            this.txtDomicilio.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtDomicilio_KeyPress);
             this.txtDomicilio.Validating += new System.ComponentModel.CancelEventHandler(this.txtDireccion_Validating);
             // 
             // txtNombre
@@ -262,6 +280,7 @@
             this.txtNombre.Name = "txtNombre";
             this.txtNombre.Size = new System.Drawing.Size(185, 20);
             this.txtNombre.TabIndex = 10;
+            this.txtNombre.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtNombre_KeyPress);
             this.txtNombre.Validating += new System.ComponentModel.CancelEventHandler(this.txtNombre_Validating);
             // 
             // lblNacimiento
@@ -429,17 +448,6 @@
             this.btnNuevo.Text = "Nuevo";
             this.btnNuevo.UseVisualStyleBackColor = true;
             this.btnNuevo.Click += new System.EventHandler(this.btnNuevo_Click);
-            // 
-            // cbHabilitado
-            // 
-            this.cbHabilitado.AutoSize = true;
-            this.cbHabilitado.Location = new System.Drawing.Point(453, 241);
-            this.cbHabilitado.Name = "cbHabilitado";
-            this.cbHabilitado.Size = new System.Drawing.Size(73, 17);
-            this.cbHabilitado.TabIndex = 34;
-            this.cbHabilitado.Text = "Habilitado";
-            this.cbHabilitado.TextAlign = System.Drawing.ContentAlignment.TopLeft;
-            this.cbHabilitado.UseVisualStyleBackColor = true;
             // 
             // ABMCliente
             // 

@@ -104,6 +104,7 @@
             this.txtNumeroID.Name = "txtNumeroID";
             this.txtNumeroID.Size = new System.Drawing.Size(213, 20);
             this.txtNumeroID.TabIndex = 8;
+            this.txtNumeroID.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtNumeroID_KeyPress);
             // 
             // txtMail
             // 
@@ -118,6 +119,7 @@
             this.txtApellido.Name = "txtApellido";
             this.txtApellido.Size = new System.Drawing.Size(213, 20);
             this.txtApellido.TabIndex = 6;
+            this.txtApellido.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtApellido_KeyPress);
             // 
             // txtNombre
             // 
@@ -125,6 +127,7 @@
             this.txtNombre.Name = "txtNombre";
             this.txtNombre.Size = new System.Drawing.Size(213, 20);
             this.txtNombre.TabIndex = 5;
+            this.txtNombre.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtNombre_KeyPress);
             // 
             // label5
             // 

@@ -138,23 +138,6 @@ namespace PagoElectronico.Login
         }
 
 
-        private void btnRol_Click(object sender, EventArgs e)
-        {
-
-            if (txtUsuario.Text == "")
-            {
-                MessageBox.Show("Ingrese un Nombre de Usuario, por favor");
-                return;
-            }
-           
-            /*VERIFICA EXISTENCIA DE USUARIO Y CARGA LOS DATOS*/
-            this.busquedaDatosUsuario();
-            
-            btnIngresar.Enabled = true;
-            
-        }
-
-
         public void resetearIntentos()
         {
 

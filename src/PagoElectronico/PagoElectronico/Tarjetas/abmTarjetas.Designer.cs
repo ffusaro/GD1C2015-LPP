@@ -78,6 +78,7 @@
             this.txtCodigo.Size = new System.Drawing.Size(201, 20);
             this.txtCodigo.TabIndex = 9;
             this.txtCodigo.UseSystemPasswordChar = true;
+            this.txtCodigo.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtCodigo_KeyPress);
             // 
             // label5
             // 
@@ -144,6 +145,7 @@
             this.txtNumTarjeta.Name = "txtNumTarjeta";
             this.txtNumTarjeta.Size = new System.Drawing.Size(201, 20);
             this.txtNumTarjeta.TabIndex = 1;
+            this.txtNumTarjeta.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtNumTarjeta_KeyPress);
             // 
             // label1
             // 

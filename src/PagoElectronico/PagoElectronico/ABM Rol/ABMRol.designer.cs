@@ -120,6 +120,7 @@
             this.txtNombre.Size = new System.Drawing.Size(198, 20);
             this.txtNombre.TabIndex = 4;
             this.txtNombre.TextChanged += new System.EventHandler(this.txtNombre_TextChanged);
+            this.txtNombre.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtNombre_KeyPress);
             // 
             // lblNombre
             // 
@@ -141,7 +142,6 @@
             this.Name = "ABMRol";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Actualizar Rol";
-           // this.Load += new System.EventHandler(this.ABMRol_Load);
             this.boxBotones.ResumeLayout(false);
             this.boxRol.ResumeLayout(false);
             this.boxRol.PerformLayout();

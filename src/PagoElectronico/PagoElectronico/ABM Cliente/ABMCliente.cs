@@ -619,6 +619,70 @@ namespace PagoElectronico
             }
         }
 
+      private void txtPiso_KeyPress(object sender, KeyPressEventArgs e)
+      {
+          if(Char.IsNumber(e.KeyChar))
+              e.Handled = false;
+          else
+              e.Handled = true;
+      }
+
+      private void txtDepto_KeyPress(object sender, KeyPressEventArgs e)
+      {
+          if (Char.IsLetter(e.KeyChar))
+              e.Handled = false;
+          else
+              e.Handled = true;
+      }
+
+      private void txtDomicilio_KeyPress(object sender, KeyPressEventArgs e)
+      {
+          if (Char.IsLetter(e.KeyChar))
+              e.Handled = false;
+          else
+              e.Handled = true;
+      }
+
+      private void txtLocalidad_KeyPress(object sender, KeyPressEventArgs e)
+      {
+          if (Char.IsLetter(e.KeyChar))
+              e.Handled = false;
+          else
+              e.Handled = true;
+      }
+
+      private void txtNumeroID_KeyPress(object sender, KeyPressEventArgs e)
+      {
+          if (Char.IsNumber(e.KeyChar))
+              e.Handled = false;
+          else
+              e.Handled = true;
+      }
+
+      private void txtNombre_KeyPress(object sender, KeyPressEventArgs e)
+      {
+          if (Char.IsLetter(e.KeyChar))
+              e.Handled = false;
+          else
+              e.Handled = true;
+      }
+
+      private void txtApellido_KeyPress(object sender, KeyPressEventArgs e)
+      {
+          if (Char.IsLetter(e.KeyChar))
+              e.Handled = false;
+          else
+              e.Handled = true;
+      }
+
+      private void txtNumeroCalle_KeyPress(object sender, KeyPressEventArgs e)
+      {
+          if (Char.IsNumber(e.KeyChar))
+              e.Handled = false;
+          else
+              e.Handled = true;
+      }
+
   
 
     }

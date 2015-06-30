@@ -265,6 +265,14 @@ namespace PagoElectronico.Transferencias
             txtCuentaDestino.Enabled = false;
         
         }
+
+        private void txtImporte_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (Char.IsNumber(e.KeyChar) || Char.IsPunctuation(e.KeyChar))
+                e.Handled = false;
+            else
+                e.Handled = true;
+        }
       
 
 
