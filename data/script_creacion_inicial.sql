@@ -1261,7 +1261,7 @@ CREATE PROCEDURE LPP.PRC_estadistico_cuentas_inhabilitadas
 @anio INTEGER
 AS
 BEGIN
-	SELECT TOP 5 c.id_cliente, username, nombre, apellido, t.tipo_descr, num_doc, fecha_nac, mail, COUNT(id_deshabilitada) AS cant_veces_inhabilitado
+	SELECT TOP 6 c.id_cliente, username, nombre, apellido, t.tipo_descr, num_doc, fecha_nac, mail, COUNT(id_deshabilitada) AS cant_veces_inhabilitado
 	FROM LPP.CLIENTES c
 		JOIN LPP.TIPO_DOCS t ON t.tipo_cod = c.id_tipo_doc
 		JOIN CUENTAS cu ON cu.id_cliente = c.id_cliente
@@ -1279,7 +1279,7 @@ CREATE PROCEDURE LPP.PRC_estadistico_comisiones_facturadas
 @anio INTEGER
 AS
 BEGIN
-	SELECT TOP 5 c.id_cliente, username, nombre, apellido, t.tipo_descr, num_doc,  fecha_nac, mail, COUNT(i.id_item_factura) as 'comisiones_facturas'
+	SELECT TOP 6 c.id_cliente, username, nombre, apellido, t.tipo_descr, num_doc,  fecha_nac, mail, COUNT(i.id_item_factura) as 'comisiones_facturas'
 	FROM LPP.CLIENTES c
 		JOIN LPP.CUENTAS cu ON cu.id_cliente = c.id_cliente
 		JOIN LPP.ITEMS_FACTURA i ON i.num_cuenta= cu.num_cuenta
@@ -1298,7 +1298,7 @@ CREATE PROCEDURE LPP.PRC_estadistico_transacciones_cuentas_propias
 @anio INTEGER
 AS
 BEGIN
-	SELECT TOP 5 c.id_cliente, username, nombre, apellido, t.tipo_descr, num_doc,  fecha_nac, mail, COUNT(tr.id_transferencia)
+	SELECT TOP 6 c.id_cliente, username, nombre, apellido, t.tipo_descr, num_doc,  fecha_nac, mail, COUNT(tr.id_transferencia)
 	FROM LPP.CLIENTES c
 		JOIN LPP.CUENTAS c1 ON c1.id_cliente = c.id_cliente
 		JOIN LPP.CUENTAS c2 ON c2.id_cliente = c.id_cliente
@@ -1321,7 +1321,7 @@ CREATE PROCEDURE LPP.PRC_estadistico_pais_mas_movimientos
 @anio INTEGER
 AS
 BEGIN
-	SELECT TOP 5 pais, count_big(d.num_deposito)+count_big(r.id_retiro)+sum(convert(bigint,t1.cant_or))+SUM(convert(bigint,t2.cant_dest)) as 'cant_movimientos'
+	SELECT TOP 6 pais, count_big(d.num_deposito)+count_big(r.id_retiro)+sum(convert(bigint,t1.cant_or))+SUM(convert(bigint,t2.cant_dest)) as 'cant_movimientos'
 	FROM LPP.PAISES p
 		JOIN LPP.CUENTAS c ON c.id_pais = p.id_pais
 		JOIN LPP.DEPOSITOS d ON d.num_cuenta = c.num_cuenta
@@ -1344,7 +1344,7 @@ CREATE PROCEDURE LPP.PRC_estadistico_facturado_tipo_cuentas
 @anio INTEGER
 AS
 BEGIN
-	SELECT TOP 5 t.id_tipocuenta, t.descripcion, SUM(i.monto) AS 'totalFacturado'
+	SELECT TOP 6 t.id_tipocuenta, t.descripcion, SUM(i.monto) AS 'totalFacturado'
 	FROM LPP.TIPOS_CUENTA t
 		JOIN LPP.CUENTAS c ON c.id_tipo = t.id_tipocuenta
 		JOIN LPP.ITEMS_FACTURA i ON i.num_cuenta = c.num_cuenta
