@@ -29,14 +29,14 @@
         private void InitializeComponent()
         {
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.dgvRetiro = new System.Windows.Forms.DataGridView();
+            this.label1 = new System.Windows.Forms.Label();
             this.btnSalir = new System.Windows.Forms.Button();
             this.dgvCheque = new System.Windows.Forms.DataGridView();
-            this.label1 = new System.Windows.Forms.Label();
-            this.dgvRetiro = new System.Windows.Forms.DataGridView();
-            this.label2 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvCheque)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvRetiro)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvCheque)).BeginInit();
             this.SuspendLayout();
             // 
             // groupBox1
@@ -51,6 +51,33 @@
             this.groupBox1.Size = new System.Drawing.Size(740, 251);
             this.groupBox1.TabIndex = 1;
             this.groupBox1.TabStop = false;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(21, 118);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(129, 13);
+            this.label2.TabIndex = 4;
+            this.label2.Text = "Datos del Cheque Emitido";
+            // 
+            // dgvRetiro
+            // 
+            this.dgvRetiro.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
+            this.dgvRetiro.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvRetiro.Location = new System.Drawing.Point(24, 30);
+            this.dgvRetiro.Name = "dgvRetiro";
+            this.dgvRetiro.Size = new System.Drawing.Size(692, 68);
+            this.dgvRetiro.TabIndex = 3;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(21, 14);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(133, 13);
+            this.label1.TabIndex = 2;
+            this.label1.Text = "Datos del Retiro Realizado";
             // 
             // btnSalir
             // 
@@ -70,32 +97,6 @@
             this.dgvCheque.Size = new System.Drawing.Size(692, 66);
             this.dgvCheque.TabIndex = 0;
             // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(21, 14);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(133, 13);
-            this.label1.TabIndex = 2;
-            this.label1.Text = "Datos del Retiro Realizado";
-            // 
-            // dgvRetiro
-            // 
-            this.dgvRetiro.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvRetiro.Location = new System.Drawing.Point(24, 30);
-            this.dgvRetiro.Name = "dgvRetiro";
-            this.dgvRetiro.Size = new System.Drawing.Size(692, 68);
-            this.dgvRetiro.TabIndex = 3;
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(21, 118);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(129, 13);
-            this.label2.TabIndex = 4;
-            this.label2.Text = "Datos del Cheque Emitido";
-            // 
             // ListaRetiros
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -108,8 +109,8 @@
             this.Text = "Datos del Retiro de Efectivo Realizado";
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvCheque)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvRetiro)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvCheque)).EndInit();
             this.ResumeLayout(false);
 
         }

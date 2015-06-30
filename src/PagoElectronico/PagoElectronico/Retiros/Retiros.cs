@@ -223,8 +223,8 @@ namespace PagoElectronico.Retiros
             {
                 
                 ListaRetiros lr = new ListaRetiros(id_retiro);
-                this.Close();
                 lr.Show();
+                this.Close();
                 
             }
             else

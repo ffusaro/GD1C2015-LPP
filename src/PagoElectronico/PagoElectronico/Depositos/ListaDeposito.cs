@@ -29,7 +29,9 @@ namespace PagoElectronico.Depositos
             //CARGO EL DATAGRIDVIEW CON LOS DATOS DEL DEPOSITO
             Conexion con = new Conexion();
             con.cnn.Open();
-            string query = "SELECT * FROM LPP.DEPOSITOS WHERE num_deposito = " + num_deposito + " ";
+            string query = "SELECT num_deposito, num_cuenta, importe, m.descripcion, num_tarjeta, e.emisor_descr, fecha_deposito FROM LPP.DEPOSITOS d"
+                            + " JOIN LPP.MONEDAS m ON m.id_moneda = d.id_moneda JOIN LPP.EMISORES e ON e.id_emisor = d.id_emisor " 
+                            + " WHERE num_deposito = " + num_deposito + " ";
             DataTable dtDatos = new DataTable();
             SqlDataAdapter da = new SqlDataAdapter(query, con.cnn);
             da.Fill(dtDatos);
