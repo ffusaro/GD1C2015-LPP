@@ -279,8 +279,8 @@
             // consultarSaldoToolStripMenuItem
             // 
             this.consultarSaldoToolStripMenuItem.Name = "consultarSaldoToolStripMenuItem";
-            this.consultarSaldoToolStripMenuItem.Size = new System.Drawing.Size(132, 25);
-            this.consultarSaldoToolStripMenuItem.Text = "Consultar Saldo";
+            this.consultarSaldoToolStripMenuItem.Size = new System.Drawing.Size(90, 25);
+            this.consultarSaldoToolStripMenuItem.Text = "Consultas";
             this.consultarSaldoToolStripMenuItem.Click += new System.EventHandler(this.consultarSaldoToolStripMenuItem_Click);
             // 
             // facturarToolStripMenuItem

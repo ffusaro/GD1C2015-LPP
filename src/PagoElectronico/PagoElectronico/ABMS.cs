@@ -207,7 +207,7 @@ namespace PagoElectronico
             {
                 if (verificoSiDebe(user))
                 {
-                    DialogResult dialogResult = MessageBox.Show("Alguna de sus cuenta/s se encuentra/n inhabilitada/s. Puede habilitarla/s cambiandole el tipo de cuenta o extendiendo la suscripcion actual ¿Desea habilitar la/s cuenta/s? ", "Cuentas", MessageBoxButtons.YesNo);
+                    DialogResult dialogResult = MessageBox.Show("Alguna de sus cuentas se encuentra inhabilitada. Puede habilitarla cambiandole el tipo de cuenta o extendiendo la suscripcion actual ¿Desea habilitarla ahora? ", "Cuentas", MessageBoxButtons.YesNo);
                     if (dialogResult == DialogResult.Yes)
                     {
                         MessageBox.Show("Le recordamos que solo podra habilitar cuentas que hayan sido inhabilitadas por vencimiento de la duracion de la cuenta.");

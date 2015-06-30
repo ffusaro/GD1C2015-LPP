@@ -21,6 +21,7 @@ namespace PagoElectronico.Login
         public RolIngreso(string usuario, Login.LogIn log)
         {
             InitializeComponent();
+            this.StartPosition = FormStartPosition.CenterScreen;
             user = usuario;
             login = log;
             /*CARGAR ROLES*/

@@ -136,16 +136,10 @@ namespace PagoElectronico.Tarjetas
                 return;
             }
             
-            if (!((DateTime.Compare(dtpEmision.Value,fecha)) < 0))
-            {
-
-                MessageBox.Show("La fecha de emision debe ser menor a "+fecha);
-                return;
-            }
-          
-            
                 if (ban == 1)
                 {
+                    numtarjeta = txtNumTarjeta.Text;
+
                     if (checkTarjetas())
                    {    grabarDatos();
                         txtCodigo.Text = "";
@@ -168,7 +162,7 @@ namespace PagoElectronico.Tarjetas
                 else
                 {
                     modificarDatos();
-                    MessageBox.Show("Se modificaron correctamene los datos");
+                    MessageBox.Show("Se modificaron correctamente los datos");
                     txtCodigo.Text = "";
                     txtNumTarjeta.Text = "";
                     cmbEmisor.SelectedItem = null;

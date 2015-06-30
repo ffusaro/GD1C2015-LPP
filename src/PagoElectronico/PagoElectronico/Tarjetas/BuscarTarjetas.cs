@@ -41,6 +41,12 @@ namespace PagoElectronico.Tarjetas
             dgvTarjetas.DataSource = dtDatos;
             con.cnn.Close();
 
+            foreach (DataGridViewRow row in dgvTarjetas.Rows)
+            {
+                //string ultimosCuatro = lector.GetString(4);
+                string ultimosCuatro = (row.Cells["num_tarjeta"].Value).ToString();
+                row.Cells["num_tarjeta"].Value = "XXXX-XXXX-XXXX-" + ultimosCuatro.Remove(0, 12);
+            }
 
         }
 
@@ -51,13 +57,30 @@ namespace PagoElectronico.Tarjetas
 
         private void dgvTarjetas_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
+            
             int indice = e.RowIndex;
-            string num_tarjeta = dgvTarjetas.Rows[indice].Cells["num_tarjeta"].Value.ToString();
-
+            string num_tarjeta = getNumTarjeta(indice);
+            
             abmt = new Tarjetas.abmTarjetas(usuario,num_tarjeta);
             abmt.txtNumTarjeta.Enabled = false;
             abmt.Show();
             this.Close();
+        }
+
+        private string getNumTarjeta(int indice) {
+            Conexion con = new Conexion();
+            string ultimosCuatro = dgvTarjetas.Rows[indice].Cells["num_tarjeta"].Value.ToString().Remove(0, 15);
+            string emisor = dgvTarjetas.Rows[indice].Cells["emisor_descr"].Value.ToString();
+
+            string query = " SELECT t.num_tarjeta" +
+                            " FROM LPP.TARJETAS t JOIN LPP.CLIENTES c ON c.id_cliente = t.id_cliente JOIN LPP.EMISORES e ON e.id_emisor = t.id_emisor" +
+                             " WHERE c.username = '" + usuario + "' AND t.num_tarjeta LIKE '%"+ultimosCuatro+"' AND e.emisor_descr = '"+emisor+"'";
+            con.cnn.Open();
+            SqlCommand command = new SqlCommand(query, con.cnn);
+            string num_tarjeta = (command.ExecuteScalar()).ToString();
+            con.cnn.Close();
+            return num_tarjeta;
+       
         }
         
     }

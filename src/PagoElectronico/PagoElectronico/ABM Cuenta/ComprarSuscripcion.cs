@@ -29,6 +29,8 @@ namespace PagoElectronico.ABM_Cuenta
         public ComprarSuscripcion(int cliente, decimal moneda, int tipocuenta, decimal cuenta, int bandera, decimal pais, int dur, bool cambio)
         {
             InitializeComponent();
+            this.StartPosition = FormStartPosition.CenterScreen;
+
             id_cliente = cliente;
             id_moneda = moneda;
             id_tipocuenta = tipocuenta;

@@ -34,11 +34,11 @@
             this.txtDNI = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.btnBanco = new System.Windows.Forms.Button();
             this.btLimpiar = new System.Windows.Forms.Button();
             this.btnCancelar = new System.Windows.Forms.Button();
             this.btnContinuar = new System.Windows.Forms.Button();
             this.grpBanco = new System.Windows.Forms.GroupBox();
-            this.btnBanco = new System.Windows.Forms.Button();
             this.cmbBanco = new System.Windows.Forms.ComboBox();
             this.label3 = new System.Windows.Forms.Label();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
@@ -100,7 +100,6 @@
             // 
             // groupBox2
             // 
-            this.groupBox2.Controls.Add(this.btnBanco);
             this.groupBox2.Controls.Add(this.btLimpiar);
             this.groupBox2.Controls.Add(this.btnCancelar);
             this.groupBox2.Location = new System.Drawing.Point(13, 159);
@@ -109,11 +108,21 @@
             this.groupBox2.TabIndex = 1;
             this.groupBox2.TabStop = false;
             // 
+            // btnBanco
+            // 
+            this.btnBanco.Location = new System.Drawing.Point(437, 19);
+            this.btnBanco.Name = "btnBanco";
+            this.btnBanco.Size = new System.Drawing.Size(94, 23);
+            this.btnBanco.TabIndex = 4;
+            this.btnBanco.Text = "Emitir Cheque";
+            this.btnBanco.UseVisualStyleBackColor = true;
+            this.btnBanco.Click += new System.EventHandler(this.btnBanco_Click);
+            // 
             // btLimpiar
             // 
-            this.btLimpiar.Location = new System.Drawing.Point(30, 14);
+            this.btLimpiar.Location = new System.Drawing.Point(19, 14);
             this.btLimpiar.Name = "btLimpiar";
-            this.btLimpiar.Size = new System.Drawing.Size(75, 23);
+            this.btLimpiar.Size = new System.Drawing.Size(86, 23);
             this.btLimpiar.TabIndex = 2;
             this.btLimpiar.Text = "Limpiar";
             this.btLimpiar.UseVisualStyleBackColor = true;
@@ -123,7 +132,7 @@
             // 
             this.btnCancelar.Location = new System.Drawing.Point(437, 14);
             this.btnCancelar.Name = "btnCancelar";
-            this.btnCancelar.Size = new System.Drawing.Size(75, 23);
+            this.btnCancelar.Size = new System.Drawing.Size(94, 23);
             this.btnCancelar.TabIndex = 1;
             this.btnCancelar.Text = "Cancelar";
             this.btnCancelar.UseVisualStyleBackColor = true;
@@ -133,7 +142,7 @@
             // 
             this.btnContinuar.Location = new System.Drawing.Point(437, 36);
             this.btnContinuar.Name = "btnContinuar";
-            this.btnContinuar.Size = new System.Drawing.Size(75, 23);
+            this.btnContinuar.Size = new System.Drawing.Size(94, 23);
             this.btnContinuar.TabIndex = 0;
             this.btnContinuar.Text = "Continuar";
             this.btnContinuar.UseVisualStyleBackColor = true;
@@ -141,6 +150,7 @@
             // 
             // grpBanco
             // 
+            this.grpBanco.Controls.Add(this.btnBanco);
             this.grpBanco.Controls.Add(this.cmbBanco);
             this.grpBanco.Controls.Add(this.label3);
             this.grpBanco.Location = new System.Drawing.Point(13, 106);
@@ -149,16 +159,6 @@
             this.grpBanco.TabIndex = 2;
             this.grpBanco.TabStop = false;
             this.grpBanco.Text = "Banco";
-            // 
-            // btnBanco
-            // 
-            this.btnBanco.Location = new System.Drawing.Point(244, 14);
-            this.btnBanco.Name = "btnBanco";
-            this.btnBanco.Size = new System.Drawing.Size(92, 23);
-            this.btnBanco.TabIndex = 4;
-            this.btnBanco.Text = "Emitir Cheque";
-            this.btnBanco.UseVisualStyleBackColor = true;
-            this.btnBanco.Click += new System.EventHandler(this.btnBanco_Click);
             // 
             // cmbBanco
             // 

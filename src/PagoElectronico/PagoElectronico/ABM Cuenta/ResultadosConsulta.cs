@@ -72,17 +72,13 @@ namespace PagoElectronico.ABM_Cuenta
             if(consulta == "D")
             {
                 //CAMBIO COLUMNA DE NUM_TARJETA
-               
-                SqlCommand command = new SqlCommand(query, con.cnn);
-                SqlDataReader lector = command.ExecuteReader();
-                lector.Read();
-
                 foreach (DataGridViewRow row in dgvResults.Rows)
                 {
-                    string ultimosCuatro = lector.GetString(4);
+                    //string ultimosCuatro = lector.GetString(4);
+                    string ultimosCuatro = (row.Cells["num_tarjeta"].Value).ToString();
                     row.Cells["num_tarjeta"].Value = "XXXX-XXXX-XXXX-" + ultimosCuatro.Remove(0, 12);
                 }
-              con.cnn.Close();
+              
             }
            
         }

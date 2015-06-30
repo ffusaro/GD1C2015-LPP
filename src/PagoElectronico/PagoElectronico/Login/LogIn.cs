@@ -21,11 +21,13 @@ namespace PagoElectronico.Login
         public bool userHabilitado;
         public string pass = "";
         ABMS abm = new ABMS();
+        private bool ban;
 
         public LogIn()
         {
             InitializeComponent();
             txtPass.Enabled = false;
+            this.AcceptButton = btnIngresar;
                        
         }
 
@@ -45,9 +47,11 @@ namespace PagoElectronico.Login
                 return;
             }
 
-            /*VALIDA CONTRASEÑA*/
+            
             this.busquedaDatosUsuario();
-
+            if (!ban)
+                return;
+            /*VALIDA CONTRASEÑA*/
             if (!(pass == txtPass.Text.Sha256()))
             {
                 
@@ -180,7 +184,8 @@ namespace PagoElectronico.Login
                 con.cnn.Close();
                 MessageBox.Show("Usuario Inválido");
                 txtUsuario.Text = "";
-                txtPass.Text = "";               
+                txtPass.Text = "";
+                ban = false;
                 return;
             }
 
@@ -188,6 +193,7 @@ namespace PagoElectronico.Login
             intFallidos = lector.GetInt32(1) + 1;
             userHabilitado = lector.GetBoolean(2);
             con.cnn.Close();
+            ban = true;
         }
 
         public void insertarEnLog()

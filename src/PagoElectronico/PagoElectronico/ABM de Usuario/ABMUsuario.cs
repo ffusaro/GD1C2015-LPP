@@ -24,9 +24,9 @@ namespace PagoElectronico.ABM_de_Usuario
         public int ban;
         public string usuario;
         public DateTime fechaConfiguracion = DateTime.ParseExact(readConfiguracion.Configuracion.fechaSystem(), "yyyy-dd-MM", System.Globalization.CultureInfo.InvariantCulture);
-        
-      
-        public ABMUsuario(string user,string ev)
+
+
+        public ABMUsuario(string user, string ev)
         {
             evento = user;
             usuario = ev;
@@ -43,66 +43,102 @@ namespace PagoElectronico.ABM_de_Usuario
             cmbpregunta_secreta.Items.Add("¿Nombre de la primera mascota?");
             cmbpregunta_secreta.Items.Add("¿Lugar de nacimiento?");
 
-            
-
             Conexion con = new Conexion();
+            Conexion con2 = new Conexion();
 
-            if (usuario == "A")
-            {
-                ckbHabilitado.Visible = false;
-                this.cargarRoles();
-            }
-            else
-            {
-                string query2 = "SELECT U.username, R.rol, U.habilitado, U.pregunta_secreta, U.respuesta_secreta " +
-                                "FROM LPP.USUARIOS U JOIN LPP.ROLESXUSUARIO R ON R.username = U.username WHERE U.username = '" + evento + "'";
-                              
-
-                con.cnn.Open();
-                SqlCommand command2 = new SqlCommand (query2, con.cnn);
-                SqlDataReader lector2 = command2.ExecuteReader();;
-                if (lector2.Read())
-                {
-                    txtUsuario.Text = lector2.GetString(0);
-                    int id_rol = lector2.GetInt32(1);
-                    this.cargarRoles();
-                    cbRol.SelectedIndex = id_rol;
-                    txtPass.Enabled = false;
-                    txtPass.Text = "++++++++";
-                    txtConfirmarPass.Text = "++++++++";
-                    txtConfirmarPass.Enabled = false;
-                    ckbHabilitado.Checked = lector2.GetBoolean(2);
-                    if (!lector2.IsDBNull(3)) {
-                        cmbpregunta_secreta.Text = lector2.GetString(3);
-                    }
-                    if (!lector2.IsDBNull(4)) {
-                        txtrespuesta_secreta.Text = lector2.GetString(4);
-                    }
-                    
-                }
-                con.cnn.Close();
-                btnEliminar.Enabled = true;
-                btnModificar.Enabled = true;
-                btnNuevo.Enabled = false;
-                btnLimpiar.Enabled = false;
-               
-            }
-        }
-
-
-        public void cargarRoles() {
-            Conexion con = new Conexion();
-            cbRol.Items.Add("");
-            string query1 = "SELECT nombre FROM LPP.ROLES WHERE habilitado = 1";
+            string query = "SELECT nombre FROM LPP.ROLES";
 
             con.cnn.Open();
-            SqlCommand command = new SqlCommand(query1, con.cnn);
-            SqlDataReader lector = command.ExecuteReader(); ;
+            SqlCommand command = new SqlCommand(query, con.cnn);
+            SqlDataReader lector = command.ExecuteReader();
+            int i = 0;
+            string rol;
+
             while (lector.Read())
             {
-                cbRol.Items.Add(lector.GetString(0));
+                rol = lector.GetString(0);
+                chlRol.Items.Add(rol);
+
+                if (evento != "A")
+                {
+                    int id_rol = getIdRol(rol);
+                    query = "SELECT 1 FROM LPP.ROLESXUSUARIO ro " +
+                            "JOIN LPP.ROLES r ON r.id_rol = ro.rol " +
+                            " WHERE ro.username = '" + evento + "' AND r.id_rol = "+ id_rol +" "; 
+
+                    con2.cnn.Open();
+                    SqlCommand command2 = new SqlCommand(query, con2.cnn);
+                    SqlDataReader lector2 = command2.ExecuteReader();
+
+                    if (lector2.Read())
+                    {
+                        chlRol.SetItemChecked(i, true);
+                    }
+                    con2.cnn.Close();
+                }
+                i++;
             }
+            
+            if (usuario == "A")
+                {
+                    ckbHabilitado.Visible = false;
+                }
+                else
+                {
+                    string query2 = "SELECT U.username, U.habilitado, U.pregunta_secreta, U.respuesta_secreta " +
+                                    "FROM LPP.USUARIOS U WHERE U.username = '" + evento + "'";
+
+
+                    con2.cnn.Open();
+                    SqlCommand command3 = new SqlCommand(query2, con2.cnn);
+                    SqlDataReader lectorcito = command3.ExecuteReader(); 
+
+                    if (lectorcito.Read())
+                    {
+                        txtUsuario.Text = lectorcito.GetString(0);
+                        txtPass.Enabled = false;
+                        txtPass.Text = "++++++++";
+                        txtConfirmarPass.Text = "++++++++";
+                        txtConfirmarPass.Enabled = false;
+                        if (lectorcito.GetBoolean(1))
+                            ckbHabilitado.Checked = true;
+                        else
+                            ckbHabilitado.Checked = false;
+
+                        if (!lectorcito.IsDBNull(2))
+                        {
+                            cmbpregunta_secreta.Text = lectorcito.GetString(2);
+                        }
+                        if (!lectorcito.IsDBNull(3))
+                        {
+                            txtrespuesta_secreta.Text = lectorcito.GetString(3);
+                        }
+
+                    }
+                    con.cnn.Close();
+
+                    btnEliminar.Enabled = true;
+                    btnModificar.Enabled = true;
+                    btnNuevo.Enabled = false;
+                    btnLimpiar.Enabled = false;
+
+
+                }
+        }
+
+        
+        private Int32 getIdRol(string rol)
+        {
+            Conexion con = new Conexion();
+
+            //CONSIGO ID_ROL
+            string query3 = "SELECT id_rol FROM LPP.ROLES WHERE nombre = '" + rol + "'";
+            con.cnn.Open();
+            SqlCommand command3 = new SqlCommand(query3, con.cnn);
+            Int32 id_rol = Convert.ToInt32(command3.ExecuteScalar());
             con.cnn.Close();
+            return id_rol;
+
         }
 
         public static bool fechaMenorA(int fecha)
@@ -147,7 +183,6 @@ namespace PagoElectronico.ABM_de_Usuario
 
         private void btnLim_Click(object sender, EventArgs e)
         {
-            cbRol.Text = "";
             ckbHabilitado.Checked = false;
             cmbpregunta_secreta.Text = "";
             txtrespuesta_secreta.Text = "";
@@ -194,7 +229,6 @@ namespace PagoElectronico.ABM_de_Usuario
         {
             cmbpregunta_secreta.Text = "";
             txtrespuesta_secreta.Text = "";
-            cbRol.SelectedItem = null;
             ckbHabilitado.Checked = false;
             
 
@@ -256,7 +290,6 @@ namespace PagoElectronico.ABM_de_Usuario
             txtConfirmarPass.Text = "";
             btnEliminar.Enabled = false;
             txtUsuario.Text = "";
-            cbRol.SelectedItem = null;
             cmbpregunta_secreta.Text = "";
             txtrespuesta_secreta.Text = "";
             ckbHabilitado.Checked = false;
@@ -288,7 +321,7 @@ namespace PagoElectronico.ABM_de_Usuario
                 MessageBox.Show("Las contraseñas no coinciden");
                 return;
             }
-            if (cbRol.Text == "")
+            if (chlRol.CheckedItems == null)
             {
                 MessageBox.Show("Elija un rol");
                 return;
@@ -326,29 +359,27 @@ namespace PagoElectronico.ABM_de_Usuario
 
 
                 Conexion con1 = new Conexion();
-                //OBTENGO ID DE ROL
-                con1.cnn.Open();
-                string query2 = "SELECT id_rol FROM LPP.ROLES WHERE nombre = '"+Convert.ToString(cbRol.SelectedItem)+"'";
-                SqlCommand command2 = new SqlCommand(query2, con1.cnn);
-                SqlDataReader lector2 = command2.ExecuteReader();
-                lector2.Read();
-                int id_rol = lector2.GetInt32(0);
-                con1.cnn.Close();
-
+                
                 //INSERTO EL USUARIO
                 string query1 = "INSERT INTO LPP.USUARIOS (username, pass, " +
                                 "pregunta_secreta,respuesta_secreta,fecha_creacion) VALUES " +
-                                "('" + txtUsuario.Text + "','" + Helper.Help.Sha256(txtPass.Text) + "','" + cmbpregunta_secreta.Text + "','" + txtrespuesta_secreta.Text + "',CONVERT(datetime,'" + readConfiguracion.Configuracion.fechaSystem() + " 00:00:00.000', 103))";
+                                "('" + txtUsuario.Text + "','" + Helper.Help.Sha256(txtPass.Text)+ "','" + cmbpregunta_secreta.Text + "','" + txtrespuesta_secreta.Text + "',CONVERT(datetime,'" + readConfiguracion.Configuracion.fechaSystem() + " 00:00:00.000', 103))";
                 con1.cnn.Open();
                 SqlCommand command = new SqlCommand(query1, con1.cnn);
                 command.ExecuteNonQuery();
                 con1.cnn.Close();
+
                 //INSERTO EN ROLESXUSUARIO
-                string query9 = "INSERT INTO LPP.ROLESXUSUARIO (rol, username) VALUES (" + id_rol +",'" + txtUsuario.Text + "')";
-                con.cnn.Open();
-                SqlCommand command9 = new SqlCommand(query9, con.cnn);
-                command9.ExecuteNonQuery();
-                con.cnn.Close();
+                foreach (object itemCheck in chlRol.CheckedItems)
+                {
+                    int id_rol = getIdRol(itemCheck.ToString());
+                    string query9 = "INSERT INTO LPP.ROLESXUSUARIO (rol, username) VALUES (" + id_rol + ",'" + txtUsuario.Text + "')";
+                    con.cnn.Open();
+                    SqlCommand command2 = new SqlCommand(query9, con.cnn);
+                    command2.ExecuteNonQuery();
+                    con.cnn.Close();
+                }
+                
 
                 MessageBox.Show("Alta de Usuario Exitosa");
 
@@ -370,19 +401,28 @@ namespace PagoElectronico.ABM_de_Usuario
                 command.ExecuteNonQuery();
                 con.cnn.Close(); ;
 
-                //Cambio dependencias
-                string query13 = "DELETE LPP.ROLESXUSUARIO WHERE username = '" + txtUsuario.Text + "'";
-                con.cnn.Open();
-                SqlCommand command13 = new SqlCommand(query13, con.cnn);
-                command13.ExecuteNonQuery();
-                con.cnn.Close(); ;
+                foreach (object item in chlRol.Items)
+                {
+                    if (!chlRol.CheckedItems.Contains(item)){
+                        int id_rol = getIdRol(item.ToString());
+                        string query13 = "DELETE LPP.ROLESXUSUARIO WHERE username = '" + usuario + "' AND rol = "+ id_rol+"";
+                        con.cnn.Open();
+                        SqlCommand command13 = new SqlCommand(query13, con.cnn);
+                        command13.ExecuteNonQuery();
+                        con.cnn.Close();
+                    }
+                }
+                
+                foreach (object itemCheck in chlRol.CheckedItems)
+                {
+                    int id_rol = getIdRol(itemCheck.ToString());
+                    string query14 = "INSERT INTO LPP.ROLESXUSUARIO (rol, username) VALUES (" + id_rol + ",'" + usuario+ "')";
+                    con.cnn.Open();
+                    SqlCommand command2 = new SqlCommand(query14, con.cnn);
+                    command2.ExecuteNonQuery();
+                    con.cnn.Close();
+                }
 
-                string query14 = "INSERT INTO LPP.ROLESXUSUARIO (rol, username) VALUES ('" + cbRol.SelectedIndex +
-                            "','" + usuario + "')";
-                con.cnn.Open();
-                SqlCommand command14 = new SqlCommand(query14, con.cnn);
-                command14.ExecuteNonQuery();
-                con.cnn.Close();
                 MessageBox.Show("Usuario Modificado exitosamente"); 
 
                 padre_buscarUsuario.mp.Show();
@@ -391,11 +431,7 @@ namespace PagoElectronico.ABM_de_Usuario
             }
         }
 
-        private void ABMUsuario_Load(object sender, EventArgs e)
-        {
-
-        }
-
+ 
        
         
     }

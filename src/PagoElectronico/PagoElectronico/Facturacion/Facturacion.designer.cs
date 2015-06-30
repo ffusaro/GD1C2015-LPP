@@ -50,10 +50,11 @@
             // 
             // dgvFactura
             // 
+            this.dgvFactura.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
             this.dgvFactura.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvFactura.Location = new System.Drawing.Point(60, 20);
+            this.dgvFactura.Location = new System.Drawing.Point(19, 20);
             this.dgvFactura.Name = "dgvFactura";
-            this.dgvFactura.Size = new System.Drawing.Size(643, 260);
+            this.dgvFactura.Size = new System.Drawing.Size(719, 260);
             this.dgvFactura.TabIndex = 0;
             // 
             // groupBox2

@@ -25,9 +25,9 @@ namespace PagoElectronico.Retiros
         public Cheque(decimal cuenta, string user)
         {
             InitializeComponent();
-            grpBanco.Enabled = false;
             num_cuenta = cuenta;
             usuario = user;
+            grpBanco.Enabled = false;
             
             Conexion con1 = new Conexion();
 
@@ -108,12 +108,12 @@ namespace PagoElectronico.Retiros
 
             if (lector2.Read())
             {
-                MessageBox.Show("Datos correctos, elija el Banco al cual pertenece el Cheque por favor.");
-                grpBanco.Enabled = true;
+                MessageBox.Show("Datos correctos! Elija el Banco del cual desea emitir el Cheque, por favor.");
+                
             }
             else
             {
-                MessageBox.Show("Datos incorrectos, no ingreso los datos del cliente que esta logueado.");
+                MessageBox.Show("Datos incorrectos, los datos ingresados no coinciden con los del cliente que esta logueado.");
                 return;
             }
             con.cnn.Close();
@@ -123,6 +123,7 @@ namespace PagoElectronico.Retiros
             btnContinuar.Enabled = false;
             btLimpiar.Enabled = false;
             btnBanco.Enabled = true;
+            grpBanco.Enabled = true;
 
 
         }

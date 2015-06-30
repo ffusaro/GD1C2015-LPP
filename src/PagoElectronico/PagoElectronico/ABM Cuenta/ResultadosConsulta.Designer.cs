@@ -37,10 +37,11 @@
             // 
             // dgvResults
             // 
+            this.dgvResults.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
             this.dgvResults.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvResults.Location = new System.Drawing.Point(19, 21);
             this.dgvResults.Name = "dgvResults";
-            this.dgvResults.Size = new System.Drawing.Size(434, 191);
+            this.dgvResults.Size = new System.Drawing.Size(615, 191);
             this.dgvResults.TabIndex = 0;
             // 
             // groupBox1
@@ -48,14 +49,14 @@
             this.groupBox1.Controls.Add(this.dgvResults);
             this.groupBox1.Location = new System.Drawing.Point(13, 13);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(473, 229);
+            this.groupBox1.Size = new System.Drawing.Size(655, 229);
             this.groupBox1.TabIndex = 1;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Resultados para la cuenta elegida";
             // 
             // btSalir
             // 
-            this.btSalir.Location = new System.Drawing.Point(212, 248);
+            this.btSalir.Location = new System.Drawing.Point(270, 248);
             this.btSalir.Name = "btSalir";
             this.btSalir.Size = new System.Drawing.Size(75, 23);
             this.btSalir.TabIndex = 2;
@@ -67,7 +68,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(499, 283);
+            this.ClientSize = new System.Drawing.Size(680, 283);
             this.Controls.Add(this.btSalir);
             this.Controls.Add(this.groupBox1);
             this.Name = "ResultadosConsulta";

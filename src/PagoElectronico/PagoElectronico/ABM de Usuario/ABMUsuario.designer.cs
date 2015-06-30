@@ -38,6 +38,7 @@
             this.btnModificar = new System.Windows.Forms.Button();
             this.btnNuevo = new System.Windows.Forms.Button();
             this.boxDatos = new System.Windows.Forms.GroupBox();
+            this.chlRol = new System.Windows.Forms.CheckedListBox();
             this.cmbpregunta_secreta = new System.Windows.Forms.ComboBox();
             this.ckbHabilitado = new System.Windows.Forms.CheckBox();
             this.txtrespuesta_secreta = new System.Windows.Forms.TextBox();
@@ -46,7 +47,6 @@
             this.txtConfirmarPass = new System.Windows.Forms.TextBox();
             this.lblConfirmarPass = new System.Windows.Forms.Label();
             this.txtPass = new System.Windows.Forms.TextBox();
-            this.cbRol = new System.Windows.Forms.ComboBox();
             this.txtUsuario = new System.Windows.Forms.TextBox();
             this.lblRol = new System.Windows.Forms.Label();
             this.lblPass = new System.Windows.Forms.Label();
@@ -152,6 +152,7 @@
             // 
             // boxDatos
             // 
+            this.boxDatos.Controls.Add(this.chlRol);
             this.boxDatos.Controls.Add(this.cmbpregunta_secreta);
             this.boxDatos.Controls.Add(this.ckbHabilitado);
             this.boxDatos.Controls.Add(this.txtrespuesta_secreta);
@@ -160,7 +161,6 @@
             this.boxDatos.Controls.Add(this.txtConfirmarPass);
             this.boxDatos.Controls.Add(this.lblConfirmarPass);
             this.boxDatos.Controls.Add(this.txtPass);
-            this.boxDatos.Controls.Add(this.cbRol);
             this.boxDatos.Controls.Add(this.txtUsuario);
             this.boxDatos.Controls.Add(this.lblRol);
             this.boxDatos.Controls.Add(this.lblPass);
@@ -171,10 +171,18 @@
             this.boxDatos.TabIndex = 3;
             this.boxDatos.TabStop = false;
             // 
+            // chlRol
+            // 
+            this.chlRol.FormattingEnabled = true;
+            this.chlRol.Location = new System.Drawing.Point(512, 108);
+            this.chlRol.Name = "chlRol";
+            this.chlRol.Size = new System.Drawing.Size(185, 64);
+            this.chlRol.TabIndex = 45;
+            // 
             // cmbpregunta_secreta
             // 
             this.cmbpregunta_secreta.FormattingEnabled = true;
-            this.cmbpregunta_secreta.Location = new System.Drawing.Point(169, 108);
+            this.cmbpregunta_secreta.Location = new System.Drawing.Point(512, 27);
             this.cmbpregunta_secreta.Name = "cmbpregunta_secreta";
             this.cmbpregunta_secreta.Size = new System.Drawing.Size(185, 21);
             this.cmbpregunta_secreta.TabIndex = 44;
@@ -184,7 +192,7 @@
             this.ckbHabilitado.AutoSize = true;
             this.ckbHabilitado.Checked = true;
             this.ckbHabilitado.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.ckbHabilitado.Location = new System.Drawing.Point(169, 147);
+            this.ckbHabilitado.Location = new System.Drawing.Point(281, 155);
             this.ckbHabilitado.Name = "ckbHabilitado";
             this.ckbHabilitado.Size = new System.Drawing.Size(73, 17);
             this.ckbHabilitado.TabIndex = 43;
@@ -193,7 +201,7 @@
             // 
             // txtrespuesta_secreta
             // 
-            this.txtrespuesta_secreta.Location = new System.Drawing.Point(524, 108);
+            this.txtrespuesta_secreta.Location = new System.Drawing.Point(512, 69);
             this.txtrespuesta_secreta.Name = "txtrespuesta_secreta";
             this.txtrespuesta_secreta.Size = new System.Drawing.Size(185, 20);
             this.txtrespuesta_secreta.TabIndex = 42;
@@ -201,7 +209,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(396, 108);
+            this.label3.Location = new System.Drawing.Point(388, 72);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(98, 13);
             this.label3.TabIndex = 41;
@@ -210,7 +218,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(41, 111);
+            this.label2.Location = new System.Drawing.Point(388, 30);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(90, 13);
             this.label2.TabIndex = 39;
@@ -218,7 +226,7 @@
             // 
             // txtConfirmarPass
             // 
-            this.txtConfirmarPass.Location = new System.Drawing.Point(524, 69);
+            this.txtConfirmarPass.Location = new System.Drawing.Point(169, 108);
             this.txtConfirmarPass.Name = "txtConfirmarPass";
             this.txtConfirmarPass.Size = new System.Drawing.Size(185, 20);
             this.txtConfirmarPass.TabIndex = 38;
@@ -227,7 +235,7 @@
             // lblConfirmarPass
             // 
             this.lblConfirmarPass.AutoSize = true;
-            this.lblConfirmarPass.Location = new System.Drawing.Point(402, 68);
+            this.lblConfirmarPass.Location = new System.Drawing.Point(38, 111);
             this.lblConfirmarPass.Name = "lblConfirmarPass";
             this.lblConfirmarPass.Size = new System.Drawing.Size(107, 13);
             this.lblConfirmarPass.TabIndex = 37;
@@ -235,19 +243,11 @@
             // 
             // txtPass
             // 
-            this.txtPass.Location = new System.Drawing.Point(524, 27);
+            this.txtPass.Location = new System.Drawing.Point(169, 69);
             this.txtPass.Name = "txtPass";
             this.txtPass.Size = new System.Drawing.Size(185, 20);
             this.txtPass.TabIndex = 36;
             this.txtPass.UseSystemPasswordChar = true;
-            // 
-            // cbRol
-            // 
-            this.cbRol.FormattingEnabled = true;
-            this.cbRol.Location = new System.Drawing.Point(169, 68);
-            this.cbRol.Name = "cbRol";
-            this.cbRol.Size = new System.Drawing.Size(185, 21);
-            this.cbRol.TabIndex = 35;
             // 
             // txtUsuario
             // 
@@ -259,16 +259,16 @@
             // lblRol
             // 
             this.lblRol.AutoSize = true;
-            this.lblRol.Location = new System.Drawing.Point(38, 68);
+            this.lblRol.Location = new System.Drawing.Point(388, 111);
             this.lblRol.Name = "lblRol";
-            this.lblRol.Size = new System.Drawing.Size(23, 13);
+            this.lblRol.Size = new System.Drawing.Size(85, 13);
             this.lblRol.TabIndex = 2;
-            this.lblRol.Text = "Rol";
+            this.lblRol.Text = "Roles asignados";
             // 
             // lblPass
             // 
             this.lblPass.AutoSize = true;
-            this.lblPass.Location = new System.Drawing.Point(402, 30);
+            this.lblPass.Location = new System.Drawing.Point(38, 72);
             this.lblPass.Name = "lblPass";
             this.lblPass.Size = new System.Drawing.Size(61, 13);
             this.lblPass.TabIndex = 1;
@@ -316,7 +316,6 @@
         private System.Windows.Forms.Label lblPass;
         private System.Windows.Forms.Label lblUsuario;
         private System.Windows.Forms.TextBox txtPass;
-        private System.Windows.Forms.ComboBox cbRol;
         private System.Windows.Forms.TextBox txtUsuario;
         private System.Windows.Forms.TextBox txtConfirmarPass;
         private System.Windows.Forms.Label lblConfirmarPass;
@@ -327,5 +326,6 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.CheckBox ckbHabilitado;
         private System.Windows.Forms.ComboBox cmbpregunta_secreta;
+        private System.Windows.Forms.CheckedListBox chlRol;
     }
 }
