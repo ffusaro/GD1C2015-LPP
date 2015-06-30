@@ -191,7 +191,100 @@ namespace PagoElectronico
             
         }
 
-        
+        public void ingresarAlSistema(string user, Login.LogIn log, MenuPrincipal mp, Form fm, string rol){
+            
+            Conexion con = new Conexion();
+
+            MessageBox.Show("Bienvenido/a  " + user );
+
+            if (getRolUser(user) == "Administrador")
+            {
+                mp.Show();
+                mp.cargarUsuario(user, rol, log);
+                fm.Hide();
+            }
+            else
+            {
+                if (verificoSiDebe(user))
+                {
+                    DialogResult dialogResult = MessageBox.Show("Alguna de sus cuenta/s se encuentra/n inhabilitada/s. Puede habilitarla/s cambiandole el tipo de cuenta o extendiendo la suscripcion actual ¿Desea habilitar la/s cuenta/s? ", "Cuentas", MessageBoxButtons.YesNo);
+                    if (dialogResult == DialogResult.Yes)
+                    {
+                        MessageBox.Show("Le recordamos que solo podra habilitar cuentas que hayan sido inhabilitadas por vencimiento de la duracion de la cuenta.");
+                        ABM_Cuenta.Buscar bc = new ABM_Cuenta.Buscar(0,user);
+                        mp.Show();
+                        mp.cargarUsuario(user, rol, log);
+                        bc.Show();
+                        con.cnn.Close();
+                        fm.Hide();
+                    }
+                    if (dialogResult == DialogResult.No)
+                    {
+                        mp.cargarUsuario(user, rol, log);
+                        mp.Show();
+                        con.cnn.Close();
+                        fm.Hide();
+                    }
+                }
+                else
+                {
+                    mp.cargarUsuario(user, rol, log);
+                    mp.Show();
+                    con.cnn.Close();
+                }
+            }
+        }
+    
+
+        private bool verificoSiDebe(string user)
+        {
+
+            Conexion con = new Conexion();
+            con.cnn.Open();
+            string query = "SELECT num_cuenta FROM LPP.CUENTAS WHERE id_cliente= " + getIdCliente(user) + " AND id_estado = 4";
+            bool debe = false;
+            SqlCommand command = new SqlCommand(query, con.cnn);
+            SqlDataReader lector = command.ExecuteReader();
+
+            if (lector.Read())
+            {
+                debe = true;
+                con.cnn.Close();
+
+            }
+
+            con.cnn.Close();
+            return debe;
+        }
+
+        private string getRolUser(string usuario)
+        {
+            Conexion con = new Conexion();
+            //OBTENGO USUARIO DEL ROL
+            con.cnn.Open();
+            string query = "SELECT R.nombre FROM LPP.ROLESXUSUARIO U JOIN LPP.ROLES R ON R.id_rol=U.rol WHERE U.username = '" + usuario + "'";
+            SqlCommand command = new SqlCommand(query, con.cnn);
+            SqlDataReader lector = command.ExecuteReader();
+            lector.Read();
+            string rol = lector.GetString(0);
+            con.cnn.Close();
+            return rol;
+        }
+
+        private int getIdCliente(string user)
+        {
+            Conexion con = new Conexion();
+            //OBTENGO ID DE CLIENTE
+            con.cnn.Open();
+            string query = "SELECT id_cliente FROM LPP.CLIENTES WHERE username = '" + user + "'";
+            SqlCommand command = new SqlCommand(query, con.cnn);
+            SqlDataReader lector = command.ExecuteReader();
+            lector.Read();
+            int id_cliente = lector.GetInt32(0);
+            con.cnn.Close();
+            return id_cliente;
+
+        }
 
         
 

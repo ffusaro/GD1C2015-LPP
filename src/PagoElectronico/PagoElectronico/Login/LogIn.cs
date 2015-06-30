@@ -20,23 +20,22 @@ namespace PagoElectronico.Login
         public int intFallidos;
         public bool userHabilitado;
         public string pass = "";
+        ABMS abm = new ABMS();
 
         public LogIn()
         {
             InitializeComponent();
-            btnIngresar.Enabled = false;
             txtPass.Enabled = false;
-            cmbRol.Items.Clear();
-            cmbRol.Enabled = false;
                        
         }
 
         private void btnIngresar_Click(object sender, EventArgs e)
         {
             Conexion con = new Conexion();
-            if (cmbRol.SelectedItem==null)
+
+            if (txtUsuario.Text == "")
             {
-                MessageBox.Show("Seleccione un Rol, por favor");
+                MessageBox.Show("Ingrese el usuario, por favor");
                 return;
             }
 
@@ -47,6 +46,7 @@ namespace PagoElectronico.Login
             }
 
             /*VALIDA CONTRASEÑA*/
+            this.busquedaDatosUsuario();
 
             if (!(pass == txtPass.Text.Sha256()))
             {
@@ -107,73 +107,23 @@ namespace PagoElectronico.Login
                     entro = true;
 
                     btnIngresar.Enabled = true;
-                    cmbRol.Enabled = true;
-                    btnRol.Enabled = false;
                 }
                 
             }
 
-
             this.insertarEnLog();
             this.resetearIntentos();
-            MessageBox.Show("Bienvenido/a  "+txtUsuario.Text,""+cmbRol.Text);
-            if (getRolUser() == "Administrador") {
-                mp.Show();
-                mp.cargarUsuario(txtUsuario.Text, cmbRol.Text, this);
-                txtPass.Text = "";
-                txtUsuario.Text = "";
-                txtPass.Enabled = false;
-                txtUsuario.Focus();
-                cmbRol.Items.Clear();
-                btnIngresar.Enabled = false;
+            if (this.usuarioTieneVariosRoles()) {
+
+                RolIngreso ri = new RolIngreso(txtUsuario.Text, this);
+                ri.Show();
                 this.Hide();
-            } else {
-                if (verificoSiDebe())
-                {
-                    DialogResult dialogResult = MessageBox.Show("Alguna de sus cuenta/s se encuentra/n inhabilitada/s. Puede habilitarla/s cambiandole el tipo de cuenta o extendiendo la suscripcion actual ¿Desea habilitar la/s cuenta/s? ", "Cuentas", MessageBoxButtons.YesNo);
-                    if (dialogResult == DialogResult.Yes)
-                    {
-                        MessageBox.Show("Le recordamos que solo podra habilitar cuentas que hayan sido inhabilitadas por vencimiento de la duracion de la cuenta.");
-                        ABM_Cuenta.Buscar bc = new ABM_Cuenta.Buscar(0, txtUsuario.Text);
-                        mp.Show();
-                        mp.cargarUsuario(txtUsuario.Text, cmbRol.Text, this);
-                        txtPass.Text = "";
-                        txtUsuario.Text = "";
-                        txtPass.Enabled = false;
-                        txtUsuario.Focus();
-                        cmbRol.Items.Clear();
-                        btnIngresar.Enabled = false;
-                        bc.Show();
-                        con.cnn.Close();
-                        this.Hide();
-                    }
-                    if (dialogResult == DialogResult.No)
-                    {
-                        mp.cargarUsuario(txtUsuario.Text, cmbRol.Text, this);
-                        txtPass.Text = "";
-                        txtUsuario.Text = "";
-                        txtPass.Enabled = false;
-                        txtUsuario.Focus();
-                        cmbRol.Items.Clear();
-                        btnIngresar.Enabled = false;
-                        mp.Show();
-                        con.cnn.Close();
-                        this.Hide();
-                    }
-                }
-                else {
-                    mp.cargarUsuario(txtUsuario.Text, cmbRol.Text, this);
-                    txtPass.Text = "";
-                    txtUsuario.Text = "";
-                    txtPass.Enabled = false;
-                    txtUsuario.Focus();
-                    cmbRol.Items.Clear();
-                    btnIngresar.Enabled = false;
-                    mp.Show();
-                    con.cnn.Close();
-                }
+
             }
-            
+            else
+            {
+                abm.ingresarAlSistema(txtUsuario.Text, this, mp, this, getRolUser());
+            }          
         }
 
         private void txtUsuario_TextChanged(object sender, EventArgs e)
@@ -201,32 +151,9 @@ namespace PagoElectronico.Login
             this.busquedaDatosUsuario();
             
             btnIngresar.Enabled = true;
-            cmbRol.Enabled = true;
-            btnRol.Enabled = false;
-
-            /*CARGAR ROLES*/
-            Conexion con1 = new Conexion();
-            string query5 = "SELECT DISTINCT R.nombre FROM LPP.ROLES R JOIN LPP.ROLESXUSUARIO U " +
-                            "ON U.rol = R.id_rol AND U.username = '" + txtUsuario.Text + " " +
-                            "' AND R.habilitado = 1";
-
-            con1.cnn.Open();
-            SqlCommand command5 = new SqlCommand(query5, con1.cnn);
-            SqlDataReader lector5 = command5.ExecuteReader();
-
-            while (lector5.Read())
-            {
-                cmbRol.Items.Add(lector5.GetString(0));
-            }
-
-            con1.cnn.Close();
             
         }
 
-        private void txtPass_TextChanged(object sender, EventArgs e)
-        {
-            btnRol.Enabled = true;
-        }
 
         public void resetearIntentos()
         {
@@ -239,6 +166,23 @@ namespace PagoElectronico.Login
             con.cnn.Close();
 
         }
+
+        public bool usuarioTieneVariosRoles() {
+
+            Conexion con = new Conexion();
+            string query = "SELECT COUNT(*) FROM LPP.ROLESXUSUARIO WHERE username = '" + txtUsuario.Text + "'";
+            con.cnn.Open();
+            SqlCommand command = new SqlCommand(query, con.cnn);
+            Int32 cantRoles = Convert.ToInt32(command.ExecuteScalar());
+            con.cnn.Close();
+
+            if (cantRoles > 1)
+                return true;
+            else
+                return false;
+
+        }
+
         public void busquedaDatosUsuario() {
             Conexion con = new Conexion();
             string query = "SELECT pass, intentos, habilitado " +

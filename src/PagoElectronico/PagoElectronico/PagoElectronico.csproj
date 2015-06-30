@@ -172,6 +172,12 @@
     <Compile Include="Login\LogIn.designer.cs">
       <DependentUpon>LogIn.cs</DependentUpon>
     </Compile>
+    <Compile Include="Login\RolIngreso.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Login\RolIngreso.Designer.cs">
+      <DependentUpon>RolIngreso.cs</DependentUpon>
+    </Compile>
     <Compile Include="MenuPrincipal.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -266,6 +272,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Login\LogIn.resx">
       <DependentUpon>LogIn.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Login\RolIngreso.resx">
+      <DependentUpon>RolIngreso.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MenuPrincipal.resx">
       <DependentUpon>MenuPrincipal.cs</DependentUpon>

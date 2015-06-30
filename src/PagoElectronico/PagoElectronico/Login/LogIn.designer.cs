@@ -36,14 +36,9 @@
             this.btnIngresar = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.label3 = new System.Windows.Forms.Label();
-            this.boxSecundario = new System.Windows.Forms.GroupBox();
-            this.btnRol = new System.Windows.Forms.Button();
-            this.cmbRol = new System.Windows.Forms.ComboBox();
-            this.label4 = new System.Windows.Forms.Label();
             this.btnCancelar = new System.Windows.Forms.Button();
             this.boxDatos.SuspendLayout();
             this.groupBox1.SuspendLayout();
-            this.boxSecundario.SuspendLayout();
             this.SuspendLayout();
             // 
             // boxDatos
@@ -54,7 +49,7 @@
             this.boxDatos.Controls.Add(this.txtUsuario);
             this.boxDatos.Location = new System.Drawing.Point(12, 54);
             this.boxDatos.Name = "boxDatos";
-            this.boxDatos.Size = new System.Drawing.Size(266, 125);
+            this.boxDatos.Size = new System.Drawing.Size(306, 125);
             this.boxDatos.TabIndex = 0;
             this.boxDatos.TabStop = false;
             this.boxDatos.Text = "Datos Usuario";
@@ -81,22 +76,21 @@
             // 
             this.txtPass.Location = new System.Drawing.Point(96, 60);
             this.txtPass.Name = "txtPass";
-            this.txtPass.Size = new System.Drawing.Size(156, 20);
+            this.txtPass.Size = new System.Drawing.Size(185, 20);
             this.txtPass.TabIndex = 1;
             this.txtPass.UseSystemPasswordChar = true;
-            this.txtPass.TextChanged += new System.EventHandler(this.txtPass_TextChanged);
             // 
             // txtUsuario
             // 
             this.txtUsuario.Location = new System.Drawing.Point(96, 30);
             this.txtUsuario.Name = "txtUsuario";
-            this.txtUsuario.Size = new System.Drawing.Size(156, 20);
+            this.txtUsuario.Size = new System.Drawing.Size(185, 20);
             this.txtUsuario.TabIndex = 0;
             this.txtUsuario.TextChanged += new System.EventHandler(this.txtUsuario_TextChanged);
             // 
             // btnIngresar
             // 
-            this.btnIngresar.Location = new System.Drawing.Point(172, 191);
+            this.btnIngresar.Location = new System.Drawing.Point(228, 195);
             this.btnIngresar.Name = "btnIngresar";
             this.btnIngresar.Size = new System.Drawing.Size(86, 34);
             this.btnIngresar.TabIndex = 1;
@@ -109,61 +103,22 @@
             this.groupBox1.Controls.Add(this.label3);
             this.groupBox1.Location = new System.Drawing.Point(13, 3);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(545, 45);
+            this.groupBox1.Size = new System.Drawing.Size(305, 45);
             this.groupBox1.TabIndex = 3;
             this.groupBox1.TabStop = false;
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(251, 16);
+            this.label3.Location = new System.Drawing.Point(128, 16);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(43, 13);
             this.label3.TabIndex = 0;
             this.label3.Text = "LOG IN";
             // 
-            // boxSecundario
-            // 
-            this.boxSecundario.Controls.Add(this.btnRol);
-            this.boxSecundario.Controls.Add(this.cmbRol);
-            this.boxSecundario.Controls.Add(this.label4);
-            this.boxSecundario.Location = new System.Drawing.Point(295, 55);
-            this.boxSecundario.Name = "boxSecundario";
-            this.boxSecundario.Size = new System.Drawing.Size(263, 124);
-            this.boxSecundario.TabIndex = 5;
-            this.boxSecundario.TabStop = false;
-            this.boxSecundario.Text = "Roles";
-            // 
-            // btnRol
-            // 
-            this.btnRol.Location = new System.Drawing.Point(69, 24);
-            this.btnRol.Name = "btnRol";
-            this.btnRol.Size = new System.Drawing.Size(145, 23);
-            this.btnRol.TabIndex = 2;
-            this.btnRol.Text = "Cargar Roles del Usuario";
-            this.btnRol.UseVisualStyleBackColor = true;
-            this.btnRol.Click += new System.EventHandler(this.btnRol_Click);
-            // 
-            // cmbRol
-            // 
-            this.cmbRol.FormattingEnabled = true;
-            this.cmbRol.Location = new System.Drawing.Point(58, 59);
-            this.cmbRol.Name = "cmbRol";
-            this.cmbRol.Size = new System.Drawing.Size(193, 21);
-            this.cmbRol.TabIndex = 1;
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(12, 59);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(23, 13);
-            this.label4.TabIndex = 0;
-            this.label4.Text = "Rol";
-            // 
             // btnCancelar
             // 
-            this.btnCancelar.Location = new System.Drawing.Point(313, 191);
+            this.btnCancelar.Location = new System.Drawing.Point(13, 195);
             this.btnCancelar.Name = "btnCancelar";
             this.btnCancelar.Size = new System.Drawing.Size(86, 34);
             this.btnCancelar.TabIndex = 6;
@@ -175,9 +130,8 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(570, 241);
+            this.ClientSize = new System.Drawing.Size(326, 241);
             this.Controls.Add(this.btnCancelar);
-            this.Controls.Add(this.boxSecundario);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.btnIngresar);
             this.Controls.Add(this.boxDatos);
@@ -188,8 +142,6 @@
             this.boxDatos.PerformLayout();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
-            this.boxSecundario.ResumeLayout(false);
-            this.boxSecundario.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -203,11 +155,7 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.GroupBox boxSecundario;
         private System.Windows.Forms.Button btnCancelar;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.ComboBox cmbRol;
-        private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.Button btnRol;
     }
 }

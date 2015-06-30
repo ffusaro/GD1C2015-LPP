@@ -301,3 +301,4 @@ C:\Users\ffusaro\Documents\GD1C2015-LPP - Copy\src\PagoElectronico\PagoElectroni
 C:\Users\ffusaro\Documents\GD1C2015-LPP - Copy\src\PagoElectronico\PagoElectronico\obj\Debug\PagoElectronico.Transferencias.ListaTransferencias.resources
 C:\Users\ffusaro\Documents\GD1C2015-LPP - Copy\src\PagoElectronico\PagoElectronico\obj\Debug\PagoElectronico.Transferencias.Transferencias.resources
 C:\Users\ffusaro\Documents\GD1C2015-LPP - Copy\src\PagoElectronico\PagoElectronico\obj\Debug\PagoElectronico.csproj.GenerateResource.Cache
+C:\Users\ffusaro\Documents\GD1C2015-LPP\src\PagoElectronico\PagoElectronico\obj\Debug\PagoElectronico.Login.RolIngreso.resources
