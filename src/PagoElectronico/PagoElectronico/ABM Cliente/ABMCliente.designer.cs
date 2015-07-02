@@ -204,7 +204,6 @@
             this.txtNumeroCalle.Size = new System.Drawing.Size(74, 20);
             this.txtNumeroCalle.TabIndex = 21;
             this.txtNumeroCalle.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtNumeroCalle_KeyPress);
-            this.txtNumeroCalle.Validating += new System.ComponentModel.CancelEventHandler(this.txtNumeroCalle_Validating);
             // 
             // label1
             // 

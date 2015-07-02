@@ -22,26 +22,6 @@ IF OBJECT_ID('LPP.PRC_inhabilitar_cuentas') IS NOT NULL
 DROP PROCEDURE LPP.PRC_inhabilitar_cuentas
 GO
 
-IF OBJECT_ID('LPP.PRC_estadistico_cuentas_inhabilitadas') IS NOT NULL
-DROP PROCEDURE LPP.PRC_estadistico_cuentas_inhabilitadas
-GO
-
-IF OBJECT_ID('LPP.PRC_estadistico_comisiones_facturadas') IS NOT NULL
-DROP PROCEDURE LPP.PRC_estadistico_comisiones_facturadas
-GO
-
-IF OBJECT_ID('LPP.PRC_estadistico_transacciones_cuentas_propias') IS NOT NULL
-DROP PROCEDURE LPP.PRC_estadistico_transacciones_cuentas_propias
-GO
-
-IF OBJECT_ID('LPP.PRC_estadistico_pais_mas_movimientos') IS NOT NULL
-DROP PROCEDURE LPP.PRC_estadistico_pais_mas_movimientos
-GO
-
-IF OBJECT_ID('LPP.PRC_estadistico_facturado_tipo_cuentas') IS NOT NULL
-DROP PROCEDURE LPP.PRC_estadistico_facturado_tipo_cuentas
-GO
-
 IF OBJECT_ID('LPP.PRC_realizar_transferencia') IS NOT NULL
 DROP PROCEDURE LPP.PRC_realizar_transferencia
 GO
@@ -333,7 +313,7 @@ PRIMARY KEY(id));
 CREATE TABLE [LPP].LOGSXUSUARIO(
 id_log INTEGER NOT NULL IDENTITY(1,1),
 username VARCHAR(255) NOT NULL,
-fecha DATETIME, -- INCLUYE LA HORA Y FECHA
+fecha DATETIME, 
 num_intento INTEGER,
 logueo BIT, -- 1 ES LOGIN CORRECTO Y 0 ES LOGIN INCORRECTO
 PRIMARY KEY(id_log));
@@ -383,7 +363,7 @@ CREATE TABLE [LPP].TIPOS_CUENTA(
 id_tipocuenta INTEGER NOT NULL IDENTITY(1,1),
 descripcion VARCHAR(50) NOT NULL,
 duracion INTEGER,
-costo_apertura NUMERIC(18, 2), --FF: el costo de apertura debe ser respecto del tipo de cuenta que se abre
+costo_apertura NUMERIC(18, 2), 
 costo_transaccion NUMERIC(18, 2),
 estado BIT DEFAULT 1,
 PRIMARY KEY(id_tipocuenta));
@@ -429,7 +409,7 @@ PRIMARY KEY(id_suscripcion));
 CREATE TABLE [LPP].BANCOS(
 id_banco NUMERIC(18, 0) NOT NULL IDENTITY(1,1),
 nombre VARCHAR(255),
-domicilio VARCHAR(255), -- FF: en maestra la direccion del banco es un varchar de 255, rever si no conviene dejarlo como un varchar en vez de partir el char para insertar en tabla domicilio
+domicilio VARCHAR(255), 
 PRIMARY KEY(id_banco))
 
 CREATE TABLE [LPP].EMISORES(
@@ -590,7 +570,7 @@ INSERT INTO LPP.FUNCIONALIDAD (id_funcionalidad, descripcion) VALUES (2, 'ABM Ro
 INSERT INTO LPP.FUNCIONALIDAD (id_funcionalidad, descripcion) VALUES (3,'ABM Cuenta');
 INSERT INTO LPP.FUNCIONALIDAD (id_funcionalidad, descripcion) VALUES (4, 'Depositos');
 INSERT INTO LPP.FUNCIONALIDAD (id_funcionalidad, descripcion) VALUES (5, 'Consulta Saldos');
-INSERT INTO LPP.FUNCIONALIDAD (id_funcionalidad, descripcion) VALUES (6, 'Facturar');
+INSERT INTO LPP.FUNCIONALIDAD (id_funcionalidad, descripcion) VALUES (6, 'Facturacion');
 INSERT INTO LPP.FUNCIONALIDAD (id_funcionalidad, descripcion) VALUES (7, 'Retiros');
 INSERT INTO LPP.FUNCIONALIDAD (id_funcionalidad, descripcion) VALUES (8, 'Transferencias');
 INSERT INTO LPP.FUNCIONALIDAD (id_funcionalidad, descripcion) VALUES (9, 'Listados');
@@ -1117,7 +1097,7 @@ CREATE PROCEDURE LPP.PRC_cuentas_de_un_cliente
 @id_cliente INTEGER
 AS
 BEGIN
-	SELECT * FROM LPP.CUENTAS c WHERE c.id_cliente = @id_cliente AND (id_estado = 1	OR id_estado = 4)
+	SELECT * FROM LPP.CUENTAS c WHERE c.id_cliente = @id_cliente AND id_estado = 1	
 END
 GO
 
@@ -1251,107 +1231,6 @@ CREATE PROCEDURE LPP.PRC_ultimas_10_transferencias_de_una_cuenta
 AS
 BEGIN
 	SELECT TOP 10 * FROM LPP.TRANSFERENCIAS WHERE num_cuenta_origen = @num_cuenta ORDER BY fecha DESC
-END
-GO
-
---listado estadistico 1
-CREATE PROCEDURE LPP.PRC_estadistico_cuentas_inhabilitadas
-@desde INTEGER,
-@hasta INTEGER,
-@anio INTEGER
-AS
-BEGIN
-	SELECT TOP 6 c.id_cliente, username, nombre, apellido, t.tipo_descr, num_doc, fecha_nac, mail, COUNT(id_deshabilitada) AS cant_veces_inhabilitado
-	FROM LPP.CLIENTES c
-		JOIN LPP.TIPO_DOCS t ON t.tipo_cod = c.id_tipo_doc
-		JOIN CUENTAS cu ON cu.id_cliente = c.id_cliente
-		JOIN CUENTAS_DESHABILITADAS cd ON cd.num_cuenta = cu.num_cuenta
-	WHERE MONTH(cd.fecha_deshabilitacion) BETWEEN @desde AND @hasta AND YEAR(cd.fecha_deshabilitacion) = @anio AND cd.motivo = 'Por deber mas de 5 transacciones'
-	GROUP BY c.id_cliente, username, nombre, apellido, t.tipo_descr, num_doc,  fecha_nac, mail
-	ORDER BY COUNT(id_deshabilitada) DESC
-END
-GO	
-
---listado estadistico 2
-CREATE PROCEDURE LPP.PRC_estadistico_comisiones_facturadas
-@desde INTEGER,
-@hasta INTEGER,
-@anio INTEGER
-AS
-BEGIN
-	SELECT TOP 6 c.id_cliente, username, nombre, apellido, t.tipo_descr, num_doc,  fecha_nac, mail, COUNT(i.id_item_factura) as 'comisiones_facturas'
-	FROM LPP.CLIENTES c
-		JOIN LPP.CUENTAS cu ON cu.id_cliente = c.id_cliente
-		JOIN LPP.ITEMS_FACTURA i ON i.num_cuenta= cu.num_cuenta
-		JOIN LPP.TIPO_DOCS t ON t.tipo_cod = c.id_tipo_doc
-		WHERE i.facturado = 1
-			AND MONTH(i.fecha) BETWEEN @desde AND @hasta AND YEAR(i.fecha) = @anio
-		GROUP BY c.id_cliente, username, nombre, apellido, t.tipo_descr, num_doc,  fecha_nac, mail
-		ORDER BY COUNT(i.id_item_factura) DESC
-END
-GO
-
---listado estadistico 3
-CREATE PROCEDURE LPP.PRC_estadistico_transacciones_cuentas_propias
-@desde INTEGER,
-@hasta INTEGER,
-@anio INTEGER
-AS
-BEGIN
-	SELECT TOP 6 c.id_cliente, username, nombre, apellido, t.tipo_descr, num_doc,  fecha_nac, mail, COUNT(tr.id_transferencia)
-	FROM LPP.CLIENTES c
-		JOIN LPP.CUENTAS c1 ON c1.id_cliente = c.id_cliente
-		JOIN LPP.CUENTAS c2 ON c2.id_cliente = c.id_cliente
-		JOIN LPP.TIPO_DOCS t ON t.tipo_cod = c.id_tipo_doc
-		JOIN LPP.TRANSFERENCIAS tr ON tr.num_cuenta_origen = c1.num_cuenta AND tr.num_cuenta_destino= c2.num_cuenta
-		WHERE c1.num_cuenta <> c2.num_cuenta
-			AND MONTH(tr.fecha) BETWEEN @desde AND @hasta AND YEAR(tr.costo_trans) = @anio
-		GROUP BY c.id_cliente, username, nombre, apellido, t.tipo_descr, num_doc,  fecha_nac, mail
-		ORDER BY  COUNT(tr.id_transferencia) DESC
-		
-END
-GO
-
-
---listado estadistico 4
---tarda mucho la consulta, luego lo reviso
-CREATE PROCEDURE LPP.PRC_estadistico_pais_mas_movimientos
-@desde INTEGER,
-@hasta INTEGER,
-@anio INTEGER
-AS
-BEGIN
-	SELECT TOP 6 pais, count_big(d.num_deposito)+count_big(r.id_retiro)+sum(convert(bigint,t1.cant_or))+SUM(convert(bigint,t2.cant_dest)) as 'cant_movimientos'
-	FROM LPP.PAISES p
-		JOIN LPP.CUENTAS c ON c.id_pais = p.id_pais
-		JOIN LPP.DEPOSITOS d ON d.num_cuenta = c.num_cuenta
-		JOIN LPP.RETIROS r ON r.num_cuenta = c.num_cuenta
-		JOIN (select num_cuenta_origen, COUNT(*) as cant_or, fecha from LPP.TRANSFERENCIAS group by num_cuenta_origen, fecha) t1 ON t1.num_cuenta_origen = c.num_cuenta
-		JOIN (select num_cuenta_destino, COUNT(*) as cant_dest, fecha from LPP.TRANSFERENCIAS group by num_cuenta_destino, fecha) t2 ON t2.num_cuenta_destino = c.num_cuenta
-	WHERE (MONTH(d.fecha_deposito) BETWEEN @desde AND @hasta AND YEAR(d.fecha_deposito)=@anio)
-	AND(MONTH(r.fecha) BETWEEN @desde AND @hasta AND YEAR(r.fecha)=@anio)
-	AND (MONTH(t1.fecha) BETWEEN @desde AND @hasta AND YEAR(t1.fecha)=@anio)
-	AND (MONTH(t2.fecha) BETWEEN @desde AND @hasta AND YEAR(t2.fecha)=@anio)
-	GROUP BY pais
-	ORDER BY 2 DESC
-END
-GO
-
---listado estadistico 5
-CREATE PROCEDURE LPP.PRC_estadistico_facturado_tipo_cuentas
-@desde INTEGER,
-@hasta INTEGER,
-@anio INTEGER
-AS
-BEGIN
-	SELECT TOP 6 t.id_tipocuenta, t.descripcion, SUM(i.monto) AS 'totalFacturado'
-	FROM LPP.TIPOS_CUENTA t
-		JOIN LPP.CUENTAS c ON c.id_tipo = t.id_tipocuenta
-		JOIN LPP.ITEMS_FACTURA i ON i.num_cuenta = c.num_cuenta
-	WHERE i.facturado = 1 
-	--AND MONTH(i.fecha) BETWEEN @desde AND @hasta AND YEAR(i.fecha) = @anio	
-	GROUP BY id_tipocuenta, descripcion
-	ORDER BY SUM(monto) DESC	
 END
 GO
 

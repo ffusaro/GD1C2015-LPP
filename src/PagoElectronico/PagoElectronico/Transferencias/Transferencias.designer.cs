@@ -150,6 +150,7 @@
             // txtImporte
             // 
             this.txtImporte.Location = new System.Drawing.Point(178, 58);
+            this.txtImporte.MaxLength = 16;
             this.txtImporte.Name = "txtImporte";
             this.txtImporte.Size = new System.Drawing.Size(210, 20);
             this.txtImporte.TabIndex = 8;

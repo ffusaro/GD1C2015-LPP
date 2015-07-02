@@ -268,7 +268,7 @@ namespace PagoElectronico.Transferencias
 
         private void txtImporte_KeyPress(object sender, KeyPressEventArgs e)
         {
-            if (Char.IsNumber(e.KeyChar) || Char.IsPunctuation(e.KeyChar))
+            if (Char.IsNumber(e.KeyChar) || e.KeyChar == '.' || Char.IsControl(e.KeyChar))
                 e.Handled = false;
             else
                 e.Handled = true;

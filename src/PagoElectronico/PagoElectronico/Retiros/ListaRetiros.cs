@@ -23,25 +23,15 @@ namespace PagoElectronico.Retiros
             InitializeComponent();
             id_retiro = retiro;
 
-            dgvRetiro.AllowUserToAddRows = false;
-            dgvRetiro.AllowUserToDeleteRows = false;
-            dgvRetiro.ReadOnly = true;
-
             dgvCheque.AllowUserToAddRows = false;
             dgvCheque.AllowUserToDeleteRows = false;
             dgvCheque.ReadOnly = true;
 
             Conexion con = new Conexion();
-            
-            string query = "SELECT id_retiro, num_cuenta, importe, fecha, m.descripcion FROM LPP.RETIROS r JOIN LPP.MONEDAS m ON m.id_moneda = r.id_moneda WHERE id_retiro = " + id_retiro + " ";                          
-            DataTable dtDatos = new DataTable();
-            SqlDataAdapter da = new SqlDataAdapter(query, con.cnn);
-            da.Fill(dtDatos);
-            dtRetiro = dtDatos;
-            dgvRetiro.DataSource = dtDatos;
-            con.cnn.Close();
 
-            string query2 = "SELECT cheque_num, id_retiro, importe, fecha, b.nombre, cl.nombre as 'nombre_receptor', cl.apellido as 'apellido_receptor' FROM LPP.CHEQUES c JOIN LPP.BANCOS b ON b.id_banco = c.id_banco JOIN LPP.CLIENTES cl ON cl.id_cliente = c.cliente_receptor WHERE id_retiro = " + id_retiro + " ";
+            string query2 = "SELECT cheque_num, c.id_retiro, r.num_cuenta, c.importe, c.fecha, b.nombre, cl.nombre as 'nombre_receptor', cl.apellido as 'apellido_receptor', m.descripcion FROM LPP.CHEQUES c "
+                            +" JOIN LPP.BANCOS b ON b.id_banco = c.id_banco JOIN LPP.CLIENTES cl ON cl.id_cliente = c.cliente_receptor JOIN LPP.RETIROS r ON r.id_retiro = c.id_retiro JOIN LPP.MONEDAS m ON m.id_moneda = r.id_moneda "
+                            +" WHERE c.id_retiro = " + id_retiro + " ";
             DataTable dtCh = new DataTable();
             SqlDataAdapter dch = new SqlDataAdapter(query2, con.cnn);
             dch.Fill(dtCh);

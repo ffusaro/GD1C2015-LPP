@@ -41,11 +41,10 @@ namespace PagoElectronico.ABM_Cuenta
             else
             {
                 
-                string query = "LPP.PRC_cuentas_de_un_cliente";
+                string query ="SELECT num_cuenta FROM LPP.CUENTAS WHERE (id_estado = 1 OR id_estado = 4) AND id_cliente = "+getIdCliente()+"";
                 con.cnn.Open();
                 SqlCommand command = new SqlCommand(query, con.cnn);
-                command.CommandType = CommandType.StoredProcedure;
-                command.Parameters.Add(new SqlParameter("@id_cliente", getIdCliente()));
+
                 SqlDataReader lector = command.ExecuteReader();
                 while (lector.Read())
                 {
@@ -101,6 +100,7 @@ namespace PagoElectronico.ABM_Cuenta
             this.validarNroCuenta();
             if (ban)
             {
+
                 this.abrirResultados("T");
             }
         }

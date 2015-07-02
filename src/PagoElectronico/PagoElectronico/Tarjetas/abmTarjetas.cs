@@ -315,7 +315,7 @@ namespace PagoElectronico.Tarjetas
 
         private void txtNumTarjeta_KeyPress(object sender, KeyPressEventArgs e)
         {
-            if (Char.IsNumber(e.KeyChar))
+            if (Char.IsNumber(e.KeyChar) || Char.IsControl(e.KeyChar))
                 e.Handled = false;
             else
                 e.Handled = true;
@@ -323,7 +323,7 @@ namespace PagoElectronico.Tarjetas
 
         private void txtCodigo_KeyPress(object sender, KeyPressEventArgs e)
         {
-            if (Char.IsNumber(e.KeyChar) )
+            if (Char.IsNumber(e.KeyChar) || Char.IsControl(e.KeyChar))
                 e.Handled = false;
             else
                 e.Handled = true;

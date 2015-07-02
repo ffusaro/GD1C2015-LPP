@@ -15,6 +15,8 @@ namespace PagoElectronico.Listados_Estadisticos
     public partial class Listados : Form
     {
         public MenuPrincipal mp = new MenuPrincipal();
+        private DataTable dtResults;
+
         public Listados()
         {
             InitializeComponent();
@@ -161,130 +163,105 @@ namespace PagoElectronico.Listados_Estadisticos
             }
             if (cmbListado.Text == "Clientes con cuentas inhabilitadas por no pagar costos de transaccion")
             {
-                string query = "LPP.PRC_estadistico_cuentas_inhabilitadas";
-
+               string query = "SELECT TOP 5 c.id_cliente, username, nombre, apellido, t.tipo_descr, num_doc, fecha_nac, mail, COUNT(id_deshabilitada) AS cant_veces_inhabilitado FROM LPP.CLIENTES c"
+		                    + " JOIN LPP.TIPO_DOCS t ON t.tipo_cod = c.id_tipo_doc"
+		                    + " JOIN LPP.CUENTAS cu ON cu.id_cliente = c.id_cliente"
+		                    + " JOIN LPP.CUENTAS_DESHABILITADAS cd ON cd.num_cuenta = cu.num_cuenta"
+	                        + " WHERE cd.motivo = 'Por deber mas de 5 transacciones' "
+	                        + " AND MONTH(cd.fecha_deshabilitacion) BETWEEN "+ inicio +" AND "+ fin +" AND YEAR(cd.fecha_deshabilitacion) = "+ anio+""
+	                        + " GROUP BY c.id_cliente, username, nombre, apellido, t.tipo_descr, num_doc,  fecha_nac, mail"
+	                        + " ORDER BY COUNT(id_deshabilitada) DESC";
                 con.cnn.Open();
-                SqlCommand command = new SqlCommand(query, con.cnn);
-                command.CommandType = CommandType.StoredProcedure;
-                command.Parameters.Add(new SqlParameter("@desde", inicio));
-                command.Parameters.Add(new SqlParameter("@hasta", fin));
-                command.Parameters.Add(new SqlParameter("@anio", anio));
-                                
-                SqlDataReader lector = command.ExecuteReader();
-                
-                if (!lector.Read())
-                {
-                    MessageBox.Show("No hay ningun resultado que coincida con las opciones elegidas");
-                    con.cnn.Close();
-                    return;
-                }
                 DataTable dtDatos = new DataTable();
-                dtDatos.Load(lector);
-                con.cnn.Close();
+                SqlDataAdapter da = new SqlDataAdapter(query, con.cnn);
+                da.Fill(dtDatos);
+                dtResults = dtDatos;
                 dgvDatos.DataSource = dtDatos;
+                con.cnn.Close();
                 
             }
 
             if (cmbListado.Text == "Cliente con mayor cantidad de comisiones facturadas en sus cuentas")
             {
-                string query = "LPP.PRC_estadistico_comisiones_facturadas";
-
-                con.cnn.Open();
-                SqlCommand command = new SqlCommand(query, con.cnn);
-                command.CommandType = CommandType.StoredProcedure;
-                command.Parameters.Add(new SqlParameter("@desde", inicio));
-                command.Parameters.Add(new SqlParameter("@hasta", fin));
-                command.Parameters.Add(new SqlParameter("@anio", anio));
-                SqlDataReader lector = command.ExecuteReader();
-
-                if (!lector.Read())
-                {
-                    MessageBox.Show("No hay ningun resultado que coincida con las opciones elegidas");
-                    con.cnn.Close();
-                    return;
-                }
-                
-                DataTable dtDatos = new DataTable();
-                dtDatos.Load(lector);
-                con.cnn.Close();
-                dgvDatos.DataSource = dtDatos; ;
+                string query2 = "SELECT TOP 5 c.id_cliente, username, nombre, apellido, t.tipo_descr, num_doc,  fecha_nac, mail, COUNT(i.id_item_factura) as 'comisiones_facturas' FROM LPP.CLIENTES c"
+		                        + " JOIN LPP.CUENTAS cu ON cu.id_cliente = c.id_cliente"
+		                        +" JOIN LPP.ITEMS_FACTURA i ON i.num_cuenta= cu.num_cuenta"
+		                        +" JOIN LPP.TIPO_DOCS t ON t.tipo_cod = c.id_tipo_doc"
+	                            +" WHERE i.facturado = 1"
+			                    +" AND MONTH(i.fecha) BETWEEN "+inicio+" AND "+fin+" AND YEAR(i.fecha) = "+anio+ ""
+		                        +" GROUP BY c.id_cliente, username, nombre, apellido, t.tipo_descr, num_doc,  fecha_nac, mail"
+		                        +" ORDER BY COUNT(i.id_item_factura) DESC";
+                 con.cnn.Open();
+                 DataTable dtDatos = new DataTable();
+                 SqlDataAdapter da = new SqlDataAdapter(query2, con.cnn);
+                 da.Fill(dtDatos);
+                 dtResults = dtDatos;
+                 dgvDatos.DataSource = dtDatos;
+                 con.cnn.Close();
 
             }
             if (cmbListado.Text == "Clientes con mayor cantidad de transacciones realizadas entre cuentas propias")
             {
-                string query = "LPP.PRC_estadistico_transacciones_cuentas_propias";
-
-                con.cnn.Open();
-                SqlCommand command = new SqlCommand(query, con.cnn);
-                command.CommandType = CommandType.StoredProcedure;
-                command.Parameters.Add(new SqlParameter("@desde", inicio));
-                command.Parameters.Add(new SqlParameter("@hasta", fin));
-                command.Parameters.Add(new SqlParameter("@anio", anio));
-                SqlDataReader lector = command.ExecuteReader();
-
-                if (!lector.Read())
-                {
-                    MessageBox.Show("No hay ningun resultado que coincida con las opciones elegidas");
-                    con.cnn.Close();
-                    return;
-                }
-                DataTable dtDatos = new DataTable();
-                dtDatos.Load(lector);
-                con.cnn.Close();
-                dgvDatos.DataSource = dtDatos;
+                string query3 = "SELECT TOP 5 c.id_cliente, username, nombre, apellido, t.tipo_descr, num_doc,  fecha_nac, mail, COUNT(tr.id_transferencia) FROM LPP.CLIENTES c"
+		                        +" JOIN LPP.CUENTAS c1 ON c1.id_cliente = c.id_cliente"
+		                        +" JOIN LPP.CUENTAS c2 ON c2.id_cliente = c.id_cliente"
+		                        +" JOIN LPP.TIPO_DOCS t ON t.tipo_cod = c.id_tipo_doc"
+		                        +" JOIN LPP.TRANSFERENCIAS tr ON tr.num_cuenta_origen = c1.num_cuenta AND tr.num_cuenta_destino= c2.num_cuenta"
+		                        +" WHERE c1.num_cuenta <> c2.num_cuenta"
+			                    +" AND MONTH(tr.fecha) BETWEEN "+inicio+" AND "+fin+" AND YEAR(tr.costo_trans) = "+anio+""
+		                        +" GROUP BY c.id_cliente, username, nombre, apellido, t.tipo_descr, num_doc,  fecha_nac, mail"
+		                        +" ORDER BY  COUNT(tr.id_transferencia) DESC";
+             con.cnn.Open();
+            DataTable dtDatos = new DataTable();
+            SqlDataAdapter da = new SqlDataAdapter(query3, con.cnn);
+            da.Fill(dtDatos);
+            dtResults = dtDatos;
+            dgvDatos.DataSource = dtDatos;
+            con.cnn.Close();
+                
             }
 
             if (cmbListado.Text == "Paises con mayor cantidad de movimientos")
             {
+                string query4 = "SELECT TOP 5 pais, count_big(d.num_deposito)+count_big(r.id_retiro)+sum(convert(bigint,t1.cant_or))+SUM(convert(bigint,t2.cant_dest)) as 'cant_movimientos' FROM LPP.PAISES p"
+		                        +" JOIN LPP.CUENTAS c ON c.id_pais = p.id_pais"
+		                        +" JOIN LPP.DEPOSITOS d ON d.num_cuenta = c.num_cuenta"
+		                        +" JOIN LPP.RETIROS r ON r.num_cuenta = c.num_cuenta"
+		                        +" JOIN (select num_cuenta_origen, COUNT(*) as cant_or, fecha from LPP.TRANSFERENCIAS group by num_cuenta_origen, fecha) t1 ON t1.num_cuenta_origen = c.num_cuenta"
+		                        +" JOIN (select num_cuenta_destino, COUNT(*) as cant_dest, fecha from LPP.TRANSFERENCIAS group by num_cuenta_destino, fecha) t2 ON t2.num_cuenta_destino = c.num_cuenta"
+	                            +" WHERE (MONTH(d.fecha_deposito) BETWEEN "+inicio+" AND "+fin+" AND YEAR(d.fecha_deposito)= "+anio+")"
+                                +" AND(MONTH(r.fecha) BETWEEN "+inicio+" AND "+fin+" AND YEAR(r.fecha)= "+anio+")"
+	                            +" AND (MONTH(t1.fecha) BETWEEN "+inicio+" AND "+fin+" AND YEAR(t1.fecha)= "+anio+")"
+	                            +" AND (MONTH(t2.fecha) BETWEEN "+inicio+" AND "+fin+" AND YEAR(t2.fecha)= "+anio+")"
+	                            +" GROUP BY pais"
+	                            +" ORDER BY 2 DESC";
 
-                string query2 = "LPP.PRC_estadistico_pais_mas_movimientos";
-
-                con.cnn.Open();
-                SqlCommand command = new SqlCommand(query2, con.cnn);
-                command.CommandType = CommandType.StoredProcedure;
-                command.Parameters.Add(new SqlParameter("@desde", inicio));
-                command.Parameters.Add(new SqlParameter("@hasta", fin));
-                command.Parameters.Add(new SqlParameter("@anio", anio));
-                SqlDataReader lector2 = command.ExecuteReader();
-
-                if (!lector2.Read())
-                {
-                    MessageBox.Show("No hay ningun resultado que coincida con las opciones elegidas");
+                    con.cnn.Open();
+                    DataTable dtDatos = new DataTable();
+                    SqlDataAdapter da = new SqlDataAdapter(query4, con.cnn);
+                    da.Fill(dtDatos);
+                    dtResults = dtDatos;
+                    dgvDatos.DataSource = dtDatos;
                     con.cnn.Close();
-                    return;
-                }
 
-                DataTable dtDatos = new DataTable();
-                dtDatos.Load(lector2);
-                con.cnn.Close();
-                dgvDatos.DataSource = dtDatos;
             }
 
             if (cmbListado.Text == "Total facturado para los distintos tipos de cuentas")
             {
-                //int anio = Convert.ToInt32(cmbAño.Text);
-                string query2 = "LPP.PRC_estadistico_facturado_tipo_cuentas";
-
-                con.cnn.Open();
-                SqlCommand command = new SqlCommand(query2, con.cnn);
-                command.CommandType = CommandType.StoredProcedure;
-                command.Parameters.Add(new SqlParameter("@desde", inicio));
-                command.Parameters.Add(new SqlParameter("@hasta", fin));
-                command.Parameters.Add(new SqlParameter("@anio", anio));
-                SqlDataReader lector2 = command.ExecuteReader();
-
-                if (!lector2.Read())
-                {
-                    MessageBox.Show("No hay ningun resultado que coincida con las opciones elegidas");
-                    con.cnn.Close();
-                    return;
-                }
-                
-                DataTable dtDatos = new DataTable();
-                dtDatos.Load(lector2);
-                con.cnn.Close();
-                dgvDatos.DataSource = dtDatos; ;
-                con.cnn.Close();
+                string query5 = "SELECT TOP 5 t.id_tipocuenta, t.descripcion, SUM(i.monto) AS 'totalFacturado' FROM LPP.TIPOS_CUENTA t"
+		                        +" JOIN LPP.CUENTAS c ON c.id_tipo = t.id_tipocuenta"
+		                        +" JOIN LPP.ITEMS_FACTURA i ON i.num_cuenta = c.num_cuenta"
+	                            +" WHERE i.facturado = 1 "
+	                            +" AND MONTH(i.fecha) BETWEEN "+inicio+" AND "+fin+" AND YEAR(i.fecha) = "+anio+""	
+	                            +" GROUP BY id_tipocuenta, descripcion"
+	                            +" ORDER BY SUM(monto) DESC";
+            con.cnn.Open();
+            DataTable dtDatos = new DataTable();
+            SqlDataAdapter da = new SqlDataAdapter(query5, con.cnn);
+            da.Fill(dtDatos);
+            dtResults = dtDatos;
+            dgvDatos.DataSource = dtDatos;
+            con.cnn.Close();
             }
         }
 

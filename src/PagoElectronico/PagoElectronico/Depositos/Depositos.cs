@@ -125,9 +125,9 @@ namespace PagoElectronico.Depositos
             {
                 if (txtImporte.Text != "") {
                     temp = Convert.ToDecimal(txtImporte.Text);
-                    if (temp < 0)
+                    if (temp <= 1)
                     {
-                        MessageBox.Show("El importe debe ser positivo.");
+                        MessageBox.Show("El importe debe ser mayor a uno.");
                         return;
                     }
                 }
@@ -211,7 +211,7 @@ namespace PagoElectronico.Depositos
 
         private void txtImporte_KeyPress(object sender, KeyPressEventArgs e)
         {
-            if (Char.IsNumber(e.KeyChar) || Char.IsPunctuation(e.KeyChar))
+            if (Char.IsNumber(e.KeyChar) || e.KeyChar == '.' || Char.IsControl(e.KeyChar))
                 e.Handled = false;
             else
                 e.Handled = true;

@@ -401,6 +401,10 @@ namespace PagoElectronico.ABM_de_Usuario
                 command.ExecuteNonQuery();
                 con.cnn.Close(); ;
 
+                if (ckbHabilitado.Checked) {
+                    this.resetearIntentos();
+                }
+
                 foreach (object item in chlRol.Items)
                 {
                     if (!chlRol.CheckedItems.Contains(item)){
@@ -431,7 +435,17 @@ namespace PagoElectronico.ABM_de_Usuario
             }
         }
 
- 
+        public void resetearIntentos()
+        {
+
+            Conexion con = new Conexion();
+            string query = "UPDATE LPP.USUARIOS SET intentos = 0 WHERE username = '" + txtUsuario.Text + "'";
+            con.cnn.Open();
+            SqlCommand command = new SqlCommand(query, con.cnn);
+            command.ExecuteNonQuery();
+            con.cnn.Close();
+
+        }
        
         
     }

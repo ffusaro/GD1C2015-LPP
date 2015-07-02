@@ -207,7 +207,7 @@ namespace PagoElectronico.ABM_Cuenta
                  }
                  else
                  {
-                     DialogResult dialogResult = MessageBox.Show("Su tipo de cuenta no percibio cambios. Presione YES si desea solo modificar la moneda de su cuenta. Presione NO si desea extender la suscripcion de sus cuenta", "Opciones", MessageBoxButtons.YesNo);
+                     DialogResult dialogResult = MessageBox.Show("No cambio su tipo de cuenta. Presione YES si desea solo modificar la moneda de su cuenta. Presione NO si desea extender la suscripcion de sus cuenta", "Opciones", MessageBoxButtons.YesNo);
                      if (dialogResult == DialogResult.Yes)
                      {
                          Conexion con1 = new Conexion();

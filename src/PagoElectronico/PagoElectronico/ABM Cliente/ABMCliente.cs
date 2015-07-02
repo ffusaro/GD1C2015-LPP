@@ -583,30 +583,7 @@ namespace PagoElectronico
        }
 
         
-        private void txtNombre_TextChanged(object sender, EventArgs e)
-        {
-            if (txtNombre.Text != " ")
-            {
-                btnGrabar.Enabled = true;
-
-            }
-        }
-
-        private void txtNumeroCalle_Validating(object sender, CancelEventArgs e)
-        {
-            if (txtNumeroCalle.Text == "")
-            {
-
-                errorProvider1.SetError(txtNumeroCalle, "No ingreso Numero de Calle");
-                e.Cancel = true;
-
-            }
-            else
-            {
-                errorProvider1.Clear();
-            }
-        }
-
+     
       private void chkMail_CheckedChanged(object sender, EventArgs e)
         {
             if(chkMail.Checked==true)

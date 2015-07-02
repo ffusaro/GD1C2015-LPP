@@ -49,6 +49,7 @@
             // 
             // dgvTrans
             // 
+            this.dgvTrans.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.AllCells;
             this.dgvTrans.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvTrans.Location = new System.Drawing.Point(24, 30);
             this.dgvTrans.Name = "dgvTrans";

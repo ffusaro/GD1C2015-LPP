@@ -52,10 +52,11 @@ namespace PagoElectronico.ABM_Cuenta
 
             if (consulta == "T")
             {
-                string query = "SELECT TOP 10 * FROM LPP.TRANSFERENCIAS WHERE num_cuenta_origen = "+numcuenta+" ORDER BY fecha DESC ";
+                string query = "SELECT TOP 10 * FROM LPP.TRANSFERENCIAS WHERE num_cuenta_origen = "+numcuenta+" OR num_cuenta_destino = "+numcuenta+" ORDER BY fecha DESC ";
                 this.ejecutarQuery(query);
             }
-   
+
+            
 
         }
 

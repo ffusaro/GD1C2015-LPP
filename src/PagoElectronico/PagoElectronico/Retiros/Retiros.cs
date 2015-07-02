@@ -218,7 +218,7 @@ namespace PagoElectronico.Retiros
             SqlDataReader lector2 = command2.ExecuteReader();
             con.cnn.Close();
 
-            DialogResult dialogResult = MessageBox.Show("Su retiro se realizo correctamente. ¿Desea ver el comprobante?", "Retiro de Efectivo", MessageBoxButtons.YesNo);
+            DialogResult dialogResult = MessageBox.Show("Su retiro se realizo correctamente. ¿Desea ver el cheque emitido?", "Retiro de Efectivo", MessageBoxButtons.YesNo);
             if (dialogResult == DialogResult.Yes)
             {
                 
@@ -236,7 +236,7 @@ namespace PagoElectronico.Retiros
 
         private void txtImporte_KeyPress(object sender, KeyPressEventArgs e)
         {
-            if (Char.IsNumber(e.KeyChar) || Char.IsPunctuation(e.KeyChar))
+            if (Char.IsNumber(e.KeyChar) || e.KeyChar == '.' || Char.IsControl(e.KeyChar))
                 e.Handled = false;
             else
                 e.Handled = true;
