@@ -46,7 +46,7 @@ namespace PagoElectronico.ABM_de_Usuario
             Conexion con = new Conexion();
             Conexion con2 = new Conexion();
 
-            string query = "SELECT nombre FROM LPP.ROLES";
+            string query = "SELECT nombre FROM LPP.ROLES WHERE habilitado = 1 ";
 
             con.cnn.Open();
             SqlCommand command = new SqlCommand(query, con.cnn);
