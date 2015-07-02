@@ -197,7 +197,7 @@ namespace PagoElectronico
 
             MessageBox.Show("Bienvenido/a  " + user );
 
-            if (getRolUser(user) == "Administrador")
+            if (rol == "Administrador")
             {
                 mp.Show();
                 mp.cargarUsuario(user, rol, log);

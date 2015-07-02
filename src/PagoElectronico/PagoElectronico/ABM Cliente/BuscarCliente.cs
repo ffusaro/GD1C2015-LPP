@@ -123,14 +123,11 @@ namespace PagoElectronico.ABM_Cliente
             this.Close();
         }
 
-        private void BuscarCliente_Load(object sender, EventArgs e)
-        {
-
-        }
+        
 
         private void txtNombre_KeyPress(object sender, KeyPressEventArgs e)
         {
-            if (Char.IsLetter(e.KeyChar))
+            if (Char.IsLetter(e.KeyChar) || Char.IsControl(e.KeyChar))
                 e.Handled = false;
             else
                 e.Handled = true;
@@ -138,7 +135,7 @@ namespace PagoElectronico.ABM_Cliente
 
         private void txtApellido_KeyPress(object sender, KeyPressEventArgs e)
         {
-            if (Char.IsLetter(e.KeyChar))
+            if (Char.IsLetter(e.KeyChar) || Char.IsControl(e.KeyChar))
                 e.Handled = false;
             else
                 e.Handled = true;
@@ -146,7 +143,7 @@ namespace PagoElectronico.ABM_Cliente
 
         private void txtNumeroID_KeyPress(object sender, KeyPressEventArgs e)
         {
-            if (Char.IsNumber(e.KeyChar))
+            if (Char.IsNumber(e.KeyChar) || Char.IsControl(e.KeyChar))
                 e.Handled = false;
             else
                 e.Handled = true;

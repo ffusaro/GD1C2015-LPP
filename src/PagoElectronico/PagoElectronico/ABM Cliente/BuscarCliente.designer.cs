@@ -219,7 +219,6 @@
             this.Name = "BuscarCliente";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Buscar Cliente";
-            this.Load += new System.EventHandler(this.BuscarCliente_Load);
             this.boxFiltros.ResumeLayout(false);
             this.boxFiltros.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvCliente)).EndInit();

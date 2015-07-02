@@ -49,8 +49,9 @@ namespace PagoElectronico.Login
                 MessageBox.Show("Seleccione un Rol, por favor");
                 return;
             }
+            string rol = cmbRol.Text;
 
-            abm.ingresarAlSistema(user, login, this.mp, this, cmbRol.Text);
+            abm.ingresarAlSistema(user, login, this.mp, this, rol);
 
 
         }
