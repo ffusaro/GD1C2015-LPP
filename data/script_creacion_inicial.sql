@@ -570,7 +570,7 @@ INSERT INTO LPP.FUNCIONALIDAD (id_funcionalidad, descripcion) VALUES (2, 'ABM Ro
 INSERT INTO LPP.FUNCIONALIDAD (id_funcionalidad, descripcion) VALUES (3,'ABM Cuenta');
 INSERT INTO LPP.FUNCIONALIDAD (id_funcionalidad, descripcion) VALUES (4, 'Depositos');
 INSERT INTO LPP.FUNCIONALIDAD (id_funcionalidad, descripcion) VALUES (5, 'Consulta Saldos');
-INSERT INTO LPP.FUNCIONALIDAD (id_funcionalidad, descripcion) VALUES (6, 'Facturacion');
+INSERT INTO LPP.FUNCIONALIDAD (id_funcionalidad, descripcion) VALUES (6, 'Facturar');
 INSERT INTO LPP.FUNCIONALIDAD (id_funcionalidad, descripcion) VALUES (7, 'Retiros');
 INSERT INTO LPP.FUNCIONALIDAD (id_funcionalidad, descripcion) VALUES (8, 'Transferencias');
 INSERT INTO LPP.FUNCIONALIDAD (id_funcionalidad, descripcion) VALUES (9, 'Listados');
@@ -597,7 +597,6 @@ INSERT INTO LPP.FUNCIONALIDADXROL (rol, funcionalidad) VALUES (@ID, 12);
 
 SET @ID = (SELECT id_rol FROM LPP.ROLES WHERE nombre='Cliente');
 
-INSERT INTO LPP.FUNCIONALIDADXROL (rol, funcionalidad) VALUES (@ID, 1);
 INSERT INTO LPP.FUNCIONALIDADXROL (rol, funcionalidad) VALUES (@ID, 3);
 INSERT INTO LPP.FUNCIONALIDADXROL (rol, funcionalidad) VALUES (@ID, 4);
 INSERT INTO LPP.FUNCIONALIDADXROL (rol, funcionalidad) VALUES (@ID, 5);
@@ -742,16 +741,16 @@ COMMIT;
 
 BEGIN TRANSACTION
 SET IDENTITY_INSERT [LPP].DEPOSITOS ON;
-	INSERT INTO [LPP].DEPOSITOS (num_deposito, num_cuenta, importe, id_moneda,num_tarjeta, fecha_deposito)
-		SELECT [Deposito_Codigo],[Cuenta_Numero],[Deposito_Importe], 1, (LPP.FUNC_encriptar_tarjeta([Tarjeta_Numero])),CONVERT(DATETIME, [Deposito_Fecha], 103)
-	    FROM [GD1C2015].[gd_esquema].[Maestra] WHERE Deposito_Codigo IS NOT NULL 
+	INSERT INTO [LPP].DEPOSITOS (num_deposito, num_cuenta, importe, id_moneda,num_tarjeta,id_emisor, fecha_deposito)
+		SELECT [Deposito_Codigo],[Cuenta_Numero],[Deposito_Importe], 1, (LPP.FUNC_encriptar_tarjeta([Tarjeta_Numero])), (SELECT DISTINCT [id_emisor] FROM [LPP].EMISORES WHERE [emisor_descr] = m.[Tarjeta_Emisor_Descripcion])'id_emisor',CONVERT(DATETIME, [Deposito_Fecha], 103)
+	    FROM [GD1C2015].[gd_esquema].[Maestra] m WHERE Deposito_Codigo IS NOT NULL 
 SET IDENTITY_INSERT [LPP].DEPOSITOS OFF; 
 COMMIT;      
 
 BEGIN TRANSACTION
 SET IDENTITY_INSERT [LPP].RETIROS ON;
-	INSERT INTO [LPP].RETIROS (id_retiro, num_cuenta, importe,fecha)
-		SELECT [Retiro_Codigo],[Cuenta_Numero],[Retiro_Importe], CONVERT(DATETIME, [Retiro_Fecha], 103)
+	INSERT INTO [LPP].RETIROS (id_retiro, num_cuenta, importe,fecha, id_moneda)
+		SELECT [Retiro_Codigo],[Cuenta_Numero],[Retiro_Importe], CONVERT(DATETIME, [Retiro_Fecha], 103), 1
 		FROM [GD1C2015].[gd_esquema].[Maestra] WHERE Retiro_Codigo is not null
 SET IDENTITY_INSERT [LPP].RETIROS OFF;	
 COMMIT;	

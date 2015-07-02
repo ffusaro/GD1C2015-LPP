@@ -117,16 +117,8 @@ namespace PagoElectronico.ABM_Cuenta
 
         private string getRolUser()
         {
-            Conexion con = new Conexion();
-            //OBTENGO ID DE CLIENTE
-            con.cnn.Open();
-            string query = "SELECT R.nombre FROM LPP.ROLESXUSUARIO U JOIN LPP.ROLES R ON R.id_rol=U.rol WHERE U.username = '" + usuario + "'";
-            SqlCommand command = new SqlCommand(query, con.cnn);
-            SqlDataReader lector = command.ExecuteReader();
-            lector.Read();
-            string rol = lector.GetString(0);
-            con.cnn.Close();
-            return rol;
+            MenuPrincipal mp = new MenuPrincipal();
+            return mp.getRolLogueado();
         }
         private void validarNroCuenta()
         {

@@ -386,6 +386,7 @@ namespace PagoElectronico.ABM_de_Usuario
                 mp.Show();
                 this.Close();
             }
+
             if (ban == 2)
             {
                 string query10 = "UPDATE LPP.USUARIOS SET " +
@@ -420,11 +421,14 @@ namespace PagoElectronico.ABM_de_Usuario
                 foreach (object itemCheck in chlRol.CheckedItems)
                 {
                     int id_rol = getIdRol(itemCheck.ToString());
-                    string query14 = "INSERT INTO LPP.ROLESXUSUARIO (rol, username) VALUES (" + id_rol + ",'" + usuario+ "')";
-                    con.cnn.Open();
-                    SqlCommand command2 = new SqlCommand(query14, con.cnn);
-                    command2.ExecuteNonQuery();
-                    con.cnn.Close();
+                    if (!(this.usuarioYaTieneElRol(id_rol))) {
+                        string query14 = "INSERT INTO LPP.ROLESXUSUARIO (rol, username) VALUES (" + id_rol + ",'" + usuario + "')";
+                        con.cnn.Open();
+                        SqlCommand command2 = new SqlCommand(query14, con.cnn);
+                        command2.ExecuteNonQuery();
+                        con.cnn.Close();
+                    } 
+                    
                 }
 
                 MessageBox.Show("Usuario Modificado exitosamente"); 
@@ -445,6 +449,21 @@ namespace PagoElectronico.ABM_de_Usuario
             command.ExecuteNonQuery();
             con.cnn.Close();
 
+        }
+
+        private bool usuarioYaTieneElRol(Int32 id_rol) {
+            Conexion con = new Conexion();
+            string query = "SELECT COUNT(*) FROM LPP.ROLESXUSUARIO WHERE username = '" + txtUsuario.Text + "' AND rol = "+ id_rol+"";
+            con.cnn.Open();
+            SqlCommand command = new SqlCommand(query, con.cnn);
+            int cant = Convert.ToInt32(command.ExecuteScalar());
+            con.cnn.Close();
+
+            if (cant == 1)
+                return true;
+            else
+                return false;
+        
         }
        
         

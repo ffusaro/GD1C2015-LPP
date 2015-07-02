@@ -32,7 +32,7 @@ namespace PagoElectronico
                     +" (num_doc, apellido, nombre, fecha_nac, mail, id_tipo_Doc, id_pais, id_domicilio, username, habilitado) " 
                     +"VALUES (" + Numero_ID + ", '" + Apellido + "', '" + Nombre + "', CONVERT(DATETIME, '" + Nacimiento.ToString("yyyy-MM-dd HH:MM:ss") + "', 103),"
                     + " '" + Mail + "', (select tipo_cod FROM LPP.TIPO_DOCS WHERE tipo_descr = '" + Tipo_ID + "')" +
-                    ", (select id_pais from LPP.PAISES WHERE RIGHT(pais, LEN(pais)-1) = '" + Nacionalidad + "' )," + id_domicilio + ", '"+usuario+"', "+ habilitado+") ";
+                    ", (select id_pais from LPP.PAISES WHERE pais = '" + Nacionalidad + "' )," + id_domicilio + ", '"+usuario+"', "+ habilitado+") ";
                 
                 SqlCommand command = new SqlCommand(query, con1.cnn);
                 command.ExecuteNonQuery();
@@ -205,25 +205,28 @@ namespace PagoElectronico
             }
             else
             {
-                if (verificoSiDebe(user))
+                if (rol != "Administrador")
                 {
-                    DialogResult dialogResult = MessageBox.Show("Alguna de sus cuentas se encuentra inhabilitada. Puede habilitarla cambiandole el tipo de cuenta o extendiendo la suscripcion actual ¿Desea habilitarla ahora? ", "Cuentas", MessageBoxButtons.YesNo);
-                    if (dialogResult == DialogResult.Yes)
+                    if (verificoSiDebe(user))
                     {
-                        MessageBox.Show("Le recordamos que solo podra habilitar cuentas que hayan sido inhabilitadas por vencimiento de la duracion de la cuenta.");
-                        ABM_Cuenta.Buscar bc = new ABM_Cuenta.Buscar(0,user);
-                        mp.Show();
-                        mp.cargarUsuario(user, rol, log);
-                        bc.Show();
-                        con.cnn.Close();
-                        fm.Hide();
-                    }
-                    if (dialogResult == DialogResult.No)
-                    {
-                        mp.cargarUsuario(user, rol, log);
-                        mp.Show();
-                        con.cnn.Close();
-                        fm.Hide();
+                        DialogResult dialogResult = MessageBox.Show("Alguna de sus cuentas se encuentra inhabilitada. Puede habilitarla cambiandole el tipo de cuenta o extendiendo la suscripcion actual ¿Desea habilitarla ahora? ", "Cuentas", MessageBoxButtons.YesNo);
+                        if (dialogResult == DialogResult.Yes)
+                        {
+                            MessageBox.Show("Le recordamos que solo podra habilitar cuentas que hayan sido inhabilitadas por vencimiento de la duracion de la cuenta.");
+                            ABM_Cuenta.Buscar bc = new ABM_Cuenta.Buscar(0, user);
+                            mp.Show();
+                            mp.cargarUsuario(user, rol, log);
+                            bc.Show();
+                            con.cnn.Close();
+                            fm.Hide();
+                        }
+                        if (dialogResult == DialogResult.No)
+                        {
+                            mp.cargarUsuario(user, rol, log);
+                            mp.Show();
+                            con.cnn.Close();
+                            fm.Hide();
+                        }
                     }
                 }
                 else

@@ -614,7 +614,7 @@ namespace PagoElectronico
 
       private void txtDomicilio_KeyPress(object sender, KeyPressEventArgs e)
       {
-          if (Char.IsLetter(e.KeyChar))
+          if (Char.IsLetter(e.KeyChar) || Char.IsControl(e.KeyChar))
               e.Handled = false;
           else
               e.Handled = true;
@@ -622,7 +622,7 @@ namespace PagoElectronico
 
       private void txtLocalidad_KeyPress(object sender, KeyPressEventArgs e)
       {
-          if (Char.IsLetter(e.KeyChar))
+          if (Char.IsLetter(e.KeyChar) || Char.IsControl(e.KeyChar))
               e.Handled = false;
           else
               e.Handled = true;
@@ -630,7 +630,7 @@ namespace PagoElectronico
 
       private void txtNumeroID_KeyPress(object sender, KeyPressEventArgs e)
       {
-          if (Char.IsNumber(e.KeyChar))
+          if (Char.IsNumber(e.KeyChar) || Char.IsControl(e.KeyChar))
               e.Handled = false;
           else
               e.Handled = true;
@@ -638,7 +638,7 @@ namespace PagoElectronico
 
       private void txtNombre_KeyPress(object sender, KeyPressEventArgs e)
       {
-          if (Char.IsLetter(e.KeyChar))
+          if (Char.IsLetter(e.KeyChar) || Char.IsControl(e.KeyChar))
               e.Handled = false;
           else
               e.Handled = true;
@@ -646,7 +646,7 @@ namespace PagoElectronico
 
       private void txtApellido_KeyPress(object sender, KeyPressEventArgs e)
       {
-          if (Char.IsLetter(e.KeyChar))
+          if (Char.IsLetter(e.KeyChar) || Char.IsControl(e.KeyChar))
               e.Handled = false;
           else
               e.Handled = true;
@@ -654,7 +654,7 @@ namespace PagoElectronico
 
       private void txtNumeroCalle_KeyPress(object sender, KeyPressEventArgs e)
       {
-          if (Char.IsNumber(e.KeyChar))
+          if (Char.IsNumber(e.KeyChar) || Char.IsControl(e.KeyChar))
               e.Handled = false;
           else
               e.Handled = true;

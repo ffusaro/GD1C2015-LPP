@@ -26,7 +26,9 @@ namespace PagoElectronico.ABM_Cuenta
             dgvCuentas.AllowUserToDeleteRows = false;
             dgvCuentas.ReadOnly = true;
 
-            if (getRolUser() == "Administrador")
+            string rol = this.getRolUser();
+
+            if (rol == "Administrador")
             {
                 Conexion con = new Conexion();
                 string query = "SELECT L.username,C.id_cliente,C.num_cuenta,C.saldo,T.descripcion as TipoCuenta,E.descripcion as EstadoCuenta,C.fecha_apertura " +
@@ -38,7 +40,6 @@ namespace PagoElectronico.ABM_Cuenta
                 DataTable dtDatos = new DataTable();
                 SqlDataAdapter da = new SqlDataAdapter(query, con.cnn);
                 da.Fill(dtDatos);
-                //dt = dtDatos;
                 dgvCuentas.DataSource = dtDatos;
                 con.cnn.Close();
             }
@@ -106,16 +107,9 @@ namespace PagoElectronico.ABM_Cuenta
         }
         private string getRolUser()
         {
-            Conexion con = new Conexion();
-            //OBTENGO ID DE CLIENTE
-            con.cnn.Open();
-            string query = "SELECT R.nombre FROM LPP.ROLESXUSUARIO U JOIN LPP.ROLES R ON R.id_rol=U.rol WHERE U.username = '" + usuario + "'";
-            SqlCommand command = new SqlCommand(query, con.cnn);
-            SqlDataReader lector = command.ExecuteReader();
-            lector.Read();
-            string rol = lector.GetString(0);
-            con.cnn.Close();
-            return rol;
+            MenuPrincipal mp = new MenuPrincipal();
+            return mp.getRolLogueado();
+            
         }
     }
 }

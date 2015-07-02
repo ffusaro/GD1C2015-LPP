@@ -68,7 +68,7 @@ namespace PagoElectronico.ABM_Cliente
             string query = String.Format("SELECT username,nombre, apellido, d.tipo_descr, num_doc, " + 
                                 " p.pais, fecha_nac,id_domicilio, mail, habilitado "+
                                 " FROM LPP.CLIENTES cl LEFT JOIN LPP.PAISES p ON cl.id_pais=p.id_pais "+
-                                " LEFT JOIN LPP.TIPO_DOCS d ON cl.id_tipo_doc = d.tipo_cod ");
+                                " LEFT JOIN LPP.TIPO_DOCS d ON cl.id_tipo_doc = d.tipo_cod WHERE 1 = 1 ");
             // Cargo todos los Clientes en el DATAGRIDVIEW
 
             if (txtNombre.Text != "")

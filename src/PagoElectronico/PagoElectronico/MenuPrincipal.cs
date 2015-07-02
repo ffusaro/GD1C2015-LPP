@@ -334,7 +334,9 @@ namespace PagoElectronico
            
         }
 
-                 
+        public string getRolLogueado() {
+            return rol;
+        }         
 
          
 
